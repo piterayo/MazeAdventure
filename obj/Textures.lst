@@ -1,0 +1,228 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.5 #9498 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module Textures
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _uncompress_texture
+                             12 	.globl _theme_textures
+                             13 	.globl _uncompress_theme_textures
+                             14 ;--------------------------------------------------------
+                             15 ; special function registers
+                             16 ;--------------------------------------------------------
+                             17 ;--------------------------------------------------------
+                             18 ; ram data
+                             19 ;--------------------------------------------------------
+                             20 	.area _DATA
+                             21 ;--------------------------------------------------------
+                             22 ; ram data
+                             23 ;--------------------------------------------------------
+                             24 	.area _INITIALIZED
+                             25 ;--------------------------------------------------------
+                             26 ; absolute external ram data
+                             27 ;--------------------------------------------------------
+                             28 	.area _DABS (ABS)
+                             29 ;--------------------------------------------------------
+                             30 ; global & static initialisations
+                             31 ;--------------------------------------------------------
+                             32 	.area _HOME
+                             33 	.area _GSINIT
+                             34 	.area _GSFINAL
+                             35 	.area _GSINIT
+                             36 ;--------------------------------------------------------
+                             37 ; Home
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _HOME
+                             41 ;--------------------------------------------------------
+                             42 ; code
+                             43 ;--------------------------------------------------------
+                             44 	.area _CODE
+                             45 ;src/Textures.c:12: void uncompress_texture(u8* texture, u8* position){
+                             46 ;	---------------------------------
+                             47 ; Function uncompress_texture
+                             48 ; ---------------------------------
+   0000                      49 _uncompress_texture::
+   0000 DD E5         [15]   50 	push	ix
+   0002 DD 21 00 00   [14]   51 	ld	ix,#0
+   0006 DD 39         [15]   52 	add	ix,sp
+   0008 21 FA FF      [10]   53 	ld	hl,#-6
+   000B 39            [11]   54 	add	hl,sp
+   000C F9            [ 6]   55 	ld	sp,hl
+                             56 ;src/Textures.c:19: while(i){
+   000D DD 36 FD 20   [19]   57 	ld	-3 (ix),#0x20
+   0011 DD 5E 06      [19]   58 	ld	e,6 (ix)
+   0014 DD 56 07      [19]   59 	ld	d,7 (ix)
+   0017                      60 00104$:
+   0017 DD 7E FD      [19]   61 	ld	a,-3 (ix)
+   001A B7            [ 4]   62 	or	a, a
+   001B 28 65         [12]   63 	jr	Z,00107$
+                             64 ;src/Textures.c:22: currPos = position;
+   001D DD 73 FE      [19]   65 	ld	-2 (ix),e
+   0020 DD 72 FF      [19]   66 	ld	-1 (ix),d
+                             67 ;src/Textures.c:23: while(j){//TEXTURE_HEIGHT_HALF -> 2 pixels per byte of compressed texture
+   0023 DD 36 FC 10   [19]   68 	ld	-4 (ix),#0x10
+   0027 DD 4E 04      [19]   69 	ld	c,4 (ix)
+   002A DD 46 05      [19]   70 	ld	b,5 (ix)
+   002D                      71 00101$:
+   002D DD 7E FC      [19]   72 	ld	a,-4 (ix)
+   0030 B7            [ 4]   73 	or	a, a
+   0031 28 43         [12]   74 	jr	Z,00113$
+                             75 ;src/Textures.c:24: p1 = (*texture) & pixelMask[0];
+   0033 0A            [ 7]   76 	ld	a,(bc)
+   0034 21r00r00      [10]   77 	ld	hl, #_pixelMask + 0
+   0037 6E            [ 7]   78 	ld	l,(hl)
+   0038 A5            [ 4]   79 	and	a, l
+                             80 ;src/Textures.c:25: p1= p1 | (p1>>1);
+   0039 6F            [ 4]   81 	ld	l,a
+   003A CB 3F         [ 8]   82 	srl	a
+   003C B5            [ 4]   83 	or	a, l
+                             84 ;src/Textures.c:26: *currPos = p1;
+   003D DD 6E FE      [19]   85 	ld	l,-2 (ix)
+   0040 DD 66 FF      [19]   86 	ld	h,-1 (ix)
+   0043 77            [ 7]   87 	ld	(hl),a
+                             88 ;src/Textures.c:27: currPos+=TEXTURE_WIDTH;
+   0044 DD 7E FE      [19]   89 	ld	a,-2 (ix)
+   0047 C6 20         [ 7]   90 	add	a, #0x20
+   0049 DD 77 FA      [19]   91 	ld	-6 (ix),a
+   004C DD 7E FF      [19]   92 	ld	a,-1 (ix)
+   004F CE 00         [ 7]   93 	adc	a, #0x00
+   0051 DD 77 FB      [19]   94 	ld	-5 (ix),a
+                             95 ;src/Textures.c:29: p2 = (*texture) & pixelMask[1];
+   0054 0A            [ 7]   96 	ld	a,(bc)
+   0055 21r01r00      [10]   97 	ld	hl, #_pixelMask + 1
+   0058 6E            [ 7]   98 	ld	l,(hl)
+   0059 A5            [ 4]   99 	and	a, l
+                            100 ;src/Textures.c:30: p2 = p2 | (p2<<1);
+   005A 6F            [ 4]  101 	ld	l,a
+   005B 87            [ 4]  102 	add	a, a
+   005C B5            [ 4]  103 	or	a, l
+                            104 ;src/Textures.c:31: *currPos = p2;
+   005D E1            [10]  105 	pop	hl
+   005E E5            [11]  106 	push	hl
+   005F 77            [ 7]  107 	ld	(hl),a
+                            108 ;src/Textures.c:32: currPos+=TEXTURE_WIDTH;
+   0060 DD 7E FA      [19]  109 	ld	a,-6 (ix)
+   0063 C6 20         [ 7]  110 	add	a, #0x20
+   0065 DD 77 FE      [19]  111 	ld	-2 (ix),a
+   0068 DD 7E FB      [19]  112 	ld	a,-5 (ix)
+   006B CE 00         [ 7]  113 	adc	a, #0x00
+   006D DD 77 FF      [19]  114 	ld	-1 (ix),a
+                            115 ;src/Textures.c:33: --j;
+   0070 DD 35 FC      [23]  116 	dec	-4 (ix)
+                            117 ;src/Textures.c:34: ++texture;
+   0073 03            [ 6]  118 	inc	bc
+   0074 18 B7         [12]  119 	jr	00101$
+   0076                     120 00113$:
+   0076 DD 71 04      [19]  121 	ld	4 (ix),c
+   0079 DD 70 05      [19]  122 	ld	5 (ix),b
+                            123 ;src/Textures.c:36: --i;
+   007C DD 35 FD      [23]  124 	dec	-3 (ix)
+                            125 ;src/Textures.c:37: ++position;
+   007F 13            [ 6]  126 	inc	de
+   0080 18 95         [12]  127 	jr	00104$
+   0082                     128 00107$:
+   0082 DD F9         [10]  129 	ld	sp, ix
+   0084 DD E1         [14]  130 	pop	ix
+   0086 C9            [10]  131 	ret
+   0087                     132 _theme_textures:
+   0087r00r00               133 	.dw _g_tile_walls_0
+   0089r00r00               134 	.dw _g_tile_walls_0
+   008Br00r00               135 	.dw _g_tile_walls_0
+   008Dr00r00               136 	.dw _g_tile_walls_0
+                            137 ;src/Textures.c:42: void uncompress_theme_textures(u8 level){//TODO implement
+                            138 ;	---------------------------------
+                            139 ; Function uncompress_theme_textures
+                            140 ; ---------------------------------
+   008F                     141 _uncompress_theme_textures::
+   008F DD E5         [15]  142 	push	ix
+   0091 DD 21 00 00   [14]  143 	ld	ix,#0
+   0095 DD 39         [15]  144 	add	ix,sp
+                            145 ;src/Textures.c:43: uncompress_texture(theme_textures[level][0],(u8*)UNCOMPRESSED_LEVEL_TEXTURES);
+   0097 01r87r00      [10]  146 	ld	bc,#_theme_textures+0
+   009A DD 6E 04      [19]  147 	ld	l,4 (ix)
+   009D 26 00         [ 7]  148 	ld	h,#0x00
+   009F 29            [11]  149 	add	hl, hl
+   00A0 09            [11]  150 	add	hl,bc
+   00A1 4D            [ 4]  151 	ld	c,l
+   00A2 44            [ 4]  152 	ld	b,h
+   00A3 5E            [ 7]  153 	ld	e,(hl)
+   00A4 23            [ 6]  154 	inc	hl
+   00A5 66            [ 7]  155 	ld	h,(hl)
+   00A6 6B            [ 4]  156 	ld	l, e
+   00A7 5E            [ 7]  157 	ld	e,(hl)
+   00A8 23            [ 6]  158 	inc	hl
+   00A9 56            [ 7]  159 	ld	d,(hl)
+   00AA C5            [11]  160 	push	bc
+   00AB 21 40 08      [10]  161 	ld	hl,#0x0840
+   00AE E5            [11]  162 	push	hl
+   00AF D5            [11]  163 	push	de
+   00B0 CDr00r00      [17]  164 	call	_uncompress_texture
+   00B3 F1            [10]  165 	pop	af
+   00B4 F1            [10]  166 	pop	af
+   00B5 C1            [10]  167 	pop	bc
+                            168 ;src/Textures.c:44: uncompress_texture(theme_textures[level][1],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+1024));
+   00B6 69            [ 4]  169 	ld	l, c
+   00B7 60            [ 4]  170 	ld	h, b
+   00B8 5E            [ 7]  171 	ld	e,(hl)
+   00B9 23            [ 6]  172 	inc	hl
+   00BA 66            [ 7]  173 	ld	h,(hl)
+   00BB 6B            [ 4]  174 	ld	l, e
+   00BC 23            [ 6]  175 	inc	hl
+   00BD 23            [ 6]  176 	inc	hl
+   00BE 5E            [ 7]  177 	ld	e,(hl)
+   00BF 23            [ 6]  178 	inc	hl
+   00C0 56            [ 7]  179 	ld	d,(hl)
+   00C1 C5            [11]  180 	push	bc
+   00C2 21 40 0C      [10]  181 	ld	hl,#0x0C40
+   00C5 E5            [11]  182 	push	hl
+   00C6 D5            [11]  183 	push	de
+   00C7 CDr00r00      [17]  184 	call	_uncompress_texture
+   00CA F1            [10]  185 	pop	af
+   00CB F1            [10]  186 	pop	af
+   00CC C1            [10]  187 	pop	bc
+                            188 ;src/Textures.c:45: uncompress_texture(theme_textures[level][2],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+2048));
+   00CD 69            [ 4]  189 	ld	l, c
+   00CE 60            [ 4]  190 	ld	h, b
+   00CF 5E            [ 7]  191 	ld	e,(hl)
+   00D0 23            [ 6]  192 	inc	hl
+   00D1 66            [ 7]  193 	ld	h,(hl)
+   00D2 6B            [ 4]  194 	ld	l, e
+   00D3 11 04 00      [10]  195 	ld	de, #0x0004
+   00D6 19            [11]  196 	add	hl, de
+   00D7 5E            [ 7]  197 	ld	e,(hl)
+   00D8 23            [ 6]  198 	inc	hl
+   00D9 56            [ 7]  199 	ld	d,(hl)
+   00DA C5            [11]  200 	push	bc
+   00DB 21 40 10      [10]  201 	ld	hl,#0x1040
+   00DE E5            [11]  202 	push	hl
+   00DF D5            [11]  203 	push	de
+   00E0 CDr00r00      [17]  204 	call	_uncompress_texture
+   00E3 F1            [10]  205 	pop	af
+   00E4 F1            [10]  206 	pop	af
+                            207 ;src/Textures.c:46: uncompress_texture(theme_textures[level][3],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+3072));
+   00E5 E1            [10]  208 	pop	hl
+   00E6 4E            [ 7]  209 	ld	c,(hl)
+   00E7 23            [ 6]  210 	inc	hl
+   00E8 66            [ 7]  211 	ld	h,(hl)
+   00E9 69            [ 4]  212 	ld	l, c
+   00EA 11 06 00      [10]  213 	ld	de, #0x0006
+   00ED 19            [11]  214 	add	hl, de
+   00EE 4E            [ 7]  215 	ld	c,(hl)
+   00EF 23            [ 6]  216 	inc	hl
+   00F0 46            [ 7]  217 	ld	b,(hl)
+   00F1 21 40 14      [10]  218 	ld	hl,#0x1440
+   00F4 E5            [11]  219 	push	hl
+   00F5 C5            [11]  220 	push	bc
+   00F6 CDr00r00      [17]  221 	call	_uncompress_texture
+   00F9 F1            [10]  222 	pop	af
+   00FA F1            [10]  223 	pop	af
+   00FB DD E1         [14]  224 	pop	ix
+   00FD C9            [10]  225 	ret
+                            226 	.area _CODE
+                            227 	.area _INITIALIZER
+                            228 	.area _CABS (ABS)

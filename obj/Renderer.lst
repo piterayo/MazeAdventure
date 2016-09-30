@@ -1,0 +1,1486 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.5 #9498 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module Renderer
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _draw_column_to_buffer
+                             12 	.globl _calculate_cells_in_view
+                             13 	.globl _cpct_memset
+                             14 	.globl _offsets_cells_in_view
+                             15 	.globl _cells_in_view_array
+                             16 	.globl _pixelMask
+                             17 	.globl _g_colors
+                             18 	.globl _g_palette
+                             19 	.globl _render_draw_to_buffer
+                             20 	.globl _draw_minimap_to_buffer
+                             21 ;--------------------------------------------------------
+                             22 ; special function registers
+                             23 ;--------------------------------------------------------
+                             24 ;--------------------------------------------------------
+                             25 ; ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _DATA
+                             28 ;--------------------------------------------------------
+                             29 ; ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area _INITIALIZED
+                             32 ;--------------------------------------------------------
+                             33 ; absolute external ram data
+                             34 ;--------------------------------------------------------
+                             35 	.area _DABS (ABS)
+                             36 ;--------------------------------------------------------
+                             37 ; global & static initialisations
+                             38 ;--------------------------------------------------------
+                             39 	.area _HOME
+                             40 	.area _GSINIT
+                             41 	.area _GSFINAL
+                             42 	.area _GSINIT
+                             43 ;--------------------------------------------------------
+                             44 ; Home
+                             45 ;--------------------------------------------------------
+                             46 	.area _HOME
+                             47 	.area _HOME
+                             48 ;--------------------------------------------------------
+                             49 ; code
+                             50 ;--------------------------------------------------------
+                             51 	.area _CODE
+                             52 ;src/Renderer.c:200: void calculate_cells_in_view(){
+                             53 ;	---------------------------------
+                             54 ; Function calculate_cells_in_view
+                             55 ; ---------------------------------
+   0000                      56 _calculate_cells_in_view::
+   0000 DD E5         [15]   57 	push	ix
+   0002 DD 21 00 00   [14]   58 	ld	ix,#0
+   0006 DD 39         [15]   59 	add	ix,sp
+   0008 21 F2 FF      [10]   60 	ld	hl,#-14
+   000B 39            [11]   61 	add	hl,sp
+   000C F9            [ 6]   62 	ld	sp,hl
+                             63 ;src/Renderer.c:202: u8 offset=0, n=0, j, i;
+   000D DD 36 FA 00   [19]   64 	ld	-6 (ix),#0x00
+   0011 DD 36 F9 00   [19]   65 	ld	-7 (ix),#0x00
+                             66 ;src/Renderer.c:205: if(PLAYER_direction.y!=0){
+   0015 3Ar01r00      [13]   67 	ld	a,(#_PLAYER_direction + 1)
+   0018 DD 77 FD      [19]   68 	ld	-3 (ix), a
+   001B B7            [ 4]   69 	or	a, a
+   001C 28 32         [12]   70 	jr	Z,00102$
+                             71 ;src/Renderer.c:206: vert=1;
+   001E DD 36 F2 01   [19]   72 	ld	-14 (ix),#0x01
+                             73 ;src/Renderer.c:207: dy=PLAYER_direction.y;
+   0022 DD 4E FD      [19]   74 	ld	c,-3 (ix)
+   0025 DD 71 F4      [19]   75 	ld	-12 (ix),c
+                             76 ;src/Renderer.c:208: dx=-PLAYER_direction.y;
+   0028 AF            [ 4]   77 	xor	a, a
+   0029 DD 96 FD      [19]   78 	sub	a, -3 (ix)
+   002C DD 77 F5      [19]   79 	ld	-11 (ix), a
+                             80 ;src/Renderer.c:210: x0 = PLAYER_position.x-(17*dx);
+   002F 21r00r00      [10]   81 	ld	hl,#_PLAYER_position+0
+   0032 4E            [ 7]   82 	ld	c,(hl)
+   0033 DD 6E F5      [19]   83 	ld	l,-11 (ix)
+   0036 5D            [ 4]   84 	ld	e,l
+   0037 29            [11]   85 	add	hl, hl
+   0038 29            [11]   86 	add	hl, hl
+   0039 29            [11]   87 	add	hl, hl
+   003A 29            [11]   88 	add	hl, hl
+   003B 19            [11]   89 	add	hl, de
+   003C 79            [ 4]   90 	ld	a,c
+   003D 95            [ 4]   91 	sub	a, l
+   003E DD 77 F6      [19]   92 	ld	-10 (ix),a
+                             93 ;src/Renderer.c:211: y0 = PLAYER_position.y+(6*dy);
+   0041 21r01r00      [10]   94 	ld	hl,#_PLAYER_position+1
+   0044 4E            [ 7]   95 	ld	c,(hl)
+   0045 DD 6E F4      [19]   96 	ld	l,-12 (ix)
+   0048 5D            [ 4]   97 	ld	e,l
+   0049 29            [11]   98 	add	hl, hl
+   004A 19            [11]   99 	add	hl, de
+   004B 29            [11]  100 	add	hl, hl
+   004C 09            [11]  101 	add	hl, bc
+   004D 4D            [ 4]  102 	ld	c,l
+   004E 18 34         [12]  103 	jr	00103$
+   0050                     104 00102$:
+                            105 ;src/Renderer.c:214: vert=0;
+   0050 DD 36 F2 00   [19]  106 	ld	-14 (ix),#0x00
+                            107 ;src/Renderer.c:215: dy=PLAYER_direction.x;
+   0054 3Ar00r00      [13]  108 	ld	a,(#_PLAYER_direction + 0)
+   0057 DD 77 FD      [19]  109 	ld	-3 (ix), a
+   005A DD 77 F4      [19]  110 	ld	-12 (ix),a
+                            111 ;src/Renderer.c:216: dx=PLAYER_direction.x;
+   005D DD 7E FD      [19]  112 	ld	a,-3 (ix)
+   0060 DD 77 F5      [19]  113 	ld	-11 (ix),a
+                            114 ;src/Renderer.c:218: y0 = PLAYER_position.y-(17*dy);
+   0063 21r01r00      [10]  115 	ld	hl, #_PLAYER_position + 1
+   0066 4E            [ 7]  116 	ld	c,(hl)
+   0067 DD 6E F4      [19]  117 	ld	l,-12 (ix)
+   006A 5D            [ 4]  118 	ld	e,l
+   006B 29            [11]  119 	add	hl, hl
+   006C 29            [11]  120 	add	hl, hl
+   006D 29            [11]  121 	add	hl, hl
+   006E 29            [11]  122 	add	hl, hl
+   006F 19            [11]  123 	add	hl, de
+   0070 79            [ 4]  124 	ld	a,c
+   0071 95            [ 4]  125 	sub	a, l
+   0072 4F            [ 4]  126 	ld	c,a
+                            127 ;src/Renderer.c:219: x0 = PLAYER_position.x+(6*dx);
+   0073 21r00r00      [10]  128 	ld	hl, #_PLAYER_position + 0
+   0076 46            [ 7]  129 	ld	b,(hl)
+   0077 DD 7E FD      [19]  130 	ld	a,-3 (ix)
+   007A 5F            [ 4]  131 	ld	e,a
+   007B 87            [ 4]  132 	add	a, a
+   007C 83            [ 4]  133 	add	a, e
+   007D 87            [ 4]  134 	add	a, a
+   007E 5F            [ 4]  135 	ld	e,a
+   007F 68            [ 4]  136 	ld	l,b
+   0080 19            [11]  137 	add	hl, de
+   0081 DD 75 F6      [19]  138 	ld	-10 (ix),l
+   0084                     139 00103$:
+                            140 ;src/Renderer.c:223: x=x0;
+   0084 DD 5E F6      [19]  141 	ld	e,-10 (ix)
+                            142 ;src/Renderer.c:224: y=y0;
+   0087 DD 71 F3      [19]  143 	ld	-13 (ix),c
+                            144 ;src/Renderer.c:226: for(j=0;j<6;++j){
+   008A DD 7E F5      [19]  145 	ld	a,-11 (ix)
+   008D 07            [ 4]  146 	rlca
+   008E E6 01         [ 7]  147 	and	a,#0x01
+   0090 DD 77 FD      [19]  148 	ld	-3 (ix),a
+   0093 DD 7E F4      [19]  149 	ld	a,-12 (ix)
+   0096 07            [ 4]  150 	rlca
+   0097 E6 01         [ 7]  151 	and	a,#0x01
+   0099 DD 77 FB      [19]  152 	ld	-5 (ix),a
+   009C DD 36 F8 00   [19]  153 	ld	-8 (ix),#0x00
+                            154 ;src/Renderer.c:228: for(i=offset;i<35-offset;++i){
+   00A0                     155 00138$:
+   00A0 DD 7E F9      [19]  156 	ld	a,-7 (ix)
+   00A3 DD 77 FC      [19]  157 	ld	-4 (ix),a
+   00A6 DD 7E FA      [19]  158 	ld	a,-6 (ix)
+   00A9 DD 77 F7      [19]  159 	ld	-9 (ix),a
+   00AC                     160 00125$:
+   00AC DD 6E FA      [19]  161 	ld	l,-6 (ix)
+   00AF 26 00         [ 7]  162 	ld	h,#0x00
+   00B1 3E 23         [ 7]  163 	ld	a,#0x23
+   00B3 95            [ 4]  164 	sub	a, l
+   00B4 6F            [ 4]  165 	ld	l,a
+   00B5 3E 00         [ 7]  166 	ld	a,#0x00
+   00B7 9C            [ 4]  167 	sbc	a, h
+   00B8 67            [ 4]  168 	ld	h,a
+   00B9 DD 7E F7      [19]  169 	ld	a, -9 (ix)
+   00BC 16 00         [ 7]  170 	ld	d, #0x00
+   00BE 95            [ 4]  171 	sub	a, l
+   00BF 7A            [ 4]  172 	ld	a,d
+   00C0 9C            [ 4]  173 	sbc	a, h
+   00C1 E2rC6r00      [10]  174 	jp	PO, 00181$
+   00C4 EE 80         [ 7]  175 	xor	a, #0x80
+   00C6                     176 00181$:
+   00C6 F2r45r01      [10]  177 	jp	P,00143$
+                            178 ;src/Renderer.c:231: cells_in_view_array[n]=*(u8*)(MAP_MEM+x+y*MAP_WIDTH);
+   00C9 2ArD1r01      [16]  179 	ld	hl,(_cells_in_view_array)
+   00CC 7D            [ 4]  180 	ld	a,l
+   00CD DD 86 FC      [19]  181 	add	a, -4 (ix)
+   00D0 DD 77 FE      [19]  182 	ld	-2 (ix),a
+   00D3 7C            [ 4]  183 	ld	a,h
+   00D4 CE 00         [ 7]  184 	adc	a, #0x00
+   00D6 DD 77 FF      [19]  185 	ld	-1 (ix),a
+                            186 ;src/Renderer.c:230: if((x>=0 && x<MAP_WIDTH) && (y>=0 && y<MAP_HEIGHT)){
+   00D9 CB 7B         [ 8]  187 	bit	7, e
+   00DB 20 41         [12]  188 	jr	NZ,00105$
+   00DD 7B            [ 4]  189 	ld	a,e
+   00DE EE 80         [ 7]  190 	xor	a, #0x80
+   00E0 D6 A0         [ 7]  191 	sub	a, #0xA0
+   00E2 30 3A         [12]  192 	jr	NC,00105$
+   00E4 DD CB F3 7E   [20]  193 	bit	7, -13 (ix)
+   00E8 20 34         [12]  194 	jr	NZ,00105$
+   00EA DD 7E F3      [19]  195 	ld	a,-13 (ix)
+   00ED EE 80         [ 7]  196 	xor	a, #0x80
+   00EF D6 A0         [ 7]  197 	sub	a, #0xA0
+   00F1 30 2B         [12]  198 	jr	NC,00105$
+                            199 ;src/Renderer.c:231: cells_in_view_array[n]=*(u8*)(MAP_MEM+x+y*MAP_WIDTH);
+   00F3 7B            [ 4]  200 	ld	a,e
+   00F4 57            [ 4]  201 	ld	d,a
+   00F5 17            [ 4]  202 	rla
+   00F6 9F            [ 4]  203 	sbc	a, a
+   00F7 6F            [ 4]  204 	ld	l,a
+   00F8 7A            [ 4]  205 	ld	a,d
+   00F9 C6 40         [ 7]  206 	add	a, #0x40
+   00FB 47            [ 4]  207 	ld	b,a
+   00FC 7D            [ 4]  208 	ld	a,l
+   00FD CE 00         [ 7]  209 	adc	a, #0x00
+   00FF 57            [ 4]  210 	ld	d,a
+   0100 DD 6E F3      [19]  211 	ld	l,-13 (ix)
+   0103 DD 7E F3      [19]  212 	ld	a,-13 (ix)
+   0106 17            [ 4]  213 	rla
+   0107 9F            [ 4]  214 	sbc	a, a
+   0108 67            [ 4]  215 	ld	h,a
+   0109 29            [11]  216 	add	hl, hl
+   010A 29            [11]  217 	add	hl, hl
+   010B 29            [11]  218 	add	hl, hl
+   010C 29            [11]  219 	add	hl, hl
+   010D 29            [11]  220 	add	hl, hl
+   010E 78            [ 4]  221 	ld	a,b
+   010F 85            [ 4]  222 	add	a, l
+   0110 6F            [ 4]  223 	ld	l,a
+   0111 7A            [ 4]  224 	ld	a,d
+   0112 8C            [ 4]  225 	adc	a, h
+   0113 67            [ 4]  226 	ld	h,a
+   0114 46            [ 7]  227 	ld	b,(hl)
+   0115 DD 6E FE      [19]  228 	ld	l,-2 (ix)
+   0118 DD 66 FF      [19]  229 	ld	h,-1 (ix)
+   011B 70            [ 7]  230 	ld	(hl),b
+   011C 18 08         [12]  231 	jr	00106$
+   011E                     232 00105$:
+                            233 ;src/Renderer.c:234: cells_in_view_array[n]=1;
+   011E DD 6E FE      [19]  234 	ld	l,-2 (ix)
+   0121 DD 66 FF      [19]  235 	ld	h,-1 (ix)
+   0124 36 01         [10]  236 	ld	(hl),#0x01
+   0126                     237 00106$:
+                            238 ;src/Renderer.c:238: if(vert){
+   0126 DD 7E F2      [19]  239 	ld	a,-14 (ix)
+   0129 B7            [ 4]  240 	or	a, a
+   012A 28 07         [12]  241 	jr	Z,00111$
+                            242 ;src/Renderer.c:239: x+=dx;
+   012C 7B            [ 4]  243 	ld	a,e
+   012D DD 86 F5      [19]  244 	add	a, -11 (ix)
+   0130 5F            [ 4]  245 	ld	e,a
+   0131 18 09         [12]  246 	jr	00112$
+   0133                     247 00111$:
+                            248 ;src/Renderer.c:242: y+=dy;
+   0133 DD 7E F3      [19]  249 	ld	a,-13 (ix)
+   0136 DD 86 F4      [19]  250 	add	a, -12 (ix)
+   0139 DD 77 F3      [19]  251 	ld	-13 (ix),a
+   013C                     252 00112$:
+                            253 ;src/Renderer.c:244: ++n;
+   013C DD 34 FC      [23]  254 	inc	-4 (ix)
+                            255 ;src/Renderer.c:228: for(i=offset;i<35-offset;++i){
+   013F DD 34 F7      [23]  256 	inc	-9 (ix)
+   0142 C3rACr00      [10]  257 	jp	00125$
+   0145                     258 00143$:
+   0145 DD 7E FC      [19]  259 	ld	a,-4 (ix)
+   0148 DD 77 F9      [19]  260 	ld	-7 (ix),a
+                            261 ;src/Renderer.c:246: offset=offsets_cells_in_view[j];
+   014B 3ErD3         [ 7]  262 	ld	a,#<(_offsets_cells_in_view)
+   014D DD 86 F8      [19]  263 	add	a, -8 (ix)
+   0150 6F            [ 4]  264 	ld	l,a
+   0151 3Es01         [ 7]  265 	ld	a,#>(_offsets_cells_in_view)
+   0153 CE 00         [ 7]  266 	adc	a, #0x00
+   0155 67            [ 4]  267 	ld	h,a
+   0156 7E            [ 7]  268 	ld	a,(hl)
+                            269 ;src/Renderer.c:250: if(dx<0) x=x0-offset;
+   0157 DD 77 FA      [19]  270 	ld	-6 (ix), a
+   015A DD 77 FE      [19]  271 	ld	-2 (ix),a
+                            272 ;src/Renderer.c:248: if(vert){
+   015D DD 7E F2      [19]  273 	ld	a,-14 (ix)
+   0160 B7            [ 4]  274 	or	a, a
+   0161 28 21         [12]  275 	jr	Z,00121$
+                            276 ;src/Renderer.c:249: y-=dy;
+   0163 DD 7E F3      [19]  277 	ld	a,-13 (ix)
+   0166 DD 96 F4      [19]  278 	sub	a, -12 (ix)
+   0169 DD 77 F3      [19]  279 	ld	-13 (ix),a
+                            280 ;src/Renderer.c:250: if(dx<0) x=x0-offset;
+   016C DD 7E FD      [19]  281 	ld	a,-3 (ix)
+   016F B7            [ 4]  282 	or	a, a
+   0170 28 09         [12]  283 	jr	Z,00115$
+   0172 DD 7E F6      [19]  284 	ld	a,-10 (ix)
+   0175 DD 96 FE      [19]  285 	sub	a, -2 (ix)
+   0178 5F            [ 4]  286 	ld	e,a
+   0179 18 24         [12]  287 	jr	00128$
+   017B                     288 00115$:
+                            289 ;src/Renderer.c:251: else x=x0+offset;
+   017B DD 7E F6      [19]  290 	ld	a,-10 (ix)
+   017E DD 86 FE      [19]  291 	add	a, -2 (ix)
+   0181 5F            [ 4]  292 	ld	e,a
+   0182 18 1B         [12]  293 	jr	00128$
+   0184                     294 00121$:
+                            295 ;src/Renderer.c:255: x-=dx;
+   0184 7B            [ 4]  296 	ld	a,e
+   0185 DD 96 F5      [19]  297 	sub	a, -11 (ix)
+   0188 5F            [ 4]  298 	ld	e,a
+                            299 ;src/Renderer.c:256: if(dy<0) y=y0-offset;
+   0189 DD 7E FB      [19]  300 	ld	a,-5 (ix)
+   018C B7            [ 4]  301 	or	a, a
+   018D 28 09         [12]  302 	jr	Z,00118$
+   018F 79            [ 4]  303 	ld	a,c
+   0190 DD 96 FE      [19]  304 	sub	a, -2 (ix)
+   0193 DD 77 F3      [19]  305 	ld	-13 (ix),a
+   0196 18 07         [12]  306 	jr	00128$
+   0198                     307 00118$:
+                            308 ;src/Renderer.c:257: else y=y0+offset;
+   0198 79            [ 4]  309 	ld	a,c
+   0199 DD 86 FE      [19]  310 	add	a, -2 (ix)
+   019C DD 77 F3      [19]  311 	ld	-13 (ix),a
+   019F                     312 00128$:
+                            313 ;src/Renderer.c:226: for(j=0;j<6;++j){
+   019F DD 34 F8      [23]  314 	inc	-8 (ix)
+   01A2 DD 7E F8      [19]  315 	ld	a,-8 (ix)
+   01A5 D6 06         [ 7]  316 	sub	a, #0x06
+   01A7 DArA0r00      [10]  317 	jp	C,00138$
+   01AA DD F9         [10]  318 	ld	sp, ix
+   01AC DD E1         [14]  319 	pop	ix
+   01AE C9            [10]  320 	ret
+   01AF                     321 _g_palette:
+   01AF 09                  322 	.db #0x09	; 9
+   01B0 01                  323 	.db #0x01	; 1
+   01B1 00                  324 	.db #0x00	; 0
+   01B2 0D                  325 	.db #0x0D	; 13
+   01B3 03                  326 	.db #0x03	; 3
+   01B4 06                  327 	.db #0x06	; 6
+   01B5 05                  328 	.db #0x05	; 5
+   01B6 07                  329 	.db #0x07	; 7
+   01B7 08                  330 	.db #0x08	; 8
+   01B8 09                  331 	.db #0x09	; 9
+   01B9 0A                  332 	.db #0x0A	; 10
+   01BA 0B                  333 	.db #0x0B	; 11
+   01BB 0C                  334 	.db #0x0C	; 12
+   01BC 0D                  335 	.db #0x0D	; 13
+   01BD 0E                  336 	.db #0x0E	; 14
+   01BE 0F                  337 	.db #0x0F	; 15
+   01BF                     338 _g_colors:
+   01BF 00                  339 	.db #0x00	; 0
+   01C0 C0                  340 	.db #0xC0	; 192
+   01C1 0C                  341 	.db #0x0C	; 12
+   01C2 CC                  342 	.db #0xCC	; 204
+   01C3 30                  343 	.db #0x30	; 48	'0'
+   01C4 F0                  344 	.db #0xF0	; 240
+   01C5 3C                  345 	.db #0x3C	; 60
+   01C6 FC                  346 	.db #0xFC	; 252
+   01C7 03                  347 	.db #0x03	; 3
+   01C8 C3                  348 	.db #0xC3	; 195
+   01C9 0F                  349 	.db #0x0F	; 15
+   01CA CF                  350 	.db #0xCF	; 207
+   01CB 33                  351 	.db #0x33	; 51	'3'
+   01CC F3                  352 	.db #0xF3	; 243
+   01CD 3F                  353 	.db #0x3F	; 63
+   01CE FF                  354 	.db #0xFF	; 255
+   01CF                     355 _pixelMask:
+   01CF AA                  356 	.db #0xAA	; 170
+   01D0 55                  357 	.db #0x55	; 85	'U'
+   01D1                     358 _cells_in_view_array:
+   01D1 E0 2B               359 	.dw #0x2BE0
+   01D3                     360 _offsets_cells_in_view:
+   01D3 08                  361 	.db #0x08	; 8
+   01D4 0C                  362 	.db #0x0C	; 12
+   01D5 0E                  363 	.db #0x0E	; 14
+   01D6 0F                  364 	.db #0x0F	; 15
+   01D7 10                  365 	.db #0x10	; 16
+                            366 ;src/Renderer.c:263: void draw_column_to_buffer(const u8 column, u8 lineHeight, u8 wall_texture, const u8 wall_texture_column) {
+                            367 ;	---------------------------------
+                            368 ; Function draw_column_to_buffer
+                            369 ; ---------------------------------
+   01D8                     370 _draw_column_to_buffer::
+   01D8 DD E5         [15]  371 	push	ix
+   01DA DD 21 00 00   [14]  372 	ld	ix,#0
+   01DE DD 39         [15]  373 	add	ix,sp
+   01E0 21 EF FF      [10]  374 	ld	hl,#-17
+   01E3 39            [11]  375 	add	hl,sp
+   01E4 F9            [ 6]  376 	ld	sp,hl
+                            377 ;src/Renderer.c:264: u8* pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
+   01E5 DD 7E 04      [19]  378 	ld	a,4 (ix)
+   01E8 CB 3F         [ 8]  379 	srl	a
+   01EA C6 40         [ 7]  380 	add	a, #0x40
+   01EC DD 77 F4      [19]  381 	ld	-12 (ix),a
+   01EF 3E 00         [ 7]  382 	ld	a,#0x00
+   01F1 CE 1C         [ 7]  383 	adc	a, #0x1C
+   01F3 DD 77 F5      [19]  384 	ld	-11 (ix),a
+                            385 ;src/Renderer.c:266: u8 w_color, start=0,end=SCREEN_TEXTURE_HEIGHT;
+   01F6 DD 36 F6 00   [19]  386 	ld	-10 (ix),#0x00
+   01FA DD 36 F7 64   [19]  387 	ld	-9 (ix),#0x64
+                            388 ;src/Renderer.c:267: u8 pixMask = pixelMask[column&1];
+   01FE 01rCFr01      [10]  389 	ld	bc,#_pixelMask+0
+   0201 DD 7E 04      [19]  390 	ld	a,4 (ix)
+   0204 E6 01         [ 7]  391 	and	a, #0x01
+   0206 6F            [ 4]  392 	ld	l, a
+   0207 26 00         [ 7]  393 	ld	h,#0x00
+   0209 09            [11]  394 	add	hl,bc
+   020A 7E            [ 7]  395 	ld	a,(hl)
+   020B DD 77 F8      [19]  396 	ld	-8 (ix),a
+                            397 ;src/Renderer.c:274: u8* texture = (u8*)(UNCOMPRESSED_LEVEL_TEXTURES + (1024*wall_texture) + ((wall_texture_column)*TEXTURE_WIDTH));
+   020E DD 7E 06      [19]  398 	ld	a, 6 (ix)
+   0211 87            [ 4]  399 	add	a, a
+   0212 87            [ 4]  400 	add	a, a
+   0213 47            [ 4]  401 	ld	b,a
+   0214 0E 00         [ 7]  402 	ld	c,#0x00
+   0216 21 40 08      [10]  403 	ld	hl,#0x0840
+   0219 09            [11]  404 	add	hl,bc
+   021A 4D            [ 4]  405 	ld	c,l
+   021B 44            [ 4]  406 	ld	b,h
+   021C DD 6E 07      [19]  407 	ld	l,7 (ix)
+   021F 26 00         [ 7]  408 	ld	h,#0x00
+   0221 29            [11]  409 	add	hl, hl
+   0222 29            [11]  410 	add	hl, hl
+   0223 29            [11]  411 	add	hl, hl
+   0224 29            [11]  412 	add	hl, hl
+   0225 29            [11]  413 	add	hl, hl
+   0226 09            [11]  414 	add	hl,bc
+   0227 DD 75 FA      [19]  415 	ld	-6 (ix),l
+   022A DD 74 FB      [19]  416 	ld	-5 (ix),h
+                            417 ;src/Renderer.c:282: u16 wall_texture_line_add = (256*TEXTURE_HEIGHT)/lineHeight;
+   022D DD 7E 05      [19]  418 	ld	a,5 (ix)
+   0230 DD 77 FE      [19]  419 	ld	-2 (ix),a
+   0233 DD 36 FF 00   [19]  420 	ld	-1 (ix),#0x00
+   0237 DD 6E FE      [19]  421 	ld	l,-2 (ix)
+   023A DD 66 FF      [19]  422 	ld	h,-1 (ix)
+   023D E5            [11]  423 	push	hl
+   023E 21 00 20      [10]  424 	ld	hl,#0x2000
+   0241 E5            [11]  425 	push	hl
+   0242 CDr00r00      [17]  426 	call	__divsint
+   0245 F1            [10]  427 	pop	af
+   0246 F1            [10]  428 	pop	af
+   0247 DD 75 F1      [19]  429 	ld	-15 (ix),l
+   024A DD 74 F2      [19]  430 	ld	-14 (ix),h
+                            431 ;src/Renderer.c:283: u16 wall_texture_line=0;
+   024D 21 00 00      [10]  432 	ld	hl,#0x0000
+   0250 E3            [19]  433 	ex	(sp), hl
+                            434 ;src/Renderer.c:288: ceiling_height  = (SCREEN_TEXTURE_HEIGHT>>1) - (lineHeight>>1);
+   0251 DD 4E 05      [19]  435 	ld	c,5 (ix)
+   0254 CB 39         [ 8]  436 	srl	c
+   0256 3E 32         [ 7]  437 	ld	a,#0x32
+   0258 91            [ 4]  438 	sub	a, c
+                            439 ;src/Renderer.c:289: ground_height = ceiling_height + lineHeight;
+   0259 4F            [ 4]  440 	ld	c,a
+   025A DD 86 05      [19]  441 	add	a, 5 (ix)
+   025D DD 77 F3      [19]  442 	ld	-13 (ix),a
+                            443 ;src/Renderer.c:292: if(lineHeight>SCREEN_TEXTURE_HEIGHT){
+   0260 3E 64         [ 7]  444 	ld	a,#0x64
+   0262 DD 96 05      [19]  445 	sub	a, 5 (ix)
+   0265 30 52         [12]  446 	jr	NC,00118$
+                            447 ;src/Renderer.c:293: start=(lineHeight-SCREEN_TEXTURE_HEIGHT)/2;
+   0267 DD 7E FE      [19]  448 	ld	a,-2 (ix)
+   026A C6 9C         [ 7]  449 	add	a,#0x9C
+   026C 4F            [ 4]  450 	ld	c,a
+   026D DD 7E FF      [19]  451 	ld	a,-1 (ix)
+   0270 CE FF         [ 7]  452 	adc	a,#0xFF
+   0272 47            [ 4]  453 	ld	b,a
+   0273 DD 71 FC      [19]  454 	ld	-4 (ix),c
+   0276 DD 70 FD      [19]  455 	ld	-3 (ix),b
+   0279 CB 78         [ 8]  456 	bit	7, b
+   027B 28 10         [12]  457 	jr	Z,00112$
+   027D DD 7E FE      [19]  458 	ld	a,-2 (ix)
+   0280 C6 9D         [ 7]  459 	add	a, #0x9D
+   0282 DD 77 FC      [19]  460 	ld	-4 (ix),a
+   0285 DD 7E FF      [19]  461 	ld	a,-1 (ix)
+   0288 CE FF         [ 7]  462 	adc	a, #0xFF
+   028A DD 77 FD      [19]  463 	ld	-3 (ix),a
+   028D                     464 00112$:
+   028D DD 4E FC      [19]  465 	ld	c,-4 (ix)
+   0290 DD 46 FD      [19]  466 	ld	b,-3 (ix)
+   0293 CB 28         [ 8]  467 	sra	b
+   0295 CB 19         [ 8]  468 	rr	c
+                            469 ;src/Renderer.c:294: end+=start;
+   0297 DD 71 F6      [19]  470 	ld	-10 (ix), c
+   029A 79            [ 4]  471 	ld	a, c
+   029B C6 64         [ 7]  472 	add	a, #0x64
+   029D DD 77 F7      [19]  473 	ld	-9 (ix),a
+                            474 ;src/Renderer.c:295: ceiling_height=0;
+   02A0 0E 00         [ 7]  475 	ld	c,#0x00
+                            476 ;src/Renderer.c:296: wall_texture_line = start * wall_texture_line_add;
+   02A2 DD 5E F6      [19]  477 	ld	e,-10 (ix)
+   02A5 16 00         [ 7]  478 	ld	d,#0x00
+   02A7 C5            [11]  479 	push	bc
+   02A8 DD 6E F1      [19]  480 	ld	l,-15 (ix)
+   02AB DD 66 F2      [19]  481 	ld	h,-14 (ix)
+   02AE E5            [11]  482 	push	hl
+   02AF D5            [11]  483 	push	de
+   02B0 CDr00r00      [17]  484 	call	__mulint
+   02B3 F1            [10]  485 	pop	af
+   02B4 F1            [10]  486 	pop	af
+   02B5 C1            [10]  487 	pop	bc
+   02B6 33            [ 6]  488 	inc	sp
+   02B7 33            [ 6]  489 	inc	sp
+   02B8 E5            [11]  490 	push	hl
+                            491 ;src/Renderer.c:301: for(j=start;j<end;++j){
+   02B9                     492 00118$:
+   02B9 DD 7E F8      [19]  493 	ld	a,-8 (ix)
+   02BC 2F            [ 4]  494 	cpl
+   02BD DD 77 FC      [19]  495 	ld	-4 (ix),a
+   02C0 DD 5E F4      [19]  496 	ld	e,-12 (ix)
+   02C3 DD 56 F5      [19]  497 	ld	d,-11 (ix)
+   02C6 DD 46 F6      [19]  498 	ld	b,-10 (ix)
+   02C9                     499 00108$:
+   02C9 78            [ 4]  500 	ld	a,b
+   02CA DD 96 F7      [19]  501 	sub	a, -9 (ix)
+   02CD 30 41         [12]  502 	jr	NC,00110$
+                            503 ;src/Renderer.c:302: val =  ((*pvmem)&(~pixMask));
+   02CF 1A            [ 7]  504 	ld	a,(de)
+   02D0 DD A6 FC      [19]  505 	and	a, -4 (ix)
+   02D3 DD 77 F9      [19]  506 	ld	-7 (ix),a
+                            507 ;src/Renderer.c:304: if((j>=ceiling_height) && (j<ground_height)){
+   02D6 78            [ 4]  508 	ld	a,b
+   02D7 B9            [ 4]  509 	cp	a,c
+   02D8 38 2E         [12]  510 	jr	C,00104$
+   02DA DD 96 F3      [19]  511 	sub	a, -13 (ix)
+   02DD 30 29         [12]  512 	jr	NC,00104$
+                            513 ;src/Renderer.c:306: w_color = (*(texture+(wall_texture_line/256))&pixMask);
+   02DF DD 6E F0      [19]  514 	ld	l,-16 (ix)
+   02E2 26 00         [ 7]  515 	ld	h,#0x00
+   02E4 DD 7E FA      [19]  516 	ld	a,-6 (ix)
+   02E7 85            [ 4]  517 	add	a, l
+   02E8 6F            [ 4]  518 	ld	l,a
+   02E9 DD 7E FB      [19]  519 	ld	a,-5 (ix)
+   02EC 8C            [ 4]  520 	adc	a, h
+   02ED 67            [ 4]  521 	ld	h,a
+   02EE 7E            [ 7]  522 	ld	a,(hl)
+   02EF DD A6 F8      [19]  523 	and	a, -8 (ix)
+                            524 ;src/Renderer.c:308: *pvmem = val|w_color;
+   02F2 DD B6 F9      [19]  525 	or	a, -7 (ix)
+   02F5 12            [ 7]  526 	ld	(de),a
+                            527 ;src/Renderer.c:310: wall_texture_line += wall_texture_line_add;
+   02F6 DD 7E EF      [19]  528 	ld	a,-17 (ix)
+   02F9 DD 86 F1      [19]  529 	add	a, -15 (ix)
+   02FC DD 77 EF      [19]  530 	ld	-17 (ix),a
+   02FF DD 7E F0      [19]  531 	ld	a,-16 (ix)
+   0302 DD 8E F2      [19]  532 	adc	a, -14 (ix)
+   0305 DD 77 F0      [19]  533 	ld	-16 (ix),a
+   0308                     534 00104$:
+                            535 ;src/Renderer.c:312: pvmem+=SCREEN_TEXTURE_WIDTH_BYTES;
+   0308 21 28 00      [10]  536 	ld	hl,#0x0028
+   030B 19            [11]  537 	add	hl,de
+   030C EB            [ 4]  538 	ex	de,hl
+                            539 ;src/Renderer.c:301: for(j=start;j<end;++j){
+   030D 04            [ 4]  540 	inc	b
+   030E 18 B9         [12]  541 	jr	00108$
+   0310                     542 00110$:
+   0310 DD F9         [10]  543 	ld	sp, ix
+   0312 DD E1         [14]  544 	pop	ix
+   0314 C9            [10]  545 	ret
+                            546 ;src/Renderer.c:316: void render_draw_to_buffer(){//TODO Optimize
+                            547 ;	---------------------------------
+                            548 ; Function render_draw_to_buffer
+                            549 ; ---------------------------------
+   0315                     550 _render_draw_to_buffer::
+   0315 DD E5         [15]  551 	push	ix
+   0317 DD 21 00 00   [14]  552 	ld	ix,#0
+   031B DD 39         [15]  553 	add	ix,sp
+   031D 21 D3 FF      [10]  554 	ld	hl,#-45
+   0320 39            [11]  555 	add	hl,sp
+   0321 F9            [ 6]  556 	ld	sp,hl
+                            557 ;src/Renderer.c:326: u8 zHeight = 5;
+   0322 DD 36 D5 05   [19]  558 	ld	-43 (ix),#0x05
+                            559 ;src/Renderer.c:332: u8 offsetDiff = 16;
+   0326 DD 36 D3 10   [19]  560 	ld	-45 (ix),#0x10
+                            561 ;src/Renderer.c:337: u8 lineStart = 0;
+   032A DD 36 D6 00   [19]  562 	ld	-42 (ix),#0x00
+                            563 ;src/Renderer.c:339: u8 lateralWallWidth=0;
+   032E DD 36 DD 00   [19]  564 	ld	-35 (ix),#0x00
+                            565 ;src/Renderer.c:351: cpct_memset(SCREEN_TEXTURE_BUFFER, g_colors[SKY_COLOR], SCREEN_TEXTURE_GROUND_SKY_SIZE);
+   0332 21rC0r01      [10]  566 	ld	hl, #_g_colors + 1
+   0335 46            [ 7]  567 	ld	b,(hl)
+   0336 21 A8 07      [10]  568 	ld	hl,#0x07A8
+   0339 E5            [11]  569 	push	hl
+   033A C5            [11]  570 	push	bc
+   033B 33            [ 6]  571 	inc	sp
+   033C 21 40 1C      [10]  572 	ld	hl,#0x1C40
+   033F E5            [11]  573 	push	hl
+   0340 CDr00r00      [17]  574 	call	_cpct_memset
+                            575 ;src/Renderer.c:352: cpct_memset(SCREEN_TEXTURE_HORIZON_WALL_START, g_colors[HORIZON_COLOR], SCREEN_TEXTURE_HORIZON_WALL_SIZE);
+   0343 21rC1r01      [10]  576 	ld	hl, #_g_colors + 2
+   0346 46            [ 7]  577 	ld	b,(hl)
+   0347 21 50 00      [10]  578 	ld	hl,#0x0050
+   034A E5            [11]  579 	push	hl
+   034B C5            [11]  580 	push	bc
+   034C 33            [ 6]  581 	inc	sp
+   034D 21 E8 23      [10]  582 	ld	hl,#0x23E8
+   0350 E5            [11]  583 	push	hl
+   0351 CDr00r00      [17]  584 	call	_cpct_memset
+                            585 ;src/Renderer.c:353: cpct_memset(SCREEN_TEXTURE_GROUND_START, g_colors[GROUND_COLOR], SCREEN_TEXTURE_GROUND_SKY_SIZE);
+   0354 21rBFr01      [10]  586 	ld	hl, #_g_colors + 0
+   0357 46            [ 7]  587 	ld	b,(hl)
+   0358 21 A8 07      [10]  588 	ld	hl,#0x07A8
+   035B E5            [11]  589 	push	hl
+   035C C5            [11]  590 	push	bc
+   035D 33            [ 6]  591 	inc	sp
+   035E 21 38 24      [10]  592 	ld	hl,#0x2438
+   0361 E5            [11]  593 	push	hl
+   0362 CDr00r00      [17]  594 	call	_cpct_memset
+                            595 ;src/Renderer.c:355: calculate_cells_in_view();
+   0365 CDr00r00      [17]  596 	call	_calculate_cells_in_view
+                            597 ;src/Renderer.c:358: do{
+   0368 DD 36 E1 06   [19]  598 	ld	-31 (ix),#0x06
+   036C                     599 00165$:
+                            600 ;src/Renderer.c:360: --z;
+   036C DD 35 E1      [23]  601 	dec	-31 (ix)
+                            602 ;src/Renderer.c:364: xCellCount = (z) ? (zHeight >> 1) : 0;
+   036F DD 7E D5      [19]  603 	ld	a,-43 (ix)
+   0372 CB 3F         [ 8]  604 	srl	a
+   0374 DD 77 F4      [19]  605 	ld	-12 (ix),a
+   0377 DD 7E E1      [19]  606 	ld	a,-31 (ix)
+   037A B7            [ 4]  607 	or	a, a
+   037B 28 05         [12]  608 	jr	Z,00174$
+   037D DD 4E F4      [19]  609 	ld	c,-12 (ix)
+   0380 18 02         [12]  610 	jr	00175$
+   0382                     611 00174$:
+   0382 0E 00         [ 7]  612 	ld	c,#0x00
+   0384                     613 00175$:
+   0384 DD 71 F9      [19]  614 	ld	-7 (ix),c
+                            615 ;src/Renderer.c:365: lateralWallSlope=0;
+   0387 DD 36 FA 00   [19]  616 	ld	-6 (ix),#0x00
+                            617 ;src/Renderer.c:366: lateralWallSlopeCounter=0;
+   038B DD 36 F2 00   [19]  618 	ld	-14 (ix),#0x00
+                            619 ;src/Renderer.c:367: xHeight=0;
+   038F DD 36 E3 00   [19]  620 	ld	-29 (ix),#0x00
+                            621 ;src/Renderer.c:369: lateralWallCounter = 0;
+   0393 DD 36 F3 00   [19]  622 	ld	-13 (ix),#0x00
+                            623 ;src/Renderer.c:371: newCell=1;
+   0397 DD 36 FB 01   [19]  624 	ld	-5 (ix),#0x01
+                            625 ;src/Renderer.c:372: currentCellID = cells_in_view_array[lineStart + 1];
+   039B DD 7E D6      [19]  626 	ld	a,-42 (ix)
+   039E DD 77 E7      [19]  627 	ld	-25 (ix),a
+   03A1 DD 36 E8 00   [19]  628 	ld	-24 (ix),#0x00
+   03A5 DD 4E E7      [19]  629 	ld	c,-25 (ix)
+   03A8 DD 46 E8      [19]  630 	ld	b,-24 (ix)
+   03AB 03            [ 6]  631 	inc	bc
+   03AC 2ArD1r01      [16]  632 	ld	hl,(_cells_in_view_array)
+   03AF DD 75 E4      [19]  633 	ld	-28 (ix),l
+   03B2 DD 74 E5      [19]  634 	ld	-27 (ix),h
+   03B5 DD 6E E4      [19]  635 	ld	l,-28 (ix)
+   03B8 DD 66 E5      [19]  636 	ld	h,-27 (ix)
+   03BB 09            [11]  637 	add	hl,bc
+   03BC 7E            [ 7]  638 	ld	a,(hl)
+   03BD DD 77 E9      [19]  639 	ld	-23 (ix),a
+                            640 ;src/Renderer.c:374: lastCellWasWall = cells_in_view_array[lineStart];//Calculate offscreen
+   03C0 DD 7E E4      [19]  641 	ld	a,-28 (ix)
+   03C3 DD 86 D6      [19]  642 	add	a, -42 (ix)
+   03C6 6F            [ 4]  643 	ld	l,a
+   03C7 DD 7E E5      [19]  644 	ld	a,-27 (ix)
+   03CA CE 00         [ 7]  645 	adc	a, #0x00
+   03CC 67            [ 4]  646 	ld	h,a
+   03CD 7E            [ 7]  647 	ld	a,(hl)
+                            648 ;src/Renderer.c:375: if(lastCellWasWall<5){
+   03CE DD 77 EA      [19]  649 	ld	-22 (ix), a
+   03D1 D6 05         [ 7]  650 	sub	a, #0x05
+   03D3 30 06         [12]  651 	jr	NC,00102$
+                            652 ;src/Renderer.c:376: lastWallId=lastCellWasWall;
+                            653 ;src/Renderer.c:377: lastCellWasWall=1;
+   03D5 DD 36 E6 01   [19]  654 	ld	-26 (ix),#0x01
+   03D9 18 08         [12]  655 	jr	00193$
+   03DB                     656 00102$:
+                            657 ;src/Renderer.c:380: lastCellWasWall=0;
+   03DB DD 36 E6 00   [19]  658 	ld	-26 (ix),#0x00
+                            659 ;src/Renderer.c:381: lastWallId=CELLTYPE_FLOOR;
+   03DF DD 36 EA FE   [19]  660 	ld	-22 (ix),#0xFE
+                            661 ;src/Renderer.c:384: for (x = 0; x < SCREEN_TEXTURE_WIDTH; ++x)
+   03E3                     662 00193$:
+   03E3 DD 36 D7 00   [19]  663 	ld	-41 (ix),#0x00
+   03E7 DD 36 DF 00   [19]  664 	ld	-33 (ix),#0x00
+   03EB                     665 00168$:
+                            666 ;src/Renderer.c:386: if (xCellCount == zHeight)
+   03EB DD 7E D5      [19]  667 	ld	a,-43 (ix)
+   03EE DD 96 F9      [19]  668 	sub	a, -7 (ix)
+   03F1 20 4B         [12]  669 	jr	NZ,00105$
+                            670 ;src/Renderer.c:388: ++xCell;
+   03F3 DD 34 D7      [23]  671 	inc	-41 (ix)
+                            672 ;src/Renderer.c:389: xCellCount = 0;
+   03F6 DD 36 F9 00   [19]  673 	ld	-7 (ix),#0x00
+                            674 ;src/Renderer.c:390: newCell=1;
+   03FA DD 36 FB 01   [19]  675 	ld	-5 (ix),#0x01
+                            676 ;src/Renderer.c:391: currentCellID=cells_in_view_array[xCell + lineStart + 1];
+   03FE DD 7E D7      [19]  677 	ld	a,-41 (ix)
+   0401 DD 77 EB      [19]  678 	ld	-21 (ix),a
+   0404 DD 36 EC 00   [19]  679 	ld	-20 (ix),#0x00
+   0408 DD 7E E7      [19]  680 	ld	a,-25 (ix)
+   040B DD 86 EB      [19]  681 	add	a, -21 (ix)
+   040E DD 77 EB      [19]  682 	ld	-21 (ix),a
+   0411 DD 7E E8      [19]  683 	ld	a,-24 (ix)
+   0414 DD 8E EC      [19]  684 	adc	a, -20 (ix)
+   0417 DD 77 EC      [19]  685 	ld	-20 (ix),a
+   041A DD 34 EB      [23]  686 	inc	-21 (ix)
+   041D 20 03         [12]  687 	jr	NZ,00320$
+   041F DD 34 EC      [23]  688 	inc	-20 (ix)
+   0422                     689 00320$:
+   0422 DD 7E EB      [19]  690 	ld	a,-21 (ix)
+   0425 DD 86 E4      [19]  691 	add	a, -28 (ix)
+   0428 DD 77 EB      [19]  692 	ld	-21 (ix),a
+   042B DD 7E EC      [19]  693 	ld	a,-20 (ix)
+   042E DD 8E E5      [19]  694 	adc	a, -27 (ix)
+   0431 DD 77 EC      [19]  695 	ld	-20 (ix),a
+   0434 DD 6E EB      [19]  696 	ld	l,-21 (ix)
+   0437 DD 66 EC      [19]  697 	ld	h,-20 (ix)
+   043A 7E            [ 7]  698 	ld	a,(hl)
+   043B DD 77 E9      [19]  699 	ld	-23 (ix),a
+   043E                     700 00105$:
+                            701 ;src/Renderer.c:393: if(!(x%2)){
+   043E DD 7E DF      [19]  702 	ld	a,-33 (ix)
+   0441 E6 01         [ 7]  703 	and	a, #0x01
+   0443 DD 77 EB      [19]  704 	ld	-21 (ix),a
+                            705 ;src/Renderer.c:415: xHeight = zHeight - ((2 * xCellCount) / lateralWallSlope);
+   0446 DD 7E F9      [19]  706 	ld	a,-7 (ix)
+   0449 DD 77 ED      [19]  707 	ld	-19 (ix),a
+   044C DD 36 EE 00   [19]  708 	ld	-18 (ix),#0x00
+   0450 DD 7E D5      [19]  709 	ld	a,-43 (ix)
+   0453 DD 77 F1      [19]  710 	ld	-15 (ix),a
+                            711 ;src/Renderer.c:393: if(!(x%2)){
+   0456 DD 7E EB      [19]  712 	ld	a,-21 (ix)
+   0459 B7            [ 4]  713 	or	a, a
+   045A C2r0Ar05      [10]  714 	jp	NZ,00118$
+                            715 ;src/Renderer.c:394: if ((lateralWallCounter == 0)||newCell)
+   045D DD 7E F3      [19]  716 	ld	a,-13 (ix)
+   0460 B7            [ 4]  717 	or	a, a
+   0461 28 07         [12]  718 	jr	Z,00114$
+   0463 DD 7E FB      [19]  719 	ld	a,-5 (ix)
+   0466 B7            [ 4]  720 	or	a, a
+   0467 CAr0Ar05      [10]  721 	jp	Z,00118$
+   046A                     722 00114$:
+                            723 ;src/Renderer.c:396: if (currentCellID < 5)//Wall
+   046A DD 7E E9      [19]  724 	ld	a,-23 (ix)
+   046D D6 05         [ 7]  725 	sub	a, #0x05
+   046F 30 20         [12]  726 	jr	NC,00112$
+                            727 ;src/Renderer.c:398: lateralWallCounter = 0;//(zHeight - xCellCount);
+   0471 DD 36 F3 00   [19]  728 	ld	-13 (ix),#0x00
+                            729 ;src/Renderer.c:399: lateralWallSlope = 0;
+   0475 DD 36 FA 00   [19]  730 	ld	-6 (ix),#0x00
+                            731 ;src/Renderer.c:400: xHeight = zHeight;
+   0479 DD 7E D5      [19]  732 	ld	a,-43 (ix)
+   047C DD 77 E3      [19]  733 	ld	-29 (ix),a
+                            734 ;src/Renderer.c:401: color = currentCellID;
+   047F DD 7E E9      [19]  735 	ld	a,-23 (ix)
+   0482 DD 77 D4      [19]  736 	ld	-44 (ix),a
+                            737 ;src/Renderer.c:402: lastCellWasWall = 1;
+   0485 DD 36 E6 01   [19]  738 	ld	-26 (ix),#0x01
+                            739 ;src/Renderer.c:403: lastWallId=currentCellID;
+   0489 DD 7E E9      [19]  740 	ld	a,-23 (ix)
+   048C DD 77 EA      [19]  741 	ld	-22 (ix),a
+   048F 18 75         [12]  742 	jr	00113$
+   0491                     743 00112$:
+                            744 ;src/Renderer.c:405: else if(lateralWallCounter==0){//Lateral wall not finished
+   0491 DD 7E F3      [19]  745 	ld	a,-13 (ix)
+   0494 B7            [ 4]  746 	or	a, a
+   0495 20 6F         [12]  747 	jr	NZ,00113$
+                            748 ;src/Renderer.c:406: if (lastCellWasWall)
+   0497 DD 7E E6      [19]  749 	ld	a,-26 (ix)
+   049A B7            [ 4]  750 	or	a, a
+   049B 28 59         [12]  751 	jr	Z,00107$
+                            752 ;src/Renderer.c:409: lateralWallSlope = (((offsetDiff - xCell) * 2) + 1);//TODO Optimize
+   049D DD 7E D3      [19]  753 	ld	a,-45 (ix)
+   04A0 DD 96 D7      [19]  754 	sub	a, -41 (ix)
+   04A3 87            [ 4]  755 	add	a, a
+   04A4 3C            [ 4]  756 	inc	a
+                            757 ;src/Renderer.c:410: lateralWallSlopeCounter = lateralWallSlope / 2;
+   04A5 DD 77 FA      [19]  758 	ld	-6 (ix), a
+   04A8 CB 3F         [ 8]  759 	srl	a
+   04AA DD 77 F2      [19]  760 	ld	-14 (ix),a
+                            761 ;src/Renderer.c:411: lateralWallCounter = lateralWallSlope * zHeight;
+   04AD DD 5E D5      [19]  762 	ld	e,-43 (ix)
+   04B0 DD 66 FA      [19]  763 	ld	h,-6 (ix)
+   04B3 2E 00         [ 7]  764 	ld	l, #0x00
+   04B5 55            [ 4]  765 	ld	d, l
+   04B6 06 08         [ 7]  766 	ld	b, #0x08
+   04B8                     767 00321$:
+   04B8 29            [11]  768 	add	hl,hl
+   04B9 30 01         [12]  769 	jr	NC,00322$
+   04BB 19            [11]  770 	add	hl,de
+   04BC                     771 00322$:
+   04BC 10 FA         [13]  772 	djnz	00321$
+                            773 ;src/Renderer.c:412: lateralWallCounter = (((lateralWallCounter & 0xFC) | 0x01) >> 2) - xCellCount;
+   04BE 7D            [ 4]  774 	ld	a,l
+   04BF E6 FC         [ 7]  775 	and	a, #0xFC
+   04C1 CB C7         [ 8]  776 	set	0, a
+   04C3 CB 3F         [ 8]  777 	srl	a
+   04C5 CB 3F         [ 8]  778 	srl	a
+   04C7 DD 96 F9      [19]  779 	sub	a, -7 (ix)
+                            780 ;src/Renderer.c:413: lateralWallWidth=lateralWallCounter;
+   04CA DD 77 F3      [19]  781 	ld	-13 (ix), a
+   04CD DD 77 DD      [19]  782 	ld	-35 (ix),a
+                            783 ;src/Renderer.c:414: lastCellWasWall = 0;
+   04D0 DD 36 E6 00   [19]  784 	ld	-26 (ix),#0x00
+                            785 ;src/Renderer.c:415: xHeight = zHeight - ((2 * xCellCount) / lateralWallSlope);
+   04D4 DD 6E ED      [19]  786 	ld	l,-19 (ix)
+   04D7 DD 66 EE      [19]  787 	ld	h,-18 (ix)
+   04DA 29            [11]  788 	add	hl, hl
+   04DB DD 4E FA      [19]  789 	ld	c,-6 (ix)
+   04DE 06 00         [ 7]  790 	ld	b,#0x00
+   04E0 C5            [11]  791 	push	bc
+   04E1 E5            [11]  792 	push	hl
+   04E2 CDr00r00      [17]  793 	call	__divsint
+   04E5 F1            [10]  794 	pop	af
+   04E6 F1            [10]  795 	pop	af
+   04E7 DD 7E F1      [19]  796 	ld	a,-15 (ix)
+   04EA 95            [ 4]  797 	sub	a, l
+   04EB DD 77 E3      [19]  798 	ld	-29 (ix),a
+                            799 ;src/Renderer.c:416: color = lastWallId;
+   04EE DD 7E EA      [19]  800 	ld	a,-22 (ix)
+   04F1 DD 77 D4      [19]  801 	ld	-44 (ix),a
+   04F4 18 10         [12]  802 	jr	00113$
+   04F6                     803 00107$:
+                            804 ;src/Renderer.c:420: xHeight = 0;
+   04F6 DD 36 E3 00   [19]  805 	ld	-29 (ix),#0x00
+                            806 ;src/Renderer.c:421: lastCellWasWall = 0;
+   04FA DD 36 E6 00   [19]  807 	ld	-26 (ix),#0x00
+                            808 ;src/Renderer.c:422: lateralWallSlope=0;
+   04FE DD 36 FA 00   [19]  809 	ld	-6 (ix),#0x00
+                            810 ;src/Renderer.c:423: lastWallId=0;
+   0502 DD 36 EA 00   [19]  811 	ld	-22 (ix),#0x00
+   0506                     812 00113$:
+                            813 ;src/Renderer.c:426: newCell=0;
+   0506 DD 36 FB 00   [19]  814 	ld	-5 (ix),#0x00
+   050A                     815 00118$:
+                            816 ;src/Renderer.c:429: if (lateralWallCounter > 0)
+   050A DD 7E F3      [19]  817 	ld	a,-13 (ix)
+   050D B7            [ 4]  818 	or	a, a
+   050E 28 1E         [12]  819 	jr	Z,00124$
+                            820 ;src/Renderer.c:432: if (lateralWallSlope != 0)
+   0510 DD 7E FA      [19]  821 	ld	a,-6 (ix)
+   0513 B7            [ 4]  822 	or	a, a
+   0514 28 15         [12]  823 	jr	Z,00122$
+                            824 ;src/Renderer.c:434: if (lateralWallSlopeCounter == lateralWallSlope)
+   0516 DD 7E FA      [19]  825 	ld	a,-6 (ix)
+   0519 DD 96 F2      [19]  826 	sub	a, -14 (ix)
+   051C 20 0A         [12]  827 	jr	NZ,00120$
+                            828 ;src/Renderer.c:436: lateralWallSlopeCounter = 0;
+   051E DD 36 F2 00   [19]  829 	ld	-14 (ix),#0x00
+                            830 ;src/Renderer.c:437: xHeight -= 2;
+   0522 DD 35 E3      [23]  831 	dec	-29 (ix)
+   0525 DD 35 E3      [23]  832 	dec	-29 (ix)
+   0528                     833 00120$:
+                            834 ;src/Renderer.c:439: ++lateralWallSlopeCounter;
+   0528 DD 34 F2      [23]  835 	inc	-14 (ix)
+   052B                     836 00122$:
+                            837 ;src/Renderer.c:442: --lateralWallCounter;
+   052B DD 35 F3      [23]  838 	dec	-13 (ix)
+   052E                     839 00124$:
+                            840 ;src/Renderer.c:453: tex_column=(xCellCount)*TEXTURE_WIDTH/zHeight;
+   052E DD 7E D5      [19]  841 	ld	a,-43 (ix)
+   0531 DD 77 F5      [19]  842 	ld	-11 (ix),a
+   0534 DD 36 F6 00   [19]  843 	ld	-10 (ix),#0x00
+                            844 ;src/Renderer.c:445: if (!(x%2))
+   0538 DD 7E EB      [19]  845 	ld	a,-21 (ix)
+   053B B7            [ 4]  846 	or	a, a
+   053C 20 59         [12]  847 	jr	NZ,00131$
+                            848 ;src/Renderer.c:447: if(xHeight > 0){
+   053E DD 7E E3      [19]  849 	ld	a,-29 (ix)
+   0541 B7            [ 4]  850 	or	a, a
+   0542 28 53         [12]  851 	jr	Z,00131$
+                            852 ;src/Renderer.c:448: if (lateralWallCounter > 0)
+   0544 DD 7E F3      [19]  853 	ld	a,-13 (ix)
+   0547 B7            [ 4]  854 	or	a, a
+   0548 28 1F         [12]  855 	jr	Z,00126$
+                            856 ;src/Renderer.c:450: tex_column=(lateralWallWidth-lateralWallCounter)*TEXTURE_WIDTH/lateralWallWidth;
+   054A DD 4E DD      [19]  857 	ld	c,-35 (ix)
+   054D 06 00         [ 7]  858 	ld	b,#0x00
+   054F DD 5E F3      [19]  859 	ld	e,-13 (ix)
+   0552 16 00         [ 7]  860 	ld	d,#0x00
+   0554 79            [ 4]  861 	ld	a,c
+   0555 93            [ 4]  862 	sub	a, e
+   0556 6F            [ 4]  863 	ld	l,a
+   0557 78            [ 4]  864 	ld	a,b
+   0558 9A            [ 4]  865 	sbc	a, d
+   0559 67            [ 4]  866 	ld	h,a
+   055A 29            [11]  867 	add	hl, hl
+   055B 29            [11]  868 	add	hl, hl
+   055C 29            [11]  869 	add	hl, hl
+   055D 29            [11]  870 	add	hl, hl
+   055E 29            [11]  871 	add	hl, hl
+   055F C5            [11]  872 	push	bc
+   0560 E5            [11]  873 	push	hl
+   0561 CDr00r00      [17]  874 	call	__divsint
+   0564 F1            [10]  875 	pop	af
+   0565 F1            [10]  876 	pop	af
+   0566 45            [ 4]  877 	ld	b,l
+   0567 18 19         [12]  878 	jr	00127$
+   0569                     879 00126$:
+                            880 ;src/Renderer.c:453: tex_column=(xCellCount)*TEXTURE_WIDTH/zHeight;
+   0569 DD 6E ED      [19]  881 	ld	l,-19 (ix)
+   056C DD 66 EE      [19]  882 	ld	h,-18 (ix)
+   056F 29            [11]  883 	add	hl, hl
+   0570 29            [11]  884 	add	hl, hl
+   0571 29            [11]  885 	add	hl, hl
+   0572 29            [11]  886 	add	hl, hl
+   0573 29            [11]  887 	add	hl, hl
+   0574 DD 4E F5      [19]  888 	ld	c,-11 (ix)
+   0577 DD 46 F6      [19]  889 	ld	b,-10 (ix)
+   057A C5            [11]  890 	push	bc
+   057B E5            [11]  891 	push	hl
+   057C CDr00r00      [17]  892 	call	__divsint
+   057F F1            [10]  893 	pop	af
+   0580 F1            [10]  894 	pop	af
+   0581 45            [ 4]  895 	ld	b,l
+   0582                     896 00127$:
+                            897 ;src/Renderer.c:455: draw_column_to_buffer(x/2, xHeight, color,tex_column);
+   0582 DD 56 DF      [19]  898 	ld	d,-33 (ix)
+   0585 CB 3A         [ 8]  899 	srl	d
+   0587 C5            [11]  900 	push	bc
+   0588 33            [ 6]  901 	inc	sp
+   0589 DD 66 D4      [19]  902 	ld	h,-44 (ix)
+   058C DD 6E E3      [19]  903 	ld	l,-29 (ix)
+   058F E5            [11]  904 	push	hl
+   0590 D5            [11]  905 	push	de
+   0591 33            [ 6]  906 	inc	sp
+   0592 CDrD8r01      [17]  907 	call	_draw_column_to_buffer
+   0595 F1            [10]  908 	pop	af
+   0596 F1            [10]  909 	pop	af
+   0597                     910 00131$:
+                            911 ;src/Renderer.c:459: ++xCellCount;
+   0597 DD 34 F9      [23]  912 	inc	-7 (ix)
+                            913 ;src/Renderer.c:384: for (x = 0; x < SCREEN_TEXTURE_WIDTH; ++x)
+   059A DD 34 DF      [23]  914 	inc	-33 (ix)
+                            915 ;src/Renderer.c:372: currentCellID = cells_in_view_array[lineStart + 1];
+   059D 2ArD1r01      [16]  916 	ld	hl,(_cells_in_view_array)
+   05A0 DD 75 E4      [19]  917 	ld	-28 (ix),l
+   05A3 DD 74 E5      [19]  918 	ld	-27 (ix),h
+                            919 ;src/Renderer.c:384: for (x = 0; x < SCREEN_TEXTURE_WIDTH; ++x)
+   05A6 DD 7E DF      [19]  920 	ld	a,-33 (ix)
+   05A9 D6 50         [ 7]  921 	sub	a, #0x50
+   05AB DArEBr03      [10]  922 	jp	C,00168$
+                            923 ;src/Renderer.c:466: xCellCount = (z) ? (zHeight >> 1) : 0 ;
+   05AE DD 7E E1      [19]  924 	ld	a,-31 (ix)
+   05B1 B7            [ 4]  925 	or	a, a
+   05B2 28 05         [12]  926 	jr	Z,00176$
+   05B4 DD 4E F4      [19]  927 	ld	c,-12 (ix)
+   05B7 18 02         [12]  928 	jr	00177$
+   05B9                     929 00176$:
+   05B9 0E 00         [ 7]  930 	ld	c,#0x00
+   05BB                     931 00177$:
+   05BB DD 71 D9      [19]  932 	ld	-39 (ix),c
+                            933 ;src/Renderer.c:467: lateralWallSlope=0;
+   05BE DD 36 DA 00   [19]  934 	ld	-38 (ix),#0x00
+                            935 ;src/Renderer.c:468: lateralWallSlopeCounter=0;
+   05C2 DD 36 E2 00   [19]  936 	ld	-30 (ix),#0x00
+                            937 ;src/Renderer.c:469: xHeight=0;
+   05C6 DD 36 E0 00   [19]  938 	ld	-32 (ix),#0x00
+                            939 ;src/Renderer.c:471: lateralWallCounter = 0;
+   05CA DD 36 ED 00   [19]  940 	ld	-19 (ix),#0x00
+                            941 ;src/Renderer.c:472: lineEnd = lineStart + offsetDiff * 2 + 2;
+   05CE DD 7E D3      [19]  942 	ld	a,-45 (ix)
+   05D1 87            [ 4]  943 	add	a, a
+   05D2 4F            [ 4]  944 	ld	c,a
+   05D3 DD 7E D6      [19]  945 	ld	a,-42 (ix)
+   05D6 81            [ 4]  946 	add	a, c
+   05D7 DD 77 EB      [19]  947 	ld	-21 (ix), a
+   05DA 4F            [ 4]  948 	ld	c, a
+   05DB 0C            [ 4]  949 	inc	c
+   05DC 0C            [ 4]  950 	inc	c
+                            951 ;src/Renderer.c:474: newCell=1;
+   05DD DD 36 D8 01   [19]  952 	ld	-40 (ix),#0x01
+                            953 ;src/Renderer.c:475: currentCellID = cells_in_view_array[lineEnd - 1];
+   05E1 DD 71 E7      [19]  954 	ld	-25 (ix),c
+   05E4 DD 36 E8 00   [19]  955 	ld	-24 (ix),#0x00
+   05E8 DD 5E E7      [19]  956 	ld	e,-25 (ix)
+   05EB DD 56 E8      [19]  957 	ld	d,-24 (ix)
+   05EE 1B            [ 6]  958 	dec	de
+   05EF DD 6E E4      [19]  959 	ld	l,-28 (ix)
+   05F2 DD 66 E5      [19]  960 	ld	h,-27 (ix)
+   05F5 19            [11]  961 	add	hl,de
+   05F6 7E            [ 7]  962 	ld	a,(hl)
+   05F7 DD 77 DB      [19]  963 	ld	-37 (ix),a
+                            964 ;src/Renderer.c:477: lastCellWasWall = cells_in_view_array[lineEnd];//Calculate offscreen
+   05FA DD 6E E4      [19]  965 	ld	l,-28 (ix)
+   05FD DD 66 E5      [19]  966 	ld	h,-27 (ix)
+   0600 06 00         [ 7]  967 	ld	b,#0x00
+   0602 09            [11]  968 	add	hl, bc
+   0603 4E            [ 7]  969 	ld	c,(hl)
+                            970 ;src/Renderer.c:478: if(lastCellWasWall<5){
+   0604 79            [ 4]  971 	ld	a,c
+   0605 D6 05         [ 7]  972 	sub	a, #0x05
+   0607 30 09         [12]  973 	jr	NC,00134$
+                            974 ;src/Renderer.c:479: lastWallId=lastCellWasWall;
+   0609 DD 71 DC      [19]  975 	ld	-36 (ix),c
+                            976 ;src/Renderer.c:480: lastCellWasWall=1;
+   060C DD 36 E6 01   [19]  977 	ld	-26 (ix),#0x01
+   0610 18 08         [12]  978 	jr	00210$
+   0612                     979 00134$:
+                            980 ;src/Renderer.c:483: lastCellWasWall=0;
+   0612 DD 36 E6 00   [19]  981 	ld	-26 (ix),#0x00
+                            982 ;src/Renderer.c:484: lastWallId=CELLTYPE_FLOOR;
+   0616 DD 36 DC FE   [19]  983 	ld	-36 (ix),#0xFE
+                            984 ;src/Renderer.c:487: for (x = (SCREEN_TEXTURE_WIDTH*2) - 1; x >= SCREEN_TEXTURE_WIDTH; --x)
+   061A                     985 00210$:
+   061A DD 36 D7 00   [19]  986 	ld	-41 (ix),#0x00
+   061E DD 36 DF 9F   [19]  987 	ld	-33 (ix),#0x9F
+   0622                     988 00170$:
+                            989 ;src/Renderer.c:490: if (xCellCount == zHeight)
+   0622 DD 7E D5      [19]  990 	ld	a,-43 (ix)
+   0625 DD 96 D9      [19]  991 	sub	a, -39 (ix)
+   0628 20 59         [12]  992 	jr	NZ,00137$
+                            993 ;src/Renderer.c:492: ++xCell;
+   062A DD 34 D7      [23]  994 	inc	-41 (ix)
+                            995 ;src/Renderer.c:493: xCellCount = 0;
+   062D DD 36 D9 00   [19]  996 	ld	-39 (ix),#0x00
+                            997 ;src/Renderer.c:494: newCell=1;
+   0631 DD 36 D8 01   [19]  998 	ld	-40 (ix),#0x01
+                            999 ;src/Renderer.c:495: currentCellID = cells_in_view_array[lineEnd - xCell - 1];
+   0635 DD 7E D7      [19] 1000 	ld	a,-41 (ix)
+   0638 DD 77 E4      [19] 1001 	ld	-28 (ix),a
+   063B DD 36 E5 00   [19] 1002 	ld	-27 (ix),#0x00
+   063F DD 7E E7      [19] 1003 	ld	a,-25 (ix)
+   0642 DD 96 E4      [19] 1004 	sub	a, -28 (ix)
+   0645 DD 77 E4      [19] 1005 	ld	-28 (ix),a
+   0648 DD 7E E8      [19] 1006 	ld	a,-24 (ix)
+   064B DD 9E E5      [19] 1007 	sbc	a, -27 (ix)
+   064E DD 77 E5      [19] 1008 	ld	-27 (ix),a
+   0651 DD 6E E4      [19] 1009 	ld	l,-28 (ix)
+   0654 DD 66 E5      [19] 1010 	ld	h,-27 (ix)
+   0657 2B            [ 6] 1011 	dec	hl
+   0658 DD 75 E4      [19] 1012 	ld	-28 (ix),l
+   065B DD 74 E5      [19] 1013 	ld	-27 (ix),h
+   065E 2ArD1r01      [16] 1014 	ld	hl,(_cells_in_view_array)
+   0661 DD 75 F7      [19] 1015 	ld	-9 (ix),l
+   0664 DD 74 F8      [19] 1016 	ld	-8 (ix),h
+   0667 DD 7E E4      [19] 1017 	ld	a,-28 (ix)
+   066A DD 86 F7      [19] 1018 	add	a, -9 (ix)
+   066D DD 77 F7      [19] 1019 	ld	-9 (ix),a
+   0670 DD 7E E5      [19] 1020 	ld	a,-27 (ix)
+   0673 DD 8E F8      [19] 1021 	adc	a, -8 (ix)
+   0676 DD 77 F8      [19] 1022 	ld	-8 (ix),a
+   0679 DD 6E F7      [19] 1023 	ld	l,-9 (ix)
+   067C DD 66 F8      [19] 1024 	ld	h,-8 (ix)
+   067F 7E            [ 7] 1025 	ld	a,(hl)
+   0680 DD 77 DB      [19] 1026 	ld	-37 (ix),a
+   0683                    1027 00137$:
+                           1028 ;src/Renderer.c:497: if(!(x%2)){
+   0683 DD 7E DF      [19] 1029 	ld	a,-33 (ix)
+   0686 E6 01         [ 7] 1030 	and	a, #0x01
+   0688 DD 77 F7      [19] 1031 	ld	-9 (ix),a
+                           1032 ;src/Renderer.c:415: xHeight = zHeight - ((2 * xCellCount) / lateralWallSlope);
+   068B DD 7E D9      [19] 1033 	ld	a,-39 (ix)
+   068E DD 77 E4      [19] 1034 	ld	-28 (ix),a
+   0691 DD 36 E5 00   [19] 1035 	ld	-27 (ix),#0x00
+                           1036 ;src/Renderer.c:497: if(!(x%2)){
+   0695 DD 7E F7      [19] 1037 	ld	a,-9 (ix)
+   0698 B7            [ 4] 1038 	or	a, a
+   0699 C2rE7r07      [10] 1039 	jp	NZ,00150$
+                           1040 ;src/Renderer.c:498: if (lateralWallCounter == 0 || newCell)
+   069C DD 7E ED      [19] 1041 	ld	a,-19 (ix)
+   069F B7            [ 4] 1042 	or	a, a
+   06A0 28 07         [12] 1043 	jr	Z,00146$
+   06A2 DD 7E D8      [19] 1044 	ld	a,-40 (ix)
+   06A5 B7            [ 4] 1045 	or	a, a
+   06A6 CArE7r07      [10] 1046 	jp	Z,00150$
+   06A9                    1047 00146$:
+                           1048 ;src/Renderer.c:500: if ( currentCellID < 5)//Wall
+   06A9 DD 7E DB      [19] 1049 	ld	a,-37 (ix)
+   06AC D6 05         [ 7] 1050 	sub	a, #0x05
+   06AE 30 21         [12] 1051 	jr	NC,00144$
+                           1052 ;src/Renderer.c:502: lateralWallCounter = 0;
+   06B0 DD 36 ED 00   [19] 1053 	ld	-19 (ix),#0x00
+                           1054 ;src/Renderer.c:503: lateralWallSlope = 0;
+   06B4 DD 36 DA 00   [19] 1055 	ld	-38 (ix),#0x00
+                           1056 ;src/Renderer.c:504: xHeight = zHeight;
+   06B8 DD 7E D5      [19] 1057 	ld	a,-43 (ix)
+   06BB DD 77 E0      [19] 1058 	ld	-32 (ix),a
+                           1059 ;src/Renderer.c:505: color = currentCellID;
+   06BE DD 7E DB      [19] 1060 	ld	a,-37 (ix)
+   06C1 DD 77 D4      [19] 1061 	ld	-44 (ix),a
+                           1062 ;src/Renderer.c:506: lastCellWasWall = 1;
+   06C4 DD 36 E6 01   [19] 1063 	ld	-26 (ix),#0x01
+                           1064 ;src/Renderer.c:507: lastWallId=currentCellID;
+   06C8 DD 7E DB      [19] 1065 	ld	a,-37 (ix)
+   06CB DD 77 DC      [19] 1066 	ld	-36 (ix),a
+   06CE C3rE3r07      [10] 1067 	jp	00145$
+   06D1                    1068 00144$:
+                           1069 ;src/Renderer.c:509: else if(lateralWallCounter==0){
+   06D1 DD 7E ED      [19] 1070 	ld	a,-19 (ix)
+   06D4 B7            [ 4] 1071 	or	a, a
+   06D5 C2rE3r07      [10] 1072 	jp	NZ,00145$
+                           1073 ;src/Renderer.c:510: if (lastCellWasWall)
+   06D8 DD 7E E6      [19] 1074 	ld	a,-26 (ix)
+   06DB B7            [ 4] 1075 	or	a, a
+   06DC CArD3r07      [10] 1076 	jp	Z,00139$
+                           1077 ;src/Renderer.c:513: lateralWallSlope = (((offsetDiff - xCell) * 2) + 1);//TODO Optimize
+   06DF DD 7E D3      [19] 1078 	ld	a,-45 (ix)
+   06E2 DD 96 D7      [19] 1079 	sub	a, -41 (ix)
+   06E5 87            [ 4] 1080 	add	a, a
+   06E6 3C            [ 4] 1081 	inc	a
+                           1082 ;src/Renderer.c:514: lateralWallSlopeCounter = lateralWallSlope / 2;
+   06E7 DD 77 DA      [19] 1083 	ld	-38 (ix), a
+   06EA CB 3F         [ 8] 1084 	srl	a
+   06EC DD 77 E2      [19] 1085 	ld	-30 (ix),a
+                           1086 ;src/Renderer.c:515: lateralWallCounter = lateralWallSlope * zHeight;
+   06EF DD 5E D5      [19] 1087 	ld	e,-43 (ix)
+   06F2 DD 66 DA      [19] 1088 	ld	h,-38 (ix)
+   06F5 2E 00         [ 7] 1089 	ld	l, #0x00
+   06F7 55            [ 4] 1090 	ld	d, l
+   06F8 06 08         [ 7] 1091 	ld	b, #0x08
+   06FA                    1092 00327$:
+   06FA 29            [11] 1093 	add	hl,hl
+   06FB 30 01         [12] 1094 	jr	NC,00328$
+   06FD 19            [11] 1095 	add	hl,de
+   06FE                    1096 00328$:
+   06FE 10 FA         [13] 1097 	djnz	00327$
+   0700 DD 75 EA      [19] 1098 	ld	-22 (ix), l
+   0703 7D            [ 4] 1099 	ld	a, l
+                           1100 ;src/Renderer.c:516: lateralWallCounter = (((lateralWallCounter - (lateralWallCounter % 4)) + 1) / 4) - xCellCount;
+   0704 DD 77 DE      [19] 1101 	ld	-34 (ix), a
+   0707 DD 77 FC      [19] 1102 	ld	-4 (ix),a
+   070A DD 36 FD 00   [19] 1103 	ld	-3 (ix),#0x00
+   070E DD 7E DE      [19] 1104 	ld	a,-34 (ix)
+   0711 E6 03         [ 7] 1105 	and	a, #0x03
+   0713 DD 77 EA      [19] 1106 	ld	-22 (ix), a
+   0716 DD 77 FE      [19] 1107 	ld	-2 (ix),a
+   0719 DD 36 FF 00   [19] 1108 	ld	-1 (ix),#0x00
+   071D DD 7E FC      [19] 1109 	ld	a,-4 (ix)
+   0720 DD 96 FE      [19] 1110 	sub	a, -2 (ix)
+   0723 DD 77 FE      [19] 1111 	ld	-2 (ix),a
+   0726 DD 7E FD      [19] 1112 	ld	a,-3 (ix)
+   0729 DD 9E FF      [19] 1113 	sbc	a, -1 (ix)
+   072C DD 77 FF      [19] 1114 	ld	-1 (ix),a
+   072F DD 7E FE      [19] 1115 	ld	a,-2 (ix)
+   0732 C6 01         [ 7] 1116 	add	a, #0x01
+   0734 DD 77 FC      [19] 1117 	ld	-4 (ix),a
+   0737 DD 7E FF      [19] 1118 	ld	a,-1 (ix)
+   073A CE 00         [ 7] 1119 	adc	a, #0x00
+   073C DD 77 FD      [19] 1120 	ld	-3 (ix),a
+   073F DD 7E FC      [19] 1121 	ld	a,-4 (ix)
+   0742 DD 77 EF      [19] 1122 	ld	-17 (ix),a
+   0745 DD 7E FD      [19] 1123 	ld	a,-3 (ix)
+   0748 DD 77 F0      [19] 1124 	ld	-16 (ix),a
+   074B DD CB FD 7E   [20] 1125 	bit	7, -3 (ix)
+   074F 28 10         [12] 1126 	jr	Z,00178$
+   0751 DD 7E FE      [19] 1127 	ld	a,-2 (ix)
+   0754 C6 04         [ 7] 1128 	add	a, #0x04
+   0756 DD 77 EF      [19] 1129 	ld	-17 (ix),a
+   0759 DD 7E FF      [19] 1130 	ld	a,-1 (ix)
+   075C CE 00         [ 7] 1131 	adc	a, #0x00
+   075E DD 77 F0      [19] 1132 	ld	-16 (ix),a
+   0761                    1133 00178$:
+   0761 DD CB F0 2E   [23] 1134 	sra	-16 (ix)
+   0765 DD CB EF 1E   [23] 1135 	rr	-17 (ix)
+   0769 DD CB F0 2E   [23] 1136 	sra	-16 (ix)
+   076D DD CB EF 1E   [23] 1137 	rr	-17 (ix)
+   0771 DD 7E EF      [19] 1138 	ld	a,-17 (ix)
+   0774 DD 77 EF      [19] 1139 	ld	-17 (ix),a
+   0777 DD 4E D9      [19] 1140 	ld	c,-39 (ix)
+   077A DD 7E EF      [19] 1141 	ld	a,-17 (ix)
+   077D 91            [ 4] 1142 	sub	a, c
+                           1143 ;src/Renderer.c:517: lateralWallWidth=lateralWallCounter;
+   077E DD 77 ED      [19] 1144 	ld	-19 (ix), a
+   0781 DD 77 DD      [19] 1145 	ld	-35 (ix),a
+                           1146 ;src/Renderer.c:518: lastCellWasWall = 0;
+   0784 DD 36 E6 00   [19] 1147 	ld	-26 (ix),#0x00
+                           1148 ;src/Renderer.c:519: xHeight = zHeight - 2 * xCellCount / lateralWallSlope;
+   0788 DD 7E E4      [19] 1149 	ld	a,-28 (ix)
+   078B DD 77 EF      [19] 1150 	ld	-17 (ix),a
+   078E DD 7E E5      [19] 1151 	ld	a,-27 (ix)
+   0791 DD 77 F0      [19] 1152 	ld	-16 (ix),a
+   0794 DD CB EF 26   [23] 1153 	sla	-17 (ix)
+   0798 DD CB F0 16   [23] 1154 	rl	-16 (ix)
+   079C DD 7E DA      [19] 1155 	ld	a,-38 (ix)
+   079F DD 77 FE      [19] 1156 	ld	-2 (ix),a
+   07A2 DD 36 FF 00   [19] 1157 	ld	-1 (ix),#0x00
+   07A6 DD 6E FE      [19] 1158 	ld	l,-2 (ix)
+   07A9 DD 66 FF      [19] 1159 	ld	h,-1 (ix)
+   07AC E5            [11] 1160 	push	hl
+   07AD DD 6E EF      [19] 1161 	ld	l,-17 (ix)
+   07B0 DD 66 F0      [19] 1162 	ld	h,-16 (ix)
+   07B3 E5            [11] 1163 	push	hl
+   07B4 CDr00r00      [17] 1164 	call	__divsint
+   07B7 F1            [10] 1165 	pop	af
+   07B8 F1            [10] 1166 	pop	af
+   07B9 DD 74 F0      [19] 1167 	ld	-16 (ix),h
+   07BC DD 75 EF      [19] 1168 	ld	-17 (ix), l
+   07BF DD 75 EF      [19] 1169 	ld	-17 (ix), l
+   07C2 DD 7E F1      [19] 1170 	ld	a,-15 (ix)
+   07C5 DD 96 EF      [19] 1171 	sub	a, -17 (ix)
+   07C8 DD 77 E0      [19] 1172 	ld	-32 (ix),a
+                           1173 ;src/Renderer.c:520: color = lastWallId;
+   07CB DD 7E DC      [19] 1174 	ld	a,-36 (ix)
+   07CE DD 77 D4      [19] 1175 	ld	-44 (ix),a
+   07D1 18 10         [12] 1176 	jr	00145$
+   07D3                    1177 00139$:
+                           1178 ;src/Renderer.c:524: xHeight = 0;
+   07D3 DD 36 E0 00   [19] 1179 	ld	-32 (ix),#0x00
+                           1180 ;src/Renderer.c:525: lastCellWasWall = 0;
+   07D7 DD 36 E6 00   [19] 1181 	ld	-26 (ix),#0x00
+                           1182 ;src/Renderer.c:526: lateralWallSlope=0;
+   07DB DD 36 DA 00   [19] 1183 	ld	-38 (ix),#0x00
+                           1184 ;src/Renderer.c:527: lastWallId=0;
+   07DF DD 36 DC 00   [19] 1185 	ld	-36 (ix),#0x00
+   07E3                    1186 00145$:
+                           1187 ;src/Renderer.c:530: newCell=0;
+   07E3 DD 36 D8 00   [19] 1188 	ld	-40 (ix),#0x00
+   07E7                    1189 00150$:
+                           1190 ;src/Renderer.c:535: if (lateralWallCounter > 0)
+   07E7 DD 7E ED      [19] 1191 	ld	a,-19 (ix)
+   07EA B7            [ 4] 1192 	or	a, a
+   07EB 28 1E         [12] 1193 	jr	Z,00156$
+                           1194 ;src/Renderer.c:538: if (lateralWallSlope != 0)
+   07ED DD 7E DA      [19] 1195 	ld	a,-38 (ix)
+   07F0 B7            [ 4] 1196 	or	a, a
+   07F1 28 15         [12] 1197 	jr	Z,00154$
+                           1198 ;src/Renderer.c:540: if (lateralWallSlopeCounter == lateralWallSlope)
+   07F3 DD 7E E2      [19] 1199 	ld	a,-30 (ix)
+   07F6 DD 96 DA      [19] 1200 	sub	a, -38 (ix)
+   07F9 20 0A         [12] 1201 	jr	NZ,00152$
+                           1202 ;src/Renderer.c:542: lateralWallSlopeCounter = 0;
+   07FB DD 36 E2 00   [19] 1203 	ld	-30 (ix),#0x00
+                           1204 ;src/Renderer.c:543: xHeight -= 2;
+   07FF DD 35 E0      [23] 1205 	dec	-32 (ix)
+   0802 DD 35 E0      [23] 1206 	dec	-32 (ix)
+   0805                    1207 00152$:
+                           1208 ;src/Renderer.c:545: ++lateralWallSlopeCounter;
+   0805 DD 34 E2      [23] 1209 	inc	-30 (ix)
+   0808                    1210 00154$:
+                           1211 ;src/Renderer.c:547: --lateralWallCounter;
+   0808 DD 35 ED      [23] 1212 	dec	-19 (ix)
+   080B                    1213 00156$:
+                           1214 ;src/Renderer.c:551: if (!(x%2))
+   080B DD 7E F7      [19] 1215 	ld	a,-9 (ix)
+   080E B7            [ 4] 1216 	or	a, a
+   080F C2rA8r08      [10] 1217 	jp	NZ,00163$
+                           1218 ;src/Renderer.c:554: if(xHeight > 0){
+   0812 DD 7E E0      [19] 1219 	ld	a,-32 (ix)
+   0815 B7            [ 4] 1220 	or	a, a
+   0816 CArA8r08      [10] 1221 	jp	Z,00163$
+                           1222 ;src/Renderer.c:556: if (lateralWallCounter > 0)
+   0819 DD 7E ED      [19] 1223 	ld	a,-19 (ix)
+   081C B7            [ 4] 1224 	or	a, a
+   081D 28 39         [12] 1225 	jr	Z,00158$
+                           1226 ;src/Renderer.c:558: tex_column=(lateralWallCounter)*TEXTURE_WIDTH/lateralWallWidth;
+   081F DD 7E ED      [19] 1227 	ld	a,-19 (ix)
+   0822 DD 77 EF      [19] 1228 	ld	-17 (ix),a
+   0825 DD 36 F0 00   [19] 1229 	ld	-16 (ix),#0x00
+   0829 3E 06         [ 7] 1230 	ld	a,#0x05+1
+   082B 18 08         [12] 1231 	jr	00334$
+   082D                    1232 00333$:
+   082D DD CB EF 26   [23] 1233 	sla	-17 (ix)
+   0831 DD CB F0 16   [23] 1234 	rl	-16 (ix)
+   0835                    1235 00334$:
+   0835 3D            [ 4] 1236 	dec	a
+   0836 20 F5         [12] 1237 	jr	NZ,00333$
+   0838 DD 7E DD      [19] 1238 	ld	a,-35 (ix)
+   083B DD 77 FE      [19] 1239 	ld	-2 (ix),a
+   083E DD 36 FF 00   [19] 1240 	ld	-1 (ix),#0x00
+   0842 DD 6E FE      [19] 1241 	ld	l,-2 (ix)
+   0845 DD 66 FF      [19] 1242 	ld	h,-1 (ix)
+   0848 E5            [11] 1243 	push	hl
+   0849 DD 6E EF      [19] 1244 	ld	l,-17 (ix)
+   084C DD 66 F0      [19] 1245 	ld	h,-16 (ix)
+   084F E5            [11] 1246 	push	hl
+   0850 CDr00r00      [17] 1247 	call	__divsint
+   0853 F1            [10] 1248 	pop	af
+   0854 F1            [10] 1249 	pop	af
+   0855 55            [ 4] 1250 	ld	d,l
+   0856 18 3B         [12] 1251 	jr	00159$
+   0858                    1252 00158$:
+                           1253 ;src/Renderer.c:561: tex_column=(zHeight-xCellCount)*TEXTURE_WIDTH/zHeight;
+   0858 DD 7E F5      [19] 1254 	ld	a,-11 (ix)
+   085B DD 96 E4      [19] 1255 	sub	a, -28 (ix)
+   085E DD 77 EF      [19] 1256 	ld	-17 (ix),a
+   0861 DD 7E F6      [19] 1257 	ld	a,-10 (ix)
+   0864 DD 9E E5      [19] 1258 	sbc	a, -27 (ix)
+   0867 DD 77 F0      [19] 1259 	ld	-16 (ix),a
+   086A 3E 06         [ 7] 1260 	ld	a,#0x05+1
+   086C 18 08         [12] 1261 	jr	00336$
+   086E                    1262 00335$:
+   086E DD CB EF 26   [23] 1263 	sla	-17 (ix)
+   0872 DD CB F0 16   [23] 1264 	rl	-16 (ix)
+   0876                    1265 00336$:
+   0876 3D            [ 4] 1266 	dec	a
+   0877 20 F5         [12] 1267 	jr	NZ,00335$
+   0879 DD 6E F5      [19] 1268 	ld	l,-11 (ix)
+   087C DD 66 F6      [19] 1269 	ld	h,-10 (ix)
+   087F E5            [11] 1270 	push	hl
+   0880 DD 6E EF      [19] 1271 	ld	l,-17 (ix)
+   0883 DD 66 F0      [19] 1272 	ld	h,-16 (ix)
+   0886 E5            [11] 1273 	push	hl
+   0887 CDr00r00      [17] 1274 	call	__divsint
+   088A F1            [10] 1275 	pop	af
+   088B F1            [10] 1276 	pop	af
+   088C DD 74 F0      [19] 1277 	ld	-16 (ix),h
+   088F DD 75 EF      [19] 1278 	ld	-17 (ix), l
+   0892 55            [ 4] 1279 	ld	d, l
+   0893                    1280 00159$:
+                           1281 ;src/Renderer.c:564: draw_column_to_buffer(x/2, xHeight, color,tex_column);
+   0893 DD 46 DF      [19] 1282 	ld	b,-33 (ix)
+   0896 CB 38         [ 8] 1283 	srl	b
+   0898 D5            [11] 1284 	push	de
+   0899 33            [ 6] 1285 	inc	sp
+   089A DD 66 D4      [19] 1286 	ld	h,-44 (ix)
+   089D DD 6E E0      [19] 1287 	ld	l,-32 (ix)
+   08A0 E5            [11] 1288 	push	hl
+   08A1 C5            [11] 1289 	push	bc
+   08A2 33            [ 6] 1290 	inc	sp
+   08A3 CDrD8r01      [17] 1291 	call	_draw_column_to_buffer
+   08A6 F1            [10] 1292 	pop	af
+   08A7 F1            [10] 1293 	pop	af
+   08A8                    1294 00163$:
+                           1295 ;src/Renderer.c:567: ++xCellCount;
+   08A8 DD 34 D9      [23] 1296 	inc	-39 (ix)
+                           1297 ;src/Renderer.c:487: for (x = (SCREEN_TEXTURE_WIDTH*2) - 1; x >= SCREEN_TEXTURE_WIDTH; --x)
+   08AB DD 35 DF      [23] 1298 	dec	-33 (ix)
+   08AE DD 7E DF      [19] 1299 	ld	a,-33 (ix)
+   08B1 D6 50         [ 7] 1300 	sub	a, #0x50
+   08B3 D2r22r06      [10] 1301 	jp	NC,00170$
+                           1302 ;src/Renderer.c:574: lineStart = lineStart + (offsetDiff * 2) + 3;
+   08B6 DD 7E EB      [19] 1303 	ld	a,-21 (ix)
+   08B9 C6 03         [ 7] 1304 	add	a, #0x03
+   08BB DD 77 D6      [19] 1305 	ld	-42 (ix),a
+                           1306 ;src/Renderer.c:575: zHeight += zHeight;
+   08BE DD CB D5 26   [23] 1307 	sla	-43 (ix)
+                           1308 ;src/Renderer.c:576: offsetDiff = offsetDiff >> 1;
+   08C2 DD CB D3 3E   [23] 1309 	srl	-45 (ix)
+                           1310 ;src/Renderer.c:578: }while(z);
+   08C6 DD 7E E1      [19] 1311 	ld	a,-31 (ix)
+   08C9 B7            [ 4] 1312 	or	a, a
+   08CA C2r6Cr03      [10] 1313 	jp	NZ,00165$
+   08CD DD F9         [10] 1314 	ld	sp, ix
+   08CF DD E1         [14] 1315 	pop	ix
+   08D1 C9            [10] 1316 	ret
+                           1317 ;src/Renderer.c:586: void draw_minimap_to_buffer(){
+                           1318 ;	---------------------------------
+                           1319 ; Function draw_minimap_to_buffer
+                           1320 ; ---------------------------------
+   08D2                    1321 _draw_minimap_to_buffer::
+   08D2 DD E5         [15] 1322 	push	ix
+   08D4 DD 21 00 00   [14] 1323 	ld	ix,#0
+   08D8 DD 39         [15] 1324 	add	ix,sp
+   08DA 21 F5 FF      [10] 1325 	ld	hl,#-11
+   08DD 39            [11] 1326 	add	hl,sp
+   08DE F9            [ 6] 1327 	ld	sp,hl
+                           1328 ;src/Renderer.c:589: u8* ptr = MINIMAP_BUFFER;
+   08DF 01 40 1C      [10] 1329 	ld	bc,#0x1C40
+                           1330 ;src/Renderer.c:594: y=(PLAYER_position.y-MINIMAP_HEIGHT_HALF);
+   08E2 3Ar01r00      [13] 1331 	ld	a, (#(_PLAYER_position + 0x0001) + 0)
+   08E5 C6 F8         [ 7] 1332 	add	a,#0xF8
+   08E7 5F            [ 4] 1333 	ld	e,a
+                           1334 ;src/Renderer.c:596: for(j=0;j<MINIMAP_HEIGHT;++j){
+   08E8 16 00         [ 7] 1335 	ld	d,#0x00
+                           1336 ;src/Renderer.c:597: for(n=0;n<MINIMAP_HEIGHT_WIDTH_RATIO;++n){
+   08EA                    1337 00133$:
+   08EA 7B            [ 4] 1338 	ld	a,e
+   08EB 07            [ 4] 1339 	rlca
+   08EC E6 01         [ 7] 1340 	and	a,#0x01
+   08EE DD 77 F8      [19] 1341 	ld	-8 (ix),a
+   08F1 7B            [ 4] 1342 	ld	a,e
+   08F2 EE 80         [ 7] 1343 	xor	a, #0x80
+   08F4 D6 A0         [ 7] 1344 	sub	a, #0xA0
+   08F6 3E 00         [ 7] 1345 	ld	a,#0x00
+   08F8 17            [ 4] 1346 	rla
+   08F9 DD 77 F7      [19] 1347 	ld	-9 (ix),a
+   08FC DD 36 F5 00   [19] 1348 	ld	-11 (ix),#0x00
+   0900                    1349 00119$:
+                           1350 ;src/Renderer.c:598: x=(PLAYER_position.x-MINIMAP_WIDTH_HALF);
+   0900 3Ar00r00      [13] 1351 	ld	a, (#_PLAYER_position + 0)
+   0903 C6 F8         [ 7] 1352 	add	a,#0xF8
+   0905 DD 77 FF      [19] 1353 	ld	-1 (ix),a
+                           1354 ;src/Renderer.c:599: for(i=0;i<MINIMAP_WIDTH;++i){
+   0908 DD 36 F6 00   [19] 1355 	ld	-10 (ix),#0x00
+   090C                    1356 00117$:
+                           1357 ;src/Renderer.c:602: *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_WALL_COLOR];
+   090C FD 21 10 00   [14] 1358 	ld	iy,#0x0010
+   0910 FD 09         [15] 1359 	add	iy, bc
+                           1360 ;src/Renderer.c:600: if((x<0)||(x>=MAP_WIDTH)||(y<0)||(y>=MAP_HEIGHT)){
+   0912 DD CB FF 7E   [20] 1361 	bit	7, -1 (ix)
+   0916 20 15         [12] 1362 	jr	NZ,00108$
+   0918 DD 7E FF      [19] 1363 	ld	a,-1 (ix)
+   091B EE 80         [ 7] 1364 	xor	a, #0x80
+   091D D6 A0         [ 7] 1365 	sub	a, #0xA0
+   091F 30 0C         [12] 1366 	jr	NC,00108$
+   0921 DD 7E F8      [19] 1367 	ld	a,-8 (ix)
+   0924 B7            [ 4] 1368 	or	a, a
+   0925 20 06         [12] 1369 	jr	NZ,00108$
+   0927 DD CB F7 46   [20] 1370 	bit	0,-9 (ix)
+   092B 20 0D         [12] 1371 	jr	NZ,00109$
+   092D                    1372 00108$:
+                           1373 ;src/Renderer.c:601: *ptr=g_colors[MINIMAP_WALL_COLOR];
+   092D 3ArC1r01      [13] 1374 	ld	a, (#(_g_colors + 0x0002) + 0)
+   0930 02            [ 7] 1375 	ld	(bc),a
+                           1376 ;src/Renderer.c:602: *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_WALL_COLOR];
+   0931 3ArC1r01      [13] 1377 	ld	a, (#(_g_colors + 0x0002) + 0)
+   0934 FD 77 00      [19] 1378 	ld	0 (iy), a
+   0937 C3rD1r09      [10] 1379 	jp	00110$
+   093A                    1380 00109$:
+                           1381 ;src/Renderer.c:604: else if((x==PLAYER_position.x)&&(y==PLAYER_position.y)){
+   093A DD 7E FF      [19] 1382 	ld	a,-1 (ix)
+   093D DD 77 FD      [19] 1383 	ld	-3 (ix),a
+   0940 DD 7E FF      [19] 1384 	ld	a,-1 (ix)
+   0943 17            [ 4] 1385 	rla
+   0944 9F            [ 4] 1386 	sbc	a, a
+   0945 DD 77 FE      [19] 1387 	ld	-2 (ix),a
+   0948 3Ar00r00      [13] 1388 	ld	a, (#_PLAYER_position + 0)
+   094B DD 77 FB      [19] 1389 	ld	-5 (ix),a
+   094E DD 36 FC 00   [19] 1390 	ld	-4 (ix),#0x00
+   0952 DD 73 F9      [19] 1391 	ld	-7 (ix),e
+   0955 7B            [ 4] 1392 	ld	a,e
+   0956 17            [ 4] 1393 	rla
+   0957 9F            [ 4] 1394 	sbc	a, a
+   0958 DD 77 FA      [19] 1395 	ld	-6 (ix),a
+   095B DD 7E FD      [19] 1396 	ld	a,-3 (ix)
+   095E DD 96 FB      [19] 1397 	sub	a, -5 (ix)
+   0961 20 2E         [12] 1398 	jr	NZ,00105$
+   0963 DD 7E FE      [19] 1399 	ld	a,-2 (ix)
+   0966 DD 96 FC      [19] 1400 	sub	a, -4 (ix)
+   0969 20 26         [12] 1401 	jr	NZ,00105$
+   096B 3Ar01r00      [13] 1402 	ld	a, (#(_PLAYER_position + 0x0001) + 0)
+   096E DD 77 FB      [19] 1403 	ld	-5 (ix),a
+   0971 DD 36 FC 00   [19] 1404 	ld	-4 (ix),#0x00
+   0975 DD 7E F9      [19] 1405 	ld	a,-7 (ix)
+   0978 DD 96 FB      [19] 1406 	sub	a, -5 (ix)
+   097B 20 14         [12] 1407 	jr	NZ,00105$
+   097D DD 7E FA      [19] 1408 	ld	a,-6 (ix)
+   0980 DD 96 FC      [19] 1409 	sub	a, -4 (ix)
+   0983 20 0C         [12] 1410 	jr	NZ,00105$
+                           1411 ;src/Renderer.c:605: *ptr=g_colors[MINIMAP_PLAYER_COLOR];
+   0985 3ArC4r01      [13] 1412 	ld	a, (#(_g_colors + 0x0005) + 0)
+   0988 02            [ 7] 1413 	ld	(bc),a
+                           1414 ;src/Renderer.c:606: *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_PLAYER_COLOR];
+   0989 3ArC4r01      [13] 1415 	ld	a, (#(_g_colors + 0x0005) + 0)
+   098C FD 77 00      [19] 1416 	ld	0 (iy), a
+   098F 18 40         [12] 1417 	jr	00110$
+   0991                    1418 00105$:
+                           1419 ;src/Renderer.c:609: switch(*(u8*)(MAP_MEM+x+y*MAP_WIDTH)){
+   0991 DD 7E FD      [19] 1420 	ld	a,-3 (ix)
+   0994 C6 40         [ 7] 1421 	add	a, #0x40
+   0996 DD 77 FB      [19] 1422 	ld	-5 (ix),a
+   0999 DD 7E FE      [19] 1423 	ld	a,-2 (ix)
+   099C CE 00         [ 7] 1424 	adc	a, #0x00
+   099E DD 77 FC      [19] 1425 	ld	-4 (ix),a
+   09A1 DD 6E F9      [19] 1426 	ld	l,-7 (ix)
+   09A4 DD 66 FA      [19] 1427 	ld	h,-6 (ix)
+   09A7 29            [11] 1428 	add	hl, hl
+   09A8 29            [11] 1429 	add	hl, hl
+   09A9 29            [11] 1430 	add	hl, hl
+   09AA 29            [11] 1431 	add	hl, hl
+   09AB 29            [11] 1432 	add	hl, hl
+   09AC DD 7E FB      [19] 1433 	ld	a,-5 (ix)
+   09AF 85            [ 4] 1434 	add	a, l
+   09B0 6F            [ 4] 1435 	ld	l,a
+   09B1 DD 7E FC      [19] 1436 	ld	a,-4 (ix)
+   09B4 8C            [ 4] 1437 	adc	a, h
+   09B5 67            [ 4] 1438 	ld	h,a
+   09B6 7E            [ 7] 1439 	ld	a,(hl)
+   09B7 D6 FE         [ 7] 1440 	sub	a, #0xFE
+   09B9 20 0C         [12] 1441 	jr	NZ,00102$
+                           1442 ;src/Renderer.c:611: *ptr=g_colors[MINIMAP_FLOOR_COLOR];
+   09BB 3ArC2r01      [13] 1443 	ld	a, (#(_g_colors + 0x0003) + 0)
+   09BE 02            [ 7] 1444 	ld	(bc),a
+                           1445 ;src/Renderer.c:612: *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_FLOOR_COLOR];
+   09BF 3ArC2r01      [13] 1446 	ld	a, (#(_g_colors + 0x0003) + 0)
+   09C2 FD 77 00      [19] 1447 	ld	0 (iy), a
+                           1448 ;src/Renderer.c:613: break;
+   09C5 18 0A         [12] 1449 	jr	00110$
+                           1450 ;src/Renderer.c:615: default:{
+   09C7                    1451 00102$:
+                           1452 ;src/Renderer.c:616: *ptr=g_colors[MINIMAP_WALL_COLOR];
+   09C7 3ArC1r01      [13] 1453 	ld	a, (#(_g_colors + 0x0002) + 0)
+   09CA 02            [ 7] 1454 	ld	(bc),a
+                           1455 ;src/Renderer.c:617: *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_WALL_COLOR];
+   09CB 3ArC1r01      [13] 1456 	ld	a, (#(_g_colors + 0x0002) + 0)
+   09CE FD 77 00      [19] 1457 	ld	0 (iy), a
+                           1458 ;src/Renderer.c:620: }
+   09D1                    1459 00110$:
+                           1460 ;src/Renderer.c:622: ++x;
+   09D1 DD 34 FF      [23] 1461 	inc	-1 (ix)
+                           1462 ;src/Renderer.c:623: ++ptr;
+   09D4 03            [ 6] 1463 	inc	bc
+                           1464 ;src/Renderer.c:599: for(i=0;i<MINIMAP_WIDTH;++i){
+   09D5 DD 34 F6      [23] 1465 	inc	-10 (ix)
+   09D8 DD 7E F6      [19] 1466 	ld	a,-10 (ix)
+   09DB D6 10         [ 7] 1467 	sub	a, #0x10
+   09DD DAr0Cr09      [10] 1468 	jp	C,00117$
+                           1469 ;src/Renderer.c:597: for(n=0;n<MINIMAP_HEIGHT_WIDTH_RATIO;++n){
+   09E0 DD 34 F5      [23] 1470 	inc	-11 (ix)
+   09E3 DD 7E F5      [19] 1471 	ld	a,-11 (ix)
+   09E6 D6 04         [ 7] 1472 	sub	a, #0x04
+   09E8 DAr00r09      [10] 1473 	jp	C,00119$
+                           1474 ;src/Renderer.c:626: ++y;
+   09EB 1C            [ 4] 1475 	inc	e
+                           1476 ;src/Renderer.c:596: for(j=0;j<MINIMAP_HEIGHT;++j){
+   09EC 14            [ 4] 1477 	inc	d
+   09ED 7A            [ 4] 1478 	ld	a,d
+   09EE D6 10         [ 7] 1479 	sub	a, #0x10
+   09F0 DArEAr08      [10] 1480 	jp	C,00133$
+   09F3 DD F9         [10] 1481 	ld	sp, ix
+   09F5 DD E1         [14] 1482 	pop	ix
+   09F7 C9            [10] 1483 	ret
+                           1484 	.area _CODE
+                           1485 	.area _INITIALIZER
+                           1486 	.area _CABS (ABS)
