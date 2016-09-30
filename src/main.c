@@ -30,18 +30,16 @@ void init(){
    cpct_setVideoMode(0);
    cpct_fw2hw(g_palette,16);
    cpct_setPalette(g_palette,16);
-   cpct_setBorder(g_palette[0]);
+   cpct_setBorder(g_palette[12]);
    // Clear Screen
-   cpct_memset(CPCT_VMEM_START, g_colors[15], 0x4000);
+   cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
 }
 
 void main(void) {
    init();
    init_generator();
    uncompress_theme_textures(0);
-   cpct_setBorder(g_palette[1]);
    generate_map();
-   cpct_setBorder(g_palette[15]);
    render_draw_to_buffer();
    cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
    draw_minimap_to_buffer();

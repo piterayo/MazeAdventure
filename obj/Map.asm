@@ -88,7 +88,7 @@ _generate_map::
 	pop	af
 	ld	c,l
 	inc	c
-	ld	hl,#0x1C40
+	ld	hl,#0x2B40
 	ld	(hl),c
 ;src/Map.c:27: (*cellStack).y = (cpct_getRandom_lcg_u8()%(MAP_HEIGHT-2))+1; //RANDOM
 	call	_cpct_getRandom_lcg_u8
@@ -102,7 +102,7 @@ _generate_map::
 	pop	af
 	ld	c,l
 	inc	c
-	ld	hl,#0x1C41
+	ld	hl,#0x2B41
 	ld	(hl),c
 ;src/Map.c:30: *(i8*)&(PLAYER_position.x) = (*cellStack).y;
 	ld	-6 (ix),#<(_PLAYER_position)
@@ -117,7 +117,7 @@ _generate_map::
 ;src/Map.c:31: *(i8*)&(PLAYER_position.y) = (*cellStack).x;
 	ld	-6 (ix),#<((_PLAYER_position + 0x0001))
 	ld	-5 (ix),#>((_PLAYER_position + 0x0001))
-	ld	hl,#0x1C40
+	ld	hl,#0x2B40
 	ld	c,(hl)
 	ld	l,-6 (ix)
 	ld	h,-5 (ix)
@@ -132,7 +132,7 @@ _generate_map::
 	push	hl
 	call	_cpct_memset
 ;src/Map.c:35: map[(*cellStack).x][(*cellStack).y] = CELLTYPE_FLOOR;
-	ld	a,(#0x1C40)
+	ld	a,(#0x2B40)
 	ld	-4 (ix), a
 	ld	-6 (ix),a
 	ld	-5 (ix),#0x00
@@ -150,7 +150,7 @@ _generate_map::
 	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	-5 (ix),a
-	ld	hl,#0x1C41
+	ld	hl,#0x2B41
 	ld	c,(hl)
 	ld	l,-6 (ix)
 	ld	h,-5 (ix)
@@ -265,7 +265,7 @@ _generate_map::
 	add	a, #0x40
 	ld	-6 (ix),a
 	ld	a,h
-	adc	a, #0x20
+	adc	a, #0x2F
 	ld	-5 (ix),a
 ;src/Map.c:50: while(wallListCount<MAP_SIZE){
 	pop	de
@@ -471,7 +471,7 @@ _generate_map::
 	ld	l, c
 	ld	h, b
 	add	hl, hl
-	ld	iy,#0x2040
+	ld	iy,#0x2F40
 	push	bc
 	ld	c, l
 	ld	b, h
@@ -527,7 +527,7 @@ _generate_map::
 	pop	hl
 	push	hl
 	add	hl, hl
-	ld	bc, #0x1C40
+	ld	bc, #0x2B40
 	add	hl,bc
 	ld	c, l
 	ld	b, h
@@ -574,7 +574,7 @@ _generate_map::
 	pop	hl
 	push	hl
 	add	hl, hl
-	ld	iy,#0x1C40
+	ld	iy,#0x2B40
 	ex	de,hl
 	add	iy, de
 	ld	a, 0 (iy)
@@ -698,7 +698,7 @@ _generate_map::
 	pop	hl
 	push	hl
 	add	hl, hl
-	ld	bc,#0x1C40
+	ld	bc,#0x2B40
 	add	hl,bc
 	ld	c,-1 (ix)
 	dec	c
@@ -750,7 +750,7 @@ _generate_map::
 	pop	hl
 	push	hl
 	add	hl, hl
-	ld	de,#0x1C40
+	ld	de,#0x2B40
 	add	hl,de
 	inc	c
 	ld	(hl),c
@@ -801,7 +801,7 @@ _generate_map::
 	pop	hl
 	push	hl
 	add	hl, hl
-	ld	de,#0x1C40
+	ld	de,#0x2B40
 	add	hl,de
 	ld	(hl),b
 ;src/Map.c:165: (*(cellStack+lastStackItem)).y = currentPos.y-1;
@@ -853,7 +853,7 @@ _generate_map::
 	pop	hl
 	push	hl
 	add	hl, hl
-	ld	de,#0x1C40
+	ld	de,#0x2B40
 	add	hl,de
 	ld	(hl),c
 ;src/Map.c:177: (*(cellStack+lastStackItem)).y = currentPos.y+1;
@@ -880,7 +880,7 @@ _generate_map::
 	ld	l,-6 (ix)
 	ld	h,-5 (ix)
 	add	hl, hl
-	ld	bc,#0x2040
+	ld	bc,#0x2F40
 	add	hl,bc
 	ld	a,-1 (ix)
 	ld	(hl),a

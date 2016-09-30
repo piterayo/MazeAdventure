@@ -17,6 +17,7 @@ obj/UI_Compass.rel
 obj/UI_EnemyStats.rel
 obj/UI_GameMenu.rel
 obj/UI_PlayerStats.rel
+obj/sprites/enemies/Enemy-Rat.rel
 obj/textures/compass.rel
 obj/textures/walls_0.rel
 

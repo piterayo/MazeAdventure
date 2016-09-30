@@ -42,7 +42,7 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/Textures.c:12: void uncompress_texture(u8* texture, u8* position){
+;src/Textures.c:12: void uncompress_texture(u8* texture, u8* position, u8 sizeX, u8 sizeY){
 ;	---------------------------------
 ; Function uncompress_texture
 ; ---------------------------------
@@ -53,23 +53,24 @@ _uncompress_texture::
 	ld	hl,#-6
 	add	hl,sp
 	ld	sp,hl
-;src/Textures.c:19: while(i){
-	ld	-3 (ix),#0x20
+;src/Textures.c:19: while(sizeX){
+	ld	a,8 (ix)
+	ld	-2 (ix),a
 	ld	e,6 (ix)
 	ld	d,7 (ix)
 00104$:
-	ld	a,-3 (ix)
+	ld	a,-2 (ix)
 	or	a, a
 	jr	Z,00107$
 ;src/Textures.c:22: currPos = position;
-	ld	-2 (ix),e
-	ld	-1 (ix),d
-;src/Textures.c:23: while(j){//TEXTURE_HEIGHT_HALF -> 2 pixels per byte of compressed texture
-	ld	-4 (ix),#0x10
+	ld	-4 (ix),e
+	ld	-3 (ix),d
+;src/Textures.c:23: while(sizeY){
+	ld	-1 (ix),#0x10
 	ld	c,4 (ix)
 	ld	b,5 (ix)
 00101$:
-	ld	a,-4 (ix)
+	ld	a,-1 (ix)
 	or	a, a
 	jr	Z,00113$
 ;src/Textures.c:24: p1 = (*texture) & pixelMask[0];
@@ -82,14 +83,14 @@ _uncompress_texture::
 	srl	a
 	or	a, l
 ;src/Textures.c:26: *currPos = p1;
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	(hl),a
 ;src/Textures.c:27: currPos+=TEXTURE_WIDTH;
-	ld	a,-2 (ix)
+	ld	a,-4 (ix)
 	add	a, #0x20
 	ld	-6 (ix),a
-	ld	a,-1 (ix)
+	ld	a,-3 (ix)
 	adc	a, #0x00
 	ld	-5 (ix),a
 ;src/Textures.c:29: p2 = (*texture) & pixelMask[1];
@@ -108,20 +109,20 @@ _uncompress_texture::
 ;src/Textures.c:32: currPos+=TEXTURE_WIDTH;
 	ld	a,-6 (ix)
 	add	a, #0x20
-	ld	-2 (ix),a
+	ld	-4 (ix),a
 	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-1 (ix),a
-;src/Textures.c:33: --j;
-	dec	-4 (ix)
+	ld	-3 (ix),a
+;src/Textures.c:33: --sizeY;
+	dec	-1 (ix)
 ;src/Textures.c:34: ++texture;
 	inc	bc
 	jr	00101$
 00113$:
 	ld	4 (ix),c
 	ld	5 (ix),b
-;src/Textures.c:36: --i;
-	dec	-3 (ix)
+;src/Textures.c:36: --sizeX;
+	dec	-2 (ix)
 ;src/Textures.c:37: ++position;
 	inc	de
 	jr	00104$
@@ -142,7 +143,7 @@ _uncompress_theme_textures::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;src/Textures.c:43: uncompress_texture(theme_textures[level][0],(u8*)UNCOMPRESSED_LEVEL_TEXTURES);
+;src/Textures.c:43: uncompress_texture(theme_textures[level][0],(u8*)UNCOMPRESSED_LEVEL_TEXTURES,TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
 	ld	bc,#_theme_textures+0
 	ld	l,4 (ix)
 	ld	h,#0x00
@@ -158,14 +159,17 @@ _uncompress_theme_textures::
 	inc	hl
 	ld	d,(hl)
 	push	bc
+	ld	hl,#0x1020
+	push	hl
 	ld	hl,#0x0840
 	push	hl
 	push	de
 	call	_uncompress_texture
-	pop	af
-	pop	af
+	ld	hl,#6
+	add	hl,sp
+	ld	sp,hl
 	pop	bc
-;src/Textures.c:44: uncompress_texture(theme_textures[level][1],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+1024));
+;src/Textures.c:44: uncompress_texture(theme_textures[level][1],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+1024),TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
 	ld	l, c
 	ld	h, b
 	ld	e,(hl)
@@ -178,14 +182,17 @@ _uncompress_theme_textures::
 	inc	hl
 	ld	d,(hl)
 	push	bc
+	ld	hl,#0x1020
+	push	hl
 	ld	hl,#0x0C40
 	push	hl
 	push	de
 	call	_uncompress_texture
-	pop	af
-	pop	af
+	ld	hl,#6
+	add	hl,sp
+	ld	sp,hl
 	pop	bc
-;src/Textures.c:45: uncompress_texture(theme_textures[level][2],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+2048));
+;src/Textures.c:45: uncompress_texture(theme_textures[level][2],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+2048),TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
 	ld	l, c
 	ld	h, b
 	ld	e,(hl)
@@ -198,13 +205,16 @@ _uncompress_theme_textures::
 	inc	hl
 	ld	d,(hl)
 	push	bc
-	ld	hl,#0x1040
+	ld	hl,#0x1020
+	push	hl
+	ld	l, #0x40
 	push	hl
 	push	de
 	call	_uncompress_texture
-	pop	af
-	pop	af
-;src/Textures.c:46: uncompress_texture(theme_textures[level][3],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+3072));
+	ld	hl,#6
+	add	hl,sp
+	ld	sp,hl
+;src/Textures.c:46: uncompress_texture(theme_textures[level][3],(u8*)(UNCOMPRESSED_LEVEL_TEXTURES+3072),TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
 	pop	hl
 	ld	c,(hl)
 	inc	hl
@@ -215,12 +225,15 @@ _uncompress_theme_textures::
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
+	ld	hl,#0x1020
+	push	hl
 	ld	hl,#0x1440
 	push	hl
 	push	bc
 	call	_uncompress_texture
-	pop	af
-	pop	af
+	ld	hl,#6
+	add	hl,sp
+	ld	sp,hl
 	pop	ix
 	ret
 	.area _CODE

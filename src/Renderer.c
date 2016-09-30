@@ -11,7 +11,13 @@
 #define CELLS_IN_VIEW_DEPTH 6
 
 const u8 g_palette[16]={
-    9,1,0,13,3,6,5,7,8,9,10,11,12,13,14,15
+    8,//Transparent color, common for all scenes
+    0,13,26,6, //Common for all scenes
+    1,//Sky color
+    9,//Ground color
+    3,24,18,5,14,15,16,17,19,//Scene colors
+    
+    
 };
 
 const u8 g_colors[16]={
