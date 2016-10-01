@@ -46,8 +46,8 @@
                              46 ; Function renderCompass
                              47 ; ---------------------------------
    0000                      48 _renderCompass::
-                             49 ;src/UI_Compass.c:7: cpct_drawSprite(g_tile_compass[PLAYER_directionIndex/2],COMPASS_POSITION,8,16);
-   0000 01r00r00      [10]   50 	ld	bc,#_g_tile_compass+0
+                             49 ;src/UI_Compass.c:7: cpct_drawSprite(compass_tileset[PLAYER_directionIndex/2],COMPASS_POSITION,8,16);
+   0000 01r00r00      [10]   50 	ld	bc,#_compass_tileset+0
    0003 FD 21r00r00   [14]   51 	ld	iy,#_PLAYER_directionIndex
    0007 FD 6E 00      [19]   52 	ld	l,0 (iy)
    000A CB 3D         [ 8]   53 	srl	l

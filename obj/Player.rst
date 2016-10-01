@@ -44,22 +44,22 @@
                              44 ;--------------------------------------------------------
                              45 	.area _CODE
                              46 	.area _CODE
-   46D4                      47 _PLAYER_position:
-   46D4 01                   48 	.db #0x01	; 1
-   46D5 01                   49 	.db #0x01	; 1
-   46D6                      50 _PLAYER_direction:
-   46D6 01                   51 	.db #0x01	;  1
-   46D7 00                   52 	.db #0x00	;  0
-   46D8                      53 _PLAYER_directionIndex:
-   46D8 00                   54 	.db #0x00	; 0
-   46D9                      55 _PLAYER_directionArray:
-   46D9 01                   56 	.db #0x01	;  1
-   46DA 00                   57 	.db #0x00	;  0
-   46DB 00                   58 	.db #0x00	;  0
-   46DC FF                   59 	.db #0xFF	; -1
-   46DD FF                   60 	.db #0xFF	; -1
-   46DE 00                   61 	.db #0x00	;  0
-   46DF 00                   62 	.db #0x00	;  0
-   46E0 01                   63 	.db #0x01	;  1
+   482D                      47 _PLAYER_position:
+   482D 01                   48 	.db #0x01	; 1
+   482E 01                   49 	.db #0x01	; 1
+   482F                      50 _PLAYER_direction:
+   482F 01                   51 	.db #0x01	;  1
+   4830 00                   52 	.db #0x00	;  0
+   4831                      53 _PLAYER_directionIndex:
+   4831 00                   54 	.db #0x00	; 0
+   4832                      55 _PLAYER_directionArray:
+   4832 01                   56 	.db #0x01	;  1
+   4833 00                   57 	.db #0x00	;  0
+   4834 00                   58 	.db #0x00	;  0
+   4835 FF                   59 	.db #0xFF	; -1
+   4836 FF                   60 	.db #0xFF	; -1
+   4837 00                   61 	.db #0x00	;  0
+   4838 00                   62 	.db #0x00	;  0
+   4839 01                   63 	.db #0x01	;  1
                              64 	.area _INITIALIZER
                              65 	.area _CABS (ABS)

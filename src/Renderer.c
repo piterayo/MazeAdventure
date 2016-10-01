@@ -12,12 +12,11 @@
 
 const u8 g_palette[16]={
     8,//Transparent color, common for all scenes
-    0,13,26,6, //Common for all scenes
+    0,13,26, //UI black, gray, white
+    6,//Common for all scenes, minimap
     1,//Sky color
     9,//Ground color
     3,24,18,5,14,15,16,17,19,//Scene colors
-    
-    
 };
 
 const u8 g_colors[16]={
@@ -277,7 +276,7 @@ void draw_column_to_buffer(const u8 column, u8 lineHeight, u8 wall_texture, cons
     //u8 color;
     
     //                       START POSITION          TEXTURE INDEX OFFSET           X POSITION OFFSET
-    u8* texture = (u8*)(UNCOMPRESSED_LEVEL_TEXTURES + (1024*wall_texture) + ((wall_texture_column)*TEXTURE_WIDTH));
+    u8* texture = (u8*)(UNCOMPRESSED_SHARED_TEXTURES + (1024*wall_texture) + ((wall_texture_column)*TEXTURE_WIDTH));
     
     u8 j;
     
@@ -429,6 +428,7 @@ void render_draw_to_buffer(){//TODO Optimize
                             lastWallId=0;
                         }
                     }
+                    // if()
                     newCell=0;
                 }
             }
@@ -616,6 +616,11 @@ void draw_minimap_to_buffer(){
                         case CELLTYPE_FLOOR:{
                             *ptr=g_colors[MINIMAP_FLOOR_COLOR];
                             *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_FLOOR_COLOR];
+                            break;
+                        }
+                        case CELLTYPE_DOOR:{
+                            *ptr=g_colors[MINIMAP_EXIT_COLOR];
+                            *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_EXIT_COLOR];
                             break;
                         }
                         default:{

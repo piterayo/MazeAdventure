@@ -8,11 +8,11 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _g_tile_compass_3
-	.globl _g_tile_compass_2
-	.globl _g_tile_compass_1
-	.globl _g_tile_compass_0
-	.globl _g_tile_compass
+	.globl _compass_compass_3
+	.globl _compass_compass_2
+	.globl _compass_compass_1
+	.globl _compass_compass_0
+	.globl _compass_tileset
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -45,259 +45,259 @@
 ;--------------------------------------------------------
 	.area _CODE
 	.area _CODE
-_g_tile_compass:
-	.dw _g_tile_compass_0
-	.dw _g_tile_compass_1
-	.dw _g_tile_compass_2
-	.dw _g_tile_compass_3
-_g_tile_compass_0:
+_compass_tileset:
+	.dw _compass_compass_0
+	.dw _compass_compass_1
+	.dw _compass_compass_2
+	.dw _compass_compass_3
+_compass_compass_0:
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x0C	; 12
-	.db #0x0C	; 12
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x0C	; 12
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x0C	; 12
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x26	; 38
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x19	; 25
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
+	.db #0x66	; 102	'f'
 	.db #0xCC	; 204
 	.db #0xCC	; 204
-	.db #0xCC	; 204
+	.db #0x99	; 153
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x66	; 102	'f'
+	.db #0x8C	; 140
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x4C	; 76	'L'
+	.db #0x99	; 153
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
 	.db #0x8C	; 140
 	.db #0x48	; 72	'H'
 	.db #0xC0	; 192
 	.db #0xC0	; 192
+	.db #0x84	; 132
+	.db #0x4C	; 76	'L'
+	.db #0x33	; 51	'3'
+	.db #0x66	; 102	'f'
+	.db #0x48	; 72	'H'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x84	; 132
+	.db #0x99	; 153
+	.db #0x66	; 102	'f'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x99	; 153
+	.db #0x8C	; 140
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x4C	; 76	'L'
+	.db #0xC8	; 200
+	.db #0xC0	; 192
+	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xCC	; 204
 	.db #0xCC	; 204
 	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0xC8	; 200
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0xC8	; 200
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x4C	; 76	'L'
+	.db #0xC8	; 200
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x30	; 48	'0'
+	.db #0x30	; 48	'0'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0x4C	; 76	'L'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x60	; 96
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x8C	; 140
+	.db #0x66	; 102	'f'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x30	; 48	'0'
+	.db #0x60	; 96
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x99	; 153
+	.db #0x26	; 38
+	.db #0xC8	; 200
+	.db #0xC0	; 192
+	.db #0x60	; 96
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0x19	; 25
+	.db #0x33	; 51	'3'
+	.db #0x4C	; 76	'L'
+	.db #0xC8	; 200
+	.db #0x30	; 48	'0'
+	.db #0x30	; 48	'0'
+	.db #0xC4	; 196
+	.db #0x8C	; 140
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x26	; 38
+	.db #0x4C	; 76	'L'
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0x8C	; 140
+	.db #0x19	; 25
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x26	; 38
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x19	; 25
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+_compass_compass_1:
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x66	; 102	'f'
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0x99	; 153
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x66	; 102	'f'
+	.db #0x8C	; 140
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x4C	; 76	'L'
+	.db #0x99	; 153
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
 	.db #0x8C	; 140
 	.db #0x48	; 72	'H'
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
 	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x26	; 38
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x19	; 25
-	.db #0x26	; 38
+	.db #0x4C	; 76	'L'
+	.db #0x33	; 51	'3'
+	.db #0x66	; 102	'f'
 	.db #0x48	; 72	'H'
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x0C	; 12
+	.db #0x99	; 153
+	.db #0x66	; 102	'f'
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x0C	; 12
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x0C	; 12
-	.db #0x0C	; 12
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-_g_tile_compass_1:
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x0C	; 12
-	.db #0x0C	; 12
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC4	; 196
-	.db #0xC8	; 200
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x0C	; 12
+	.db #0x99	; 153
+	.db #0x8C	; 140
 	.db #0xC0	; 192
-	.db #0xC4	; 196
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x4C	; 76	'L'
 	.db #0xC8	; 200
 	.db #0xC0	; 192
-	.db #0x0C	; 12
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
 	.db #0xC0	; 192
-	.db #0xC4	; 196
-	.db #0xC8	; 200
 	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x26	; 38
+	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC4	; 196
 	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x19	; 25
-	.db #0x48	; 72	'H'
+	.db #0xC4	; 196
+	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC4	; 196
 	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
+	.db #0xC4	; 196
+	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC4	; 196
 	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
+	.db #0x64	; 100	'd'
+	.db #0x98	; 152
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC4	; 196
+	.db #0x4C	; 76	'L'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x64	; 100	'd'
 	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
+	.db #0x8C	; 140
+	.db #0x66	; 102	'f'
 	.db #0xC0	; 192
 	.db #0xC0	; 192
+	.db #0x64	; 100	'd'
+	.db #0x98	; 152
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
+	.db #0x99	; 153
 	.db #0x26	; 38
+	.db #0xC8	; 200
 	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0x98	; 152
 	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x19	; 25
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
+	.db #0xC4	; 196
 	.db #0x19	; 25
 	.db #0x33	; 51	'3'
-	.db #0x0C	; 12
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x0C	; 12
+	.db #0x4C	; 76	'L'
+	.db #0xC8	; 200
+	.db #0x64	; 100	'd'
+	.db #0x98	; 152
+	.db #0xC4	; 196
+	.db #0x8C	; 140
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
 	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
+	.db #0x4C	; 76	'L'
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0x8C	; 140
 	.db #0x19	; 25
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
@@ -308,125 +308,125 @@ _g_tile_compass_1:
 	.db #0x19	; 25
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
-_g_tile_compass_2:
+_compass_compass_2:
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
-	.db #0x26	; 38
+	.db #0x66	; 102	'f'
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0x99	; 153
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x66	; 102	'f'
+	.db #0x8C	; 140
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x19	; 25
+	.db #0x4C	; 76	'L'
+	.db #0x99	; 153
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
+	.db #0x8C	; 140
 	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x0C	; 12
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x0C	; 12
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x26	; 38
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x19	; 25
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0x84	; 132
 	.db #0x4C	; 76	'L'
-	.db #0xCC	; 204
-	.db #0xCC	; 204
-	.db #0xCC	; 204
+	.db #0x33	; 51	'3'
+	.db #0x66	; 102	'f'
+	.db #0x48	; 72	'H'
+	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0x84	; 132
+	.db #0x99	; 153
+	.db #0x66	; 102	'f'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x99	; 153
+	.db #0x8C	; 140
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC0	; 192
 	.db #0x4C	; 76	'L'
 	.db #0xCC	; 204
 	.db #0xCC	; 204
 	.db #0xCC	; 204
+	.db #0xCC	; 204
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
+	.db #0xC4	; 196
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0xCC	; 204
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x26	; 38
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x19	; 25
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
+	.db #0xC4	; 196
+	.db #0x8C	; 140
+	.db #0x0C	; 12
+	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0xC8	; 200
 	.db #0xC0	; 192
-	.db #0x0C	; 12
+	.db #0x90	; 144
+	.db #0xC0	; 192
+	.db #0x90	; 144
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0x4C	; 76	'L'
+	.db #0xC0	; 192
+	.db #0x90	; 144
+	.db #0xC0	; 192
+	.db #0x90	; 144
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x8C	; 140
+	.db #0x66	; 102	'f'
+	.db #0xC0	; 192
+	.db #0x90	; 144
+	.db #0x90	; 144
+	.db #0x90	; 144
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x99	; 153
+	.db #0x26	; 38
+	.db #0xC8	; 200
+	.db #0xC0	; 192
+	.db #0x60	; 96
+	.db #0x60	; 96
+	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0x19	; 25
+	.db #0x33	; 51	'3'
+	.db #0x4C	; 76	'L'
+	.db #0xC8	; 200
+	.db #0x60	; 96
+	.db #0x60	; 96
+	.db #0xC4	; 196
+	.db #0x8C	; 140
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
 	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
+	.db #0x4C	; 76	'L'
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0x8C	; 140
 	.db #0x19	; 25
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
@@ -437,72 +437,60 @@ _g_tile_compass_2:
 	.db #0x19	; 25
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
-_g_tile_compass_3:
+_compass_compass_3:
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x0C	; 12
-	.db #0x0C	; 12
-	.db #0x19	; 25
+	.db #0x66	; 102	'f'
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0x99	; 153
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
-	.db #0x26	; 38
+	.db #0x66	; 102	'f'
+	.db #0x8C	; 140
+	.db #0x4C	; 76	'L'
+	.db #0x8C	; 140
+	.db #0x4C	; 76	'L'
+	.db #0x99	; 153
+	.db #0x33	; 51	'3'
+	.db #0x33	; 51	'3'
+	.db #0x8C	; 140
+	.db #0x48	; 72	'H'
+	.db #0xC4	; 196
+	.db #0xC8	; 200
+	.db #0x84	; 132
+	.db #0x4C	; 76	'L'
+	.db #0x33	; 51	'3'
+	.db #0x66	; 102	'f'
 	.db #0x48	; 72	'H'
 	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x33	; 51	'3'
-	.db #0x33	; 51	'3'
-	.db #0x0C	; 12
+	.db #0x99	; 153
+	.db #0x66	; 102	'f'
 	.db #0xC0	; 192
 	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x0C	; 12
-	.db #0x33	; 51	'3'
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
+	.db #0x99	; 153
+	.db #0x8C	; 140
 	.db #0xC0	; 192
 	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
-	.db #0x26	; 38
+	.db #0x4C	; 76	'L'
+	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x19	; 25
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
+	.db #0xC4	; 196
+	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC4	; 196
@@ -517,45 +505,57 @@ _g_tile_compass_3:
 	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x48	; 72	'H'
+	.db #0x60	; 96
+	.db #0x90	; 144
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC4	; 196
 	.db #0xC8	; 200
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x84	; 132
+	.db #0x30	; 48	'0'
+	.db #0x90	; 144
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0xC4	; 196
+	.db #0x4C	; 76	'L'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x30	; 48	'0'
+	.db #0x90	; 144
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x8C	; 140
+	.db #0x66	; 102	'f'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x60	; 96
+	.db #0x30	; 48	'0'
+	.db #0xC0	; 192
+	.db #0xC0	; 192
+	.db #0x99	; 153
 	.db #0x26	; 38
-	.db #0xC0	; 192
-	.db #0xC0	; 192
-	.db #0xC4	; 196
 	.db #0xC8	; 200
 	.db #0xC0	; 192
+	.db #0x60	; 96
+	.db #0x30	; 48	'0'
 	.db #0xC0	; 192
+	.db #0xC4	; 196
 	.db #0x19	; 25
-	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC0	; 192
-	.db #0xC4	; 196
-	.db #0xC8	; 200
-	.db #0xC0	; 192
-	.db #0x84	; 132
-	.db #0x19	; 25
 	.db #0x33	; 51	'3'
-	.db #0x0C	; 12
-	.db #0xC0	; 192
-	.db #0xC4	; 196
+	.db #0x4C	; 76	'L'
 	.db #0xC8	; 200
-	.db #0xC0	; 192
-	.db #0x0C	; 12
+	.db #0x60	; 96
+	.db #0x90	; 144
+	.db #0xC4	; 196
+	.db #0x8C	; 140
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'
 	.db #0x26	; 38
-	.db #0x48	; 72	'H'
-	.db #0xC4	; 196
-	.db #0xC8	; 200
-	.db #0x84	; 132
+	.db #0x4C	; 76	'L'
+	.db #0xCC	; 204
+	.db #0xCC	; 204
+	.db #0x8C	; 140
 	.db #0x19	; 25
 	.db #0x33	; 51	'3'
 	.db #0x33	; 51	'3'

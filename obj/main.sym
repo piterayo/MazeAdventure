@@ -23,7 +23,7 @@ Symbol Table
     _draw_minimap_to_buffer                                        **** GX
     _g_colors                                                      **** GX
     _g_palette                                                     **** GX
-    _generate_map                                                  **** GX
+    _generate_level                                                **** GX
   0 _init                                                          0000 GR
     _init_generator                                                **** GX
   0 _main                                                          003C GR

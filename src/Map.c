@@ -11,6 +11,26 @@ void init_generator(){
     cpct_setSeed_lcg_u8(rand_seed);
 }
 
+u8 get_random_wall(){
+    u8 cellType = cpct_getRandom_lcg_u8();
+    if(cellType&1){
+        return CELLTYPE_WALL1;
+    }
+    else{
+        if(cellType&3){
+            return CELLTYPE_WALL2;
+        }
+        else{
+            if(cellType&5){
+                return CELLTYPE_WALL3;
+            }
+            else{
+                return CELLTYPE_WALL4;  
+            }
+        }
+    }
+}
+
 void generate_map(){
     
     u8 cellType, surroundedByWalls, convertToFloor, adjacentType,i;
@@ -36,13 +56,13 @@ void generate_map(){
     
     //GENERATE BORDERS
     for(i=0;i<MAP_WIDTH;++i){
-        map[0][i]=cpct_getRandom_lcg_u8()&3;
-        map[MAP_HEIGHT-1][i]=cpct_getRandom_lcg_u8()&3;
+        map[0][i]=get_random_wall();
+        map[MAP_HEIGHT-1][i]=get_random_wall();
     }
     
     for(i=1;i<MAP_HEIGHT-1;++i){
-        map[i][0]=cpct_getRandom_lcg_u8()&3;
-        map[i][MAP_WIDTH-1]=cpct_getRandom_lcg_u8()&3;
+        map[i][0]=get_random_wall();
+        map[i][MAP_WIDTH-1]=get_random_wall();
     }
     
     while(remainingCells>0){
@@ -121,12 +141,11 @@ void generate_map(){
             if(cellType == CELLTYPE_UNDEFINED){
                 
                 if(cpct_getRandom_lcg_u8()&1){//WALL
-                    cellType = cpct_getRandom_lcg_u8()&3;
+                    cellType = get_random_wall();
                 }
                 else{//FLOOR
                     cellType = CELLTYPE_FLOOR;
                 }
-                //cellType = (cpct_getRandom_lcg_u8()&1)?CELLTYPE_FLOOR:CELLTYPE_WALL1;
                 map[currentPos.x][currentPos.y]=cellType;
                 --remainingCells;
             }
@@ -186,4 +205,64 @@ void generate_map(){
             }
         }
     }
+}
+
+void generate_exit_door(){
+    u8 x=(cpct_getRandom_lcg_u8());
+    u8 y=(cpct_getRandom_lcg_u8());
+    u8 door_not_positioned=1;
+    
+    u8* lastVal;
+    u8* nextVal;
+    u8* topVal;
+    u8* bottomVal;
+    
+    u8* position = (u8*)(MAP_MEM + x + MAP_WIDTH*y);
+    
+    x=x%32;
+    y=y%32;
+    
+    lastVal = (position-1);
+    nextVal = (position+1);
+    topVal = (position-MAP_WIDTH);
+    bottomVal = (position+MAP_WIDTH);
+    
+    while(door_not_positioned){
+        if((*position)!=CELLTYPE_FLOOR){
+            if(((*lastVal)!=CELLTYPE_FLOOR) && ((*nextVal)!=CELLTYPE_FLOOR)){
+                if(((*topVal)!=CELLTYPE_FLOOR) && ((*bottomVal)==CELLTYPE_FLOOR)){
+                    door_not_positioned=0;
+                    *position=CELLTYPE_DOOR;
+                }
+                else if(((*bottomVal)!=CELLTYPE_FLOOR) && ((*topVal)==CELLTYPE_FLOOR)){
+                    door_not_positioned=0;
+                    *position=CELLTYPE_DOOR;
+                }
+            }
+            else if(((*topVal)!=CELLTYPE_FLOOR) && ((*bottomVal)!=CELLTYPE_FLOOR)){
+                if(((*lastVal)!=CELLTYPE_FLOOR) && ((*nextVal)==CELLTYPE_FLOOR)){
+                    door_not_positioned=0;
+                    *position=CELLTYPE_DOOR;
+                }
+                else if(((*nextVal)!=CELLTYPE_FLOOR) && ((*lastVal)==CELLTYPE_FLOOR)){
+                    door_not_positioned=0;
+                    *position=CELLTYPE_DOOR;
+                }
+            }
+        }
+        ++position;
+        ++lastVal;
+        ++nextVal;
+        ++topVal;
+        ++bottomVal;
+        if(position>END_OF_MAP_MEM){
+            position = MAP_MEM;
+        }
+    }
+    
+}
+
+void generate_level(){
+    generate_map();
+    generate_exit_door();
 }

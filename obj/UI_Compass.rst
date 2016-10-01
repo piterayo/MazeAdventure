@@ -45,25 +45,25 @@
                              45 ;	---------------------------------
                              46 ; Function renderCompass
                              47 ; ---------------------------------
-   51FB                      48 _renderCompass::
-                             49 ;src/UI_Compass.c:7: cpct_drawSprite(g_tile_compass[PLAYER_directionIndex/2],COMPASS_POSITION,8,16);
-   51FB 01 3B 53      [10]   50 	ld	bc,#_g_tile_compass+0
-   51FE FD 21 D8 46   [14]   51 	ld	iy,#_PLAYER_directionIndex
-   5202 FD 6E 00      [19]   52 	ld	l,0 (iy)
-   5205 CB 3D         [ 8]   53 	srl	l
-   5207 26 00         [ 7]   54 	ld	h,#0x00
-   5209 29            [11]   55 	add	hl, hl
-   520A 09            [11]   56 	add	hl,bc
-   520B 4E            [ 7]   57 	ld	c,(hl)
-   520C 23            [ 6]   58 	inc	hl
-   520D 46            [ 7]   59 	ld	b,(hl)
-   520E 21 08 10      [10]   60 	ld	hl,#0x1008
-   5211 E5            [11]   61 	push	hl
-   5212 21 34 E4      [10]   62 	ld	hl,#0xE434
-   5215 E5            [11]   63 	push	hl
-   5216 C5            [11]   64 	push	bc
-   5217 CD E4 5D      [17]   65 	call	_cpct_drawSprite
-   521A C9            [10]   66 	ret
+   5365                      48 _renderCompass::
+                             49 ;src/UI_Compass.c:7: cpct_drawSprite(compass_tileset[PLAYER_directionIndex/2],COMPASS_POSITION,8,16);
+   5365 01 0D 58      [10]   50 	ld	bc,#_compass_tileset+0
+   5368 FD 21 31 48   [14]   51 	ld	iy,#_PLAYER_directionIndex
+   536C FD 6E 00      [19]   52 	ld	l,0 (iy)
+   536F CB 3D         [ 8]   53 	srl	l
+   5371 26 00         [ 7]   54 	ld	h,#0x00
+   5373 29            [11]   55 	add	hl, hl
+   5374 09            [11]   56 	add	hl,bc
+   5375 4E            [ 7]   57 	ld	c,(hl)
+   5376 23            [ 6]   58 	inc	hl
+   5377 46            [ 7]   59 	ld	b,(hl)
+   5378 21 08 10      [10]   60 	ld	hl,#0x1008
+   537B E5            [11]   61 	push	hl
+   537C 21 34 E4      [10]   62 	ld	hl,#0xE434
+   537F E5            [11]   63 	push	hl
+   5380 C5            [11]   64 	push	bc
+   5381 CD B6 62      [17]   65 	call	_cpct_drawSprite
+   5384 C9            [10]   66 	ret
                              67 	.area _CODE
                              68 	.area _INITIALIZER
                              69 	.area _CABS (ABS)

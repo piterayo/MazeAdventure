@@ -46,8 +46,8 @@
 ; Function renderCompass
 ; ---------------------------------
 _renderCompass::
-;src/UI_Compass.c:7: cpct_drawSprite(g_tile_compass[PLAYER_directionIndex/2],COMPASS_POSITION,8,16);
-	ld	bc,#_g_tile_compass+0
+;src/UI_Compass.c:7: cpct_drawSprite(compass_tileset[PLAYER_directionIndex/2],COMPASS_POSITION,8,16);
+	ld	bc,#_compass_tileset+0
 	ld	iy,#_PLAYER_directionIndex
 	ld	l,0 (iy)
 	srl	l

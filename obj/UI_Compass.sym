@@ -8,8 +8,8 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
     _PLAYER_directionIndex                                         **** GX
+    _compass_tileset                                               **** GX
     _cpct_drawSprite                                               **** GX
-    _g_tile_compass                                                **** GX
   0 _renderCompass                                                 0000 GR
 
 

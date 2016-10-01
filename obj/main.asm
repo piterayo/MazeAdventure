@@ -14,7 +14,7 @@
 	.globl _uncompress_theme_textures
 	.globl _draw_minimap_to_buffer
 	.globl _render_draw_to_buffer
-	.globl _generate_map
+	.globl _generate_level
 	.globl _init_generator
 	.globl _cpct_setPALColour
 	.globl _cpct_setPalette
@@ -113,8 +113,8 @@ _main::
 	inc	sp
 	call	_uncompress_theme_textures
 	inc	sp
-;src/main.c:42: generate_map();
-	call	_generate_map
+;src/main.c:42: generate_level();
+	call	_generate_level
 ;src/main.c:43: render_draw_to_buffer();
 	call	_render_draw_to_buffer
 ;src/main.c:44: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);

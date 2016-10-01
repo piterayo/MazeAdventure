@@ -39,7 +39,7 @@ void main(void) {
    init();
    init_generator();
    uncompress_theme_textures(0);
-   generate_map();
+   generate_level();
    render_draw_to_buffer();
    cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
    draw_minimap_to_buffer();
