@@ -11,301 +11,308 @@
                              11 	.globl _main
                              12 	.globl _init
                              13 	.globl _renderCompass
-                             14 	.globl _uncompress_theme_textures
-                             15 	.globl _draw_minimap_to_buffer
-                             16 	.globl _render_draw_to_buffer
-                             17 	.globl _generate_level
-                             18 	.globl _init_generator
-                             19 	.globl _cpct_setPALColour
-                             20 	.globl _cpct_setPalette
-                             21 	.globl _cpct_fw2hw
-                             22 	.globl _cpct_setVideoMode
-                             23 	.globl _cpct_drawSprite
-                             24 	.globl _cpct_isKeyPressed
-                             25 	.globl _cpct_scanKeyboard_f
-                             26 	.globl _cpct_memset
-                             27 	.globl _cpct_disableFirmware
-                             28 ;--------------------------------------------------------
-                             29 ; special function registers
-                             30 ;--------------------------------------------------------
+                             14 	.globl _uncompress_enemy_textures
+                             15 	.globl _uncompress_theme_textures
+                             16 	.globl _draw_minimap_to_buffer
+                             17 	.globl _render_draw_to_buffer
+                             18 	.globl _generate_level
+                             19 	.globl _init_generator
+                             20 	.globl _cpct_setPALColour
+                             21 	.globl _cpct_setPalette
+                             22 	.globl _cpct_fw2hw
+                             23 	.globl _cpct_setVideoMode
+                             24 	.globl _cpct_drawSprite
+                             25 	.globl _cpct_isKeyPressed
+                             26 	.globl _cpct_scanKeyboard_f
+                             27 	.globl _cpct_memset
+                             28 	.globl _cpct_disableFirmware
+                             29 ;--------------------------------------------------------
+                             30 ; special function registers
                              31 ;--------------------------------------------------------
-                             32 ; ram data
-                             33 ;--------------------------------------------------------
-                             34 	.area _DATA
-                             35 ;--------------------------------------------------------
-                             36 ; ram data
-                             37 ;--------------------------------------------------------
-                             38 	.area _INITIALIZED
-                             39 ;--------------------------------------------------------
-                             40 ; absolute external ram data
-                             41 ;--------------------------------------------------------
-                             42 	.area _DABS (ABS)
-                             43 ;--------------------------------------------------------
-                             44 ; global & static initialisations
-                             45 ;--------------------------------------------------------
-                             46 	.area _HOME
-                             47 	.area _GSINIT
-                             48 	.area _GSFINAL
-                             49 	.area _GSINIT
-                             50 ;--------------------------------------------------------
-                             51 ; Home
-                             52 ;--------------------------------------------------------
-                             53 	.area _HOME
+                             32 ;--------------------------------------------------------
+                             33 ; ram data
+                             34 ;--------------------------------------------------------
+                             35 	.area _DATA
+                             36 ;--------------------------------------------------------
+                             37 ; ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area _INITIALIZED
+                             40 ;--------------------------------------------------------
+                             41 ; absolute external ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area _DABS (ABS)
+                             44 ;--------------------------------------------------------
+                             45 ; global & static initialisations
+                             46 ;--------------------------------------------------------
+                             47 	.area _HOME
+                             48 	.area _GSINIT
+                             49 	.area _GSFINAL
+                             50 	.area _GSINIT
+                             51 ;--------------------------------------------------------
+                             52 ; Home
+                             53 ;--------------------------------------------------------
                              54 	.area _HOME
-                             55 ;--------------------------------------------------------
-                             56 ; code
-                             57 ;--------------------------------------------------------
-                             58 	.area _CODE
-                             59 ;src/main.c:28: void init(){
-                             60 ;	---------------------------------
-                             61 ; Function init
-                             62 ; ---------------------------------
-   4000                      63 _init::
-                             64 ;src/main.c:29: cpct_disableFirmware();
-   4000 CD 39 64      [17]   65 	call	_cpct_disableFirmware
-                             66 ;src/main.c:30: cpct_setVideoMode(0);
-   4003 2E 00         [ 7]   67 	ld	l,#0x00
-   4005 CD 1D 64      [17]   68 	call	_cpct_setVideoMode
-                             69 ;src/main.c:31: cpct_fw2hw(g_palette,16);
-   4008 21 10 00      [10]   70 	ld	hl,#0x0010
-   400B E5            [11]   71 	push	hl
-   400C 21 E9 49      [10]   72 	ld	hl,#_g_palette
-   400F E5            [11]   73 	push	hl
-   4010 CD 77 63      [17]   74 	call	_cpct_fw2hw
-                             75 ;src/main.c:32: cpct_setPalette(g_palette,16);
-   4013 21 10 00      [10]   76 	ld	hl,#0x0010
-   4016 E5            [11]   77 	push	hl
-   4017 21 E9 49      [10]   78 	ld	hl,#_g_palette
-   401A E5            [11]   79 	push	hl
-   401B CD 1D 62      [17]   80 	call	_cpct_setPalette
-                             81 ;src/main.c:33: cpct_setBorder(g_palette[12]);
-   401E 21 F5 49      [10]   82 	ld	hl, #_g_palette + 12
-   4021 46            [ 7]   83 	ld	b,(hl)
-   4022 C5            [11]   84 	push	bc
-   4023 33            [ 6]   85 	inc	sp
-   4024 3E 10         [ 7]   86 	ld	a,#0x10
-   4026 F5            [11]   87 	push	af
-   4027 33            [ 6]   88 	inc	sp
-   4028 CD AA 62      [17]   89 	call	_cpct_setPALColour
-                             90 ;src/main.c:35: cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
-   402B 21 05 4A      [10]   91 	ld	hl, #(_g_colors + 0x000c) + 0
-   402E 46            [ 7]   92 	ld	b,(hl)
-   402F 21 00 40      [10]   93 	ld	hl,#0x4000
-   4032 E5            [11]   94 	push	hl
-   4033 C5            [11]   95 	push	bc
-   4034 33            [ 6]   96 	inc	sp
-   4035 26 C0         [ 7]   97 	ld	h, #0xC0
-   4037 E5            [11]   98 	push	hl
-   4038 CD 2B 64      [17]   99 	call	_cpct_memset
-   403B C9            [10]  100 	ret
-                            101 ;src/main.c:38: void main(void) {
-                            102 ;	---------------------------------
-                            103 ; Function main
-                            104 ; ---------------------------------
-   403C                     105 _main::
-                            106 ;src/main.c:39: init();
-   403C CD 00 40      [17]  107 	call	_init
-                            108 ;src/main.c:40: init_generator();
-   403F CD 73 41      [17]  109 	call	_init_generator
-                            110 ;src/main.c:41: uncompress_theme_textures(0);
-   4042 AF            [ 4]  111 	xor	a, a
-   4043 F5            [11]  112 	push	af
-   4044 33            [ 6]  113 	inc	sp
-   4045 CD DB 52      [17]  114 	call	_uncompress_theme_textures
-   4048 33            [ 6]  115 	inc	sp
-                            116 ;src/main.c:42: generate_level();
-   4049 CD 27 48      [17]  117 	call	_generate_level
-                            118 ;src/main.c:43: render_draw_to_buffer();
-   404C CD 56 4B      [17]  119 	call	_render_draw_to_buffer
-                            120 ;src/main.c:44: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
-   404F 21 28 64      [10]  121 	ld	hl,#0x6428
-   4052 E5            [11]  122 	push	hl
-   4053 21 14 C0      [10]  123 	ld	hl,#0xC014
-   4056 E5            [11]  124 	push	hl
-   4057 21 40 2B      [10]  125 	ld	hl,#0x2B40
-   405A E5            [11]  126 	push	hl
-   405B CD B6 62      [17]  127 	call	_cpct_drawSprite
-                            128 ;src/main.c:45: draw_minimap_to_buffer();
-   405E CD 13 51      [17]  129 	call	_draw_minimap_to_buffer
-                            130 ;src/main.c:46: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
-   4061 21 10 40      [10]  131 	ld	hl,#0x4010
-   4064 E5            [11]  132 	push	hl
-   4065 21 70 C5      [10]  133 	ld	hl,#0xC570
-   4068 E5            [11]  134 	push	hl
-   4069 21 40 1C      [10]  135 	ld	hl,#0x1C40
-   406C E5            [11]  136 	push	hl
-   406D CD B6 62      [17]  137 	call	_cpct_drawSprite
-                            138 ;src/main.c:49: while(1) {
-   4070                     139 00115$:
-                            140 ;src/main.c:50: u8 movement = 0;
-   4070 0E 00         [ 7]  141 	ld	c,#0x00
-                            142 ;src/main.c:51: cpct_scanKeyboard_f();
-   4072 C5            [11]  143 	push	bc
-   4073 CD 40 62      [17]  144 	call	_cpct_scanKeyboard_f
-   4076 21 01 01      [10]  145 	ld	hl,#0x0101
-   4079 CD 34 62      [17]  146 	call	_cpct_isKeyPressed
-   407C 5D            [ 4]  147 	ld	e,l
-   407D C1            [10]  148 	pop	bc
-   407E 7B            [ 4]  149 	ld	a,e
-   407F B7            [ 4]  150 	or	a, a
-   4080 28 33         [12]  151 	jr	Z,00110$
-                            152 ;src/main.c:53: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
-   4082 01 31 48      [10]  153 	ld	bc,#_PLAYER_directionIndex+0
-   4085 3A 31 48      [13]  154 	ld	a,(#_PLAYER_directionIndex + 0)
-   4088 C6 02         [ 7]  155 	add	a, #0x02
-   408A E6 07         [ 7]  156 	and	a, #0x07
-   408C 02            [ 7]  157 	ld	(bc),a
-                            158 ;src/main.c:54: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
-   408D 01 32 48      [10]  159 	ld	bc,#_PLAYER_directionArray+0
-   4090 FD 21 31 48   [14]  160 	ld	iy,#_PLAYER_directionIndex
-   4094 FD 6E 00      [19]  161 	ld	l, 0 (iy)
-   4097 26 00         [ 7]  162 	ld	h,#0x00
-   4099 09            [11]  163 	add	hl,bc
-   409A 5E            [ 7]  164 	ld	e,(hl)
-   409B 21 2F 48      [10]  165 	ld	hl,#_PLAYER_direction
-   409E 73            [ 7]  166 	ld	(hl),e
-                            167 ;src/main.c:55: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
-   409F 21 31 48      [10]  168 	ld	hl,#_PLAYER_directionIndex + 0
-   40A2 5E            [ 7]  169 	ld	e, (hl)
-   40A3 1C            [ 4]  170 	inc	e
-   40A4 6B            [ 4]  171 	ld	l,e
-   40A5 26 00         [ 7]  172 	ld	h,#0x00
-   40A7 09            [11]  173 	add	hl,bc
-   40A8 4E            [ 7]  174 	ld	c,(hl)
-   40A9 21 30 48      [10]  175 	ld	hl,#(_PLAYER_direction + 0x0001)
-   40AC 71            [ 7]  176 	ld	(hl),c
-                            177 ;src/main.c:56: renderCompass();
-   40AD CD 65 53      [17]  178 	call	_renderCompass
-                            179 ;src/main.c:57: movement =1;
-   40B0 0E 01         [ 7]  180 	ld	c,#0x01
-   40B2 C3 47 41      [10]  181 	jp	00111$
-   40B5                     182 00110$:
-                            183 ;src/main.c:59: else if(cpct_isKeyPressed(Key_CursorRight)){
-   40B5 C5            [11]  184 	push	bc
-   40B6 21 00 02      [10]  185 	ld	hl,#0x0200
-   40B9 CD 34 62      [17]  186 	call	_cpct_isKeyPressed
-   40BC C1            [10]  187 	pop	bc
-   40BD 7D            [ 4]  188 	ld	a,l
-   40BE B7            [ 4]  189 	or	a, a
-   40BF 28 34         [12]  190 	jr	Z,00107$
-                            191 ;src/main.c:60: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
-   40C1 01 31 48      [10]  192 	ld	bc,#_PLAYER_directionIndex+0
-   40C4 3A 31 48      [13]  193 	ld	a,(#_PLAYER_directionIndex + 0)
-   40C7 C6 FE         [ 7]  194 	add	a,#0xFE
-   40C9 E6 07         [ 7]  195 	and	a, #0x07
-   40CB 02            [ 7]  196 	ld	(bc),a
-                            197 ;src/main.c:61: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
-   40CC 01 2F 48      [10]  198 	ld	bc,#_PLAYER_direction+0
-   40CF 11 32 48      [10]  199 	ld	de,#_PLAYER_directionArray+0
-   40D2 FD 21 31 48   [14]  200 	ld	iy,#_PLAYER_directionIndex
-   40D6 FD 6E 00      [19]  201 	ld	l,0 (iy)
-   40D9 26 00         [ 7]  202 	ld	h,#0x00
-   40DB 19            [11]  203 	add	hl,de
-   40DC 7E            [ 7]  204 	ld	a,(hl)
-   40DD 02            [ 7]  205 	ld	(bc),a
-                            206 ;src/main.c:62: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
-   40DE 01 30 48      [10]  207 	ld	bc,#_PLAYER_direction+1
-   40E1 FD 21 31 48   [14]  208 	ld	iy,#_PLAYER_directionIndex
-   40E5 FD 6E 00      [19]  209 	ld	l,0 (iy)
-   40E8 2C            [ 4]  210 	inc	l
-   40E9 26 00         [ 7]  211 	ld	h,#0x00
-   40EB 19            [11]  212 	add	hl,de
-   40EC 7E            [ 7]  213 	ld	a,(hl)
-   40ED 02            [ 7]  214 	ld	(bc),a
-                            215 ;src/main.c:63: renderCompass();
-   40EE CD 65 53      [17]  216 	call	_renderCompass
-                            217 ;src/main.c:64: movement =1;
-   40F1 0E 01         [ 7]  218 	ld	c,#0x01
-   40F3 18 52         [12]  219 	jr	00111$
-   40F5                     220 00107$:
-                            221 ;src/main.c:66: else if(cpct_isKeyPressed(Key_CursorUp)){
-   40F5 C5            [11]  222 	push	bc
-   40F6 21 00 01      [10]  223 	ld	hl,#0x0100
-   40F9 CD 34 62      [17]  224 	call	_cpct_isKeyPressed
-   40FC C1            [10]  225 	pop	bc
-   40FD 7D            [ 4]  226 	ld	a,l
-   40FE B7            [ 4]  227 	or	a, a
-   40FF 28 1E         [12]  228 	jr	Z,00104$
-                            229 ;src/main.c:67: *(i8*)&(PLAYER_position.x) = PLAYER_position.x + PLAYER_direction.x;
-   4101 21 2D 48      [10]  230 	ld	hl,#_PLAYER_position+0
-   4104 4D            [ 4]  231 	ld	c, l
-   4105 44            [ 4]  232 	ld	b, h
-   4106 5E            [ 7]  233 	ld	e,(hl)
-   4107 21 2F 48      [10]  234 	ld	hl, #_PLAYER_direction + 0
-   410A 6E            [ 7]  235 	ld	l,(hl)
-   410B 7B            [ 4]  236 	ld	a,e
-   410C 85            [ 4]  237 	add	a, l
-   410D 02            [ 7]  238 	ld	(bc),a
-                            239 ;src/main.c:68: *(i8*)&(PLAYER_position.y) = PLAYER_position.y + PLAYER_direction.y;
-   410E 21 2E 48      [10]  240 	ld	hl,#_PLAYER_position+1
-   4111 4D            [ 4]  241 	ld	c, l
-   4112 44            [ 4]  242 	ld	b, h
-   4113 5E            [ 7]  243 	ld	e,(hl)
-   4114 21 30 48      [10]  244 	ld	hl, #(_PLAYER_direction + 0x0001) + 0
-   4117 6E            [ 7]  245 	ld	l,(hl)
-   4118 7B            [ 4]  246 	ld	a,e
-   4119 85            [ 4]  247 	add	a, l
-   411A 02            [ 7]  248 	ld	(bc),a
-                            249 ;src/main.c:70: movement =1;
-   411B 0E 01         [ 7]  250 	ld	c,#0x01
-   411D 18 28         [12]  251 	jr	00111$
-   411F                     252 00104$:
-                            253 ;src/main.c:72: else if(cpct_isKeyPressed(Key_CursorDown)){
-   411F C5            [11]  254 	push	bc
-   4120 21 00 04      [10]  255 	ld	hl,#0x0400
-   4123 CD 34 62      [17]  256 	call	_cpct_isKeyPressed
-   4126 C1            [10]  257 	pop	bc
-   4127 7D            [ 4]  258 	ld	a,l
-   4128 B7            [ 4]  259 	or	a, a
-   4129 28 1C         [12]  260 	jr	Z,00111$
-                            261 ;src/main.c:73: *(i8*)&(PLAYER_position.x) = PLAYER_position.x - PLAYER_direction.x;
-   412B 21 2D 48      [10]  262 	ld	hl,#_PLAYER_position+0
-   412E 4D            [ 4]  263 	ld	c, l
-   412F 44            [ 4]  264 	ld	b, h
-   4130 5E            [ 7]  265 	ld	e,(hl)
-   4131 21 2F 48      [10]  266 	ld	hl, #_PLAYER_direction + 0
-   4134 6E            [ 7]  267 	ld	l,(hl)
-   4135 7B            [ 4]  268 	ld	a,e
-   4136 95            [ 4]  269 	sub	a, l
-   4137 02            [ 7]  270 	ld	(bc),a
-                            271 ;src/main.c:74: *(i8*)&(PLAYER_position.y) = PLAYER_position.y - PLAYER_direction.y;
-   4138 21 2E 48      [10]  272 	ld	hl,#_PLAYER_position+1
-   413B 4D            [ 4]  273 	ld	c, l
-   413C 44            [ 4]  274 	ld	b, h
-   413D 5E            [ 7]  275 	ld	e,(hl)
-   413E 21 30 48      [10]  276 	ld	hl, #(_PLAYER_direction + 0x0001) + 0
-   4141 6E            [ 7]  277 	ld	l,(hl)
-   4142 7B            [ 4]  278 	ld	a,e
-   4143 95            [ 4]  279 	sub	a, l
-   4144 02            [ 7]  280 	ld	(bc),a
-                            281 ;src/main.c:76: movement =1;
-   4145 0E 01         [ 7]  282 	ld	c,#0x01
-   4147                     283 00111$:
-                            284 ;src/main.c:78: if(movement){
-   4147 79            [ 4]  285 	ld	a,c
-   4148 B7            [ 4]  286 	or	a, a
-   4149 CA 70 40      [10]  287 	jp	Z,00115$
-                            288 ;src/main.c:79: render_draw_to_buffer();
-   414C CD 56 4B      [17]  289 	call	_render_draw_to_buffer
-                            290 ;src/main.c:80: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
-   414F 21 28 64      [10]  291 	ld	hl,#0x6428
-   4152 E5            [11]  292 	push	hl
-   4153 21 14 C0      [10]  293 	ld	hl,#0xC014
-   4156 E5            [11]  294 	push	hl
-   4157 21 40 2B      [10]  295 	ld	hl,#0x2B40
-   415A E5            [11]  296 	push	hl
-   415B CD B6 62      [17]  297 	call	_cpct_drawSprite
-                            298 ;src/main.c:81: draw_minimap_to_buffer();
-   415E CD 13 51      [17]  299 	call	_draw_minimap_to_buffer
-                            300 ;src/main.c:82: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
-   4161 21 10 40      [10]  301 	ld	hl,#0x4010
-   4164 E5            [11]  302 	push	hl
-   4165 21 70 C5      [10]  303 	ld	hl,#0xC570
-   4168 E5            [11]  304 	push	hl
-   4169 21 40 1C      [10]  305 	ld	hl,#0x1C40
-   416C E5            [11]  306 	push	hl
-   416D CD B6 62      [17]  307 	call	_cpct_drawSprite
-   4170 C3 70 40      [10]  308 	jp	00115$
-                            309 	.area _CODE
-                            310 	.area _INITIALIZER
-                            311 	.area _CABS (ABS)
+                             55 	.area _HOME
+                             56 ;--------------------------------------------------------
+                             57 ; code
+                             58 ;--------------------------------------------------------
+                             59 	.area _CODE
+                             60 ;src/main.c:28: void init(){
+                             61 ;	---------------------------------
+                             62 ; Function init
+                             63 ; ---------------------------------
+   4000                      64 _init::
+                             65 ;src/main.c:29: cpct_disableFirmware();
+   4000 CD DE 64      [17]   66 	call	_cpct_disableFirmware
+                             67 ;src/main.c:30: cpct_setVideoMode(0);
+   4003 2E 00         [ 7]   68 	ld	l,#0x00
+   4005 CD C2 64      [17]   69 	call	_cpct_setVideoMode
+                             70 ;src/main.c:31: cpct_fw2hw(g_palette,16);
+   4008 21 10 00      [10]   71 	ld	hl,#0x0010
+   400B E5            [11]   72 	push	hl
+   400C 21 E3 49      [10]   73 	ld	hl,#_g_palette
+   400F E5            [11]   74 	push	hl
+   4010 CD 1C 64      [17]   75 	call	_cpct_fw2hw
+                             76 ;src/main.c:32: cpct_setPalette(g_palette,16);
+   4013 21 10 00      [10]   77 	ld	hl,#0x0010
+   4016 E5            [11]   78 	push	hl
+   4017 21 E3 49      [10]   79 	ld	hl,#_g_palette
+   401A E5            [11]   80 	push	hl
+   401B CD C2 62      [17]   81 	call	_cpct_setPalette
+                             82 ;src/main.c:33: cpct_setBorder(g_palette[12]);
+   401E 21 EF 49      [10]   83 	ld	hl, #_g_palette + 12
+   4021 46            [ 7]   84 	ld	b,(hl)
+   4022 C5            [11]   85 	push	bc
+   4023 33            [ 6]   86 	inc	sp
+   4024 3E 10         [ 7]   87 	ld	a,#0x10
+   4026 F5            [11]   88 	push	af
+   4027 33            [ 6]   89 	inc	sp
+   4028 CD 4F 63      [17]   90 	call	_cpct_setPALColour
+                             91 ;src/main.c:35: cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
+   402B 21 FF 49      [10]   92 	ld	hl, #(_g_colors + 0x000c) + 0
+   402E 46            [ 7]   93 	ld	b,(hl)
+   402F 21 00 40      [10]   94 	ld	hl,#0x4000
+   4032 E5            [11]   95 	push	hl
+   4033 C5            [11]   96 	push	bc
+   4034 33            [ 6]   97 	inc	sp
+   4035 26 C0         [ 7]   98 	ld	h, #0xC0
+   4037 E5            [11]   99 	push	hl
+   4038 CD D0 64      [17]  100 	call	_cpct_memset
+   403B C9            [10]  101 	ret
+                            102 ;src/main.c:38: void main(void) {
+                            103 ;	---------------------------------
+                            104 ; Function main
+                            105 ; ---------------------------------
+   403C                     106 _main::
+                            107 ;src/main.c:39: init();
+   403C CD 00 40      [17]  108 	call	_init
+                            109 ;src/main.c:40: init_generator();
+   403F CD 7A 41      [17]  110 	call	_init_generator
+                            111 ;src/main.c:41: uncompress_theme_textures(0);
+   4042 AF            [ 4]  112 	xor	a, a
+   4043 F5            [11]  113 	push	af
+   4044 33            [ 6]  114 	inc	sp
+   4045 CD F4 52      [17]  115 	call	_uncompress_theme_textures
+   4048 33            [ 6]  116 	inc	sp
+                            117 ;src/main.c:42: uncompress_enemy_textures(0);
+   4049 AF            [ 4]  118 	xor	a, a
+   404A F5            [11]  119 	push	af
+   404B 33            [ 6]  120 	inc	sp
+   404C CD 7E 53      [17]  121 	call	_uncompress_enemy_textures
+   404F 33            [ 6]  122 	inc	sp
+                            123 ;src/main.c:43: generate_level();
+   4050 CD 21 48      [17]  124 	call	_generate_level
+                            125 ;src/main.c:44: render_draw_to_buffer();
+   4053 CD 50 4B      [17]  126 	call	_render_draw_to_buffer
+                            127 ;src/main.c:45: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
+   4056 21 28 64      [10]  128 	ld	hl,#0x6428
+   4059 E5            [11]  129 	push	hl
+   405A 21 B4 C0      [10]  130 	ld	hl,#0xC0B4
+   405D E5            [11]  131 	push	hl
+   405E 21 40 29      [10]  132 	ld	hl,#0x2940
+   4061 E5            [11]  133 	push	hl
+   4062 CD 5B 63      [17]  134 	call	_cpct_drawSprite
+                            135 ;src/main.c:46: renderCompass();
+   4065 CD 0A 54      [17]  136 	call	_renderCompass
+                            137 ;src/main.c:47: draw_minimap_to_buffer();
+   4068 CD 14 51      [17]  138 	call	_draw_minimap_to_buffer
+                            139 ;src/main.c:48: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
+   406B 21 10 40      [10]  140 	ld	hl,#0x4010
+   406E E5            [11]  141 	push	hl
+   406F 21 70 C5      [10]  142 	ld	hl,#0xC570
+   4072 E5            [11]  143 	push	hl
+   4073 21 40 1C      [10]  144 	ld	hl,#0x1C40
+   4076 E5            [11]  145 	push	hl
+   4077 CD 5B 63      [17]  146 	call	_cpct_drawSprite
+                            147 ;src/main.c:51: while(1) {
+   407A                     148 00115$:
+                            149 ;src/main.c:52: u8 movement = 0;
+   407A 0E 00         [ 7]  150 	ld	c,#0x00
+                            151 ;src/main.c:53: cpct_scanKeyboard_f();
+   407C C5            [11]  152 	push	bc
+   407D CD E5 62      [17]  153 	call	_cpct_scanKeyboard_f
+   4080 21 01 01      [10]  154 	ld	hl,#0x0101
+   4083 CD D9 62      [17]  155 	call	_cpct_isKeyPressed
+   4086 5D            [ 4]  156 	ld	e,l
+   4087 C1            [10]  157 	pop	bc
+   4088 7B            [ 4]  158 	ld	a,e
+   4089 B7            [ 4]  159 	or	a, a
+   408A 28 30         [12]  160 	jr	Z,00110$
+                            161 ;src/main.c:55: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
+   408C 01 2B 48      [10]  162 	ld	bc,#_PLAYER_directionIndex+0
+   408F 3A 2B 48      [13]  163 	ld	a,(#_PLAYER_directionIndex + 0)
+   4092 C6 02         [ 7]  164 	add	a, #0x02
+   4094 E6 07         [ 7]  165 	and	a, #0x07
+   4096 02            [ 7]  166 	ld	(bc),a
+                            167 ;src/main.c:56: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
+   4097 01 2C 48      [10]  168 	ld	bc,#_PLAYER_directionArray+0
+   409A FD 21 2B 48   [14]  169 	ld	iy,#_PLAYER_directionIndex
+   409E FD 6E 00      [19]  170 	ld	l, 0 (iy)
+   40A1 26 00         [ 7]  171 	ld	h,#0x00
+   40A3 09            [11]  172 	add	hl,bc
+   40A4 5E            [ 7]  173 	ld	e,(hl)
+   40A5 21 29 48      [10]  174 	ld	hl,#_PLAYER_direction
+   40A8 73            [ 7]  175 	ld	(hl),e
+                            176 ;src/main.c:57: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+   40A9 21 2B 48      [10]  177 	ld	hl,#_PLAYER_directionIndex + 0
+   40AC 5E            [ 7]  178 	ld	e, (hl)
+   40AD 1C            [ 4]  179 	inc	e
+   40AE 6B            [ 4]  180 	ld	l,e
+   40AF 26 00         [ 7]  181 	ld	h,#0x00
+   40B1 09            [11]  182 	add	hl,bc
+   40B2 4E            [ 7]  183 	ld	c,(hl)
+   40B3 21 2A 48      [10]  184 	ld	hl,#(_PLAYER_direction + 0x0001)
+   40B6 71            [ 7]  185 	ld	(hl),c
+                            186 ;src/main.c:58: movement =1;
+   40B7 0E 01         [ 7]  187 	ld	c,#0x01
+   40B9 C3 4B 41      [10]  188 	jp	00111$
+   40BC                     189 00110$:
+                            190 ;src/main.c:60: else if(cpct_isKeyPressed(Key_CursorRight)){
+   40BC C5            [11]  191 	push	bc
+   40BD 21 00 02      [10]  192 	ld	hl,#0x0200
+   40C0 CD D9 62      [17]  193 	call	_cpct_isKeyPressed
+   40C3 C1            [10]  194 	pop	bc
+   40C4 7D            [ 4]  195 	ld	a,l
+   40C5 B7            [ 4]  196 	or	a, a
+   40C6 28 31         [12]  197 	jr	Z,00107$
+                            198 ;src/main.c:61: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
+   40C8 01 2B 48      [10]  199 	ld	bc,#_PLAYER_directionIndex+0
+   40CB 3A 2B 48      [13]  200 	ld	a,(#_PLAYER_directionIndex + 0)
+   40CE C6 FE         [ 7]  201 	add	a,#0xFE
+   40D0 E6 07         [ 7]  202 	and	a, #0x07
+   40D2 02            [ 7]  203 	ld	(bc),a
+                            204 ;src/main.c:62: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
+   40D3 01 29 48      [10]  205 	ld	bc,#_PLAYER_direction+0
+   40D6 11 2C 48      [10]  206 	ld	de,#_PLAYER_directionArray+0
+   40D9 FD 21 2B 48   [14]  207 	ld	iy,#_PLAYER_directionIndex
+   40DD FD 6E 00      [19]  208 	ld	l,0 (iy)
+   40E0 26 00         [ 7]  209 	ld	h,#0x00
+   40E2 19            [11]  210 	add	hl,de
+   40E3 7E            [ 7]  211 	ld	a,(hl)
+   40E4 02            [ 7]  212 	ld	(bc),a
+                            213 ;src/main.c:63: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+   40E5 01 2A 48      [10]  214 	ld	bc,#_PLAYER_direction+1
+   40E8 FD 21 2B 48   [14]  215 	ld	iy,#_PLAYER_directionIndex
+   40EC FD 6E 00      [19]  216 	ld	l,0 (iy)
+   40EF 2C            [ 4]  217 	inc	l
+   40F0 26 00         [ 7]  218 	ld	h,#0x00
+   40F2 19            [11]  219 	add	hl,de
+   40F3 7E            [ 7]  220 	ld	a,(hl)
+   40F4 02            [ 7]  221 	ld	(bc),a
+                            222 ;src/main.c:64: movement =1;
+   40F5 0E 01         [ 7]  223 	ld	c,#0x01
+   40F7 18 52         [12]  224 	jr	00111$
+   40F9                     225 00107$:
+                            226 ;src/main.c:66: else if(cpct_isKeyPressed(Key_CursorUp)){
+   40F9 C5            [11]  227 	push	bc
+   40FA 21 00 01      [10]  228 	ld	hl,#0x0100
+   40FD CD D9 62      [17]  229 	call	_cpct_isKeyPressed
+   4100 C1            [10]  230 	pop	bc
+   4101 7D            [ 4]  231 	ld	a,l
+   4102 B7            [ 4]  232 	or	a, a
+   4103 28 1E         [12]  233 	jr	Z,00104$
+                            234 ;src/main.c:67: *(i8*)&(PLAYER_position.x) = PLAYER_position.x + PLAYER_direction.x;
+   4105 21 27 48      [10]  235 	ld	hl,#_PLAYER_position+0
+   4108 4D            [ 4]  236 	ld	c, l
+   4109 44            [ 4]  237 	ld	b, h
+   410A 5E            [ 7]  238 	ld	e,(hl)
+   410B 21 29 48      [10]  239 	ld	hl, #_PLAYER_direction + 0
+   410E 6E            [ 7]  240 	ld	l,(hl)
+   410F 7B            [ 4]  241 	ld	a,e
+   4110 85            [ 4]  242 	add	a, l
+   4111 02            [ 7]  243 	ld	(bc),a
+                            244 ;src/main.c:68: *(i8*)&(PLAYER_position.y) = PLAYER_position.y + PLAYER_direction.y;
+   4112 21 28 48      [10]  245 	ld	hl,#_PLAYER_position+1
+   4115 4D            [ 4]  246 	ld	c, l
+   4116 44            [ 4]  247 	ld	b, h
+   4117 5E            [ 7]  248 	ld	e,(hl)
+   4118 21 2A 48      [10]  249 	ld	hl, #(_PLAYER_direction + 0x0001) + 0
+   411B 6E            [ 7]  250 	ld	l,(hl)
+   411C 7B            [ 4]  251 	ld	a,e
+   411D 85            [ 4]  252 	add	a, l
+   411E 02            [ 7]  253 	ld	(bc),a
+                            254 ;src/main.c:70: movement =1;
+   411F 0E 01         [ 7]  255 	ld	c,#0x01
+   4121 18 28         [12]  256 	jr	00111$
+   4123                     257 00104$:
+                            258 ;src/main.c:72: else if(cpct_isKeyPressed(Key_CursorDown)){
+   4123 C5            [11]  259 	push	bc
+   4124 21 00 04      [10]  260 	ld	hl,#0x0400
+   4127 CD D9 62      [17]  261 	call	_cpct_isKeyPressed
+   412A C1            [10]  262 	pop	bc
+   412B 7D            [ 4]  263 	ld	a,l
+   412C B7            [ 4]  264 	or	a, a
+   412D 28 1C         [12]  265 	jr	Z,00111$
+                            266 ;src/main.c:73: *(i8*)&(PLAYER_position.x) = PLAYER_position.x - PLAYER_direction.x;
+   412F 21 27 48      [10]  267 	ld	hl,#_PLAYER_position+0
+   4132 4D            [ 4]  268 	ld	c, l
+   4133 44            [ 4]  269 	ld	b, h
+   4134 5E            [ 7]  270 	ld	e,(hl)
+   4135 21 29 48      [10]  271 	ld	hl, #_PLAYER_direction + 0
+   4138 6E            [ 7]  272 	ld	l,(hl)
+   4139 7B            [ 4]  273 	ld	a,e
+   413A 95            [ 4]  274 	sub	a, l
+   413B 02            [ 7]  275 	ld	(bc),a
+                            276 ;src/main.c:74: *(i8*)&(PLAYER_position.y) = PLAYER_position.y - PLAYER_direction.y;
+   413C 21 28 48      [10]  277 	ld	hl,#_PLAYER_position+1
+   413F 4D            [ 4]  278 	ld	c, l
+   4140 44            [ 4]  279 	ld	b, h
+   4141 5E            [ 7]  280 	ld	e,(hl)
+   4142 21 2A 48      [10]  281 	ld	hl, #(_PLAYER_direction + 0x0001) + 0
+   4145 6E            [ 7]  282 	ld	l,(hl)
+   4146 7B            [ 4]  283 	ld	a,e
+   4147 95            [ 4]  284 	sub	a, l
+   4148 02            [ 7]  285 	ld	(bc),a
+                            286 ;src/main.c:76: movement =1;
+   4149 0E 01         [ 7]  287 	ld	c,#0x01
+   414B                     288 00111$:
+                            289 ;src/main.c:78: if(movement){
+   414B 79            [ 4]  290 	ld	a,c
+   414C B7            [ 4]  291 	or	a, a
+   414D CA 7A 40      [10]  292 	jp	Z,00115$
+                            293 ;src/main.c:79: render_draw_to_buffer();
+   4150 CD 50 4B      [17]  294 	call	_render_draw_to_buffer
+                            295 ;src/main.c:80: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
+   4153 21 28 64      [10]  296 	ld	hl,#0x6428
+   4156 E5            [11]  297 	push	hl
+   4157 21 B4 C0      [10]  298 	ld	hl,#0xC0B4
+   415A E5            [11]  299 	push	hl
+   415B 21 40 29      [10]  300 	ld	hl,#0x2940
+   415E E5            [11]  301 	push	hl
+   415F CD 5B 63      [17]  302 	call	_cpct_drawSprite
+                            303 ;src/main.c:81: renderCompass();
+   4162 CD 0A 54      [17]  304 	call	_renderCompass
+                            305 ;src/main.c:82: draw_minimap_to_buffer();
+   4165 CD 14 51      [17]  306 	call	_draw_minimap_to_buffer
+                            307 ;src/main.c:83: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
+   4168 21 10 40      [10]  308 	ld	hl,#0x4010
+   416B E5            [11]  309 	push	hl
+   416C 21 70 C5      [10]  310 	ld	hl,#0xC570
+   416F E5            [11]  311 	push	hl
+   4170 21 40 1C      [10]  312 	ld	hl,#0x1C40
+   4173 E5            [11]  313 	push	hl
+   4174 CD 5B 63      [17]  314 	call	_cpct_drawSprite
+   4177 C3 7A 40      [10]  315 	jp	00115$
+                            316 	.area _CODE
+                            317 	.area _INITIALIZER
+                            318 	.area _CABS (ABS)

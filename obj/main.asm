@@ -11,6 +11,7 @@
 	.globl _main
 	.globl _init
 	.globl _renderCompass
+	.globl _uncompress_enemy_textures
 	.globl _uncompress_theme_textures
 	.globl _draw_minimap_to_buffer
 	.globl _render_draw_to_buffer
@@ -113,21 +114,29 @@ _main::
 	inc	sp
 	call	_uncompress_theme_textures
 	inc	sp
-;src/main.c:42: generate_level();
+;src/main.c:42: uncompress_enemy_textures(0);
+	xor	a, a
+	push	af
+	inc	sp
+	call	_uncompress_enemy_textures
+	inc	sp
+;src/main.c:43: generate_level();
 	call	_generate_level
-;src/main.c:43: render_draw_to_buffer();
+;src/main.c:44: render_draw_to_buffer();
 	call	_render_draw_to_buffer
-;src/main.c:44: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
+;src/main.c:45: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
 	ld	hl,#0x6428
 	push	hl
-	ld	hl,#0xC014
+	ld	hl,#0xC0B4
 	push	hl
-	ld	hl,#0x2B40
+	ld	hl,#0x2940
 	push	hl
 	call	_cpct_drawSprite
-;src/main.c:45: draw_minimap_to_buffer();
+;src/main.c:46: renderCompass();
+	call	_renderCompass
+;src/main.c:47: draw_minimap_to_buffer();
 	call	_draw_minimap_to_buffer
-;src/main.c:46: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
+;src/main.c:48: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
 	ld	hl,#0x4010
 	push	hl
 	ld	hl,#0xC570
@@ -135,11 +144,11 @@ _main::
 	ld	hl,#0x1C40
 	push	hl
 	call	_cpct_drawSprite
-;src/main.c:49: while(1) {
+;src/main.c:51: while(1) {
 00115$:
-;src/main.c:50: u8 movement = 0;
+;src/main.c:52: u8 movement = 0;
 	ld	c,#0x00
-;src/main.c:51: cpct_scanKeyboard_f();
+;src/main.c:53: cpct_scanKeyboard_f();
 	push	bc
 	call	_cpct_scanKeyboard_f
 	ld	hl,#0x0101
@@ -149,13 +158,13 @@ _main::
 	ld	a,e
 	or	a, a
 	jr	Z,00110$
-;src/main.c:53: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
+;src/main.c:55: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
 	ld	bc,#_PLAYER_directionIndex+0
 	ld	a,(#_PLAYER_directionIndex + 0)
 	add	a, #0x02
 	and	a, #0x07
 	ld	(bc),a
-;src/main.c:54: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
+;src/main.c:56: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
 	ld	bc,#_PLAYER_directionArray+0
 	ld	iy,#_PLAYER_directionIndex
 	ld	l, 0 (iy)
@@ -164,7 +173,7 @@ _main::
 	ld	e,(hl)
 	ld	hl,#_PLAYER_direction
 	ld	(hl),e
-;src/main.c:55: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+;src/main.c:57: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
 	ld	hl,#_PLAYER_directionIndex + 0
 	ld	e, (hl)
 	inc	e
@@ -174,13 +183,11 @@ _main::
 	ld	c,(hl)
 	ld	hl,#(_PLAYER_direction + 0x0001)
 	ld	(hl),c
-;src/main.c:56: renderCompass();
-	call	_renderCompass
-;src/main.c:57: movement =1;
+;src/main.c:58: movement =1;
 	ld	c,#0x01
 	jp	00111$
 00110$:
-;src/main.c:59: else if(cpct_isKeyPressed(Key_CursorRight)){
+;src/main.c:60: else if(cpct_isKeyPressed(Key_CursorRight)){
 	push	bc
 	ld	hl,#0x0200
 	call	_cpct_isKeyPressed
@@ -188,13 +195,13 @@ _main::
 	ld	a,l
 	or	a, a
 	jr	Z,00107$
-;src/main.c:60: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
+;src/main.c:61: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
 	ld	bc,#_PLAYER_directionIndex+0
 	ld	a,(#_PLAYER_directionIndex + 0)
 	add	a,#0xFE
 	and	a, #0x07
 	ld	(bc),a
-;src/main.c:61: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
+;src/main.c:62: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
 	ld	bc,#_PLAYER_direction+0
 	ld	de,#_PLAYER_directionArray+0
 	ld	iy,#_PLAYER_directionIndex
@@ -203,7 +210,7 @@ _main::
 	add	hl,de
 	ld	a,(hl)
 	ld	(bc),a
-;src/main.c:62: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+;src/main.c:63: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
 	ld	bc,#_PLAYER_direction+1
 	ld	iy,#_PLAYER_directionIndex
 	ld	l,0 (iy)
@@ -212,8 +219,6 @@ _main::
 	add	hl,de
 	ld	a,(hl)
 	ld	(bc),a
-;src/main.c:63: renderCompass();
-	call	_renderCompass
 ;src/main.c:64: movement =1;
 	ld	c,#0x01
 	jr	00111$
@@ -290,14 +295,16 @@ _main::
 ;src/main.c:80: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
 	ld	hl,#0x6428
 	push	hl
-	ld	hl,#0xC014
+	ld	hl,#0xC0B4
 	push	hl
-	ld	hl,#0x2B40
+	ld	hl,#0x2940
 	push	hl
 	call	_cpct_drawSprite
-;src/main.c:81: draw_minimap_to_buffer();
+;src/main.c:81: renderCompass();
+	call	_renderCompass
+;src/main.c:82: draw_minimap_to_buffer();
 	call	_draw_minimap_to_buffer
-;src/main.c:82: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
+;src/main.c:83: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
 	ld	hl,#0x4010
 	push	hl
 	ld	hl,#0xC570

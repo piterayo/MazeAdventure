@@ -39,9 +39,11 @@ void main(void) {
    init();
    init_generator();
    uncompress_theme_textures(0);
+   uncompress_enemy_textures(0);
    generate_level();
    render_draw_to_buffer();
    cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
+   renderCompass();
    draw_minimap_to_buffer();
    cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
    
@@ -53,14 +55,12 @@ void main(void) {
             *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
             *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
             *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
-            renderCompass();
             movement =1;
         }
         else if(cpct_isKeyPressed(Key_CursorRight)){
             *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
             *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
             *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
-            renderCompass();
             movement =1;
         }
         else if(cpct_isKeyPressed(Key_CursorUp)){
@@ -78,6 +78,7 @@ void main(void) {
         if(movement){
              render_draw_to_buffer();
              cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
+             renderCompass();
              draw_minimap_to_buffer();
              cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
         }

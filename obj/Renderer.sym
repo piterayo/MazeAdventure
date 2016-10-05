@@ -15,7 +15,7 @@ Symbol Table
   0 _cells_in_view_array                                           01D1 GR
     _cpct_memset                                                   **** GX
   0 _draw_column_to_buffer                                         01D8 GR
-  0 _draw_minimap_to_buffer                                        08D9 GR
+  0 _draw_minimap_to_buffer                                        08E0 GR
   0 _g_colors                                                      01BF GR
   0 _g_palette                                                     01AF GR
   0 _offsets_cells_in_view                                         01D3 GR
@@ -27,7 +27,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  A10   flags    0
+   0 _CODE                                      size  A19   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

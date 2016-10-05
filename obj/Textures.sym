@@ -7,18 +7,23 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
+  0 _enemy_textures                                                009F GR
     _g_tile_walls_0                                                **** GX
+    _level0_enemies_tileset                                        **** GX
     _pixelMask                                                     **** GX
-  0 _theme_textures                                                0089 GR
+  0 _theme_textures                                                0097 GR
+  0 _uncompress_enemy_textures                                     0131 GR
+  0 _uncompress_item_textures                                      01BC GR
   0 _uncompress_texture                                            0000 GR
-  0 _uncompress_theme_textures                                     0091 GR
+  0 _uncompress_theme_textures                                     00A7 GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  11B   flags    0
+   0 _CODE                                      size  1BD   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -276,7 +276,7 @@ void draw_column_to_buffer(const u8 column, u8 lineHeight, u8 wall_texture, cons
     //u8 color;
     
     //                       START POSITION          TEXTURE INDEX OFFSET           X POSITION OFFSET
-    u8* texture = (u8*)(UNCOMPRESSED_SHARED_TEXTURES + (1024*wall_texture) + ((wall_texture_column)*TEXTURE_WIDTH));
+    u8* texture = (u8*)(UNCOMPRESSED_TEXTURES + (1024*wall_texture) + ((wall_texture_column)*TEXTURE_WIDTH));
     
     u8 j;
     
@@ -377,7 +377,7 @@ void render_draw_to_buffer(){//TODO Optimize
         currentCellID = cells_in_view_array[lineStart + 1];
         
         lastCellWasWall = cells_in_view_array[lineStart];//Calculate offscreen
-        if(lastCellWasWall<5){
+        if(lastCellWasWall&CELL_WALL_MASK){
             lastWallId=lastCellWasWall;
             lastCellWasWall=1;
         }
@@ -398,34 +398,36 @@ void render_draw_to_buffer(){//TODO Optimize
             if(!(x%2)){
                 if ((lateralWallCounter == 0)||newCell)
                 {
-                    if (currentCellID < 5)//Wall
+                    if (currentCellID & CELL_WALL_MASK)//Wall
                     {
                         lateralWallCounter = 0;//(zHeight - xCellCount);
                         lateralWallSlope = 0;
                         xHeight = zHeight;
-                        color = currentCellID;
+                        color = currentCellID&0b01111111;
                         lastCellWasWall = 1;
                         lastWallId=currentCellID;
                     }
-                    else if(lateralWallCounter==0){//Lateral wall not finished
-                        if (lastCellWasWall)
-                        {
-                            
-                            lateralWallSlope = (((offsetDiff - xCell) * 2) + 1);//TODO Optimize
-                            lateralWallSlopeCounter = lateralWallSlope / 2;
-                            lateralWallCounter = lateralWallSlope * zHeight;
-                            lateralWallCounter = (((lateralWallCounter & 0xFC) | 0x01) >> 2) - xCellCount;
-                            lateralWallWidth=lateralWallCounter;
-                            lastCellWasWall = 0;
-                            xHeight = zHeight - ((2 * xCellCount) / lateralWallSlope);
-                            color = lastWallId;
-                        }
-                        else //Dont draw
-                        {
-                            xHeight = 0;
-                            lastCellWasWall = 0;
-                            lateralWallSlope=0;
-                            lastWallId=0;
+                    else{
+                        if(lateralWallCounter==0){//Lateral wall not finished
+                            if (lastCellWasWall)
+                            {
+                                
+                                lateralWallSlope = (((offsetDiff - xCell) * 2) + 1);//TODO Optimize
+                                lateralWallSlopeCounter = lateralWallSlope / 2;
+                                lateralWallCounter = lateralWallSlope * zHeight;
+                                lateralWallCounter = (((lateralWallCounter & 0xFC) | 0x01) >> 2) - xCellCount;
+                                lateralWallWidth=lateralWallCounter;
+                                lastCellWasWall = 0;
+                                xHeight = zHeight - ((2 * xCellCount) / lateralWallSlope);
+                                color = lastWallId&0b01111111;
+                            }
+                            else //Dont draw
+                            {
+                                xHeight = 0;
+                                lastCellWasWall = 0;
+                                lateralWallSlope=0;
+                                lastWallId=0;
+                            }
                         }
                     }
                     // if()
@@ -481,7 +483,7 @@ void render_draw_to_buffer(){//TODO Optimize
         currentCellID = cells_in_view_array[lineEnd - 1];
         
         lastCellWasWall = cells_in_view_array[lineEnd];//Calculate offscreen
-        if(lastCellWasWall<5){
+        if(lastCellWasWall&CELL_WALL_MASK){
             lastWallId=lastCellWasWall;
             lastCellWasWall=1;
         }
@@ -503,12 +505,12 @@ void render_draw_to_buffer(){//TODO Optimize
             if(!(x%2)){
                 if (lateralWallCounter == 0 || newCell)
                 {
-                    if ( currentCellID < 5)//Wall
+                    if ( currentCellID & CELL_WALL_MASK)//Wall
                     {
                         lateralWallCounter = 0;
                         lateralWallSlope = 0;
                         xHeight = zHeight;
-                        color = currentCellID;
+                        color = currentCellID&0b01111111;
                         lastCellWasWall = 1;
                         lastWallId=currentCellID;
                     }
@@ -523,7 +525,7 @@ void render_draw_to_buffer(){//TODO Optimize
                             lateralWallWidth=lateralWallCounter;
                             lastCellWasWall = 0;
                             xHeight = zHeight - 2 * xCellCount / lateralWallSlope;
-                            color = lastWallId;
+                            color = lastWallId&0b01111111;
                         }
                         else //Dont draw
                         {
@@ -594,7 +596,7 @@ void draw_minimap_to_buffer(){
     i8 x,y;
     u8* ptr = MINIMAP_BUFFER;
     
-    u8 (*map)[MAP_HEIGHT] = MAP_MEM;
+    //u8 (*map)[MAP_HEIGHT] = MAP_MEM;
     //u8 pixMask; 
     x=(PLAYER_position.x-MINIMAP_WIDTH_HALF);
     y=(PLAYER_position.y-MINIMAP_HEIGHT_HALF);

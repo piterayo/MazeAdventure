@@ -59,7 +59,7 @@ _renderCompass::
 	ld	b,(hl)
 	ld	hl,#0x1008
 	push	hl
-	ld	hl,#0xE434
+	ld	hl,#0xC024
 	push	hl
 	push	bc
 	call	_cpct_drawSprite

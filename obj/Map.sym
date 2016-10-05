@@ -12,8 +12,8 @@ Symbol Table
     _cpct_getRandom_lcg_u8                                         **** GX
     _cpct_memset                                                   **** GX
     _cpct_setSeed_lcg_u8                                           **** GX
-  0 _generate_exit_door                                            058E GR
-  0 _generate_level                                                06B4 GR
+  0 _generate_exit_door                                            0592 GR
+  0 _generate_level                                                06A7 GR
   0 _generate_map                                                  0028 GR
   0 _get_random_wall                                               000B GR
   0 _init_generator                                                0000 GR
@@ -24,7 +24,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  6BA   flags    0
+   0 _CODE                                      size  6AD   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -208,8 +208,8 @@ void generate_map(){
 }
 
 void generate_exit_door(){
-    u8 x=(cpct_getRandom_lcg_u8());
-    u8 y=(cpct_getRandom_lcg_u8());
+    u8 x=(cpct_getRandom_lcg_u8()%32);
+    u8 y=(cpct_getRandom_lcg_u8()%32);
     u8 door_not_positioned=1;
     
     u8* lastVal;
@@ -219,8 +219,8 @@ void generate_exit_door(){
     
     u8* position = (u8*)(MAP_MEM + x + MAP_WIDTH*y);
     
-    x=x%32;
-    y=y%32;
+    // x=x%32;
+    // y=y%32;
     
     lastVal = (position-1);
     nextVal = (position+1);
@@ -257,6 +257,10 @@ void generate_exit_door(){
         ++bottomVal;
         if(position>END_OF_MAP_MEM){
             position = MAP_MEM;
+            lastVal = (position-1);
+            nextVal = (position+1);
+            topVal = (position-MAP_WIDTH);
+            bottomVal = (position+MAP_WIDTH);
         }
     }
     
