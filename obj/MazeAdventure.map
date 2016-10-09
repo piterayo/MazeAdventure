@@ -18,21 +18,21 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  l__INITIALIZER                  
      00000000  s__CABS                         
      00000000  s__DABS                         
-     00002537  l__CODE                         
+     00002D04  l__CODE                         
      00004000  s__CODE                         
-     00006537  s__DATA                         
-     00006537  s__GSFINAL                      
-     00006537  s__GSINIT                       
-     00006537  s__HOME                         
-     00006537  s__INITIALIZED                  
-     00006537  s__INITIALIZER                  
+     00006D04  s__DATA                         
+     00006D04  s__GSFINAL                      
+     00006D04  s__GSINIT                       
+     00006D04  s__HOME                         
+     00006D04  s__INITIALIZED                  
+     00006D04  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00002537 =        9527. bytes (REL,CON)
+_CODE                               00004000    00002D04 =       11524. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -42,93 +42,97 @@ _CODE                               00004000    00002537 =        9527. bytes (R
      00004184  _rand_seed                         Map
      00004185  _get_random_wall                   Map
      000041A2  _generate_map                      Map
-     0000470C  _generate_exit_door                Map
-     00004821  _generate_level                    Map
-     00004827  _PLAYER_position                   Player
-     00004829  _PLAYER_direction                  Player
-     0000482B  _PLAYER_directionIndex             Player
-     0000482C  _PLAYER_directionArray             Player
-     00004834  _calculate_cells_in_view           Renderer
-     000049E3  _g_palette                         Renderer
-     000049F3  _g_colors                          Renderer
-     00004A03  _pixelMask                         Renderer
-     00004A05  _cells_in_view_array               Renderer
-     00004A07  _offsets_cells_in_view             Renderer
-     00004A0C  _draw_column_to_buffer             Renderer
-     00004B50  _render_draw_to_buffer             Renderer
-     00005114  _draw_minimap_to_buffer            Renderer
-     0000524D  _uncompress_texture                Textures
-     000052E4  _theme_textures                    Textures
-     000052EC  _enemy_textures                    Textures
-     000052F4  _uncompress_theme_textures         Textures
-     0000537E  _uncompress_enemy_textures         Textures
-     00005409  _uncompress_item_textures          Textures
-     0000540A  _renderCompass                     UI_Compass
-     0000542A  _level0_enemies_tileset            level0_enemies
-     00005432  _level0_enemies_level0_enemies_0   level0_enemies
-     00005552  _level0_enemies_level0_enemies_1   level0_enemies
-     00005672  _level0_enemies_level0_enemies_2   level0_enemies
-     00005792  _level0_enemies_level0_enemies_3   level0_enemies
-     000058B2  _compass_tileset                   compass
-     000058BA  _compass_compass_0                 compass
-     0000593A  _compass_compass_1                 compass
-     000059BA  _compass_compass_2                 compass
-     00005A3A  _compass_compass_3                 compass
-     00005ABA  _g_tile_walls_0                    walls_0
-     00005AC2  _g_tile_walls_0_0                  walls_0
-     00005CC2  _g_tile_walls_0_1                  walls_0
-     00005EC2  _g_tile_walls_0_2                  walls_0
-     000060C2  _g_tile_walls_0_3                  walls_0
-     000062C2  _cpct_setPalette                   cpct_video
-     000062D9  _cpct_isKeyPressed                 cpct_keyboard
-     000062D9  cpct_isKeyPressed_asm              cpct_keyboard
-     000062E5  _cpct_scanKeyboard_f               cpct_keyboard
-     000062E5  cpct_scanKeyboard_f_asm            cpct_keyboard
-     0000634F  _cpct_setPALColour                 cpct_video
-     0000635B  _cpct_drawSprite                   cpct_sprites
+     000046EF  _generate_exit_door                Map
+     000048A0  _generate_level                    Map
+     000048AC  _PLAYER_position                   Player
+     000048AE  _PLAYER_direction                  Player
+     000048B0  _PLAYER_directionIndex             Player
+     000048B1  _PLAYER_directionArray             Player
+     000048B9  _calculate_cells_in_view           Renderer
+     00004A68  _g_palette                         Renderer
+     00004A78  _g_colors                          Renderer
+     00004A88  _g_pixelMask                       Renderer
+     00004A8A  _g_texturedWalls                   Renderer
+     00004A8B  _cells_in_view_array               Renderer
+     00004A8D  _offsets_cells_in_view             Renderer
+     00004A92  _draw_column_to_buffer_untexture   Renderer
+     00004B0A  _draw_column_to_buffer_enemy       Renderer
+     00004C48  _draw_column_to_buffer             Renderer
+     00004D7B  _render_draw_to_buffer             Renderer
+     000058CA  _draw_minimap_to_buffer            Renderer
+     00005A03  _uncompress_texture                Textures
+     00005AB1  _theme_textures                    Textures
+     00005AB9  _enemy_textures                    Textures
+     00005AC1  _uncompress_theme_textures         Textures
+     00005B4B  _uncompress_enemy_textures         Textures
+     00005BD6  _uncompress_item_textures          Textures
+     00005BD7  _renderCompass                     UI_Compass
+     00005BF7  _level0_enemies_tileset            level0_enemies
+     00005BFF  _level0_enemies_level0_enemies_0   level0_enemies
+     00005D1F  _level0_enemies_level0_enemies_1   level0_enemies
+     00005E3F  _level0_enemies_level0_enemies_2   level0_enemies
+     00005F5F  _level0_enemies_level0_enemies_3   level0_enemies
+     0000607F  _compass_tileset                   compass
+     00006087  _compass_compass_0                 compass
+     00006107  _compass_compass_1                 compass
+     00006187  _compass_compass_2                 compass
+     00006207  _compass_compass_3                 compass
+     00006287  _g_tile_walls_0                    walls_0
+     0000628F  _g_tile_walls_0_0                  walls_0
+     0000648F  _g_tile_walls_0_1                  walls_0
+     0000668F  _g_tile_walls_0_2                  walls_0
+     0000688F  _g_tile_walls_0_3                  walls_0
+     00006A8F  _cpct_setPalette                   cpct_video
+     00006AA6  _cpct_isKeyPressed                 cpct_keyboard
+     00006AA6  cpct_isKeyPressed_asm              cpct_keyboard
+     00006AB2  _cpct_scanKeyboard_f               cpct_keyboard
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    00002537 =        9527. bytes (REL,CON)
+_CODE                               00004000    00002D04 =       11524. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00006400  __moduchar                         
-     0000640C  __moduint                          
-     00006417  _cpct_setSeed_lcg_u8               cpct_random
-     00006417  cpct_setSeed_lcg_u8_asm            cpct_random
-     0000641C  _cpct_fw2hw                        cpct_video
-     0000642F  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00006439  __mulint                           
-     00006441  __mul16                            
-     00006455  __divuint                          
-     0000645D  __divuchar                         
-     00006464  __divu8                            
-     00006467  __divu16                           
-     00006496  cpct_firmware2hw_colour            
-     000064B1  _cpct_getRandom_lcg_u8             cpct_random
-     000064B1  cpct_getRandom_lcg_u8_asm          cpct_random
-     000064B2  cpct_randlcgu8_seed                cpct_random
-     000064C2  _cpct_setVideoMode                 cpct_video
-     000064D0  _cpct_memset                       cpct_memutils
-     000064DE  _cpct_disableFirmware              cpct_firmware
-     000064DE  _cpct_removeInterruptHandler       cpct_firmware
-     000064DE  cpct_disableFirmware_asm           cpct_firmware
-     000064DE  cpct_removeInterruptHandler_asm    cpct_firmware
-     000064EE  _cpct_mode_rom_status              cpct_firmware
-     000064EF  __divsint                          
-     000064F8  __divschar                         
-     000064FF  __div8                             
-     00006503  __div_signexte                     
-     00006507  __div16                            
-     0000652D  __get_remainder                    
+     00006AB2  cpct_scanKeyboard_f_asm            cpct_keyboard
+     00006B1C  _cpct_setPALColour                 cpct_video
+     00006B28  _cpct_drawSprite                   cpct_sprites
+     00006BCD  __moduchar                         
+     00006BD9  __moduint                          
+     00006BE4  _cpct_setSeed_lcg_u8               cpct_random
+     00006BE4  cpct_setSeed_lcg_u8_asm            cpct_random
+     00006BE9  _cpct_fw2hw                        cpct_video
+     00006BFC  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00006C06  __mulint                           
+     00006C0E  __mul16                            
+     00006C22  __divuint                          
+     00006C2A  __divuchar                         
+     00006C31  __divu8                            
+     00006C34  __divu16                           
+     00006C63  cpct_firmware2hw_colour            
+     00006C7E  _cpct_getRandom_lcg_u8             cpct_random
+     00006C7E  cpct_getRandom_lcg_u8_asm          cpct_random
+     00006C7F  cpct_randlcgu8_seed                cpct_random
+     00006C8F  _cpct_setVideoMode                 cpct_video
+     00006C9D  _cpct_memset                       cpct_memutils
+     00006CAB  _cpct_disableFirmware              cpct_firmware
+     00006CAB  _cpct_removeInterruptHandler       cpct_firmware
+     00006CAB  cpct_disableFirmware_asm           cpct_firmware
+     00006CAB  cpct_removeInterruptHandler_asm    cpct_firmware
+     00006CBB  _cpct_mode_rom_status              cpct_firmware
+     00006CBC  __divsint                          
+     00006CC5  __divschar                         
+     00006CCC  __div8                             
+     00006CD0  __div_signexte                     
+     00006CD4  __div16                            
+     00006CFA  __get_remainder                    
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 
 Files Linked                              [ module(s) ]
 
+obj/Enemy.rel                             [ Enemy ]
 obj/main.rel                              [ main ]
 obj/Map.rel                               [ Map ]
 obj/Player.rel                            [ Player ]

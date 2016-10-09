@@ -7,6 +7,7 @@
 -k /home/albert/cpctelera/cpctelera/tools/sdcc-3.5.5/share/sdcc/lib/z80
 -l /home/albert/cpctelera/cpctelera/cpctelera.lib
 -l z80
+obj/Enemy.rel
 obj/main.rel
 obj/Map.rel
 obj/Player.rel

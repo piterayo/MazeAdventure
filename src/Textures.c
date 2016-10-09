@@ -15,7 +15,7 @@ u8** const enemy_textures[4]={//TODO create textures
 };
 
 void uncompress_texture(u8* texture, u8* position, u8 sizeX, u8 sizeY){
-    u8 p1, p2, tex_height=sizeY;
+    u8 p1, p2, tex_height=sizeY, tex_width = sizeX;
     
     u8* currPos;
     
@@ -25,15 +25,15 @@ void uncompress_texture(u8* texture, u8* position, u8 sizeX, u8 sizeY){
         // ++position;
         currPos = position;
         while(sizeY){
-            p1 = (*texture) & pixelMask[0];
+            p1 = (*texture) & g_pixelMask[0];
             p1= p1 | (p1>>1);
             *currPos = p1;
-            currPos+=TEXTURE_WIDTH;
+            currPos+=tex_width;
             
-            p2 = (*texture) & pixelMask[1];
+            p2 = (*texture) & g_pixelMask[1];
             p2 = p2 | (p2<<1);
             *currPos = p2;
-            currPos+=TEXTURE_WIDTH;
+            currPos+=tex_width;
             --sizeY;
             ++texture;
         }

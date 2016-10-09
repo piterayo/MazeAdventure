@@ -53,36 +53,39 @@ _uncompress_texture::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-	ld	hl,#-7
+	ld	hl,#-8
 	add	hl,sp
 	ld	sp,hl
-;src/Textures.c:18: u8 p1, p2, tex_height=sizeY;
+;src/Textures.c:18: u8 p1, p2, tex_height=sizeY, tex_width = sizeX;
 	ld	a,9 (ix)
-	ld	-5 (ix),a
+	ld	-6 (ix),a
+	ld	c,8 (ix)
 ;src/Textures.c:24: while(sizeX){
-	ld	a,8 (ix)
-	ld	-4 (ix),a
+	ld	-5 (ix),c
 	ld	e,6 (ix)
 	ld	d,7 (ix)
 00104$:
-	ld	a,-4 (ix)
+	ld	a,-5 (ix)
 	or	a, a
-	jr	Z,00107$
+	jp	Z,00107$
 ;src/Textures.c:26: currPos = position;
-	ld	-3 (ix),e
-	ld	-2 (ix),d
+	ld	-2 (ix),e
+	ld	-1 (ix),d
 ;src/Textures.c:27: while(sizeY){
-	ld	a,9 (ix)
-	ld	-1 (ix),a
-	ld	c,4 (ix)
-	ld	b,5 (ix)
+	ld	b,9 (ix)
+	ld	a,4 (ix)
+	ld	-4 (ix),a
+	ld	a,5 (ix)
+	ld	-3 (ix),a
 00101$:
-	ld	a,-1 (ix)
+	ld	a,b
 	or	a, a
 	jr	Z,00113$
-;src/Textures.c:28: p1 = (*texture) & pixelMask[0];
-	ld	a,(bc)
-	ld	hl, #_pixelMask + 0
+;src/Textures.c:28: p1 = (*texture) & g_pixelMask[0];
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
+	ld	a,(hl)
+	ld	hl, #_g_pixelMask + 0
 	ld	l,(hl)
 	and	a, l
 ;src/Textures.c:29: p1= p1 | (p1>>1);
@@ -90,19 +93,24 @@ _uncompress_texture::
 	srl	a
 	or	a, l
 ;src/Textures.c:30: *currPos = p1;
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	(hl),a
-;src/Textures.c:31: currPos+=TEXTURE_WIDTH;
-	ld	a,-3 (ix)
-	add	a, #0x20
-	ld	-7 (ix),a
+;src/Textures.c:31: currPos+=tex_width;
 	ld	a,-2 (ix)
+	add	a, c
+	ld	l,a
+	ld	a,-1 (ix)
 	adc	a, #0x00
-	ld	-6 (ix),a
-;src/Textures.c:33: p2 = (*texture) & pixelMask[1];
-	ld	a,(bc)
-	ld	hl, #_pixelMask + 1
+	ld	h,a
+	inc	sp
+	inc	sp
+	push	hl
+;src/Textures.c:33: p2 = (*texture) & g_pixelMask[1];
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
+	ld	a,(hl)
+	ld	hl, #_g_pixelMask + 1
 	ld	l,(hl)
 	and	a, l
 ;src/Textures.c:34: p2 = p2 | (p2<<1);
@@ -113,29 +121,33 @@ _uncompress_texture::
 	pop	hl
 	push	hl
 	ld	(hl),a
-;src/Textures.c:36: currPos+=TEXTURE_WIDTH;
-	ld	a,-7 (ix)
-	add	a, #0x20
-	ld	-3 (ix),a
-	ld	a,-6 (ix)
-	adc	a, #0x00
+;src/Textures.c:36: currPos+=tex_width;
+	ld	a,-8 (ix)
+	add	a, c
 	ld	-2 (ix),a
+	ld	a,-7 (ix)
+	adc	a, #0x00
+	ld	-1 (ix),a
 ;src/Textures.c:37: --sizeY;
-	dec	-1 (ix)
+	dec	b
 ;src/Textures.c:38: ++texture;
-	inc	bc
+	inc	-4 (ix)
+	jr	NZ,00101$
+	inc	-3 (ix)
 	jr	00101$
 00113$:
-	ld	4 (ix),c
-	ld	5 (ix),b
+	ld	a,-4 (ix)
+	ld	4 (ix),a
+	ld	a,-3 (ix)
+	ld	5 (ix),a
 ;src/Textures.c:40: --sizeX;
-	dec	-4 (ix)
+	dec	-5 (ix)
 ;src/Textures.c:41: sizeY=tex_height;
-	ld	a,-5 (ix)
+	ld	a,-6 (ix)
 	ld	9 (ix),a
 ;src/Textures.c:42: ++position;
 	inc	de
-	jr	00104$
+	jp	00104$
 00107$:
 	ld	sp, ix
 	pop	ix

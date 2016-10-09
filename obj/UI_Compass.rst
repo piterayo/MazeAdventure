@@ -45,25 +45,25 @@
                              45 ;	---------------------------------
                              46 ; Function renderCompass
                              47 ; ---------------------------------
-   540A                      48 _renderCompass::
+   5BD7                      48 _renderCompass::
                              49 ;src/UI_Compass.c:7: cpct_drawSprite(compass_tileset[PLAYER_directionIndex/2],COMPASS_POSITION,8,16);
-   540A 01 B2 58      [10]   50 	ld	bc,#_compass_tileset+0
-   540D FD 21 2B 48   [14]   51 	ld	iy,#_PLAYER_directionIndex
-   5411 FD 6E 00      [19]   52 	ld	l,0 (iy)
-   5414 CB 3D         [ 8]   53 	srl	l
-   5416 26 00         [ 7]   54 	ld	h,#0x00
-   5418 29            [11]   55 	add	hl, hl
-   5419 09            [11]   56 	add	hl,bc
-   541A 4E            [ 7]   57 	ld	c,(hl)
-   541B 23            [ 6]   58 	inc	hl
-   541C 46            [ 7]   59 	ld	b,(hl)
-   541D 21 08 10      [10]   60 	ld	hl,#0x1008
-   5420 E5            [11]   61 	push	hl
-   5421 21 24 C0      [10]   62 	ld	hl,#0xC024
-   5424 E5            [11]   63 	push	hl
-   5425 C5            [11]   64 	push	bc
-   5426 CD 5B 63      [17]   65 	call	_cpct_drawSprite
-   5429 C9            [10]   66 	ret
+   5BD7 01 7F 60      [10]   50 	ld	bc,#_compass_tileset+0
+   5BDA FD 21 B0 48   [14]   51 	ld	iy,#_PLAYER_directionIndex
+   5BDE FD 6E 00      [19]   52 	ld	l,0 (iy)
+   5BE1 CB 3D         [ 8]   53 	srl	l
+   5BE3 26 00         [ 7]   54 	ld	h,#0x00
+   5BE5 29            [11]   55 	add	hl, hl
+   5BE6 09            [11]   56 	add	hl,bc
+   5BE7 4E            [ 7]   57 	ld	c,(hl)
+   5BE8 23            [ 6]   58 	inc	hl
+   5BE9 46            [ 7]   59 	ld	b,(hl)
+   5BEA 21 08 10      [10]   60 	ld	hl,#0x1008
+   5BED E5            [11]   61 	push	hl
+   5BEE 21 24 C0      [10]   62 	ld	hl,#0xC024
+   5BF1 E5            [11]   63 	push	hl
+   5BF2 C5            [11]   64 	push	bc
+   5BF3 CD 28 6B      [17]   65 	call	_cpct_drawSprite
+   5BF6 C9            [10]   66 	ret
                              67 	.area _CODE
                              68 	.area _INITIALIZER
                              69 	.area _CABS (ABS)

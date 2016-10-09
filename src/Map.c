@@ -229,22 +229,22 @@ void generate_exit_door(){
     
     while(door_not_positioned){
         if((*position)!=CELLTYPE_FLOOR){
-            if(((*lastVal)!=CELLTYPE_FLOOR) && ((*nextVal)!=CELLTYPE_FLOOR)){
-                if(((*topVal)!=CELLTYPE_FLOOR) && ((*bottomVal)==CELLTYPE_FLOOR)){
+            if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
+                if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
                     door_not_positioned=0;
                     *position=CELLTYPE_DOOR;
                 }
-                else if(((*bottomVal)!=CELLTYPE_FLOOR) && ((*topVal)==CELLTYPE_FLOOR)){
+                else if((((*bottomVal)!=CELLTYPE_FLOOR)||(bottomVal>=END_OF_MAP_MEM)) && (((*topVal)==CELLTYPE_FLOOR)&&(topVal>=MAP_MEM))){
                     door_not_positioned=0;
                     *position=CELLTYPE_DOOR;
                 }
             }
-            else if(((*topVal)!=CELLTYPE_FLOOR) && ((*bottomVal)!=CELLTYPE_FLOOR)){
-                if(((*lastVal)!=CELLTYPE_FLOOR) && ((*nextVal)==CELLTYPE_FLOOR)){
+            else if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)!=CELLTYPE_FLOOR)||(bottomVal>=END_OF_MAP_MEM))){
+                if((((*lastVal)!=CELLTYPE_FLOOR)|| (lastVal<MAP_MEM) ) && (((*nextVal)==CELLTYPE_FLOOR)&&(nextVal<END_OF_MAP_MEM))){
                     door_not_positioned=0;
                     *position=CELLTYPE_DOOR;
                 }
-                else if(((*nextVal)!=CELLTYPE_FLOOR) && ((*lastVal)==CELLTYPE_FLOOR)){
+                else if((((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM)) && (((*lastVal)==CELLTYPE_FLOOR)&&(lastVal>=MAP_MEM))){
                     door_not_positioned=0;
                     *position=CELLTYPE_DOOR;
                 }
@@ -255,7 +255,7 @@ void generate_exit_door(){
         ++nextVal;
         ++topVal;
         ++bottomVal;
-        if(position>END_OF_MAP_MEM){
+        if(position==END_OF_MAP_MEM){
             position = MAP_MEM;
             lastVal = (position-1);
             nextVal = (position+1);
@@ -269,4 +269,5 @@ void generate_exit_door(){
 void generate_level(){
     generate_map();
     generate_exit_door();
+    *(u8*)(MAP_MEM + 5 + MAP_WIDTH*5)=0b00000001;
 }

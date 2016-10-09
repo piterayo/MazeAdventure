@@ -70,15 +70,16 @@
 #define MINIMAP_PLAYER_COLOR    4
 #define MINIMAP_EXIT_COLOR      8
 
-#define WALL1_COLOR 14
-#define WALL2_COLOR 13
-#define DOOR1_COLOR 12
-#define DOOR2_COLOR 15
-
 #define GROUND_COLOR    6
 #define SKY_COLOR       5
 #define HORIZON_COLOR   1
 
+//Untextured render
+
+#define WALL1_COLOR 14
+#define WALL2_COLOR 13
+#define DOOR1_COLOR 12
+#define DOOR2_COLOR 15
 
 
 #define TEXTURE_WIDTH       32
