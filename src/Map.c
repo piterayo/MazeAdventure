@@ -56,13 +56,13 @@ void generate_map(){
     
     //GENERATE BORDERS
     for(i=0;i<MAP_WIDTH;++i){
-        map[0][i]=get_random_wall();
-        map[MAP_HEIGHT-1][i]=get_random_wall();
+        map[0][i]=CELLTYPE_WALL1;//get_random_wall();
+        map[MAP_HEIGHT-1][i]=CELLTYPE_WALL1;//get_random_wall();
     }
     
     for(i=1;i<MAP_HEIGHT-1;++i){
-        map[i][0]=get_random_wall();
-        map[i][MAP_WIDTH-1]=get_random_wall();
+        map[i][0]=CELLTYPE_WALL1;//get_random_wall();
+        map[i][MAP_WIDTH-1]=CELLTYPE_WALL1;//get_random_wall();
     }
     
     while(remainingCells>0){

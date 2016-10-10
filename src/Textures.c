@@ -3,11 +3,13 @@
 #include "Textures.h"
 #include "GlobalDefinitions.h"
 
-#include "textures/walls_0.h"
-#include "sprites/enemies/level0_enemies.h"
+#include "textures/walls/level0_walls.h"
+#include "textures/walls/level1_walls.h"
+
+#include "textures/enemies/level0_enemies.h"
 
 u8** const theme_textures[4]={//TODO create textures
-    g_tile_walls_0,g_tile_walls_0,g_tile_walls_0,g_tile_walls_0
+    level0_walls_tileset,level1_walls_tileset,level1_walls_tileset,level1_walls_tileset
 };
 
 u8** const enemy_textures[4]={//TODO create textures

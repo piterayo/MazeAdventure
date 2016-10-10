@@ -7,11 +7,11 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 _g_tile_walls_0                                                0000 GR
-  0 _g_tile_walls_0_0                                              0008 GR
-  0 _g_tile_walls_0_1                                              0208 GR
-  0 _g_tile_walls_0_2                                              0408 GR
-  0 _g_tile_walls_0_3                                              0608 GR
+  0 _level1_walls_level1_walls_0                                   0008 GR
+  0 _level1_walls_level1_walls_1                                   0208 GR
+  0 _level1_walls_level1_walls_2                                   0408 GR
+  0 _level1_walls_level1_walls_3                                   0608 GR
+  0 _level1_walls_tileset                                          0000 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]

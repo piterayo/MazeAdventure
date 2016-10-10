@@ -14,9 +14,10 @@ const u8 g_palette[16]={
     8,//Transparent color, common for all scenes
     0,13,26, //UI black, gray, white
     6,//Common for all scenes, minimap
+    24,25, //Key item colors
     1,//Sky color
     9,//Ground color
-    3,24,18,5,14,15,16,17,19,//Scene colors
+    3,18,5,14,15,17,19,//Scene colors
 };
 
 const u8 g_colors[16]={
@@ -238,7 +239,7 @@ void calculate_cells_in_view(){
                 cells_in_view_array[n]=*(u8*)(MAP_MEM+x+y*MAP_WIDTH);
             }
             else{
-                cells_in_view_array[n]=1;
+                cells_in_view_array[n]=CELLTYPE_WALL1;
             }
             
             
@@ -300,10 +301,14 @@ void draw_column_to_buffer_untextured(const u8 column, u8 lineHeight, u8 wall_co
     }
 }
 
+void draw_column_to_buffer_object(const u8 column, u8 lineHeight, u8 index, u8 texture_column){
+    
+}
+
 void draw_column_to_buffer_enemy(const u8 column, u8 lineHeight, u8 index, u8 texture_column){
     u8* pvmem;
     
-    u8 w_color;
+    u8 color;
     u8 pixMask;
     
     u8 val;
@@ -343,14 +348,14 @@ void draw_column_to_buffer_enemy(const u8 column, u8 lineHeight, u8 index, u8 te
         
         for(j;j;--j){
             
-            w_color= *(texture+(texture_line/256));
+            color= *(texture+(texture_line/256));
             
-            if(w_color){
+            if(color){
                 val =  ((*pvmem)&(~pixMask));
                 
-                w_color = (w_color&pixMask);
+                color = (color&pixMask);
                             
-                *pvmem = val|w_color;
+                *pvmem = val|color;
             }
             
             texture_line += texture_line_add;
@@ -394,11 +399,18 @@ void draw_column_to_buffer(const u8 column, u8 lineHeight, u8 wall_texture, cons
     pvmem += SCREEN_TEXTURE_WIDTH_BYTES * ceiling_height;
     
     for(j;j;--j){
-        val =  ((*pvmem)&(~pixMask));
         
-        w_color = (*(texture+(wall_texture_line/256))&pixMask);
-                    
-        *pvmem = val|w_color;
+        w_color = *(texture+(wall_texture_line/256));
+        
+        if(w_color){
+        
+            val =  ((*pvmem)&(~pixMask));
+            
+            w_color = (w_color&pixMask);
+                        
+            *pvmem = val|w_color;
+        
+        }
         
         wall_texture_line += wall_texture_line_add;
             
@@ -549,6 +561,7 @@ void render_draw_to_buffer(){//TODO Optimize
                             tex_column=(xCellCount)*TEXTURE_WIDTH/zHeight;
                         }
                         draw_column_to_buffer(x/2, xHeight, color,tex_column);
+                    }
                         if(!(currentCellID&CELL_WALL_MASK)){
                             if(currentCellID&CELL_ENEMY_MASK){
                                 draw_column_to_buffer_enemy(x/2, zHeight, currentCellID , (xCellCount)*TEXTURE_WIDTH/zHeight);
@@ -557,7 +570,6 @@ void render_draw_to_buffer(){//TODO Optimize
                                 
                             }
                         }
-                    }
                 }
                 
                 ++xCellCount;
@@ -667,6 +679,7 @@ void render_draw_to_buffer(){//TODO Optimize
                         
                         draw_column_to_buffer(x/2, xHeight, color,tex_column);
                         
+                    }
                         if(!(currentCellID&CELL_WALL_MASK)){
                             if(currentCellID&CELL_ENEMY_MASK){
                                 draw_column_to_buffer_enemy(x/2, zHeight, currentCellID , (zHeight-xCellCount)*TEXTURE_WIDTH/zHeight);
@@ -675,7 +688,6 @@ void render_draw_to_buffer(){//TODO Optimize
                                 
                             }
                         }
-                    }
                 }
                 ++xCellCount;
                 
@@ -787,6 +799,7 @@ void render_draw_to_buffer(){//TODO Optimize
                     if(xHeight > 0){
                         draw_column_to_buffer_untextured(x/2, xHeight, color);
                         
+                    }
                         if(!(currentCellID&CELL_WALL_MASK)){
                             if(currentCellID&CELL_ENEMY_MASK){
                                 draw_column_to_buffer_enemy(x/2, zHeight, currentCellID , (xCellCount)*TEXTURE_WIDTH/zHeight);
@@ -795,7 +808,6 @@ void render_draw_to_buffer(){//TODO Optimize
                                 
                             }
                         }
-                    }
                 }
                 
                 ++xCellCount;
@@ -897,6 +909,7 @@ void render_draw_to_buffer(){//TODO Optimize
                         
                         draw_column_to_buffer_untextured(x/2, xHeight, color);
                         
+                    }
                         if(!(currentCellID&CELL_WALL_MASK)){
                             if(currentCellID&CELL_ENEMY_MASK){
                                 draw_column_to_buffer_enemy(x/2, zHeight, currentCellID ,(zHeight-xCellCount)*TEXTURE_WIDTH/zHeight);
@@ -905,7 +918,6 @@ void render_draw_to_buffer(){//TODO Optimize
                                 
                             }
                         }
-                    }
                 }
                 ++xCellCount;
                 
@@ -927,7 +939,7 @@ void render_draw_to_buffer(){//TODO Optimize
 
 
 void draw_minimap_to_buffer(){
-    u8 i, j, n;
+    u8 i, j, n, val;
     i8 x,y;
     u8* ptr = MINIMAP_BUFFER;
     
@@ -949,22 +961,19 @@ void draw_minimap_to_buffer(){
                     *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_PLAYER_COLOR];
                 }
                 else{
-                    switch(*(u8*)(MAP_MEM+x+y*MAP_WIDTH)){
-                        case CELLTYPE_FLOOR:{
-                            *ptr=g_colors[MINIMAP_FLOOR_COLOR];
-                            *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_FLOOR_COLOR];
-                            break;
-                        }
-                        case CELLTYPE_DOOR:{
+                    val = (*(u8*)(MAP_MEM+x+y*MAP_WIDTH));
+                    
+                    if(val==CELLTYPE_DOOR){
                             *ptr=g_colors[MINIMAP_EXIT_COLOR];
                             *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_EXIT_COLOR];
-                            break;
-                        }
-                        default:{
+                    }
+                    else if(val&CELL_WALL_MASK){
                             *ptr=g_colors[MINIMAP_WALL_COLOR];
                             *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_WALL_COLOR];
-                            break;
-                        }
+                    }
+                    else{
+                            *ptr=g_colors[MINIMAP_FLOOR_COLOR];
+                            *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_FLOOR_COLOR];
                     }
                 }
                 ++x;

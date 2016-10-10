@@ -58,37 +58,37 @@ _level0_enemies_level0_enemies_0:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
-	.db #0x0A	; 10
+	.db #0xA8	; 168
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0xC0	; 192
 	.db #0x00	; 0
-	.db #0x95	; 149
+	.db #0xC1	; 193
 	.db #0xC0	; 192
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0xC0	; 192
-	.db #0x0F	; 15
+	.db #0xFC	; 252
 	.db #0x00	; 0
 	.db #0xC0	; 192
-	.db #0x6A	; 106	'j'
+	.db #0xC2	; 194
 	.db #0x00	; 0
 	.db #0x40	; 64
-	.db #0x2E	; 46
+	.db #0x86	; 134
 	.db #0xC0	; 192
 	.db #0x40	; 64
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x85	; 133
+	.db #0xD4	; 212
 	.db #0xC0	; 192
-	.db #0x1D	; 29
+	.db #0x49	; 73	'I'
 	.db #0x80	; 128
 	.db #0x00	; 0
 	.db #0x40	; 64
-	.db #0x3F	; 63
+	.db #0xC3	; 195
 	.db #0x0C	; 12
 	.db #0x84	; 132
 	.db #0x0C	; 12
@@ -96,42 +96,42 @@ _level0_enemies_level0_enemies_0:
 	.db #0x0C	; 12
 	.db #0x48	; 72	'H'
 	.db #0x0C	; 12
-	.db #0x3F	; 63
+	.db #0xC3	; 195
 	.db #0x80	; 128
 	.db #0x00	; 0
 	.db #0x00	; 0
-	.db #0x95	; 149
-	.db #0x2E	; 46
+	.db #0xC1	; 193
+	.db #0x86	; 134
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x1D	; 29
-	.db #0x6A	; 106	'j'
+	.db #0x49	; 73	'I'
+	.db #0xC2	; 194
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
-	.db #0x95	; 149
-	.db #0x2E	; 46
+	.db #0xC1	; 193
+	.db #0x86	; 134
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x1D	; 29
-	.db #0x6A	; 106	'j'
+	.db #0x49	; 73	'I'
+	.db #0xC2	; 194
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x40	; 64
-	.db #0x2E	; 46
+	.db #0x86	; 134
 	.db #0x48	; 72	'H'
 	.db #0x84	; 132
 	.db #0x0C	; 12
 	.db #0x48	; 72	'H'
 	.db #0x84	; 132
-	.db #0x1D	; 29
+	.db #0x49	; 73	'I'
 	.db #0x80	; 128
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -144,7 +144,7 @@ _level0_enemies_level0_enemies_0:
 	.db #0x90	; 144
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x85	; 133
+	.db #0xD4	; 212
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -156,8 +156,8 @@ _level0_enemies_level0_enemies_0:
 	.db #0x18	; 24
 	.db #0x0C	; 12
 	.db #0x4C	; 76	'L'
-	.db #0x85	; 133
-	.db #0x0A	; 10
+	.db #0xD4	; 212
+	.db #0xA8	; 168
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -168,8 +168,8 @@ _level0_enemies_level0_enemies_0:
 	.db #0x0C	; 12
 	.db #0xCC	; 204
 	.db #0xC8	; 200
-	.db #0x05	; 5
-	.db #0x0A	; 10
+	.db #0x54	; 84	'T'
+	.db #0xA8	; 168
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0xC0	; 192
@@ -181,7 +181,7 @@ _level0_enemies_level0_enemies_0:
 	.db #0x0C	; 12
 	.db #0x48	; 72	'H'
 	.db #0xC0	; 192
-	.db #0x0F	; 15
+	.db #0xFC	; 252
 	.db #0x00	; 0
 	.db #0x40	; 64
 	.db #0x4C	; 76	'L'
@@ -193,7 +193,7 @@ _level0_enemies_level0_enemies_0:
 	.db #0xCC	; 204
 	.db #0xCC	; 204
 	.db #0x8C	; 140
-	.db #0x85	; 133
+	.db #0xD4	; 212
 	.db #0x00	; 0
 	.db #0x84	; 132
 	.db #0x0C	; 12
@@ -206,7 +206,7 @@ _level0_enemies_level0_enemies_0:
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x48	; 72	'H'
-	.db #0x0A	; 10
+	.db #0xA8	; 168
 	.db #0x84	; 132
 	.db #0x0C	; 12
 	.db #0x4C	; 76	'L'
@@ -218,7 +218,7 @@ _level0_enemies_level0_enemies_0:
 	.db #0x8C	; 140
 	.db #0x0C	; 12
 	.db #0x48	; 72	'H'
-	.db #0x0A	; 10
+	.db #0xA8	; 168
 	.db #0x84	; 132
 	.db #0x0C	; 12
 	.db #0x8C	; 140
@@ -230,33 +230,33 @@ _level0_enemies_level0_enemies_0:
 	.db #0x4C	; 76	'L'
 	.db #0x0C	; 12
 	.db #0x48	; 72	'H'
-	.db #0x0A	; 10
+	.db #0xA8	; 168
 	.db #0x40	; 64
-	.db #0x0C	; 12
-	.db #0xC5	; 197
-	.db #0x0C	; 12
-	.db #0x0C	; 12
-	.db #0x0C	; 12
-	.db #0x0C	; 12
-	.db #0x0C	; 12
-	.db #0xCA	; 202
 	.db #0x0C	; 12
 	.db #0x85	; 133
-	.db #0x0A	; 10
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x0C	; 12
+	.db #0x4A	; 74	'J'
+	.db #0x0C	; 12
+	.db #0xD4	; 212
+	.db #0xA8	; 168
 	.db #0x40	; 64
-	.db #0xC5	; 197
-	.db #0x4D	; 77	'M'
+	.db #0x85	; 133
+	.db #0x0D	; 13
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0xCC	; 204
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x8E	; 142
-	.db #0xCA	; 202
-	.db #0x85	; 133
-	.db #0x0F	; 15
+	.db #0x0E	; 14
+	.db #0x4A	; 74	'J'
+	.db #0xD4	; 212
+	.db #0xFC	; 252
 	.db #0x40	; 64
-	.db #0x4D	; 77	'M'
+	.db #0x0D	; 13
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x4C	; 76	'L'
@@ -264,9 +264,9 @@ _level0_enemies_level0_enemies_0:
 	.db #0x8C	; 140
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x8E	; 142
-	.db #0x85	; 133
-	.db #0x0F	; 15
+	.db #0x0E	; 14
+	.db #0xD4	; 212
+	.db #0xFC	; 252
 	.db #0x40	; 64
 	.db #0x0C	; 12
 	.db #0x0C	; 12
@@ -277,8 +277,8 @@ _level0_enemies_level0_enemies_0:
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x85	; 133
-	.db #0x0F	; 15
+	.db #0xD4	; 212
+	.db #0xFC	; 252
 	.db #0x40	; 64
 	.db #0x0C	; 12
 	.db #0x0C	; 12
@@ -289,8 +289,8 @@ _level0_enemies_level0_enemies_0:
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x85	; 133
-	.db #0x0F	; 15
+	.db #0xD4	; 212
+	.db #0xFC	; 252
 	.db #0x00	; 0
 	.db #0x84	; 132
 	.db #0x0C	; 12
@@ -301,8 +301,8 @@ _level0_enemies_level0_enemies_0:
 	.db #0x0C	; 12
 	.db #0x0C	; 12
 	.db #0x48	; 72	'H'
-	.db #0x0F	; 15
-	.db #0x0A	; 10
+	.db #0xFC	; 252
+	.db #0xA8	; 168
 	.db #0x00	; 0
 	.db #0x84	; 132
 	.db #0xC0	; 192
@@ -313,7 +313,7 @@ _level0_enemies_level0_enemies_0:
 	.db #0xC0	; 192
 	.db #0xC0	; 192
 	.db #0x48	; 72	'H'
-	.db #0x0F	; 15
+	.db #0xFC	; 252
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x40	; 64
@@ -324,18 +324,18 @@ _level0_enemies_level0_enemies_0:
 	.db #0x84	; 132
 	.db #0x0C	; 12
 	.db #0x0C	; 12
-	.db #0x85	; 133
-	.db #0x0A	; 10
+	.db #0xD4	; 212
+	.db #0xA8	; 168
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x40	; 64
-	.db #0x4D	; 77	'M'
-	.db #0x4D	; 77	'M'
+	.db #0x0D	; 13
+	.db #0x0D	; 13
 	.db #0x48	; 72	'H'
 	.db #0x00	; 0
 	.db #0x84	; 132
-	.db #0x8E	; 142
-	.db #0x8E	; 142
+	.db #0x0E	; 14
+	.db #0x0E	; 14
 	.db #0x80	; 128
 	.db #0x00	; 0
 	.db #0x00	; 0

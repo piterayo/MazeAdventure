@@ -194,42 +194,27 @@ _generate_map::
 	add	hl, bc
 	ld	(hl),#0x00
 ;src/Map.c:58: for(i=0;i<MAP_WIDTH;++i){
-	ld	-13 (ix),#0x00
+	ld	c,#0x00
 00167$:
-;src/Map.c:59: map[0][i]=get_random_wall();
-	ld	a,-13 (ix)
-	add	a, #0x40
-	ld	-5 (ix),a
-	ld	a,#0x00
-	adc	a, #0x00
-	ld	-4 (ix),a
-	call	_get_random_wall
-	ld	-3 (ix),l
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
-	ld	a,-3 (ix)
-	ld	(hl),a
-;src/Map.c:60: map[MAP_HEIGHT-1][i]=get_random_wall();
-	ld	a,-13 (ix)
-	add	a, #0x20
-	ld	-5 (ix),a
-	ld	a,#0x00
-	adc	a, #0x04
-	ld	-4 (ix),a
-	call	_get_random_wall
-	ld	c,l
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
-	ld	(hl),c
+;src/Map.c:59: map[0][i]=CELLTYPE_WALL1;//get_random_wall();
+	ld	hl,#0x0040
+	ld	b,#0x00
+	add	hl, bc
+	ld	(hl),#0x81
+;src/Map.c:60: map[MAP_HEIGHT-1][i]=CELLTYPE_WALL1;//get_random_wall();
+	ld	hl,#0x0420
+	ld	b,#0x00
+	add	hl, bc
+	ld	(hl),#0x81
 ;src/Map.c:58: for(i=0;i<MAP_WIDTH;++i){
-	inc	-13 (ix)
-	ld	a,-13 (ix)
+	inc	c
+	ld	a,c
 	sub	a, #0x20
 	jr	C,00167$
 ;src/Map.c:63: for(i=1;i<MAP_HEIGHT-1;++i){
 	ld	-13 (ix),#0x01
 00169$:
-;src/Map.c:64: map[i][0]=get_random_wall();
+;src/Map.c:64: map[i][0]=CELLTYPE_WALL1;//get_random_wall();
 	ld	a,-13 (ix)
 	ld	-5 (ix),a
 	ld	-4 (ix),#0x00
@@ -247,13 +232,10 @@ _generate_map::
 	ld	a,-4 (ix)
 	adc	a, #0x00
 	ld	-1 (ix),a
-	call	_get_random_wall
-	ld	-3 (ix),l
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
-	ld	a,-3 (ix)
-	ld	(hl),a
-;src/Map.c:65: map[i][MAP_WIDTH-1]=get_random_wall();
+	ld	(hl),#0x81
+;src/Map.c:65: map[i][MAP_WIDTH-1]=CELLTYPE_WALL1;//get_random_wall();
 	ld	a,-5 (ix)
 	add	a, #0x40
 	ld	-2 (ix),a
@@ -262,15 +244,13 @@ _generate_map::
 	ld	-1 (ix),a
 	ld	a,-2 (ix)
 	add	a, #0x1F
-	ld	c,a
+	ld	-2 (ix),a
 	ld	a,-1 (ix)
 	adc	a, #0x00
-	ld	b,a
-	push	bc
-	call	_get_random_wall
-	ld	a,l
-	pop	bc
-	ld	(bc),a
+	ld	-1 (ix),a
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
+	ld	(hl),#0x81
 ;src/Map.c:63: for(i=1;i<MAP_HEIGHT-1;++i){
 	inc	-13 (ix)
 	ld	a,-13 (ix)
@@ -343,17 +323,17 @@ _generate_map::
 	ld	l,-7 (ix)
 	ld	h,-6 (ix)
 	ld	a,(hl)
-	ld	-10 (ix),a
+	ld	-8 (ix),a
 	ld	a,-3 (ix)
-	ld	-9 (ix),a
-	ld	-8 (ix),#0x00
+	ld	-10 (ix),a
+	ld	-9 (ix),#0x00
 ;src/Map.c:78: if(currentPos.x>0){
 	ld	a,-3 (ix)
 	or	a, a
 	jr	Z,00109$
 ;src/Map.c:79: adjacentType = map[currentPos.x-1][currentPos.y];
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-10 (ix)
+	ld	h,-9 (ix)
 	dec	hl
 	add	hl, hl
 	add	hl, hl
@@ -365,7 +345,7 @@ _generate_map::
 	add	hl, de
 	pop	de
 	ld	a,l
-	add	a, -10 (ix)
+	add	a, -8 (ix)
 	ld	l,a
 	ld	a,h
 	adc	a, #0x00
@@ -391,8 +371,8 @@ _generate_map::
 	sub	a, #0x1F
 	jr	NC,00116$
 ;src/Map.c:89: adjacentType = map[currentPos.x+1][currentPos.y];
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-10 (ix)
+	ld	h,-9 (ix)
 	inc	hl
 	add	hl, hl
 	add	hl, hl
@@ -404,7 +384,7 @@ _generate_map::
 	add	hl, de
 	pop	de
 	ld	a,l
-	add	a, -10 (ix)
+	add	a, -8 (ix)
 	ld	l,a
 	ld	a,h
 	adc	a, #0x00
@@ -426,8 +406,8 @@ _generate_map::
 	ld	-11 (ix),#0x00
 00116$:
 ;src/Map.c:99: adjacentType = map[currentPos.x][currentPos.y-1];
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-10 (ix)
+	ld	h,-9 (ix)
 	add	hl, hl
 	add	hl, hl
 	add	hl, hl
@@ -435,21 +415,21 @@ _generate_map::
 	add	hl, hl
 	ld	a,l
 	add	a, #0x40
-	ld	-9 (ix),a
+	ld	-10 (ix),a
 	ld	a,h
 	adc	a, #0x00
-	ld	-8 (ix),a
+	ld	-9 (ix),a
 ;src/Map.c:97: if(currentPos.y > 0){
-	ld	a,-10 (ix)
+	ld	a,-8 (ix)
 	or	a, a
 	jr	Z,00123$
 ;src/Map.c:99: adjacentType = map[currentPos.x][currentPos.y-1];
-	ld	l,-10 (ix)
+	ld	l,-8 (ix)
 	dec	l
-	ld	a,-9 (ix)
+	ld	a,-10 (ix)
 	add	a, l
 	ld	l,a
-	ld	a,-8 (ix)
+	ld	a,-9 (ix)
 	adc	a, #0x00
 	ld	h,a
 	ld	l,(hl)
@@ -469,16 +449,16 @@ _generate_map::
 	ld	-11 (ix),#0x00
 00123$:
 ;src/Map.c:107: if(currentPos.y < (MAP_HEIGHT-1)){
-	ld	a,-10 (ix)
+	ld	a,-8 (ix)
 	sub	a, #0x1F
 	jr	NC,00130$
 ;src/Map.c:109: adjacentType = map[currentPos.x][currentPos.y+1];
-	ld	l,-10 (ix)
+	ld	l,-8 (ix)
 	inc	l
-	ld	a,-9 (ix)
+	ld	a,-10 (ix)
 	add	a, l
 	ld	l,a
-	ld	a,-8 (ix)
+	ld	a,-9 (ix)
 	adc	a, #0x00
 	ld	h,a
 	ld	l,(hl)
@@ -585,9 +565,9 @@ _generate_map::
 ;src/Map.c:135: while(lastStackItem<MAP_SIZE){
 00204$:
 	ld	a,-15 (ix)
-	ld	-9 (ix),a
+	ld	-10 (ix),a
 	ld	a,-14 (ix)
-	ld	-8 (ix),a
+	ld	-9 (ix),a
 	ld	a,-19 (ix)
 	ld	-5 (ix),a
 	ld	a,-18 (ix)
@@ -672,31 +652,31 @@ _generate_map::
 	add	hl,de
 	ld	(hl),c
 ;src/Map.c:150: --remainingCells;
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-10 (ix)
+	ld	h,-9 (ix)
 	dec	hl
-	ld	-9 (ix),l
-	ld	-8 (ix),h
-	ld	a,-9 (ix)
+	ld	-10 (ix),l
+	ld	-9 (ix),h
+	ld	a,-10 (ix)
 	ld	-15 (ix),a
-	ld	a,-8 (ix)
+	ld	a,-9 (ix)
 	ld	-14 (ix),a
 00141$:
 ;src/Map.c:78: if(currentPos.x>0){
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	a,(hl)
-	ld	-10 (ix),a
+	ld	-8 (ix),a
 ;src/Map.c:153: if((cellType == CELLTYPE_FLOOR)){
 	ld	a,c
 	or	a, a
 	jp	NZ,00159$
 ;src/Map.c:154: if(currentPos.x>0){
-	ld	a,-10 (ix)
+	ld	a,-8 (ix)
 	or	a, a
 	jr	Z,00145$
 ;src/Map.c:155: adjacentType = map[currentPos.x-1][currentPos.y];
-	ld	l,-10 (ix)
+	ld	l,-8 (ix)
 	ld	h,#0x00
 	dec	hl
 	add	hl, hl
@@ -728,7 +708,7 @@ _generate_map::
 	add	hl, hl
 	ld	bc,#0x2940
 	add	hl,bc
-	ld	c,-10 (ix)
+	ld	c,-8 (ix)
 	dec	c
 	ld	(hl),c
 ;src/Map.c:160: (*(cellStack+lastStackItem)).y = currentPos.y;
@@ -910,7 +890,7 @@ _generate_map::
 	add	hl, hl
 	ld	bc,#0x2D40
 	add	hl,bc
-	ld	a,-10 (ix)
+	ld	a,-8 (ix)
 	ld	(hl),a
 ;src/Map.c:204: (*(wallList+wallListCount)).y = currentPos.y;
 	inc	hl
@@ -949,7 +929,7 @@ _generate_exit_door::
 	and	a, #0x1F
 	ld	e,a
 ;src/Map.c:213: u8 door_not_positioned=1;
-	ld	-12 (ix),#0x01
+	ld	-10 (ix),#0x01
 ;src/Map.c:220: u8* position = (u8*)(MAP_MEM + x + MAP_WIDTH*y);
 	ld	b,#0x00
 	ld	hl,#0x0040
@@ -978,16 +958,16 @@ _generate_exit_door::
 ;src/Map.c:227: topVal = (position-MAP_WIDTH);
 	ld	a,c
 	add	a,#0xE0
-	ld	-11 (ix),a
+	ld	-12 (ix),a
 	ld	a,b
 	adc	a,#0xFF
-	ld	-10 (ix),a
+	ld	-11 (ix),a
 ;src/Map.c:228: bottomVal = (position+MAP_WIDTH);
 	ld	iy,#0x0020
 	add	iy, bc
 ;src/Map.c:230: while(door_not_positioned){
 00138$:
-	ld	a,-12 (ix)
+	ld	a,-10 (ix)
 	or	a, a
 	jp	Z,00141$
 ;src/Map.c:231: if((*position)!=CELLTYPE_FLOOR){
@@ -996,40 +976,40 @@ _generate_exit_door::
 	jp	Z,00135$
 ;src/Map.c:232: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
 	ld	a,(de)
-	ld	-1 (ix),a
+	ld	-5 (ix),a
 	ld	a,e
 	sub	a, #0x40
 	ld	a,d
 	sbc	a, #0x00
 	ld	a,#0x00
 	rla
-	ld	-2 (ix),a
+	ld	-7 (ix),a
 	ld	a,-9 (ix)
-	ld	-4 (ix),a
+	ld	-2 (ix),a
 	ld	a,-8 (ix)
-	ld	-3 (ix),a
+	ld	-1 (ix),a
 ;src/Map.c:233: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
-	ld	l,-11 (ix)
-	ld	h,-10 (ix)
+	pop	hl
+	push	hl
 	ld	a,(hl)
-	ld	-5 (ix),a
-	ld	a,-11 (ix)
+	ld	-6 (ix),a
+	ld	a,-12 (ix)
 	sub	a, #0x40
-	ld	a,-10 (ix)
+	ld	a,-11 (ix)
 	sbc	a, #0x00
 	ld	a,#0x00
 	rla
-	ld	-6 (ix),a
+	ld	-3 (ix),a
 	push	iy
 	pop	hl
 ;src/Map.c:232: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-	ld	a,-4 (ix)
+	ld	a,-2 (ix)
 	sub	a, #0x40
-	ld	a,-3 (ix)
+	ld	a,-1 (ix)
 	sbc	a, #0x04
 	ld	a,#0x00
 	rla
-	ld	-4 (ix),a
+	ld	-2 (ix),a
 ;src/Map.c:233: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
 	ld	a,l
 	sub	a, #0x40
@@ -1037,12 +1017,12 @@ _generate_exit_door::
 	sbc	a, #0x04
 	ld	a,#0x00
 	rla
-	ld	-7 (ix),a
+	ld	-4 (ix),a
 ;src/Map.c:232: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-	ld	a,-1 (ix)
+	ld	a,-5 (ix)
 	or	a, a
 	jr	NZ,00133$
-	ld	a,-2 (ix)
+	ld	a,-7 (ix)
 	or	a, a
 	jr	Z,00129$
 00133$:
@@ -1051,26 +1031,26 @@ _generate_exit_door::
 	ld	a,(hl)
 	or	a, a
 	jr	NZ,00128$
-	bit	0,-4 (ix)
+	bit	0,-2 (ix)
 	jr	NZ,00129$
 00128$:
 ;src/Map.c:233: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
 	ld	l, 0 (iy)
-	ld	a,-5 (ix)
+	ld	a,-6 (ix)
 	or	a, a
 	jr	NZ,00111$
-	ld	a,-6 (ix)
+	ld	a,-3 (ix)
 	or	a, a
 	jr	Z,00107$
 00111$:
 	ld	a,l
 	or	a, a
 	jr	NZ,00107$
-	ld	a,-7 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	Z,00107$
 ;src/Map.c:234: door_not_positioned=0;
-	ld	-12 (ix),#0x00
+	ld	-10 (ix),#0x00
 ;src/Map.c:235: *position=CELLTYPE_DOOR;
 	ld	a,#0x80
 	ld	(bc),a
@@ -1080,35 +1060,35 @@ _generate_exit_door::
 	ld	a,l
 	or	a, a
 	jr	NZ,00105$
-	ld	a,-7 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	NZ,00135$
 00105$:
-	ld	a,-5 (ix)
-	or	a, a
-	jr	NZ,00135$
 	ld	a,-6 (ix)
 	or	a, a
 	jr	NZ,00135$
+	ld	a,-3 (ix)
+	or	a, a
+	jr	NZ,00135$
 ;src/Map.c:238: door_not_positioned=0;
-	ld	-12 (ix),#0x00
+	ld	-10 (ix),#0x00
 ;src/Map.c:239: *position=CELLTYPE_DOOR;
 	ld	a,#0x80
 	ld	(bc),a
 	jr	00135$
 00129$:
 ;src/Map.c:242: else if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)!=CELLTYPE_FLOOR)||(bottomVal>=END_OF_MAP_MEM))){
-	ld	a,-5 (ix)
+	ld	a,-6 (ix)
 	or	a, a
 	jr	NZ,00127$
-	ld	a,-6 (ix)
+	ld	a,-3 (ix)
 	or	a, a
 	jr	Z,00135$
 00127$:
 	ld	a, 0 (iy)
 	or	a, a
 	jr	NZ,00123$
-	ld	a,-7 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	NZ,00135$
 00123$:
@@ -1117,20 +1097,20 @@ _generate_exit_door::
 	ld	h,-8 (ix)
 	ld	l,(hl)
 ;src/Map.c:243: if((((*lastVal)!=CELLTYPE_FLOOR)|| (lastVal<MAP_MEM) ) && (((*nextVal)==CELLTYPE_FLOOR)&&(nextVal<END_OF_MAP_MEM))){
-	ld	a,-1 (ix)
+	ld	a,-5 (ix)
 	or	a, a
 	jr	NZ,00122$
-	ld	a,-2 (ix)
+	ld	a,-7 (ix)
 	or	a, a
 	jr	Z,00118$
 00122$:
 	ld	a,l
 	or	a, a
 	jr	NZ,00118$
-	bit	0,-4 (ix)
+	bit	0,-2 (ix)
 	jr	Z,00118$
 ;src/Map.c:244: door_not_positioned=0;
-	ld	-12 (ix),#0x00
+	ld	-10 (ix),#0x00
 ;src/Map.c:245: *position=CELLTYPE_DOOR;
 	ld	a,#0x80
 	ld	(bc),a
@@ -1140,17 +1120,17 @@ _generate_exit_door::
 	ld	a,l
 	or	a, a
 	jr	NZ,00116$
-	bit	0,-4 (ix)
+	bit	0,-2 (ix)
 	jr	NZ,00135$
 00116$:
-	ld	a,-1 (ix)
+	ld	a,-5 (ix)
 	or	a, a
 	jr	NZ,00135$
-	ld	a,-2 (ix)
+	ld	a,-7 (ix)
 	or	a, a
 	jr	NZ,00135$
 ;src/Map.c:248: door_not_positioned=0;
-	ld	-12 (ix),#0x00
+	ld	-10 (ix),#0x00
 ;src/Map.c:249: *position=CELLTYPE_DOOR;
 	ld	a,#0x80
 	ld	(bc),a
@@ -1165,9 +1145,9 @@ _generate_exit_door::
 	inc	-8 (ix)
 00223$:
 ;src/Map.c:256: ++topVal;
-	inc	-11 (ix)
+	inc	-12 (ix)
 	jr	NZ,00224$
-	inc	-10 (ix)
+	inc	-11 (ix)
 00224$:
 ;src/Map.c:257: ++bottomVal;
 	inc	iy
@@ -1188,8 +1168,8 @@ _generate_exit_door::
 	ld	-9 (ix),#0x41
 	ld	-8 (ix),#0x00
 ;src/Map.c:262: topVal = (position-MAP_WIDTH);
-	ld	-11 (ix),#0x20
-	ld	-10 (ix),#0x00
+	ld	hl,#0x0020
+	ex	(sp), hl
 ;src/Map.c:263: bottomVal = (position+MAP_WIDTH);
 	ld	iy,#0x0060
 	jp	00138$

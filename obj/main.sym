@@ -26,11 +26,11 @@ Symbol Table
     _generate_level                                                **** GX
   0 _init                                                          0000 GR
     _init_generator                                                **** GX
-  0 _main                                                          003C GR
+    _level_init_palettes                                           **** GX
+    _level_load_level                                              **** GX
+  0 _main                                                          003F GR
     _renderCompass                                                 **** GX
     _render_draw_to_buffer                                         **** GX
-    _uncompress_enemy_textures                                     **** GX
-    _uncompress_theme_textures                                     **** GX
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -38,7 +38,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  17A   flags    0
+   0 _CODE                                      size  1AE   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

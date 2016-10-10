@@ -8,6 +8,7 @@
 -l /home/albert/cpctelera/cpctelera/cpctelera.lib
 -l z80
 obj/Enemy.rel
+obj/Level.rel
 obj/main.rel
 obj/Map.rel
 obj/Player.rel
@@ -18,8 +19,9 @@ obj/UI_Compass.rel
 obj/UI_EnemyStats.rel
 obj/UI_GameMenu.rel
 obj/UI_PlayerStats.rel
-obj/sprites/enemies/level0_enemies.rel
 obj/textures/compass.rel
-obj/textures/walls_0.rel
+obj/textures/enemies/level0_enemies.rel
+obj/textures/walls/level0_walls.rel
+obj/textures/walls/level1_walls.rel
 
 -e

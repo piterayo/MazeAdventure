@@ -9,8 +9,9 @@ Symbol Table
     .__.H$L.                                                    =  0000 L
   0 _enemy_textures                                                00B6 GR
     _g_pixelMask                                                   **** GX
-    _g_tile_walls_0                                                **** GX
     _level0_enemies_tileset                                        **** GX
+    _level0_walls_tileset                                          **** GX
+    _level1_walls_tileset                                          **** GX
   0 _theme_textures                                                00AE GR
   0 _uncompress_enemy_textures                                     0148 GR
   0 _uncompress_item_textures                                      01D3 GR

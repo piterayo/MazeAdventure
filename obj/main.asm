@@ -11,8 +11,8 @@
 	.globl _main
 	.globl _init
 	.globl _renderCompass
-	.globl _uncompress_enemy_textures
-	.globl _uncompress_theme_textures
+	.globl _level_init_palettes
+	.globl _level_load_level
 	.globl _draw_minimap_to_buffer
 	.globl _render_draw_to_buffer
 	.globl _generate_level
@@ -73,13 +73,15 @@ _init::
 	ld	hl,#_g_palette
 	push	hl
 	call	_cpct_fw2hw
-;src/main.c:32: cpct_setPalette(g_palette,16);
+;src/main.c:32: level_init_palettes();
+	call	_level_init_palettes
+;src/main.c:33: cpct_setPalette(g_palette,16);
 	ld	hl,#0x0010
 	push	hl
 	ld	hl,#_g_palette
 	push	hl
 	call	_cpct_setPalette
-;src/main.c:33: cpct_setBorder(g_palette[12]);
+;src/main.c:34: cpct_setBorder(g_palette[12]);
 	ld	hl, #_g_palette + 12
 	ld	b,(hl)
 	push	bc
@@ -88,7 +90,7 @@ _init::
 	push	af
 	inc	sp
 	call	_cpct_setPALColour
-;src/main.c:35: cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
+;src/main.c:36: cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
 	ld	hl, #(_g_colors + 0x000c) + 0
 	ld	b,(hl)
 	ld	hl,#0x4000
@@ -99,26 +101,24 @@ _init::
 	push	hl
 	call	_cpct_memset
 	ret
-;src/main.c:38: void main(void) {
+;src/main.c:39: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;src/main.c:39: init();
+	push	ix
+	ld	ix,#0
+	add	ix,sp
+	dec	sp
+;src/main.c:40: init();
 	call	_init
-;src/main.c:40: init_generator();
+;src/main.c:41: init_generator();
 	call	_init_generator
-;src/main.c:41: uncompress_theme_textures(0);
+;src/main.c:42: level_load_level(0);
 	xor	a, a
 	push	af
 	inc	sp
-	call	_uncompress_theme_textures
-	inc	sp
-;src/main.c:42: uncompress_enemy_textures(0);
-	xor	a, a
-	push	af
-	inc	sp
-	call	_uncompress_enemy_textures
+	call	_level_load_level
 	inc	sp
 ;src/main.c:43: generate_level();
 	call	_generate_level
@@ -145,19 +145,17 @@ _main::
 	push	hl
 	call	_cpct_drawSprite
 ;src/main.c:51: while(1) {
-00115$:
+00121$:
 ;src/main.c:52: u8 movement = 0;
-	ld	c,#0x00
+	ld	-1 (ix),#0x00
 ;src/main.c:53: cpct_scanKeyboard_f();
-	push	bc
 	call	_cpct_scanKeyboard_f
+;src/main.c:54: if(cpct_isKeyPressed(Key_CursorLeft)){
 	ld	hl,#0x0101
 	call	_cpct_isKeyPressed
-	ld	e,l
-	pop	bc
-	ld	a,e
+	ld	a, l
 	or	a, a
-	jr	Z,00110$
+	jr	Z,00116$
 ;src/main.c:55: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
 	ld	bc,#_PLAYER_directionIndex+0
 	ld	a,(#_PLAYER_directionIndex + 0)
@@ -184,17 +182,15 @@ _main::
 	ld	hl,#(_PLAYER_direction + 0x0001)
 	ld	(hl),c
 ;src/main.c:58: movement =1;
-	ld	c,#0x01
-	jp	00111$
-00110$:
+	ld	-1 (ix),#0x01
+	jp	00117$
+00116$:
 ;src/main.c:60: else if(cpct_isKeyPressed(Key_CursorRight)){
-	push	bc
 	ld	hl,#0x0200
 	call	_cpct_isKeyPressed
-	pop	bc
 	ld	a,l
 	or	a, a
-	jr	Z,00107$
+	jr	Z,00113$
 ;src/main.c:61: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
 	ld	bc,#_PLAYER_directionIndex+0
 	ld	a,(#_PLAYER_directionIndex + 0)
@@ -220,17 +216,15 @@ _main::
 	ld	a,(hl)
 	ld	(bc),a
 ;src/main.c:64: movement =1;
-	ld	c,#0x01
-	jr	00111$
-00107$:
+	ld	-1 (ix),#0x01
+	jp	00117$
+00113$:
 ;src/main.c:66: else if(cpct_isKeyPressed(Key_CursorUp)){
-	push	bc
 	ld	hl,#0x0100
 	call	_cpct_isKeyPressed
-	pop	bc
 	ld	a,l
 	or	a, a
-	jr	Z,00104$
+	jr	Z,00110$
 ;src/main.c:67: *(i8*)&(PLAYER_position.x) = PLAYER_position.x + PLAYER_direction.x;
 	ld	hl,#_PLAYER_position+0
 	ld	c, l
@@ -252,17 +246,15 @@ _main::
 	add	a, l
 	ld	(bc),a
 ;src/main.c:70: movement =1;
-	ld	c,#0x01
-	jr	00111$
-00104$:
+	ld	-1 (ix),#0x01
+	jr	00117$
+00110$:
 ;src/main.c:72: else if(cpct_isKeyPressed(Key_CursorDown)){
-	push	bc
 	ld	hl,#0x0400
 	call	_cpct_isKeyPressed
-	pop	bc
 	ld	a,l
 	or	a, a
-	jr	Z,00111$
+	jr	Z,00107$
 ;src/main.c:73: *(i8*)&(PLAYER_position.x) = PLAYER_position.x - PLAYER_direction.x;
 	ld	hl,#_PLAYER_position+0
 	ld	c, l
@@ -284,15 +276,43 @@ _main::
 	sub	a, l
 	ld	(bc),a
 ;src/main.c:76: movement =1;
-	ld	c,#0x01
-00111$:
-;src/main.c:78: if(movement){
-	ld	a,c
+	ld	-1 (ix),#0x01
+	jr	00117$
+00107$:
+;src/main.c:78: else if(cpct_isKeyPressed(Key_0)){
+	ld	hl,#0x0104
+	call	_cpct_isKeyPressed
+	ld	a,l
 	or	a, a
-	jp	Z,00115$
-;src/main.c:79: render_draw_to_buffer();
+	jr	Z,00104$
+;src/main.c:79: level_load_level(0);
+	xor	a, a
+	push	af
+	inc	sp
+	call	_level_load_level
+	inc	sp
+	jr	00117$
+00104$:
+;src/main.c:81: else if(cpct_isKeyPressed(Key_1)){ 
+	ld	hl,#0x0108
+	call	_cpct_isKeyPressed
+	ld	a,l
+	or	a, a
+	jr	Z,00117$
+;src/main.c:82: level_load_level(9);
+	ld	a,#0x09
+	push	af
+	inc	sp
+	call	_level_load_level
+	inc	sp
+00117$:
+;src/main.c:84: if(movement){
+	ld	a,-1 (ix)
+	or	a, a
+	jp	Z,00121$
+;src/main.c:85: render_draw_to_buffer();
 	call	_render_draw_to_buffer
-;src/main.c:80: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
+;src/main.c:86: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
 	ld	hl,#0x6428
 	push	hl
 	ld	hl,#0xC0B4
@@ -300,11 +320,11 @@ _main::
 	ld	hl,#0x2940
 	push	hl
 	call	_cpct_drawSprite
-;src/main.c:81: renderCompass();
+;src/main.c:87: renderCompass();
 	call	_renderCompass
-;src/main.c:82: draw_minimap_to_buffer();
+;src/main.c:88: draw_minimap_to_buffer();
 	call	_draw_minimap_to_buffer
-;src/main.c:83: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
+;src/main.c:89: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
 	ld	hl,#0x4010
 	push	hl
 	ld	hl,#0xC570
@@ -312,7 +332,10 @@ _main::
 	ld	hl,#0x1C40
 	push	hl
 	call	_cpct_drawSprite
-	jp	00115$
+	jp	00121$
+	inc	sp
+	pop	ix
+	ret
 	.area _CODE
 	.area _INITIALIZER
 	.area _CABS (ABS)

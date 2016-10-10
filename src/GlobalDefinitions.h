@@ -70,8 +70,8 @@
 #define MINIMAP_PLAYER_COLOR    4
 #define MINIMAP_EXIT_COLOR      8
 
-#define GROUND_COLOR    6
-#define SKY_COLOR       5
+#define GROUND_COLOR    8
+#define SKY_COLOR       7
 #define HORIZON_COLOR   1
 
 //Untextured render
