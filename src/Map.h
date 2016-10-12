@@ -3,11 +3,13 @@
 #define MAP_H
 
 #include <cpctelera.h>
-#include "GlobalDefinitions.h"
+#include "GameDefinitions.h"
 
-extern const u8 rand_seed;
+//extern const u8 rand_seed;
 
-extern void init_generator();
+extern u8 map_get_seed();
+
+extern void generate_level_with_seed(u8 seed);
 
 extern void generate_level();
 

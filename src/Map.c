@@ -3,12 +3,16 @@
 #include "Structures.h"
 #include "Player.h"
 
+#include "Level.h"
+
+#include "GameFunctions.h"
+
 #include "Renderer.h"
 
-const u8 rand_seed=0;
+u8 rand_seed=0;
 
-void init_generator(){
-    cpct_setSeed_lcg_u8(rand_seed);
+u8 map_get_seed(){
+    return rand_seed;
 }
 
 u8 get_random_wall(){
@@ -43,6 +47,8 @@ void generate_map(){
     u16 wallListCount = 0;
     u16 lastStackItem = 0;
     
+    cpct_memset (GENERATOR_DATA_PTR, 0, 4096);
+    
     (*cellStack).x = (cpct_getRandom_lcg_u8()%(MAP_WIDTH-2))+1; //RANDOM
     (*cellStack).y = (cpct_getRandom_lcg_u8()%(MAP_HEIGHT-2))+1; //RANDOM
     
@@ -51,6 +57,7 @@ void generate_map(){
     *(i8*)&(PLAYER_position.y) = (*cellStack).x;
     
     cpct_memset (MAP_MEM,CELLTYPE_UNDEFINED,MAP_SIZE);
+    
     
     map[(*cellStack).x][(*cellStack).y] = CELLTYPE_FLOOR;
     
@@ -267,6 +274,14 @@ void generate_exit_door(){
 }
 
 void generate_level(){
+    generate_level_with_seed(r_counter);
+}
+
+void generate_level_with_seed(u8 seed){
+    
+    rand_seed=seed;
+    cpct_setSeed_lcg_u8(seed+level_get_level());
+    
     generate_map();
     generate_exit_door();
     *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;

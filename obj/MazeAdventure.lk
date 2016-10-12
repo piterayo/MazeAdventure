@@ -1,6 +1,6 @@
 -mjwx
 -i obj/MazeAdventure.ihx
--b _CODE = 0x5000
+-b _CODE = 0x0040
 -b _DATA = 0x0000
 -u
 -k /home/albert/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80
@@ -8,6 +8,7 @@
 -l /home/albert/cpctelera/cpctelera/cpctelera.lib
 -l z80
 obj/Enemy.rel
+obj/GameFunctions.rel
 obj/Item.rel
 obj/Level.rel
 obj/main.rel

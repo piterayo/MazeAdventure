@@ -2,21 +2,23 @@
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.5 #9498 (Linux)
 ;--------------------------------------------------------
-	.module State_MainMenu
+	.module GameFunctions
 	.optsdcc -mz80
 	
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _statemanager_input_accepted
-	.globl _statemanager_set_state
-	.globl _cpct_isKeyPressed
+	.globl _game_interrupt_handler
+	.globl _level_init_palettes
+	.globl _cpct_setPALColour
+	.globl _cpct_setPalette
+	.globl _cpct_fw2hw
+	.globl _cpct_setVideoMode
 	.globl _cpct_memset
-	.globl _state_mainmenu_enter
-	.globl _state_mainmenu_input
-	.globl _state_mainmenu_update
-	.globl _state_mainmenu_render
-	.globl _state_mainmenu_exit
+	.globl _cpct_setInterruptHandler
+	.globl _cpct_disableFirmware
+	.globl _r_counter
+	.globl _game_init
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -28,6 +30,8 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _INITIALIZED
+_r_counter::
+	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -48,46 +52,53 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/State_MainMenu.c:10: void state_mainmenu_enter(){
+;src/GameFunctions.c:11: void game_interrupt_handler(){
 ;	---------------------------------
-; Function state_mainmenu_enter
+; Function game_interrupt_handler
 ; ---------------------------------
-_state_mainmenu_enter::
-;src/State_MainMenu.c:11: state_mainmenu_render();
-	jp  _state_mainmenu_render
-;src/State_MainMenu.c:14: void state_mainmenu_input(){
+_game_interrupt_handler::
+;src/GameFunctions.c:13: ++r_counter;
+	ld	hl, #_r_counter+0
+	inc	(hl)
+	ret
+;src/GameFunctions.c:16: void game_init(){
 ;	---------------------------------
-; Function state_mainmenu_input
+; Function game_init
 ; ---------------------------------
-_state_mainmenu_input::
-;src/State_MainMenu.c:15: if(cpct_isKeyPressed(Key_Return)){
-	ld	hl,#0x0402
-	call	_cpct_isKeyPressed
-	ld	a,l
-	or	a, a
-	ret	Z
-;src/State_MainMenu.c:16: statemanager_set_state(STATE_INGAME);
-	ld	a,#0x01
+_game_init::
+;src/GameFunctions.c:17: cpct_disableFirmware();
+	call	_cpct_disableFirmware
+;src/GameFunctions.c:18: cpct_setVideoMode(0);
+	ld	l,#0x00
+	call	_cpct_setVideoMode
+;src/GameFunctions.c:19: cpct_fw2hw(g_palette,16);
+	ld	hl,#0x0010
+	push	hl
+	ld	hl,#_g_palette
+	push	hl
+	call	_cpct_fw2hw
+;src/GameFunctions.c:20: cpct_setInterruptHandler(game_interrupt_handler);
+	ld	hl,#_game_interrupt_handler
+	call	_cpct_setInterruptHandler
+;src/GameFunctions.c:21: level_init_palettes();
+	call	_level_init_palettes
+;src/GameFunctions.c:22: cpct_setPalette(g_palette,16);
+	ld	hl,#0x0010
+	push	hl
+	ld	hl,#_g_palette
+	push	hl
+	call	_cpct_setPalette
+;src/GameFunctions.c:23: cpct_setBorder(g_palette[1]);
+	ld	hl, #_g_palette + 1
+	ld	b,(hl)
+	push	bc
+	inc	sp
+	ld	a,#0x10
 	push	af
 	inc	sp
-	call	_statemanager_set_state
-	inc	sp
-;src/State_MainMenu.c:17: statemanager_input_accepted();
-	jp  _statemanager_input_accepted
-;src/State_MainMenu.c:21: void state_mainmenu_update(){
-;	---------------------------------
-; Function state_mainmenu_update
-; ---------------------------------
-_state_mainmenu_update::
-;src/State_MainMenu.c:23: }
-	ret
-;src/State_MainMenu.c:25: void state_mainmenu_render(){
-;	---------------------------------
-; Function state_mainmenu_render
-; ---------------------------------
-_state_mainmenu_render::
-;src/State_MainMenu.c:26: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
-	ld	hl, #(_g_colors + 0x0001) + 0
+	call	_cpct_setPALColour
+;src/GameFunctions.c:25: cpct_memset(CPCT_VMEM_START, g_colors[0], 0x4000);
+	ld	hl, #_g_colors + 0
 	ld	b,(hl)
 	ld	hl,#0x4000
 	push	hl
@@ -97,13 +108,8 @@ _state_mainmenu_render::
 	push	hl
 	call	_cpct_memset
 	ret
-;src/State_MainMenu.c:29: void state_mainmenu_exit(){
-;	---------------------------------
-; Function state_mainmenu_exit
-; ---------------------------------
-_state_mainmenu_exit::
-;src/State_MainMenu.c:31: }
-	ret
 	.area _CODE
 	.area _INITIALIZER
+__xinit__r_counter:
+	.db #0x00	; 0
 	.area _CABS (ABS)

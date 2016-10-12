@@ -188,7 +188,7 @@ _uncompress_theme_textures::
 	push	bc
 	ld	hl,#0x1020
 	push	hl
-	ld	hl,#0x0440
+	ld	hl,#0x6400
 	push	hl
 	push	de
 	call	_uncompress_texture
@@ -211,7 +211,7 @@ _uncompress_theme_textures::
 	push	bc
 	ld	hl,#0x1020
 	push	hl
-	ld	hl,#0x0840
+	ld	hl,#0x6800
 	push	hl
 	push	de
 	call	_uncompress_texture
@@ -234,7 +234,7 @@ _uncompress_theme_textures::
 	push	bc
 	ld	hl,#0x1020
 	push	hl
-	ld	hl,#0x0C40
+	ld	hl,#0x6C00
 	push	hl
 	push	de
 	call	_uncompress_texture
@@ -257,7 +257,7 @@ _uncompress_theme_textures::
 	push	bc
 	ld	hl,#0x1020
 	push	hl
-	ld	l, #0x40
+	ld	hl,#0x7000
 	push	hl
 	push	de
 	call	_uncompress_texture
@@ -277,7 +277,7 @@ _uncompress_theme_textures::
 	ld	b,(hl)
 	ld	hl,#0x1020
 	push	hl
-	ld	hl,#0x1440
+	ld	hl,#0x7400
 	push	hl
 	push	bc
 	call	_uncompress_texture
@@ -312,7 +312,7 @@ _uncompress_enemy_textures::
 	push	bc
 	ld	hl,#0x0C18
 	push	hl
-	ld	hl,#0x1840
+	ld	hl,#0x7800
 	push	hl
 	push	de
 	call	_uncompress_texture
@@ -335,7 +335,7 @@ _uncompress_enemy_textures::
 	push	bc
 	ld	hl,#0x0C18
 	push	hl
-	ld	hl,#0x1A80
+	ld	hl,#0x7A40
 	push	hl
 	push	de
 	call	_uncompress_texture
@@ -358,7 +358,7 @@ _uncompress_enemy_textures::
 	push	bc
 	ld	hl,#0x0C18
 	push	hl
-	ld	hl,#0x1CC0
+	ld	hl,#0x7C80
 	push	hl
 	push	de
 	call	_uncompress_texture
@@ -378,7 +378,7 @@ _uncompress_enemy_textures::
 	ld	b,(hl)
 	ld	hl,#0x0C18
 	push	hl
-	ld	hl,#0x1F00
+	ld	hl,#0x7EC0
 	push	hl
 	push	bc
 	call	_uncompress_texture

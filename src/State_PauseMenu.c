@@ -3,7 +3,7 @@
 
 #include "State_PauseMenu.h"
 
-#include "GlobalDefinitions.h"
+#include "GameDefinitions.h"
 
 #include <cpctelera.h>
 
@@ -12,7 +12,6 @@ void state_pausemenu_enter(){
     ptr=cpct_getScreenPtr(CPCT_VMEM_START, 20, 40 );
     cpct_drawSolidBox (ptr, 255, 40, 120);
     ptr=cpct_getScreenPtr(CPCT_VMEM_START, 20, 80 );
-    cpct_drawStringM0("PAUSE",ptr,0,1);
 }
 
 void state_pausemenu_input(){

@@ -13,8 +13,8 @@ Symbol Table
     _level0_walls_tileset                                          **** GX
     _level1_walls_tileset                                          **** GX
   0 _theme_textures                                                00AE GR
-  0 _uncompress_enemy_textures                                     0168 GR
-  0 _uncompress_item_textures                                      01F3 GR
+  0 _uncompress_enemy_textures                                     0169 GR
+  0 _uncompress_item_textures                                      01F4 GR
   0 _uncompress_texture                                            0000 GR
   0 _uncompress_theme_textures                                     00BE GR
 
@@ -24,7 +24,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  1F4   flags    0
+   0 _CODE                                      size  1F5   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

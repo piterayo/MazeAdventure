@@ -3,7 +3,7 @@
 
 #include "StateManager.h"
 
-#include "GlobalDefinitions.h"
+#include "GameDefinitions.h"
 
 #include "Renderer.h"
 
@@ -23,8 +23,7 @@ void state_mainmenu_update(){
 }
 
 void state_mainmenu_render(){
-   cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
-   cpct_drawStringM0("MAIN MENU", CPCT_VMEM_START, 0, 1);
+   cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
 }
 
 void state_mainmenu_exit(){

@@ -18,38 +18,15 @@
 
 #include <cpctelera.h>
 
-#include "GlobalDefinitions.h"
-
-#include "Map.h"
-#include "Renderer.h"
-#include "Level.h"
+#include "GameDefinitions.h"
+#include "GameFunctions.h"
 
 #include "StateManager.h"
 
-void interrupt_handler(){
-    cpct_setBorder(g_palette[0]);
-    //scan_input();
-    
-    cpct_setBorder(g_palette[1]);
-}
 
-void init(){
-    cpct_disableFirmware();
-    cpct_setVideoMode(0);
-    cpct_fw2hw(g_palette,16);
-    cpct_setInterruptHandler(interrupt_handler);
-    level_init_palettes();
-    cpct_setPalette(g_palette,16);
-    cpct_setBorder(g_palette[12]);
-    // Clear Screen
-    cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
-
-    cpct_scanKeyboard_f();
-    init_generator();
-}
 
 void main(void) {
-   init();
+   game_init();
    
    statemanager_set_state(STATE_MAINMENU);
    

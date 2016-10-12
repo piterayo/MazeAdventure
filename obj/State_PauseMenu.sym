@@ -7,27 +7,24 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       003A R
     _cpct_drawSolidBox                                             **** GX
-    _cpct_drawStringM0                                             **** GX
     _cpct_getScreenPtr                                             **** GX
     _cpct_isKeyPressed                                             **** GX
   0 _state_pausemenu_enter                                         0000 GR
-  0 _state_pausemenu_exit                                          0072 GR
-  0 _state_pausemenu_input                                         0040 GR
-  0 _state_pausemenu_render                                        0071 GR
-  0 _state_pausemenu_update                                        0070 GR
+  0 _state_pausemenu_exit                                          0059 GR
+  0 _state_pausemenu_input                                         0027 GR
+  0 _state_pausemenu_render                                        0058 GR
+  0 _state_pausemenu_update                                        0057 GR
     _statemanager_close_state                                      **** GX
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   73   flags    0
+   0 _CODE                                      size   5A   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

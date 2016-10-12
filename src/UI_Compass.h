@@ -2,7 +2,9 @@
 #define UI_COMPASS_H
 
 #include <cpctelera.h>
-#include "GlobalDefinitions.h"
+#include "GameDefinitions.h"
+
+#define COMPASS_POSITION    0xC024
 
 extern void renderCompass();
 

@@ -14,205 +14,226 @@
                              14 	.globl _cpct_setPalette
                              15 	.globl _cpct_fw2hw
                              16 	.globl _cpct_memcpy
-                             17 	.globl _level_palettes
-                             18 	.globl _level_init_palettes
-                             19 	.globl _level_load_level
-                             20 ;--------------------------------------------------------
-                             21 ; special function registers
-                             22 ;--------------------------------------------------------
+                             17 	.globl _current_level
+                             18 	.globl _level_palettes
+                             19 	.globl _level_get_level
+                             20 	.globl _level_set_level
+                             21 	.globl _level_init_palettes
+                             22 	.globl _level_load_level
                              23 ;--------------------------------------------------------
-                             24 ; ram data
+                             24 ; special function registers
                              25 ;--------------------------------------------------------
-                             26 	.area _DATA
-                             27 ;--------------------------------------------------------
-                             28 ; ram data
-                             29 ;--------------------------------------------------------
-                             30 	.area _INITIALIZED
-                             31 ;--------------------------------------------------------
-                             32 ; absolute external ram data
-                             33 ;--------------------------------------------------------
-                             34 	.area _DABS (ABS)
-                             35 ;--------------------------------------------------------
-                             36 ; global & static initialisations
-                             37 ;--------------------------------------------------------
-                             38 	.area _HOME
-                             39 	.area _GSINIT
-                             40 	.area _GSFINAL
-                             41 	.area _GSINIT
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area _DATA
+   0000                      30 _current_level::
+   0000                      31 	.ds 1
+                             32 ;--------------------------------------------------------
+                             33 ; ram data
+                             34 ;--------------------------------------------------------
+                             35 	.area _INITIALIZED
+                             36 ;--------------------------------------------------------
+                             37 ; absolute external ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area _DABS (ABS)
+                             40 ;--------------------------------------------------------
+                             41 ; global & static initialisations
                              42 ;--------------------------------------------------------
-                             43 ; Home
-                             44 ;--------------------------------------------------------
-                             45 	.area _HOME
-                             46 	.area _HOME
+                             43 	.area _HOME
+                             44 	.area _GSINIT
+                             45 	.area _GSFINAL
+                             46 	.area _GSINIT
                              47 ;--------------------------------------------------------
-                             48 ; code
+                             48 ; Home
                              49 ;--------------------------------------------------------
-                             50 	.area _CODE
-                             51 ;src/Level.c:14: void level_init_palettes(){
-                             52 ;	---------------------------------
-                             53 ; Function level_init_palettes
-                             54 ; ---------------------------------
-   0000                      55 _level_init_palettes::
-                             56 ;src/Level.c:15: cpct_fw2hw(level_palettes[0],9);
-   0000 21 09 00      [10]   57 	ld	hl,#0x0009
-   0003 E5            [11]   58 	push	hl
-   0004 21r2Dr00      [10]   59 	ld	hl,#_level_palettes
-   0007 E5            [11]   60 	push	hl
-   0008 CDr00r00      [17]   61 	call	_cpct_fw2hw
-                             62 ;src/Level.c:16: cpct_fw2hw(level_palettes[1],9);
-   000B 21 09 00      [10]   63 	ld	hl,#0x0009
-   000E E5            [11]   64 	push	hl
-   000F 21r36r00      [10]   65 	ld	hl,#(_level_palettes + 0x0009)
-   0012 E5            [11]   66 	push	hl
-   0013 CDr00r00      [17]   67 	call	_cpct_fw2hw
-                             68 ;src/Level.c:17: cpct_fw2hw(level_palettes[2],9);
-   0016 21 09 00      [10]   69 	ld	hl,#0x0009
-   0019 E5            [11]   70 	push	hl
-   001A 21r3Fr00      [10]   71 	ld	hl,#(_level_palettes + 0x0012)
-   001D E5            [11]   72 	push	hl
-   001E CDr00r00      [17]   73 	call	_cpct_fw2hw
-                             74 ;src/Level.c:18: cpct_fw2hw(level_palettes[3],9);
-   0021 21 09 00      [10]   75 	ld	hl,#0x0009
-   0024 E5            [11]   76 	push	hl
-   0025 21r48r00      [10]   77 	ld	hl,#(_level_palettes + 0x001b)
-   0028 E5            [11]   78 	push	hl
-   0029 CDr00r00      [17]   79 	call	_cpct_fw2hw
-   002C C9            [10]   80 	ret
-   002D                      81 _level_palettes:
-   002D 05                   82 	.db #0x05	; 5
-   002E 0A                   83 	.db #0x0A	; 10
-   002F 11                   84 	.db #0x11	; 17
-   0030 0E                   85 	.db #0x0E	; 14
-   0031 0C                   86 	.db #0x0C	; 12
-   0032 09                   87 	.db #0x09	; 9
-   0033 0F                   88 	.db #0x0F	; 15
-   0034 01                   89 	.db #0x01	; 1
-   0035 02                   90 	.db #0x02	; 2
-   0036 14                   91 	.db #0x14	; 20
-   0037 13                   92 	.db #0x13	; 19
-   0038 11                   93 	.db #0x11	; 17
-   0039 0E                   94 	.db #0x0E	; 14
-   003A 12                   95 	.db #0x12	; 18
-   003B 09                   96 	.db #0x09	; 9
-   003C 0F                   97 	.db #0x0F	; 15
-   003D 03                   98 	.db #0x03	; 3
-   003E 0A                   99 	.db #0x0A	; 10
-   003F 00                  100 	.db #0x00	; 0
-   0040 00                  101 	.db #0x00	; 0
-   0041 00                  102 	.db #0x00	; 0
-   0042 00                  103 	.db #0x00	; 0
-   0043 00                  104 	.db #0x00	; 0
-   0044 00                  105 	.db #0x00	; 0
-   0045 00                  106 	.db #0x00	; 0
-   0046 00                  107 	.db #0x00	; 0
-   0047 00                  108 	.db #0x00	; 0
-   0048 00                  109 	.db #0x00	; 0
-   0049 00                  110 	.db #0x00	; 0
-   004A 00                  111 	.db #0x00	; 0
-   004B 00                  112 	.db #0x00	; 0
-   004C 00                  113 	.db #0x00	; 0
-   004D 00                  114 	.db #0x00	; 0
-   004E 00                  115 	.db #0x00	; 0
-   004F 00                  116 	.db #0x00	; 0
-   0050 00                  117 	.db #0x00	; 0
-                            118 ;src/Level.c:21: void setLevelPalette(u8 i){
-                            119 ;	---------------------------------
-                            120 ; Function setLevelPalette
-                            121 ; ---------------------------------
-   0051                     122 _setLevelPalette::
-   0051 DD E5         [15]  123 	push	ix
-   0053 DD 21 00 00   [14]  124 	ld	ix,#0
-   0057 DD 39         [15]  125 	add	ix,sp
-                            126 ;src/Level.c:22: cpct_memcpy(g_palette+7, level_palettes[i],9);
-   0059 01r2Dr00      [10]  127 	ld	bc,#_level_palettes+0
-   005C DD 5E 04      [19]  128 	ld	e,4 (ix)
-   005F 16 00         [ 7]  129 	ld	d,#0x00
-   0061 6B            [ 4]  130 	ld	l, e
-   0062 62            [ 4]  131 	ld	h, d
-   0063 29            [11]  132 	add	hl, hl
-   0064 29            [11]  133 	add	hl, hl
-   0065 29            [11]  134 	add	hl, hl
-   0066 19            [11]  135 	add	hl, de
-   0067 09            [11]  136 	add	hl,bc
-   0068 4D            [ 4]  137 	ld	c,l
-   0069 44            [ 4]  138 	ld	b,h
-   006A 21 09 00      [10]  139 	ld	hl,#0x0009
-   006D E5            [11]  140 	push	hl
-   006E C5            [11]  141 	push	bc
-   006F 21r07r00      [10]  142 	ld	hl,#(_g_palette + 0x0007)
-   0072 E5            [11]  143 	push	hl
-   0073 CDr00r00      [17]  144 	call	_cpct_memcpy
-                            145 ;src/Level.c:23: cpct_setPalette(g_palette,16);
-   0076 21 10 00      [10]  146 	ld	hl,#0x0010
-   0079 E5            [11]  147 	push	hl
-   007A 21r00r00      [10]  148 	ld	hl,#_g_palette
-   007D E5            [11]  149 	push	hl
-   007E CDr00r00      [17]  150 	call	_cpct_setPalette
-   0081 DD E1         [14]  151 	pop	ix
-   0083 C9            [10]  152 	ret
-                            153 ;src/Level.c:26: void level_load_level(u8 l){
-                            154 ;	---------------------------------
-                            155 ; Function level_load_level
-                            156 ; ---------------------------------
-   0084                     157 _level_load_level::
-                            158 ;src/Level.c:29: index =((l<8)?0:(
-   0084 21 02 00      [10]  159 	ld	hl, #2+0
-   0087 39            [11]  160 	add	hl, sp
-   0088 7E            [ 7]  161 	ld	a, (hl)
-   0089 D6 08         [ 7]  162 	sub	a, #0x08
-   008B 30 04         [12]  163 	jr	NC,00103$
-   008D 06 00         [ 7]  164 	ld	b,#0x00
-   008F 18 29         [12]  165 	jr	00104$
-   0091                     166 00103$:
-                            167 ;src/Level.c:30: (l<24)?1:(
-   0091 21 02 00      [10]  168 	ld	hl, #2+0
-   0094 39            [11]  169 	add	hl, sp
-   0095 7E            [ 7]  170 	ld	a, (hl)
-   0096 D6 18         [ 7]  171 	sub	a, #0x18
-   0098 30 04         [12]  172 	jr	NC,00105$
-   009A 06 01         [ 7]  173 	ld	b,#0x01
-   009C 18 1C         [12]  174 	jr	00106$
-   009E                     175 00105$:
-                            176 ;src/Level.c:31: (l<56)?2:(
-   009E 21 02 00      [10]  177 	ld	hl, #2+0
-   00A1 39            [11]  178 	add	hl, sp
-   00A2 7E            [ 7]  179 	ld	a, (hl)
-   00A3 D6 38         [ 7]  180 	sub	a, #0x38
-   00A5 30 04         [12]  181 	jr	NC,00107$
-   00A7 06 02         [ 7]  182 	ld	b,#0x02
-   00A9 18 0F         [12]  183 	jr	00108$
-   00AB                     184 00107$:
-                            185 ;src/Level.c:32: (l<120)?4:0
-   00AB 21 02 00      [10]  186 	ld	hl, #2+0
-   00AE 39            [11]  187 	add	hl, sp
-   00AF 7E            [ 7]  188 	ld	a, (hl)
-   00B0 D6 78         [ 7]  189 	sub	a, #0x78
-   00B2 30 04         [12]  190 	jr	NC,00109$
-   00B4 06 04         [ 7]  191 	ld	b,#0x04
-   00B6 18 02         [12]  192 	jr	00110$
-   00B8                     193 00109$:
-   00B8 06 00         [ 7]  194 	ld	b,#0x00
-   00BA                     195 00110$:
-   00BA                     196 00108$:
-   00BA                     197 00106$:
-   00BA                     198 00104$:
-                            199 ;src/Level.c:35: uncompress_theme_textures(index);
-   00BA C5            [11]  200 	push	bc
-   00BB C5            [11]  201 	push	bc
-   00BC 33            [ 6]  202 	inc	sp
-   00BD CDr00r00      [17]  203 	call	_uncompress_theme_textures
-   00C0 33            [ 6]  204 	inc	sp
-   00C1 C1            [10]  205 	pop	bc
-                            206 ;src/Level.c:36: uncompress_enemy_textures(index);
-   00C2 C5            [11]  207 	push	bc
-   00C3 C5            [11]  208 	push	bc
-   00C4 33            [ 6]  209 	inc	sp
-   00C5 CDr00r00      [17]  210 	call	_uncompress_enemy_textures
-   00C8 33            [ 6]  211 	inc	sp
-   00C9 33            [ 6]  212 	inc	sp
-   00CA CDr51r00      [17]  213 	call	_setLevelPalette
-   00CD 33            [ 6]  214 	inc	sp
-   00CE C9            [10]  215 	ret
-                            216 	.area _CODE
-                            217 	.area _INITIALIZER
-                            218 	.area _CABS (ABS)
+                             50 	.area _HOME
+                             51 	.area _HOME
+                             52 ;--------------------------------------------------------
+                             53 ; code
+                             54 ;--------------------------------------------------------
+                             55 	.area _CODE
+                             56 ;src/Level.c:19: u8 level_get_level(){
+                             57 ;	---------------------------------
+                             58 ; Function level_get_level
+                             59 ; ---------------------------------
+   0000                      60 _level_get_level::
+                             61 ;src/Level.c:20: return current_level;
+   0000 FD 21r00r00   [14]   62 	ld	iy,#_current_level
+   0004 FD 6E 00      [19]   63 	ld	l,0 (iy)
+   0007 C9            [10]   64 	ret
+   0008                      65 _level_palettes:
+   0008 00                   66 	.db #0x00	; 0
+   0009 09                   67 	.db #0x09	; 9
+   000A 03                   68 	.db #0x03	; 3
+   000B 12                   69 	.db #0x12	; 18
+   000C 0A                   70 	.db #0x0A	; 10
+   000D 14                   71 	.db #0x14	; 20
+   000E 00                   72 	.db #0x00	; 0
+   000F 04                   73 	.db #0x04	; 4
+   0010 11                   74 	.db #0x11	; 17
+   0011 0E                   75 	.db #0x0E	; 14
+   0012 0B                   76 	.db #0x0B	; 11
+   0013 15                   77 	.db #0x15	; 21
+   0014 03                   78 	.db #0x03	; 3
+   0015 09                   79 	.db #0x09	; 9
+   0016 19                   80 	.db #0x19	; 25
+   0017 0F                   81 	.db #0x0F	; 15
+   0018 01                   82 	.db #0x01	; 1
+   0019 02                   83 	.db #0x02	; 2
+   001A 11                   84 	.db #0x11	; 17
+   001B 0E                   85 	.db #0x0E	; 14
+   001C 00                   86 	.db #0x00	; 0
+   001D 00                   87 	.db #0x00	; 0
+   001E 00                   88 	.db #0x00	; 0
+   001F 00                   89 	.db #0x00	; 0
+   0020 00                   90 	.db #0x00	; 0
+   0021 00                   91 	.db #0x00	; 0
+   0022 00                   92 	.db #0x00	; 0
+   0023 00                   93 	.db #0x00	; 0
+   0024 00                   94 	.db #0x00	; 0
+   0025 00                   95 	.db #0x00	; 0
+   0026 00                   96 	.db #0x00	; 0
+   0027 00                   97 	.db #0x00	; 0
+   0028 00                   98 	.db #0x00	; 0
+   0029 00                   99 	.db #0x00	; 0
+   002A 00                  100 	.db #0x00	; 0
+   002B 00                  101 	.db #0x00	; 0
+   002C 00                  102 	.db #0x00	; 0
+   002D 00                  103 	.db #0x00	; 0
+   002E 00                  104 	.db #0x00	; 0
+   002F 00                  105 	.db #0x00	; 0
+                            106 ;src/Level.c:23: void level_set_level(u8 l){
+                            107 ;	---------------------------------
+                            108 ; Function level_set_level
+                            109 ; ---------------------------------
+   0030                     110 _level_set_level::
+                            111 ;src/Level.c:24: current_level=l;
+   0030 21 02 00      [10]  112 	ld	hl, #2+0
+   0033 39            [11]  113 	add	hl, sp
+   0034 7E            [ 7]  114 	ld	a, (hl)
+   0035 32r00r00      [13]  115 	ld	(#_current_level + 0),a
+   0038 C9            [10]  116 	ret
+                            117 ;src/Level.c:27: void level_init_palettes(){
+                            118 ;	---------------------------------
+                            119 ; Function level_init_palettes
+                            120 ; ---------------------------------
+   0039                     121 _level_init_palettes::
+                            122 ;src/Level.c:28: cpct_fw2hw(level_palettes[0],VARIABLE_COLORS);
+   0039 21 0A 00      [10]  123 	ld	hl,#0x000A
+   003C E5            [11]  124 	push	hl
+   003D 21r08r00      [10]  125 	ld	hl,#_level_palettes
+   0040 E5            [11]  126 	push	hl
+   0041 CDr00r00      [17]  127 	call	_cpct_fw2hw
+                            128 ;src/Level.c:29: cpct_fw2hw(level_palettes[1],VARIABLE_COLORS);
+   0044 21 0A 00      [10]  129 	ld	hl,#0x000A
+   0047 E5            [11]  130 	push	hl
+   0048 21r12r00      [10]  131 	ld	hl,#(_level_palettes + 0x000a)
+   004B E5            [11]  132 	push	hl
+   004C CDr00r00      [17]  133 	call	_cpct_fw2hw
+                            134 ;src/Level.c:30: cpct_fw2hw(level_palettes[2],VARIABLE_COLORS);
+   004F 21 0A 00      [10]  135 	ld	hl,#0x000A
+   0052 E5            [11]  136 	push	hl
+   0053 21r1Cr00      [10]  137 	ld	hl,#(_level_palettes + 0x0014)
+   0056 E5            [11]  138 	push	hl
+   0057 CDr00r00      [17]  139 	call	_cpct_fw2hw
+                            140 ;src/Level.c:31: cpct_fw2hw(level_palettes[3],VARIABLE_COLORS);
+   005A 21 0A 00      [10]  141 	ld	hl,#0x000A
+   005D E5            [11]  142 	push	hl
+   005E 21r26r00      [10]  143 	ld	hl,#(_level_palettes + 0x001e)
+   0061 E5            [11]  144 	push	hl
+   0062 CDr00r00      [17]  145 	call	_cpct_fw2hw
+   0065 C9            [10]  146 	ret
+                            147 ;src/Level.c:34: void setLevelPalette(u8 i){
+                            148 ;	---------------------------------
+                            149 ; Function setLevelPalette
+                            150 ; ---------------------------------
+   0066                     151 _setLevelPalette::
+   0066 DD E5         [15]  152 	push	ix
+   0068 DD 21 00 00   [14]  153 	ld	ix,#0
+   006C DD 39         [15]  154 	add	ix,sp
+                            155 ;src/Level.c:35: cpct_memcpy(g_palette+SHARED_COLORS, level_palettes[i],VARIABLE_COLORS);
+   006E 01r08r00      [10]  156 	ld	bc,#_level_palettes+0
+   0071 DD 5E 04      [19]  157 	ld	e,4 (ix)
+   0074 16 00         [ 7]  158 	ld	d,#0x00
+   0076 6B            [ 4]  159 	ld	l, e
+   0077 62            [ 4]  160 	ld	h, d
+   0078 29            [11]  161 	add	hl, hl
+   0079 29            [11]  162 	add	hl, hl
+   007A 19            [11]  163 	add	hl, de
+   007B 29            [11]  164 	add	hl, hl
+   007C 09            [11]  165 	add	hl,bc
+   007D 4D            [ 4]  166 	ld	c,l
+   007E 44            [ 4]  167 	ld	b,h
+   007F 21 0A 00      [10]  168 	ld	hl,#0x000A
+   0082 E5            [11]  169 	push	hl
+   0083 C5            [11]  170 	push	bc
+   0084 21r06r00      [10]  171 	ld	hl,#(_g_palette + 0x0006)
+   0087 E5            [11]  172 	push	hl
+   0088 CDr00r00      [17]  173 	call	_cpct_memcpy
+                            174 ;src/Level.c:36: cpct_setPalette(g_palette,16);
+   008B 21 10 00      [10]  175 	ld	hl,#0x0010
+   008E E5            [11]  176 	push	hl
+   008F 21r00r00      [10]  177 	ld	hl,#_g_palette
+   0092 E5            [11]  178 	push	hl
+   0093 CDr00r00      [17]  179 	call	_cpct_setPalette
+   0096 DD E1         [14]  180 	pop	ix
+   0098 C9            [10]  181 	ret
+                            182 ;src/Level.c:39: void level_load_level(){
+                            183 ;	---------------------------------
+                            184 ; Function level_load_level
+                            185 ; ---------------------------------
+   0099                     186 _level_load_level::
+                            187 ;src/Level.c:42: index =((current_level<8)?0:(
+   0099 3Ar00r00      [13]  188 	ld	a,(#_current_level + 0)
+   009C D6 08         [ 7]  189 	sub	a, #0x08
+   009E 30 04         [12]  190 	jr	NC,00103$
+   00A0 06 00         [ 7]  191 	ld	b,#0x00
+   00A2 18 23         [12]  192 	jr	00104$
+   00A4                     193 00103$:
+                            194 ;src/Level.c:43: (current_level<24)?1:(
+   00A4 3Ar00r00      [13]  195 	ld	a,(#_current_level + 0)
+   00A7 D6 18         [ 7]  196 	sub	a, #0x18
+   00A9 30 04         [12]  197 	jr	NC,00105$
+   00AB 06 01         [ 7]  198 	ld	b,#0x01
+   00AD 18 18         [12]  199 	jr	00106$
+   00AF                     200 00105$:
+                            201 ;src/Level.c:44: (current_level<56)?2:(
+   00AF 3Ar00r00      [13]  202 	ld	a,(#_current_level + 0)
+   00B2 D6 38         [ 7]  203 	sub	a, #0x38
+   00B4 30 04         [12]  204 	jr	NC,00107$
+   00B6 06 02         [ 7]  205 	ld	b,#0x02
+   00B8 18 0D         [12]  206 	jr	00108$
+   00BA                     207 00107$:
+                            208 ;src/Level.c:45: (current_level<120)?4:0
+   00BA 3Ar00r00      [13]  209 	ld	a,(#_current_level + 0)
+   00BD D6 78         [ 7]  210 	sub	a, #0x78
+   00BF 30 04         [12]  211 	jr	NC,00109$
+   00C1 06 04         [ 7]  212 	ld	b,#0x04
+   00C3 18 02         [12]  213 	jr	00110$
+   00C5                     214 00109$:
+   00C5 06 00         [ 7]  215 	ld	b,#0x00
+   00C7                     216 00110$:
+   00C7                     217 00108$:
+   00C7                     218 00106$:
+   00C7                     219 00104$:
+                            220 ;src/Level.c:48: uncompress_theme_textures(index);
+   00C7 C5            [11]  221 	push	bc
+   00C8 C5            [11]  222 	push	bc
+   00C9 33            [ 6]  223 	inc	sp
+   00CA CDr00r00      [17]  224 	call	_uncompress_theme_textures
+   00CD 33            [ 6]  225 	inc	sp
+   00CE C1            [10]  226 	pop	bc
+                            227 ;src/Level.c:49: uncompress_enemy_textures(index);
+   00CF C5            [11]  228 	push	bc
+   00D0 C5            [11]  229 	push	bc
+   00D1 33            [ 6]  230 	inc	sp
+   00D2 CDr00r00      [17]  231 	call	_uncompress_enemy_textures
+   00D5 33            [ 6]  232 	inc	sp
+   00D6 33            [ 6]  233 	inc	sp
+   00D7 CDr66r00      [17]  234 	call	_setLevelPalette
+   00DA 33            [ 6]  235 	inc	sp
+   00DB C9            [10]  236 	ret
+                            237 	.area _CODE
+                            238 	.area _INITIALIZER
+                            239 	.area _CABS (ABS)

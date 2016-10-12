@@ -12,11 +12,11 @@
 const u8 g_palette[16]={
     8,//Transparent color, common for all scenes
     0,13,26, //UI black, gray, white
-    6,//Common for all scenes, minimap
-    24,25, //Key item colors
+    6,24,//Common for all scenes, minimap
+    
     1,//Sky color
     9,//Ground color
-    3,18,5,14,15,17,19,//Scene colors
+    25,3,18,5,14,15,17,19,//Scene colors
 };
 
 const u8 g_colors[16]={

@@ -9,141 +9,55 @@
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
                              11 	.globl _main
-                             12 	.globl _init
-                             13 	.globl _interrupt_handler
-                             14 	.globl _statemanager_main_loop
-                             15 	.globl _statemanager_set_state
-                             16 	.globl _level_init_palettes
-                             17 	.globl _init_generator
-                             18 	.globl _cpct_setPALColour
-                             19 	.globl _cpct_setPalette
-                             20 	.globl _cpct_fw2hw
-                             21 	.globl _cpct_setVideoMode
-                             22 	.globl _cpct_scanKeyboard_f
-                             23 	.globl _cpct_memset
-                             24 	.globl _cpct_setInterruptHandler
-                             25 	.globl _cpct_disableFirmware
+                             12 	.globl _statemanager_main_loop
+                             13 	.globl _statemanager_set_state
+                             14 	.globl _game_init
+                             15 ;--------------------------------------------------------
+                             16 ; special function registers
+                             17 ;--------------------------------------------------------
+                             18 ;--------------------------------------------------------
+                             19 ; ram data
+                             20 ;--------------------------------------------------------
+                             21 	.area _DATA
+                             22 ;--------------------------------------------------------
+                             23 ; ram data
+                             24 ;--------------------------------------------------------
+                             25 	.area _INITIALIZED
                              26 ;--------------------------------------------------------
-                             27 ; special function registers
+                             27 ; absolute external ram data
                              28 ;--------------------------------------------------------
-                             29 ;--------------------------------------------------------
-                             30 ; ram data
-                             31 ;--------------------------------------------------------
-                             32 	.area _DATA
-                             33 ;--------------------------------------------------------
-                             34 ; ram data
-                             35 ;--------------------------------------------------------
-                             36 	.area _INITIALIZED
+                             29 	.area _DABS (ABS)
+                             30 ;--------------------------------------------------------
+                             31 ; global & static initialisations
+                             32 ;--------------------------------------------------------
+                             33 	.area _HOME
+                             34 	.area _GSINIT
+                             35 	.area _GSFINAL
+                             36 	.area _GSINIT
                              37 ;--------------------------------------------------------
-                             38 ; absolute external ram data
+                             38 ; Home
                              39 ;--------------------------------------------------------
-                             40 	.area _DABS (ABS)
-                             41 ;--------------------------------------------------------
-                             42 ; global & static initialisations
-                             43 ;--------------------------------------------------------
-                             44 	.area _HOME
-                             45 	.area _GSINIT
-                             46 	.area _GSFINAL
-                             47 	.area _GSINIT
-                             48 ;--------------------------------------------------------
-                             49 ; Home
-                             50 ;--------------------------------------------------------
-                             51 	.area _HOME
-                             52 	.area _HOME
-                             53 ;--------------------------------------------------------
-                             54 ; code
-                             55 ;--------------------------------------------------------
-                             56 	.area _CODE
-                             57 ;src/main.c:29: void interrupt_handler(){
-                             58 ;	---------------------------------
-                             59 ; Function interrupt_handler
-                             60 ; ---------------------------------
-   0000                      61 _interrupt_handler::
-                             62 ;src/main.c:30: cpct_setBorder(g_palette[0]);
-   0000 21r00r00      [10]   63 	ld	hl, #_g_palette + 0
-   0003 46            [ 7]   64 	ld	b,(hl)
-   0004 C5            [11]   65 	push	bc
-   0005 33            [ 6]   66 	inc	sp
-   0006 3E 10         [ 7]   67 	ld	a,#0x10
-   0008 F5            [11]   68 	push	af
-   0009 33            [ 6]   69 	inc	sp
-   000A CDr00r00      [17]   70 	call	_cpct_setPALColour
-                             71 ;src/main.c:33: cpct_setBorder(g_palette[1]);
-   000D 21r01r00      [10]   72 	ld	hl, #_g_palette + 1
-   0010 46            [ 7]   73 	ld	b,(hl)
-   0011 C5            [11]   74 	push	bc
-   0012 33            [ 6]   75 	inc	sp
-   0013 3E 10         [ 7]   76 	ld	a,#0x10
-   0015 F5            [11]   77 	push	af
-   0016 33            [ 6]   78 	inc	sp
-   0017 CDr00r00      [17]   79 	call	_cpct_setPALColour
-   001A C9            [10]   80 	ret
-                             81 ;src/main.c:36: void init(){
-                             82 ;	---------------------------------
-                             83 ; Function init
-                             84 ; ---------------------------------
-   001B                      85 _init::
-                             86 ;src/main.c:37: cpct_disableFirmware();
-   001B CDr00r00      [17]   87 	call	_cpct_disableFirmware
-                             88 ;src/main.c:38: cpct_setVideoMode(0);
-   001E 2E 00         [ 7]   89 	ld	l,#0x00
-   0020 CDr00r00      [17]   90 	call	_cpct_setVideoMode
-                             91 ;src/main.c:39: cpct_fw2hw(g_palette,16);
-   0023 21 10 00      [10]   92 	ld	hl,#0x0010
-   0026 E5            [11]   93 	push	hl
-   0027 21r00r00      [10]   94 	ld	hl,#_g_palette
-   002A E5            [11]   95 	push	hl
-   002B CDr00r00      [17]   96 	call	_cpct_fw2hw
-                             97 ;src/main.c:40: cpct_setInterruptHandler(interrupt_handler);
-   002E 21r00r00      [10]   98 	ld	hl,#_interrupt_handler
-   0031 CDr00r00      [17]   99 	call	_cpct_setInterruptHandler
-                            100 ;src/main.c:41: level_init_palettes();
-   0034 CDr00r00      [17]  101 	call	_level_init_palettes
-                            102 ;src/main.c:42: cpct_setPalette(g_palette,16);
-   0037 21 10 00      [10]  103 	ld	hl,#0x0010
-   003A E5            [11]  104 	push	hl
-   003B 21r00r00      [10]  105 	ld	hl,#_g_palette
-   003E E5            [11]  106 	push	hl
-   003F CDr00r00      [17]  107 	call	_cpct_setPalette
-                            108 ;src/main.c:43: cpct_setBorder(g_palette[12]);
-   0042 21r0Cr00      [10]  109 	ld	hl, #_g_palette + 12
-   0045 46            [ 7]  110 	ld	b,(hl)
-   0046 C5            [11]  111 	push	bc
-   0047 33            [ 6]  112 	inc	sp
-   0048 3E 10         [ 7]  113 	ld	a,#0x10
-   004A F5            [11]  114 	push	af
-   004B 33            [ 6]  115 	inc	sp
-   004C CDr00r00      [17]  116 	call	_cpct_setPALColour
-                            117 ;src/main.c:45: cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
-   004F 21r0Cr00      [10]  118 	ld	hl, #(_g_colors + 0x000c) + 0
-   0052 46            [ 7]  119 	ld	b,(hl)
-   0053 21 00 40      [10]  120 	ld	hl,#0x4000
-   0056 E5            [11]  121 	push	hl
-   0057 C5            [11]  122 	push	bc
-   0058 33            [ 6]  123 	inc	sp
-   0059 26 C0         [ 7]  124 	ld	h, #0xC0
-   005B E5            [11]  125 	push	hl
-   005C CDr00r00      [17]  126 	call	_cpct_memset
-                            127 ;src/main.c:47: cpct_scanKeyboard_f();
-   005F CDr00r00      [17]  128 	call	_cpct_scanKeyboard_f
-                            129 ;src/main.c:48: init_generator();
-   0062 CDr00r00      [17]  130 	call	_init_generator
-   0065 C9            [10]  131 	ret
-                            132 ;src/main.c:51: void main(void) {
-                            133 ;	---------------------------------
-                            134 ; Function main
-                            135 ; ---------------------------------
-   0066                     136 _main::
-                            137 ;src/main.c:52: init();
-   0066 CDr1Br00      [17]  138 	call	_init
-                            139 ;src/main.c:54: statemanager_set_state(STATE_MAINMENU);
-   0069 AF            [ 4]  140 	xor	a, a
-   006A F5            [11]  141 	push	af
-   006B 33            [ 6]  142 	inc	sp
-   006C CDr00r00      [17]  143 	call	_statemanager_set_state
-   006F 33            [ 6]  144 	inc	sp
-                            145 ;src/main.c:56: statemanager_main_loop();
-   0070 C3r00r00      [10]  146 	jp  _statemanager_main_loop
-                            147 	.area _CODE
-                            148 	.area _INITIALIZER
-                            149 	.area _CABS (ABS)
+                             40 	.area _HOME
+                             41 	.area _HOME
+                             42 ;--------------------------------------------------------
+                             43 ; code
+                             44 ;--------------------------------------------------------
+                             45 	.area _CODE
+                             46 ;src/main.c:28: void main(void) {
+                             47 ;	---------------------------------
+                             48 ; Function main
+                             49 ; ---------------------------------
+   0000                      50 _main::
+                             51 ;src/main.c:29: game_init();
+   0000 CDr00r00      [17]   52 	call	_game_init
+                             53 ;src/main.c:31: statemanager_set_state(STATE_MAINMENU);
+   0003 AF            [ 4]   54 	xor	a, a
+   0004 F5            [11]   55 	push	af
+   0005 33            [ 6]   56 	inc	sp
+   0006 CDr00r00      [17]   57 	call	_statemanager_set_state
+   0009 33            [ 6]   58 	inc	sp
+                             59 ;src/main.c:33: statemanager_main_loop();
+   000A C3r00r00      [10]   60 	jp  _statemanager_main_loop
+                             61 	.area _CODE
+                             62 	.area _INITIALIZER
+                             63 	.area _CABS (ABS)

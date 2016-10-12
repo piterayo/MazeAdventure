@@ -1,7 +1,7 @@
 
 #include "Renderer.h"
 #include "Textures.h"
-#include "GlobalDefinitions.h"
+#include "GameDefinitions.h"
 
 #include "textures/walls/level0_walls.h"
 #include "textures/walls/level1_walls.h"

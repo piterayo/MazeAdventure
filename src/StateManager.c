@@ -1,5 +1,6 @@
 
 #include "StateManager.h"
+#include "GameFunctions.h"
 
 #include "State_MainMenu.h"
 #include "State_InGame.h"
@@ -46,7 +47,7 @@ const u8 changeToState = 0;
 
 const u8 inputReceived = 0;
 
-u8 last_keyboardStatusBuffer[10]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+const u8 last_keyboardStatusBuffer[10]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
 
 void statemanager_change_state(){
     if(changeToState){
@@ -65,14 +66,24 @@ void statemanager_set_state(u8 state){
 }
 
 void scan_input(){
-    u8 t,n=10;
+    u8 t,n=10, anyKeyPressed=0xFF;
+    u8* currentStatus=(cpct_keyboardStatusBuffer+n);
+    u8* lastStatus=(((u8*)last_keyboardStatusBuffer)+n);
+    
     cpct_scanKeyboard_f();
     while(n){
         --n;
-        t=cpct_keyboardStatusBuffer[n];
-        cpct_keyboardStatusBuffer[n]=((last_keyboardStatusBuffer[n])|(~t));
-        last_keyboardStatusBuffer[n]=t;
+        --currentStatus;
+        --lastStatus;
+        
+        t=*(currentStatus);
+        anyKeyPressed&=t;
+        *currentStatus=((*lastStatus)|(~t));
+        *lastStatus=t;
+        
     }
+    
+    // if(~anyKeyPressed) ++r_counter;
 }
 
 void statemanager_manage_input(){
