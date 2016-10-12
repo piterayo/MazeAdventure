@@ -269,5 +269,5 @@ void generate_exit_door(){
 void generate_level(){
     generate_map();
     generate_exit_door();
-    *(u8*)(MAP_MEM + 5 + MAP_WIDTH*5)=0b00000001;
+    *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
 }

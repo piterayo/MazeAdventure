@@ -18,77 +18,41 @@
 
 #include <cpctelera.h>
 
+#include "GlobalDefinitions.h"
+
 #include "Map.h"
-#include "Player.h"
 #include "Renderer.h"
 #include "Level.h"
 
-#include "UI_Compass.h"
+#include "StateManager.h"
+
+void interrupt_handler(){
+    cpct_setBorder(g_palette[0]);
+    //scan_input();
+    
+    cpct_setBorder(g_palette[1]);
+}
 
 void init(){
-   cpct_disableFirmware();
-   cpct_setVideoMode(0);
-   cpct_fw2hw(g_palette,16);
-   level_init_palettes();
-   cpct_setPalette(g_palette,16);
-   cpct_setBorder(g_palette[12]);
-   // Clear Screen
-   cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
+    cpct_disableFirmware();
+    cpct_setVideoMode(0);
+    cpct_fw2hw(g_palette,16);
+    cpct_setInterruptHandler(interrupt_handler);
+    level_init_palettes();
+    cpct_setPalette(g_palette,16);
+    cpct_setBorder(g_palette[12]);
+    // Clear Screen
+    cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
+
+    cpct_scanKeyboard_f();
+    init_generator();
 }
 
 void main(void) {
    init();
-   init_generator();
-   level_load_level(0);
-   generate_level();
-   render_draw_to_buffer();
-   cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
-   renderCompass();
-   draw_minimap_to_buffer();
-   cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
    
+   statemanager_set_state(STATE_MAINMENU);
    
-   while(1) {
-       u8 movement = 0;
-         cpct_scanKeyboard_f();
-        if(cpct_isKeyPressed(Key_CursorLeft)){
-            *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
-            *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
-            *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
-            movement =1;
-        }
-        else if(cpct_isKeyPressed(Key_CursorRight)){
-            *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
-            *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
-            *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
-            movement =1;
-        }
-        else if(cpct_isKeyPressed(Key_CursorUp)){
-            *(i8*)&(PLAYER_position.x) = PLAYER_position.x + PLAYER_direction.x;
-            *(i8*)&(PLAYER_position.y) = PLAYER_position.y + PLAYER_direction.y;
-            
-            movement =1;
-        }
-        else if(cpct_isKeyPressed(Key_CursorDown)){
-            *(i8*)&(PLAYER_position.x) = PLAYER_position.x - PLAYER_direction.x;
-            *(i8*)&(PLAYER_position.y) = PLAYER_position.y - PLAYER_direction.y;
-            
-            movement =1;
-        }
-        else if(cpct_isKeyPressed(Key_0)){
-            level_load_level(0);
-        }
-        else if(cpct_isKeyPressed(Key_1)){ 
-            level_load_level(9);
-        }
-        if(movement){
-             render_draw_to_buffer();
-             cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
-             renderCompass();
-             draw_minimap_to_buffer();
-             cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
-        }
-       
-       
-   }
+   statemanager_main_loop();
+   
 }

@@ -1,0 +1,160 @@
+XL2
+H 9 areas 21 global symbols
+M StateManager
+O -mz80
+S _state_pausemenu_input Ref0000
+S _cpct_scanKeyboard_f Ref0000
+S _state_mainmenu_input Ref0000
+S _state_pausemenu_exit Ref0000
+S _state_ingame_enter Ref0000
+S _state_pausemenu_render Ref0000
+S _state_mainmenu_exit Ref0000
+S _state_pausemenu_update Ref0000
+S _cpct_keyboardStatusBuffer Ref0000
+S _state_mainmenu_render Ref0000
+S _state_mainmenu_update Ref0000
+S .__.ABS. Def0000
+S _state_ingame_input Ref0000
+S ___sdcc_call_hl Ref0000
+S _state_ingame_exit Ref0000
+S _state_pausemenu_enter Ref0000
+S _state_ingame_render Ref0000
+S _state_ingame_update Ref0000
+S _state_mainmenu_enter Ref0000
+A _CODE size 140 flags 0 addr 0
+S _statemanager_input_accepted Def004C
+S _statemanager_set_state Def0052
+S _changeToState Def004A
+S _statemanager_close_state Def00F3
+S _scan_input Def005D
+S _statemanager_change_state Def0000
+S _currentState Def0049
+S _statemanager_manage_input Def00AE
+S _inputReceived Def004B
+S _statemanager_main_loop Def0132
+S _statemanager_render_state Def00D8
+S _statemanager_update_state Def0117
+S _stateArray Def002B
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size A flags 0 addr 0
+S _last_keyboardStatusBuffer Def0000
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size A flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 02 00
+T 00 00
+R 00 00 02 00
+T 00 00
+R 00 00 00 00
+T 00 00 21 4A 00 4E 3A 4A 00 B7 C8 21 49 00 0D 71
+R 00 00 00 00 00 03 00 00 00 07 00 00 00 0C 00 00
+T 0E 00 01 2B 00 21 49 00 5E 16 00 6B 62 29 29 19
+R 00 00 00 00 00 03 00 00 00 06 00 00
+T 1C 00 29 09 4E 23 66 69 CD 00 00 21 4A 00 36 00
+R 00 00 00 00 02 09 0D 00 00 0C 00 00
+T 2A 00 C9
+R 00 00 00 00
+T 2B 00
+R 00 00 00 00
+T 2B 00 00 00 00 00 00 00
+R 00 00 00 00 02 02 12 00 02 04 02 00 02 06 0A 00
+T 31 00 00 00 00 00 00 00
+R 00 00 00 00 02 02 09 00 02 04 06 00 02 06 04 00
+T 37 00 00 00 00 00 00 00
+R 00 00 00 00 02 02 0C 00 02 04 11 00 02 06 10 00
+T 3D 00 00 00 00 00 00 00
+R 00 00 00 00 02 02 0E 00 02 04 0F 00 02 06 00 00
+T 43 00 00 00 00 00 00 00
+R 00 00 00 00 02 02 07 00 02 04 05 00 02 06 03 00
+T 49 00
+R 00 00 00 00
+T 49 00 00
+R 00 00 00 00
+T 4A 00
+R 00 00 00 00
+T 4A 00 00
+R 00 00 00 00
+T 4B 00
+R 00 00 00 00
+T 4B 00 00
+R 00 00 00 00
+T 4C 00
+R 00 00 00 00
+T 4C 00 21 4B 00 36 01 C9
+R 00 00 00 00 00 03 00 00
+T 52 00
+R 00 00 00 00
+T 52 00 01 4A 00 21 02 00 39 7E 3C 02 C9
+R 00 00 00 00 00 03 00 00
+T 5D 00
+R 00 00 00 00
+T 5D 00 DD E5 DD 21 00 00 DD 39 F5 F5 CD 00 00 DD
+R 00 00 00 00 02 0D 01 00
+T 6B 00 36 FC 0A
+R 00 00 00 00
+T 6E 00
+R 00 00 00 00
+T 6E 00 DD 7E FC B7 28 35 DD 35 FC 3E 00 00 DD 86
+R 00 00 00 00 0B 0C 08 00
+T 7B 00 FC 4F 3E 00 00 CE 00 47 0A DD 77 FD 3E
+R 00 00 00 00 8B 05 08 00
+T 87 00 00 00 DD 86 FC 5F 3E 00 00 CE 00 57 1A DD
+R 00 00 00 00 09 02 02 00 89 09 02 00
+T 93 00 77 FF DD 7E FD 2F DD 77 FE DD 7E FF DD B6
+R 00 00 00 00
+T A1 00 FE 02 DD 7E FD 12 18 C5
+R 00 00 00 00
+T A9 00
+R 00 00 00 00
+T A9 00 DD F9 DD E1 C9
+R 00 00 00 00
+T AE 00
+R 00 00 00 00
+T AE 00
+R 00 00 00 00
+T AE 00 3A 4B 00 B7 20 1E CD 5D 00 21 49 00 4E 06
+R 00 00 00 00 00 03 00 00 00 09 00 00 00 0C 00 00
+T BC 00 00 69 60 29 29 09 29 11 2B 00 19 23 23 4E
+R 00 00 00 00 00 0A 00 00
+T CA 00 23 66 69 CD 00 00 18 DC
+R 00 00 00 00 02 06 0D 00
+T D2 00
+R 00 00 00 00
+T D2 00 21 4B 00 36 00 C9
+R 00 00 00 00 00 03 00 00
+T D8 00
+R 00 00 00 00
+T D8 00 01 2B 00 21 49 00 5E 16 00 6B 62 29 29 19
+R 00 00 00 00 00 03 00 00 00 06 00 00
+T E6 00 29 09 11 06 00 19 4E 23 66 69 C3 00 00
+R 00 00 00 00 02 0D 0D 00
+T F3 00
+R 00 00 00 00
+T F3 00 DD E5 DD 21 00 00 DD 39 01 2B 00 DD 5E 04
+R 00 00 00 00 00 0B 00 00
+T 01 01 16 00 6B 62 29 29 19 29 09 11 08 00 19 4E
+R 00 00 00 00
+T 0F 01 23 66 69 DD E1 C3 00 00
+R 00 00 00 00 02 08 0D 00
+T 17 01
+R 00 00 00 00
+T 17 01 01 2B 00 21 49 00 5E 16 00 6B 62 29 29 19
+R 00 00 00 00 00 03 00 00 00 06 00 00
+T 25 01 29 09 11 04 00 19 4E 23 66 69 C3 00 00
+R 00 00 00 00 02 0D 0D 00
+T 32 01
+R 00 00 00 00
+T 32 01
+R 00 00 00 00
+T 32 01 CD 00 00 CD AE 00 CD 17 01 CD
+R 00 00 00 00 00 03 00 00 00 06 00 00 00 09 00 00
+T 3C 01 D8 00 18 F2
+R 00 00 00 00 00 02 00 00
+T 00 00
+R 00 00 07 00
+T 00 00 FF FF FF FF FF FF FF FF FF FF
+R 00 00 07 00

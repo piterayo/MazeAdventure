@@ -5,7 +5,6 @@
 #include "Player.h"
 #include "Textures.h"
 
-//#define _USE_OLD_RENDERER
 
 
 #define CELLS_IN_VIEW_DEPTH 6
@@ -44,160 +43,6 @@ const u8 g_pixelMask[2]={
 };
 
 const u8 g_texturedWalls = 1;
-
-// #ifdef _USE_OLD_RENDERER
-
-// // Raycasting methods and variables
-
-// #define camPlaneMag 0.7f
-
-
-// void abs(f32* n){
-    // *(((u8*)n)+3) &= 0x7F;
-// }
-
-// void draw_column_to_buffer(const u8 column, u8 lineHeight, const u8 wall_texture, const u8 wall_texture_column) {
-    // u8* pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
-    
-    // u16 d;
-    
-    // u8 s_color, g_color, w_color, wall_texture_line ;
-    // u8 pixMask = pixelMask[column&1];
-    
-    // u8 val = wall_texture;
-    
-    // u8 j;
-    
-    // u8 ceiling_height;
-    // u8 ground_height;
-   
-    
-    // ceiling_height  = (SCREEN_TEXTURE_HEIGHT>>1) - (lineHeight>>1);
-    // ground_height = ceiling_height + lineHeight;
-    
-    // s_color = (g_colors[SKY_COLOR]&pixMask);
-    // g_color = (g_colors[GROUND_COLOR]&pixMask);
-    
-    // for(j=0;j<SCREEN_TEXTURE_HEIGHT;++j){
-        // val =  ((*pvmem)&(~pixMask));
-        // if(j<ceiling_height) *pvmem = val|s_color;
-        // else if(j>ground_height) *pvmem = val|g_color;
-        // else{
-            // d = (u16)(j * 256) - (u16)(SCREEN_TEXTURE_HEIGHT * 128) + (u16)(lineHeight * 128);  //256 and 128 factors to avoid floats
-            // wall_texture_line = ((d * TEXTURE_HEIGHT_BYTES) / lineHeight) / 256;
-            
-            // w_color = (g_tile_tileWall[wall_texture_column+(TEXTURE_WIDTH_BYTES*wall_texture_line)]&pixelMask[(wall_texture_column&1)]);
-            // w_color = w_color | ((wall_texture_column&1)?w_color<<1:w_color>>1);
-            // w_color = (w_color&pixMask);
-            // *pvmem = val|w_color;
-        // } 
-        // pvmem+=SCREEN_TEXTURE_WIDTH_BYTES;
-    // }
-// }
-
-
-// void render_draw_to_buffer(){
-    // Vec2f rayDir, magBetweenEdges, magToEdge;
-    // Vec2i worldIndex, dirStep;
-    // u8 sideHit, lineHeight,texture;
-    // u8 x,texX;
-    // f32 wallDist, currCamScale, wallX;
-    // u8 (*map)[MAP_HEIGHT] = MAP_MEM;
-    
-    // for(x = 0;x<SCREEN_TEXTURE_WIDTH;++x)
-    // {
-        
-        // currCamScale = ((2.0f * x) / (float) SCREEN_TEXTURE_WIDTH) - 1.0f;
-        
-        // rayDir.x = PLAYER_direction.x - ((PLAYER_direction.y * camPlaneMag) * currCamScale);
-        // rayDir.y = PLAYER_direction.y + ((PLAYER_direction.x * camPlaneMag) * currCamScale);
-        
-        // worldIndex.x = PLAYER_position.x;
-        // worldIndex.y = PLAYER_position.y;
-        
-        // magBetweenEdges.x = (rayDir.x + rayDir.y);
-        // magBetweenEdges.y = (rayDir.x + ((rayDir.x*rayDir.x)/rayDir.y));
-        
-        // abs(&(magBetweenEdges.x));
-        // abs(&(magBetweenEdges.y));
-        
-        // if(rayDir.x > 0){
-            // magToEdge.x = ((worldIndex.x + 1) - (PLAYER_position.x+0.5f)) * magBetweenEdges.x;
-            // dirStep.x = 1;
-        // }
-        // else{
-            // magToEdge.x = ((PLAYER_position.x+0.5f )- worldIndex.x) * magBetweenEdges.x;
-            // dirStep.x = -1;
-        // }
-        
-        // if(rayDir.y > 0){
-            // magToEdge.y = ((worldIndex.y + 1) - (PLAYER_position.y+0.5f)) * magBetweenEdges.y;
-            // dirStep.y = 1;
-        // }
-        // else{
-            // magToEdge.y = ((PLAYER_position.y+0.5f )- worldIndex.y) * magBetweenEdges.y;
-            // dirStep.y = -1;
-        // }
-        
-        // do{
-            // if(magToEdge.x < magToEdge.y){
-                // magToEdge.x += magBetweenEdges.x;
-                // worldIndex.x += dirStep.x;
-                // sideHit=0;
-            // }
-            // else{
-                // magToEdge.y += magBetweenEdges.y;
-                // worldIndex.y += dirStep.y;
-                // sideHit=1;
-            // }
-        // }while(map[worldIndex.x][worldIndex.y] == 0);
-        
-        // if(!sideHit){
-            // wallDist = ((worldIndex.x - (PLAYER_position.x+0.5f)) + ((1 - dirStep.x)/2.0f))/rayDir.x;
-        // }
-        // else{
-            // wallDist = ((worldIndex.y - (PLAYER_position.y+0.5f)) + ((1 - dirStep.y)/2.0f))/rayDir.y;
-        // }
-        
-        
-        // lineHeight = (wallDist<1)?SCREEN_TEXTURE_HEIGHT:(SCREEN_TEXTURE_HEIGHT/wallDist);
-        
-        
-        // switch(map[worldIndex.x][worldIndex.y]){
-            // case 1:{
-                // texture = sideHit?WALL1_COLOR:WALL2_COLOR;
-                // break;
-                // }
-            // case 2:{
-                // texture = sideHit?DOOR1_COLOR:DOOR2_COLOR;
-                // break;
-            // }
-        // }
-        
-        // // where exactly the wall was hit
-        // if (sideHit == 0){
-          // wallX = worldIndex.y + wallDist * rayDir.y;
-        // }
-        // else{
-          // wallX = worldIndex.x + wallDist * rayDir.x;
-        // }           
-        // wallX -= ((u8)(wallX));
-
-        // // x coordinate on the texture
-        // texX = (u8)(wallX * TILE_WIDTH)%TEXTURE_WIDTH_BYTES;
-        // if(sideHit == 0 && rayDir.x > 0) texX = TEXTURE_WIDTH_BYTES - texX - 1;
-        // if(sideHit == 1 && rayDir.y < 0) texX = TEXTURE_WIDTH_BYTES - texX - 1;
-
-        
-        // draw_column_to_buffer((x), lineHeight, texture, texX);
-    // }
-// }
-
-// #endif /* OLD RENDERER */
-
-#ifndef _USE_OLD_RENDERER
-    
-//New renderer implementation
 
 u8* const cells_in_view_array = (u8*)CELLS_IN_VIEW_ARRAY;
 
@@ -934,8 +779,6 @@ void render_draw_to_buffer(){//TODO Optimize
         
     }
 }
-
-#endif /*NEW RENDERER*/
 
 
 void draw_minimap_to_buffer(){

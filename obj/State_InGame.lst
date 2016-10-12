@@ -1,0 +1,356 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.5 #9498 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module State_InGame
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _renderCompass
+                             12 	.globl _level_load_level
+                             13 	.globl _draw_minimap_to_buffer
+                             14 	.globl _render_draw_to_buffer
+                             15 	.globl _generate_level
+                             16 	.globl _statemanager_input_accepted
+                             17 	.globl _statemanager_set_state
+                             18 	.globl _cpct_drawSprite
+                             19 	.globl _cpct_isKeyPressed
+                             20 	.globl _cpct_memset
+                             21 	.globl _needRender
+                             22 	.globl _isInitialized
+                             23 	.globl _state_ingame_enter
+                             24 	.globl _state_ingame_input
+                             25 	.globl _state_ingame_update
+                             26 	.globl _state_ingame_render
+                             27 	.globl _state_ingame_exit
+                             28 ;--------------------------------------------------------
+                             29 ; special function registers
+                             30 ;--------------------------------------------------------
+                             31 ;--------------------------------------------------------
+                             32 ; ram data
+                             33 ;--------------------------------------------------------
+                             34 	.area _DATA
+                             35 ;--------------------------------------------------------
+                             36 ; ram data
+                             37 ;--------------------------------------------------------
+                             38 	.area _INITIALIZED
+                             39 ;--------------------------------------------------------
+                             40 ; absolute external ram data
+                             41 ;--------------------------------------------------------
+                             42 	.area _DABS (ABS)
+                             43 ;--------------------------------------------------------
+                             44 ; global & static initialisations
+                             45 ;--------------------------------------------------------
+                             46 	.area _HOME
+                             47 	.area _GSINIT
+                             48 	.area _GSFINAL
+                             49 	.area _GSINIT
+                             50 ;--------------------------------------------------------
+                             51 ; Home
+                             52 ;--------------------------------------------------------
+                             53 	.area _HOME
+                             54 	.area _HOME
+                             55 ;--------------------------------------------------------
+                             56 ; code
+                             57 ;--------------------------------------------------------
+                             58 	.area _CODE
+                             59 ;src/State_InGame.c:18: void state_ingame_enter(){
+                             60 ;	---------------------------------
+                             61 ; Function state_ingame_enter
+                             62 ; ---------------------------------
+   0000                      63 _state_ingame_enter::
+                             64 ;src/State_InGame.c:19: if(!isInitialized){
+   0000 3Ar2Fr00      [13]   65 	ld	a,(#_isInitialized + 0)
+   0003 B7            [ 4]   66 	or	a, a
+   0004 20 15         [12]   67 	jr	NZ,00102$
+                             68 ;src/State_InGame.c:20: generate_level();
+   0006 CDr00r00      [17]   69 	call	_generate_level
+                             70 ;src/State_InGame.c:21: level_load_level(0);
+   0009 AF            [ 4]   71 	xor	a, a
+   000A F5            [11]   72 	push	af
+   000B 33            [ 6]   73 	inc	sp
+   000C CDr00r00      [17]   74 	call	_level_load_level
+   000F 33            [ 6]   75 	inc	sp
+                             76 ;src/State_InGame.c:22: render_draw_to_buffer();
+   0010 CDr00r00      [17]   77 	call	_render_draw_to_buffer
+                             78 ;src/State_InGame.c:23: draw_minimap_to_buffer();
+   0013 CDr00r00      [17]   79 	call	_draw_minimap_to_buffer
+                             80 ;src/State_InGame.c:24: *(u8*)&isInitialized = 1;
+   0016 21r2Fr00      [10]   81 	ld	hl,#_isInitialized
+   0019 36 01         [10]   82 	ld	(hl),#0x01
+   001B                      83 00102$:
+                             84 ;src/State_InGame.c:26: cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
+   001B 21r0Cr00      [10]   85 	ld	hl,#_g_colors+12
+   001E 46            [ 7]   86 	ld	b,(hl)
+   001F 21 00 40      [10]   87 	ld	hl,#0x4000
+   0022 E5            [11]   88 	push	hl
+   0023 C5            [11]   89 	push	bc
+   0024 33            [ 6]   90 	inc	sp
+   0025 26 C0         [ 7]   91 	ld	h, #0xC0
+   0027 E5            [11]   92 	push	hl
+   0028 CDr00r00      [17]   93 	call	_cpct_memset
+                             94 ;src/State_InGame.c:27: state_ingame_render();
+   002B CDr6Dr01      [17]   95 	call	_state_ingame_render
+   002E C9            [10]   96 	ret
+   002F                      97 _isInitialized:
+   002F 00                   98 	.db #0x00	; 0
+   0030                      99 _needRender:
+   0030 00                  100 	.db #0x00	; 0
+                            101 ;src/State_InGame.c:30: void state_ingame_input(){
+                            102 ;	---------------------------------
+                            103 ; Function state_ingame_input
+                            104 ; ---------------------------------
+   0031                     105 _state_ingame_input::
+                            106 ;src/State_InGame.c:32: if(cpct_isKeyPressed(Key_CursorLeft)){
+   0031 21 01 01      [10]  107 	ld	hl,#0x0101
+   0034 CDr00r00      [17]  108 	call	_cpct_isKeyPressed
+   0037 7D            [ 4]  109 	ld	a, l
+   0038 B7            [ 4]  110 	or	a, a
+   0039 28 35         [12]  111 	jr	Z,00122$
+                            112 ;src/State_InGame.c:33: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
+   003B 01r00r00      [10]  113 	ld	bc,#_PLAYER_directionIndex+0
+   003E 3Ar00r00      [13]  114 	ld	a,(#_PLAYER_directionIndex + 0)
+   0041 C6 02         [ 7]  115 	add	a, #0x02
+   0043 E6 07         [ 7]  116 	and	a, #0x07
+   0045 02            [ 7]  117 	ld	(bc),a
+                            118 ;src/State_InGame.c:34: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
+   0046 01r00r00      [10]  119 	ld	bc,#_PLAYER_direction+0
+   0049 11r00r00      [10]  120 	ld	de,#_PLAYER_directionArray+0
+   004C FD 21r00r00   [14]  121 	ld	iy,#_PLAYER_directionIndex
+   0050 FD 6E 00      [19]  122 	ld	l,0 (iy)
+   0053 26 00         [ 7]  123 	ld	h,#0x00
+   0055 19            [11]  124 	add	hl,de
+   0056 7E            [ 7]  125 	ld	a,(hl)
+   0057 02            [ 7]  126 	ld	(bc),a
+                            127 ;src/State_InGame.c:35: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+   0058 01r01r00      [10]  128 	ld	bc,#_PLAYER_direction+1
+   005B FD 21r00r00   [14]  129 	ld	iy,#_PLAYER_directionIndex
+   005F FD 6E 00      [19]  130 	ld	l,0 (iy)
+   0062 2C            [ 4]  131 	inc	l
+   0063 26 00         [ 7]  132 	ld	h,#0x00
+   0065 19            [11]  133 	add	hl,de
+   0066 7E            [ 7]  134 	ld	a,(hl)
+   0067 02            [ 7]  135 	ld	(bc),a
+                            136 ;src/State_InGame.c:37: *(u8*)&needRender = 1;
+   0068 21r30r00      [10]  137 	ld	hl,#_needRender
+   006B 36 01         [10]  138 	ld	(hl),#0x01
+                            139 ;src/State_InGame.c:38: statemanager_input_accepted();
+   006D C3r00r00      [10]  140 	jp  _statemanager_input_accepted
+   0070                     141 00122$:
+                            142 ;src/State_InGame.c:40: else if(cpct_isKeyPressed(Key_CursorRight)){
+   0070 21 00 02      [10]  143 	ld	hl,#0x0200
+   0073 CDr00r00      [17]  144 	call	_cpct_isKeyPressed
+   0076 7D            [ 4]  145 	ld	a,l
+   0077 B7            [ 4]  146 	or	a, a
+   0078 28 33         [12]  147 	jr	Z,00119$
+                            148 ;src/State_InGame.c:41: *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
+   007A 01r00r00      [10]  149 	ld	bc,#_PLAYER_directionIndex+0
+   007D 3Ar00r00      [13]  150 	ld	a,(#_PLAYER_directionIndex + 0)
+   0080 C6 FE         [ 7]  151 	add	a,#0xFE
+   0082 E6 07         [ 7]  152 	and	a, #0x07
+   0084 02            [ 7]  153 	ld	(bc),a
+                            154 ;src/State_InGame.c:42: *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
+   0085 11r00r00      [10]  155 	ld	de,#_PLAYER_direction+0
+   0088 01r00r00      [10]  156 	ld	bc,#_PLAYER_directionArray+0
+   008B FD 21r00r00   [14]  157 	ld	iy,#_PLAYER_directionIndex
+   008F FD 6E 00      [19]  158 	ld	l,0 (iy)
+   0092 26 00         [ 7]  159 	ld	h,#0x00
+   0094 09            [11]  160 	add	hl,bc
+   0095 7E            [ 7]  161 	ld	a,(hl)
+   0096 12            [ 7]  162 	ld	(de),a
+                            163 ;src/State_InGame.c:43: *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+   0097 21r00r00      [10]  164 	ld	hl,#_PLAYER_directionIndex + 0
+   009A 5E            [ 7]  165 	ld	e, (hl)
+   009B 1C            [ 4]  166 	inc	e
+   009C 6B            [ 4]  167 	ld	l,e
+   009D 26 00         [ 7]  168 	ld	h,#0x00
+   009F 09            [11]  169 	add	hl,bc
+   00A0 4E            [ 7]  170 	ld	c,(hl)
+   00A1 21r01r00      [10]  171 	ld	hl,#(_PLAYER_direction + 0x0001)
+   00A4 71            [ 7]  172 	ld	(hl),c
+                            173 ;src/State_InGame.c:44: *(u8*)&needRender = 1;
+   00A5 21r30r00      [10]  174 	ld	hl,#_needRender
+   00A8 36 01         [10]  175 	ld	(hl),#0x01
+                            176 ;src/State_InGame.c:45: statemanager_input_accepted();
+   00AA C3r00r00      [10]  177 	jp  _statemanager_input_accepted
+   00AD                     178 00119$:
+                            179 ;src/State_InGame.c:47: else if(cpct_isKeyPressed(Key_CursorUp)){
+   00AD 21 00 01      [10]  180 	ld	hl,#0x0100
+   00B0 CDr00r00      [17]  181 	call	_cpct_isKeyPressed
+   00B3 7D            [ 4]  182 	ld	a,l
+   00B4 B7            [ 4]  183 	or	a, a
+   00B5 28 22         [12]  184 	jr	Z,00116$
+                            185 ;src/State_InGame.c:48: *(i8*)&(PLAYER_position.x) = PLAYER_position.x + PLAYER_direction.x;
+   00B7 21r00r00      [10]  186 	ld	hl,#_PLAYER_position+0
+   00BA 4D            [ 4]  187 	ld	c, l
+   00BB 44            [ 4]  188 	ld	b, h
+   00BC 56            [ 7]  189 	ld	d,(hl)
+   00BD 21r00r00      [10]  190 	ld	hl,#_PLAYER_direction+0
+   00C0 5E            [ 7]  191 	ld	e,(hl)
+   00C1 7A            [ 4]  192 	ld	a,d
+   00C2 83            [ 4]  193 	add	a, e
+   00C3 02            [ 7]  194 	ld	(bc),a
+                            195 ;src/State_InGame.c:49: *(i8*)&(PLAYER_position.y) = PLAYER_position.y + PLAYER_direction.y;
+   00C4 21r01r00      [10]  196 	ld	hl,#_PLAYER_position+1
+   00C7 4D            [ 4]  197 	ld	c, l
+   00C8 44            [ 4]  198 	ld	b, h
+   00C9 56            [ 7]  199 	ld	d,(hl)
+   00CA 21r01r00      [10]  200 	ld	hl,#_PLAYER_direction+1
+   00CD 5E            [ 7]  201 	ld	e,(hl)
+   00CE 7A            [ 4]  202 	ld	a,d
+   00CF 83            [ 4]  203 	add	a, e
+   00D0 02            [ 7]  204 	ld	(bc),a
+                            205 ;src/State_InGame.c:51: *(u8*)&needRender = 1;
+   00D1 21r30r00      [10]  206 	ld	hl,#_needRender
+   00D4 36 01         [10]  207 	ld	(hl),#0x01
+                            208 ;src/State_InGame.c:52: statemanager_input_accepted();
+   00D6 C3r00r00      [10]  209 	jp  _statemanager_input_accepted
+   00D9                     210 00116$:
+                            211 ;src/State_InGame.c:54: else if(cpct_isKeyPressed(Key_CursorDown)){
+   00D9 21 00 04      [10]  212 	ld	hl,#0x0400
+   00DC CDr00r00      [17]  213 	call	_cpct_isKeyPressed
+   00DF 7D            [ 4]  214 	ld	a,l
+   00E0 B7            [ 4]  215 	or	a, a
+   00E1 28 22         [12]  216 	jr	Z,00113$
+                            217 ;src/State_InGame.c:55: *(i8*)&(PLAYER_position.x) = PLAYER_position.x - PLAYER_direction.x;
+   00E3 21r00r00      [10]  218 	ld	hl,#_PLAYER_position+0
+   00E6 4D            [ 4]  219 	ld	c, l
+   00E7 44            [ 4]  220 	ld	b, h
+   00E8 56            [ 7]  221 	ld	d,(hl)
+   00E9 21r00r00      [10]  222 	ld	hl,#_PLAYER_direction+0
+   00EC 5E            [ 7]  223 	ld	e,(hl)
+   00ED 7A            [ 4]  224 	ld	a,d
+   00EE 93            [ 4]  225 	sub	a, e
+   00EF 02            [ 7]  226 	ld	(bc),a
+                            227 ;src/State_InGame.c:56: *(i8*)&(PLAYER_position.y) = PLAYER_position.y - PLAYER_direction.y;
+   00F0 21r01r00      [10]  228 	ld	hl,#_PLAYER_position+1
+   00F3 4D            [ 4]  229 	ld	c, l
+   00F4 44            [ 4]  230 	ld	b, h
+   00F5 56            [ 7]  231 	ld	d,(hl)
+   00F6 21r01r00      [10]  232 	ld	hl,#_PLAYER_direction+1
+   00F9 5E            [ 7]  233 	ld	e,(hl)
+   00FA 7A            [ 4]  234 	ld	a,d
+   00FB 93            [ 4]  235 	sub	a, e
+   00FC 02            [ 7]  236 	ld	(bc),a
+                            237 ;src/State_InGame.c:58: *(u8*)&needRender = 1;
+   00FD 21r30r00      [10]  238 	ld	hl,#_needRender
+   0100 36 01         [10]  239 	ld	(hl),#0x01
+                            240 ;src/State_InGame.c:59: statemanager_input_accepted();
+   0102 C3r00r00      [10]  241 	jp  _statemanager_input_accepted
+   0105                     242 00113$:
+                            243 ;src/State_InGame.c:61: else if(cpct_isKeyPressed(Key_0)){
+   0105 21 04 01      [10]  244 	ld	hl,#0x0104
+   0108 CDr00r00      [17]  245 	call	_cpct_isKeyPressed
+   010B 7D            [ 4]  246 	ld	a,l
+   010C B7            [ 4]  247 	or	a, a
+   010D 28 0A         [12]  248 	jr	Z,00110$
+                            249 ;src/State_InGame.c:62: level_load_level(0);
+   010F AF            [ 4]  250 	xor	a, a
+   0110 F5            [11]  251 	push	af
+   0111 33            [ 6]  252 	inc	sp
+   0112 CDr00r00      [17]  253 	call	_level_load_level
+   0115 33            [ 6]  254 	inc	sp
+                            255 ;src/State_InGame.c:63: statemanager_input_accepted();
+   0116 C3r00r00      [10]  256 	jp  _statemanager_input_accepted
+   0119                     257 00110$:
+                            258 ;src/State_InGame.c:65: else if(cpct_isKeyPressed(Key_1)){ 
+   0119 21 08 01      [10]  259 	ld	hl,#0x0108
+   011C CDr00r00      [17]  260 	call	_cpct_isKeyPressed
+   011F 7D            [ 4]  261 	ld	a,l
+   0120 B7            [ 4]  262 	or	a, a
+   0121 28 0B         [12]  263 	jr	Z,00107$
+                            264 ;src/State_InGame.c:66: level_load_level(9);
+   0123 3E 09         [ 7]  265 	ld	a,#0x09
+   0125 F5            [11]  266 	push	af
+   0126 33            [ 6]  267 	inc	sp
+   0127 CDr00r00      [17]  268 	call	_level_load_level
+   012A 33            [ 6]  269 	inc	sp
+                            270 ;src/State_InGame.c:67: statemanager_input_accepted();
+   012B C3r00r00      [10]  271 	jp  _statemanager_input_accepted
+   012E                     272 00107$:
+                            273 ;src/State_InGame.c:69: else if(cpct_isKeyPressed(Key_T)){
+   012E 21 06 08      [10]  274 	ld	hl,#0x0806
+   0131 CDr00r00      [17]  275 	call	_cpct_isKeyPressed
+   0134 7D            [ 4]  276 	ld	a,l
+   0135 B7            [ 4]  277 	or	a, a
+   0136 28 10         [12]  278 	jr	Z,00104$
+                            279 ;src/State_InGame.c:70: *(u8*)&g_texturedWalls = !g_texturedWalls;
+   0138 3Ar00r00      [13]  280 	ld	a,(#_g_texturedWalls + 0)
+   013B D6 01         [ 7]  281 	sub	a,#0x01
+   013D 3E 00         [ 7]  282 	ld	a,#0x00
+   013F 17            [ 4]  283 	rla
+   0140 4F            [ 4]  284 	ld	c,a
+   0141 21r00r00      [10]  285 	ld	hl,#_g_texturedWalls
+   0144 71            [ 7]  286 	ld	(hl),c
+                            287 ;src/State_InGame.c:71: statemanager_input_accepted();
+   0145 C3r00r00      [10]  288 	jp  _statemanager_input_accepted
+   0148                     289 00104$:
+                            290 ;src/State_InGame.c:73: else if(cpct_isKeyPressed(Key_P)){
+   0148 21 03 08      [10]  291 	ld	hl,#0x0803
+   014B CDr00r00      [17]  292 	call	_cpct_isKeyPressed
+   014E 7D            [ 4]  293 	ld	a,l
+   014F B7            [ 4]  294 	or	a, a
+   0150 C8            [11]  295 	ret	Z
+                            296 ;src/State_InGame.c:74: statemanager_set_state(STATE_PAUSEMENU);
+   0151 3E 02         [ 7]  297 	ld	a,#0x02
+   0153 F5            [11]  298 	push	af
+   0154 33            [ 6]  299 	inc	sp
+   0155 CDr00r00      [17]  300 	call	_statemanager_set_state
+   0158 33            [ 6]  301 	inc	sp
+                            302 ;src/State_InGame.c:75: statemanager_input_accepted();
+   0159 C3r00r00      [10]  303 	jp  _statemanager_input_accepted
+                            304 ;src/State_InGame.c:79: void state_ingame_update(){
+                            305 ;	---------------------------------
+                            306 ; Function state_ingame_update
+                            307 ; ---------------------------------
+   015C                     308 _state_ingame_update::
+                            309 ;src/State_InGame.c:80: if(needRender){
+   015C 3Ar30r00      [13]  310 	ld	a,(#_needRender + 0)
+   015F B7            [ 4]  311 	or	a, a
+   0160 C8            [11]  312 	ret	Z
+                            313 ;src/State_InGame.c:81: render_draw_to_buffer();
+   0161 CDr00r00      [17]  314 	call	_render_draw_to_buffer
+                            315 ;src/State_InGame.c:82: draw_minimap_to_buffer();
+   0164 CDr00r00      [17]  316 	call	_draw_minimap_to_buffer
+                            317 ;src/State_InGame.c:83: *(u8*)&needRender = 0;
+   0167 21r30r00      [10]  318 	ld	hl,#_needRender
+   016A 36 00         [10]  319 	ld	(hl),#0x00
+   016C C9            [10]  320 	ret
+                            321 ;src/State_InGame.c:88: void state_ingame_render(){
+                            322 ;	---------------------------------
+                            323 ; Function state_ingame_render
+                            324 ; ---------------------------------
+   016D                     325 _state_ingame_render::
+                            326 ;src/State_InGame.c:89: cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
+   016D 21 28 64      [10]  327 	ld	hl,#0x6428
+   0170 E5            [11]  328 	push	hl
+   0171 21 B4 C0      [10]  329 	ld	hl,#0xC0B4
+   0174 E5            [11]  330 	push	hl
+   0175 21 40 29      [10]  331 	ld	hl,#0x2940
+   0178 E5            [11]  332 	push	hl
+   0179 CDr00r00      [17]  333 	call	_cpct_drawSprite
+                            334 ;src/State_InGame.c:90: renderCompass();
+   017C CDr00r00      [17]  335 	call	_renderCompass
+                            336 ;src/State_InGame.c:91: cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
+   017F 21 10 40      [10]  337 	ld	hl,#0x4010
+   0182 E5            [11]  338 	push	hl
+   0183 21 70 C5      [10]  339 	ld	hl,#0xC570
+   0186 E5            [11]  340 	push	hl
+   0187 21 E0 38      [10]  341 	ld	hl,#0x38E0
+   018A E5            [11]  342 	push	hl
+   018B CDr00r00      [17]  343 	call	_cpct_drawSprite
+   018E C9            [10]  344 	ret
+                            345 ;src/State_InGame.c:94: void state_ingame_exit(){
+                            346 ;	---------------------------------
+                            347 ; Function state_ingame_exit
+                            348 ; ---------------------------------
+   018F                     349 _state_ingame_exit::
+                            350 ;src/State_InGame.c:95: *(u8*)&isInitialized = 0;
+   018F 21r2Fr00      [10]  351 	ld	hl,#_isInitialized
+   0192 36 00         [10]  352 	ld	(hl),#0x00
+   0194 C9            [10]  353 	ret
+                            354 	.area _CODE
+                            355 	.area _INITIALIZER
+                            356 	.area _CABS (ABS)

@@ -1,0 +1,66 @@
+XL2
+H 9 areas D global symbols
+M State_PauseMenu
+O -mz80
+S _statemanager_input_accepted Ref0000
+S _cpct_isKeyPressed Ref0000
+S _statemanager_set_state Ref0000
+S _cpct_drawStringM0 Ref0000
+S _statemanager_close_state Ref0000
+S .__.ABS. Def0000
+S _cpct_drawSolidBox Ref0000
+S _cpct_getScreenPtr Ref0000
+A _CODE size 73 flags 0 addr 0
+S _state_pausemenu_input Def0040
+S _state_pausemenu_exit Def0072
+S _state_pausemenu_render Def0071
+S _state_pausemenu_update Def0070
+S _state_pausemenu_enter Def0000
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 21 14 28 E5 21 00 C0 E5 CD 00 00 4D 44 21
+R 00 00 00 00 02 0B 07 00
+T 0E 00 28 78 E5 3E FF F5 33 C5 CD 00 00 F1 33 21
+R 00 00 00 00 02 0B 06 00
+T 1C 00 14 50 E3 21 00 C0 E5 CD 00 00 4D 44 21
+R 00 00 00 00 02 0A 07 00
+T 29 00 00 01 E5 C5 21 3A 00 E5 CD 00 00 21 06 00
+R 00 00 00 00 00 07 00 00 02 0B 03 00
+T 37 00 39 F9 C9
+R 00 00 00 00
+T 3A 00
+R 00 00 00 00
+T 3A 00 50 41 55 53 45 00
+R 00 00 00 00
+T 40 00
+R 00 00 00 00
+T 40 00 21 03 08 CD 00 00 7D B7 28 0B 3E 01 F5 33
+R 00 00 00 00 02 06 01 00
+T 4E 00 CD 00 00 33 C3 00 00
+R 00 00 00 00 02 03 02 00 02 07 00 00
+T 55 00
+R 00 00 00 00
+T 55 00 21 08 04 CD 00 00 7D B7 C8 AF F5 33 CD
+R 00 00 00 00 02 06 01 00
+T 62 00 00 00 33 3E 01 F5 33 CD 00 00 33 C3 00 00
+R 00 00 00 00 02 02 02 00 02 0A 04 00 02 0E 00 00
+T 70 00
+R 00 00 00 00
+T 70 00 C9
+R 00 00 00 00
+T 71 00
+R 00 00 00 00
+T 71 00 C9
+R 00 00 00 00
+T 72 00
+R 00 00 00 00
+T 72 00 C9
+R 00 00 00 00

@@ -1,0 +1,55 @@
+XL2
+H 9 areas C global symbols
+M State_MainMenu
+O -mz80
+S _statemanager_input_accepted Ref0000
+S _cpct_isKeyPressed Ref0000
+S _statemanager_set_state Ref0000
+S _cpct_drawStringM0 Ref0000
+S .__.ABS. Def0000
+S _cpct_memset Ref0000
+S _g_colors Ref0000
+A _CODE size 45 flags 0 addr 0
+S _state_mainmenu_input Def002E
+S _state_mainmenu_exit Def0044
+S _state_mainmenu_render Def0043
+S _state_mainmenu_update Def0042
+S _state_mainmenu_enter Def0000
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 21 0C 00 46 21 00 40 E5 C5 33 26 C0 E5 CD
+R 00 00 00 00 02 03 06 00
+T 0E 00 00 00 21 00 01 E5 26 C0 E5 21 24 00 E5 CD
+R 00 00 00 00 02 02 05 00 00 0C 00 00
+T 1C 00 00 00 21 06 00 39 F9 C9
+R 00 00 00 00 02 02 03 00
+T 24 00
+R 00 00 00 00
+T 24 00 4D 41 49 4E 20 4D 45 4E 55 00
+R 00 00 00 00
+T 2E 00
+R 00 00 00 00
+T 2E 00 21 02 04 CD 00 00 7D B7 C8 3E 01 F5 33 CD
+R 00 00 00 00 02 06 01 00
+T 3C 00 00 00 33 C3 00 00
+R 00 00 00 00 02 02 02 00 02 06 00 00
+T 42 00
+R 00 00 00 00
+T 42 00 C9
+R 00 00 00 00
+T 43 00
+R 00 00 00 00
+T 43 00 C9
+R 00 00 00 00
+T 44 00
+R 00 00 00 00
+T 44 00 C9
+R 00 00 00 00

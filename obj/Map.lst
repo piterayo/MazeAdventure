@@ -124,7 +124,7 @@
    0056 F1            [10]  124 	pop	af
    0057 4D            [ 4]  125 	ld	c,l
    0058 0C            [ 4]  126 	inc	c
-   0059 21 40 29      [10]  127 	ld	hl,#0x2940
+   0059 21 40 04      [10]  127 	ld	hl,#0x0440
    005C 71            [ 7]  128 	ld	(hl),c
                             129 ;src/Map.c:47: (*cellStack).y = (cpct_getRandom_lcg_u8()%(MAP_HEIGHT-2))+1; //RANDOM
    005D CDr00r00      [17]  130 	call	_cpct_getRandom_lcg_u8
@@ -138,7 +138,7 @@
    006A F1            [10]  138 	pop	af
    006B 4D            [ 4]  139 	ld	c,l
    006C 0C            [ 4]  140 	inc	c
-   006D 21 41 29      [10]  141 	ld	hl,#0x2941
+   006D 21 41 04      [10]  141 	ld	hl,#0x0441
    0070 71            [ 7]  142 	ld	(hl),c
                             143 ;src/Map.c:50: *(i8*)&(PLAYER_position.x) = (*cellStack).y;
    0071 DD 36 FBr00   [19]  144 	ld	-5 (ix),#<(_PLAYER_position)
@@ -153,7 +153,7 @@
                             153 ;src/Map.c:51: *(i8*)&(PLAYER_position.y) = (*cellStack).x;
    0089 DD 36 FBr01   [19]  154 	ld	-5 (ix),#<((_PLAYER_position + 0x0001))
    008D DD 36 FCs00   [19]  155 	ld	-4 (ix),#>((_PLAYER_position + 0x0001))
-   0091 21 40 29      [10]  156 	ld	hl,#0x2940
+   0091 21 40 04      [10]  156 	ld	hl,#0x0440
    0094 4E            [ 7]  157 	ld	c,(hl)
    0095 DD 6E FB      [19]  158 	ld	l,-5 (ix)
    0098 DD 66 FC      [19]  159 	ld	h,-4 (ix)
@@ -168,7 +168,7 @@
    00A7 E5            [11]  168 	push	hl
    00A8 CDr00r00      [17]  169 	call	_cpct_memset
                             170 ;src/Map.c:55: map[(*cellStack).x][(*cellStack).y] = CELLTYPE_FLOOR;
-   00AB 3A 40 29      [13]  171 	ld	a,(#0x2940)
+   00AB 3A 40 04      [13]  171 	ld	a,(#0x0440)
    00AE DD 77 FD      [19]  172 	ld	-3 (ix), a
    00B1 DD 77 FB      [19]  173 	ld	-5 (ix),a
    00B4 DD 36 FC 00   [19]  174 	ld	-4 (ix),#0x00
@@ -186,7 +186,7 @@
    00CF DD 7E FC      [19]  186 	ld	a,-4 (ix)
    00D2 CE 00         [ 7]  187 	adc	a, #0x00
    00D4 DD 77 FC      [19]  188 	ld	-4 (ix),a
-   00D7 21 41 29      [10]  189 	ld	hl,#0x2941
+   00D7 21 41 04      [10]  189 	ld	hl,#0x0441
    00DA 4E            [ 7]  190 	ld	c,(hl)
    00DB DD 6E FB      [19]  191 	ld	l,-5 (ix)
    00DE DD 66 FC      [19]  192 	ld	h,-4 (ix)
@@ -275,7 +275,7 @@
    017E C6 40         [ 7]  275 	add	a, #0x40
    0180 DD 77 FB      [19]  276 	ld	-5 (ix),a
    0183 7C            [ 4]  277 	ld	a,h
-   0184 CE 2D         [ 7]  278 	adc	a, #0x2D
+   0184 CE 08         [ 7]  278 	adc	a, #0x08
    0186 DD 77 FC      [19]  279 	ld	-4 (ix),a
                             280 ;src/Map.c:70: while(wallListCount<MAP_SIZE){
    0189 D1            [10]  281 	pop	de
@@ -481,7 +481,7 @@
    02BA 69            [ 4]  481 	ld	l, c
    02BB 60            [ 4]  482 	ld	h, b
    02BC 29            [11]  483 	add	hl, hl
-   02BD FD 21 40 2D   [14]  484 	ld	iy,#0x2D40
+   02BD FD 21 40 08   [14]  484 	ld	iy,#0x0840
    02C1 C5            [11]  485 	push	bc
    02C2 4D            [ 4]  486 	ld	c, l
    02C3 44            [ 4]  487 	ld	b, h
@@ -537,7 +537,7 @@
    0312 E1            [10]  537 	pop	hl
    0313 E5            [11]  538 	push	hl
    0314 29            [11]  539 	add	hl, hl
-   0315 01 40 29      [10]  540 	ld	bc, #0x2940
+   0315 01 40 04      [10]  540 	ld	bc, #0x0440
    0318 09            [11]  541 	add	hl,bc
    0319 4D            [ 4]  542 	ld	c, l
    031A 44            [ 4]  543 	ld	b, h
@@ -584,7 +584,7 @@
    0365 E1            [10]  584 	pop	hl
    0366 E5            [11]  585 	push	hl
    0367 29            [11]  586 	add	hl, hl
-   0368 FD 21 40 29   [14]  587 	ld	iy,#0x2940
+   0368 FD 21 40 04   [14]  587 	ld	iy,#0x0440
    036C EB            [ 4]  588 	ex	de,hl
    036D FD 19         [15]  589 	add	iy, de
    036F FD 7E 00      [19]  590 	ld	a, 0 (iy)
@@ -706,7 +706,7 @@
    0421 E1            [10]  706 	pop	hl
    0422 E5            [11]  707 	push	hl
    0423 29            [11]  708 	add	hl, hl
-   0424 01 40 29      [10]  709 	ld	bc,#0x2940
+   0424 01 40 04      [10]  709 	ld	bc,#0x0440
    0427 09            [11]  710 	add	hl,bc
    0428 DD 4E F8      [19]  711 	ld	c,-8 (ix)
    042B 0D            [ 4]  712 	dec	c
@@ -758,7 +758,7 @@
    046A E1            [10]  758 	pop	hl
    046B E5            [11]  759 	push	hl
    046C 29            [11]  760 	add	hl, hl
-   046D 11 40 29      [10]  761 	ld	de,#0x2940
+   046D 11 40 04      [10]  761 	ld	de,#0x0440
    0470 19            [11]  762 	add	hl,de
    0471 0C            [ 4]  763 	inc	c
    0472 71            [ 7]  764 	ld	(hl),c
@@ -809,7 +809,7 @@
    04AE E1            [10]  809 	pop	hl
    04AF E5            [11]  810 	push	hl
    04B0 29            [11]  811 	add	hl, hl
-   04B1 11 40 29      [10]  812 	ld	de,#0x2940
+   04B1 11 40 04      [10]  812 	ld	de,#0x0440
    04B4 19            [11]  813 	add	hl,de
    04B5 70            [ 7]  814 	ld	(hl),b
                             815 ;src/Map.c:184: (*(cellStack+lastStackItem)).y = currentPos.y-1;
@@ -861,7 +861,7 @@
    04F6 E1            [10]  861 	pop	hl
    04F7 E5            [11]  862 	push	hl
    04F8 29            [11]  863 	add	hl, hl
-   04F9 11 40 29      [10]  864 	ld	de,#0x2940
+   04F9 11 40 04      [10]  864 	ld	de,#0x0440
    04FC 19            [11]  865 	add	hl,de
    04FD 71            [ 7]  866 	ld	(hl),c
                             867 ;src/Map.c:196: (*(cellStack+lastStackItem)).y = currentPos.y+1;
@@ -888,7 +888,7 @@
    0521 DD 6E FB      [19]  888 	ld	l,-5 (ix)
    0524 DD 66 FC      [19]  889 	ld	h,-4 (ix)
    0527 29            [11]  890 	add	hl, hl
-   0528 01 40 2D      [10]  891 	ld	bc,#0x2D40
+   0528 01 40 08      [10]  891 	ld	bc,#0x0840
    052B 09            [11]  892 	add	hl,bc
    052C DD 7E F8      [19]  893 	ld	a,-8 (ix)
    052F 77            [ 7]  894 	ld	(hl),a
@@ -1186,8 +1186,8 @@
    06EC CDr28r00      [17] 1186 	call	_generate_map
                            1187 ;src/Map.c:271: generate_exit_door();
    06EF CDr43r05      [17] 1188 	call	_generate_exit_door
-                           1189 ;src/Map.c:272: *(u8*)(MAP_MEM + 5 + MAP_WIDTH*5)=0b00000001;
-   06F2 21 E5 00      [10] 1190 	ld	hl,#0x00E5
+                           1189 ;src/Map.c:272: *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
+   06F2 21 E6 00      [10] 1190 	ld	hl,#0x00E6
    06F5 36 01         [10] 1191 	ld	(hl),#0x01
    06F7 C9            [10] 1192 	ret
                            1193 	.area _CODE

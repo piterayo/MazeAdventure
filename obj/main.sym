@@ -7,38 +7,30 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-    _PLAYER_direction                                              **** GX
-    _PLAYER_directionArray                                         **** GX
-    _PLAYER_directionIndex                                         **** GX
-    _PLAYER_position                                               **** GX
     _cpct_disableFirmware                                          **** GX
-    _cpct_drawSprite                                               **** GX
     _cpct_fw2hw                                                    **** GX
-    _cpct_isKeyPressed                                             **** GX
     _cpct_memset                                                   **** GX
     _cpct_scanKeyboard_f                                           **** GX
+    _cpct_setInterruptHandler                                      **** GX
     _cpct_setPALColour                                             **** GX
     _cpct_setPalette                                               **** GX
     _cpct_setVideoMode                                             **** GX
-    _draw_minimap_to_buffer                                        **** GX
     _g_colors                                                      **** GX
     _g_palette                                                     **** GX
-    _generate_level                                                **** GX
-  0 _init                                                          0000 GR
+  0 _init                                                          001B GR
     _init_generator                                                **** GX
+  0 _interrupt_handler                                             0000 GR
     _level_init_palettes                                           **** GX
-    _level_load_level                                              **** GX
-  0 _main                                                          003F GR
-    _renderCompass                                                 **** GX
-    _render_draw_to_buffer                                         **** GX
-
+  0 _main                                                          0066 GR
+    _statemanager_main_loop                                        **** GX
+    _statemanager_set_state                                        **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  1AE   flags    0
+   0 _CODE                                      size   73   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
