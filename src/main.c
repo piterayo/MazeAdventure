@@ -23,8 +23,6 @@
 
 #include "StateManager.h"
 
-
-
 void main(void) {
    game_init();
    

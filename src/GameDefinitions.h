@@ -125,6 +125,7 @@
 #define STATE_MAINMENU      0
 #define STATE_INGAME        1
 #define STATE_PAUSEMENU     2
+#define STATE_LOADLEVEL     3
 
 //Palettes
 

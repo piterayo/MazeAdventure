@@ -1,0 +1,59 @@
+XL2
+H 9 areas 10 global symbols
+M State_LoadLevel
+O -mz80
+S _print_transparent_text Ref0000
+S _statemanager_input_accepted Ref0000
+S _statemanager_set_state Ref0000
+S _render_draw_to_buffer Ref0000
+S _statemanager_close_state Ref0000
+S .__.ABS. Def0000
+S _generate_level Ref0000
+S _level_load_level Ref0000
+S _draw_minimap_to_buffer Ref0000
+S _cpct_memset Ref0000
+S _g_colors Ref0000
+A _CODE size 48 flags 0 addr 0
+S _state_loadlevel_enter Def0000
+S _state_loadlevel_input Def0037
+S _state_loadlevel_exit Def0047
+S _state_loadlevel_render Def0046
+S _state_loadlevel_update Def003A
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 21 01 00 46 21 00 40 E5 C5 33 26 C0 E5 CD
+R 00 00 00 00 02 03 0A 00
+T 0E 00 00 00 3E 03 F5 33 21 91 E3 E5 21 2F 00 E5
+R 00 00 00 00 02 02 09 00 00 0D 00 00
+T 1C 00 CD 00 00 F1 F1 33 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 03 00 00 02 09 06 00 02 0C 07 00
+T 29 00 00 00 CD 00 00 C9
+R 00 00 00 00 02 02 03 00 02 05 08 00
+T 2F 00
+R 00 00 00 00
+T 2F 00 4C 4F 41 44 49 4E 47 00
+R 00 00 00 00
+T 37 00
+R 00 00 00 00
+T 37 00 C3 00 00
+R 00 00 00 00 02 03 01 00
+T 3A 00
+R 00 00 00 00
+T 3A 00 CD 00 00 3E 01 F5 33 CD 00 00 33 C9
+R 00 00 00 00 02 03 04 00 02 0A 02 00
+T 46 00
+R 00 00 00 00
+T 46 00 C9
+R 00 00 00 00
+T 47 00
+R 00 00 00 00
+T 47 00 C9
+R 00 00 00 00

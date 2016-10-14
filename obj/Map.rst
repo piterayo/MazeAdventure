@@ -12,1220 +12,1202 @@
                              12 	.globl _generate_map
                              13 	.globl _get_random_wall
                              14 	.globl _level_get_level
-                             15 	.globl _cpct_setSeed_lcg_u8
-                             16 	.globl _cpct_getRandom_lcg_u8
-                             17 	.globl _cpct_memset
-                             18 	.globl _rand_seed
-                             19 	.globl _map_get_seed
-                             20 	.globl _generate_level
-                             21 	.globl _generate_level_with_seed
-                             22 ;--------------------------------------------------------
-                             23 ; special function registers
-                             24 ;--------------------------------------------------------
+                             15 	.globl _player_turn_left
+                             16 	.globl _cpct_setSeed_lcg_u8
+                             17 	.globl _cpct_getRandom_lcg_u8
+                             18 	.globl _cpct_memset
+                             19 	.globl _rand_seed
+                             20 	.globl _map_get_seed
+                             21 	.globl _generate_level
+                             22 	.globl _generate_level_with_seed
+                             23 ;--------------------------------------------------------
+                             24 ; special function registers
                              25 ;--------------------------------------------------------
-                             26 ; ram data
-                             27 ;--------------------------------------------------------
-                             28 	.area _DATA
-                             29 ;--------------------------------------------------------
-                             30 ; ram data
-                             31 ;--------------------------------------------------------
-                             32 	.area _INITIALIZED
-   4543                      33 _rand_seed::
-   4543                      34 	.ds 1
-                             35 ;--------------------------------------------------------
-                             36 ; absolute external ram data
-                             37 ;--------------------------------------------------------
-                             38 	.area _DABS (ABS)
-                             39 ;--------------------------------------------------------
-                             40 ; global & static initialisations
-                             41 ;--------------------------------------------------------
-                             42 	.area _HOME
-                             43 	.area _GSINIT
-                             44 	.area _GSFINAL
-                             45 	.area _GSINIT
-                             46 ;--------------------------------------------------------
-                             47 ; Home
-                             48 ;--------------------------------------------------------
-                             49 	.area _HOME
+                             26 ;--------------------------------------------------------
+                             27 ; ram data
+                             28 ;--------------------------------------------------------
+                             29 	.area _DATA
+                             30 ;--------------------------------------------------------
+                             31 ; ram data
+                             32 ;--------------------------------------------------------
+                             33 	.area _INITIALIZED
+   4916                      34 _rand_seed::
+   4916                      35 	.ds 1
+                             36 ;--------------------------------------------------------
+                             37 ; absolute external ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area _DABS (ABS)
+                             40 ;--------------------------------------------------------
+                             41 ; global & static initialisations
+                             42 ;--------------------------------------------------------
+                             43 	.area _HOME
+                             44 	.area _GSINIT
+                             45 	.area _GSFINAL
+                             46 	.area _GSINIT
+                             47 ;--------------------------------------------------------
+                             48 ; Home
+                             49 ;--------------------------------------------------------
                              50 	.area _HOME
-                             51 ;--------------------------------------------------------
-                             52 ; code
-                             53 ;--------------------------------------------------------
-                             54 	.area _CODE
-                             55 ;src/Map.c:14: u8 map_get_seed(){
-                             56 ;	---------------------------------
-                             57 ; Function map_get_seed
-                             58 ; ---------------------------------
-   01B8                      59 _map_get_seed::
-                             60 ;src/Map.c:15: return rand_seed;
-   01B8 FD 21 43 45   [14]   61 	ld	iy,#_rand_seed
-   01BC FD 6E 00      [19]   62 	ld	l,0 (iy)
-   01BF C9            [10]   63 	ret
-                             64 ;src/Map.c:18: u8 get_random_wall(){
-                             65 ;	---------------------------------
-                             66 ; Function get_random_wall
-                             67 ; ---------------------------------
-   01C0                      68 _get_random_wall::
-                             69 ;src/Map.c:19: u8 cellType = cpct_getRandom_lcg_u8();
-   01C0 CD F7 42      [17]   70 	call	_cpct_getRandom_lcg_u8
-                             71 ;src/Map.c:20: if(cellType&1){
-   01C3 CB 45         [ 8]   72 	bit	0, l
-   01C5 28 03         [12]   73 	jr	Z,00108$
-                             74 ;src/Map.c:21: return CELLTYPE_WALL1;
-   01C7 2E 81         [ 7]   75 	ld	l,#0x81
-   01C9 C9            [10]   76 	ret
-   01CA                      77 00108$:
-                             78 ;src/Map.c:24: if(cellType&3){
-   01CA 7D            [ 4]   79 	ld	a,l
-   01CB E6 03         [ 7]   80 	and	a, #0x03
-   01CD 28 03         [12]   81 	jr	Z,00105$
-                             82 ;src/Map.c:25: return CELLTYPE_WALL2;
-   01CF 2E 82         [ 7]   83 	ld	l,#0x82
-   01D1 C9            [10]   84 	ret
-   01D2                      85 00105$:
-                             86 ;src/Map.c:28: if(cellType&5){
-   01D2 7D            [ 4]   87 	ld	a,l
-   01D3 E6 05         [ 7]   88 	and	a, #0x05
-   01D5 28 03         [12]   89 	jr	Z,00102$
-                             90 ;src/Map.c:29: return CELLTYPE_WALL3;
-   01D7 2E 83         [ 7]   91 	ld	l,#0x83
-   01D9 C9            [10]   92 	ret
-   01DA                      93 00102$:
-                             94 ;src/Map.c:32: return CELLTYPE_WALL4;  
-   01DA 2E 84         [ 7]   95 	ld	l,#0x84
-   01DC C9            [10]   96 	ret
-                             97 ;src/Map.c:38: void generate_map(){
-                             98 ;	---------------------------------
-                             99 ; Function generate_map
-                            100 ; ---------------------------------
-   01DD                     101 _generate_map::
-   01DD DD E5         [15]  102 	push	ix
-   01DF DD 21 00 00   [14]  103 	ld	ix,#0
-   01E3 DD 39         [15]  104 	add	ix,sp
-   01E5 21 EB FF      [10]  105 	ld	hl,#-21
-   01E8 39            [11]  106 	add	hl,sp
-   01E9 F9            [ 6]  107 	ld	sp,hl
-                            108 ;src/Map.c:41: u16 remainingCells = MAP_SIZE-(MAP_WIDTH*2)-((MAP_HEIGHT-2)*2)-1;
-   01EA DD 36 F4 83   [19]  109 	ld	-12 (ix),#0x83
-   01EE DD 36 F5 03   [19]  110 	ld	-11 (ix),#0x03
-                            111 ;src/Map.c:47: u16 wallListCount = 0;
-   01F2 DD 36 ED 00   [19]  112 	ld	-19 (ix),#0x00
-   01F6 DD 36 EE 00   [19]  113 	ld	-18 (ix),#0x00
-                            114 ;src/Map.c:48: u16 lastStackItem = 0;
-   01FA 21 00 00      [10]  115 	ld	hl,#0x0000
-   01FD E3            [19]  116 	ex	(sp), hl
-                            117 ;src/Map.c:50: cpct_memset (GENERATOR_DATA_PTR, 0, 4096);
-   01FE 21 00 10      [10]  118 	ld	hl,#0x1000
-   0201 E5            [11]  119 	push	hl
-   0202 AF            [ 4]  120 	xor	a, a
-   0203 F5            [11]  121 	push	af
-   0204 33            [ 6]  122 	inc	sp
-   0205 26 64         [ 7]  123 	ld	h, #0x64
-   0207 E5            [11]  124 	push	hl
-   0208 CD 26 43      [17]  125 	call	_cpct_memset
-                            126 ;src/Map.c:52: (*cellStack).x = (cpct_getRandom_lcg_u8()%(MAP_WIDTH-2))+1; //RANDOM
-   020B CD F7 42      [17]  127 	call	_cpct_getRandom_lcg_u8
-   020E 45            [ 4]  128 	ld	b,l
-   020F 3E 1E         [ 7]  129 	ld	a,#0x1E
-   0211 F5            [11]  130 	push	af
-   0212 33            [ 6]  131 	inc	sp
-   0213 C5            [11]  132 	push	bc
-   0214 33            [ 6]  133 	inc	sp
-   0215 CD 45 42      [17]  134 	call	__moduchar
-   0218 F1            [10]  135 	pop	af
-   0219 4D            [ 4]  136 	ld	c,l
-   021A 0C            [ 4]  137 	inc	c
-   021B 21 00 64      [10]  138 	ld	hl,#0x6400
-   021E 71            [ 7]  139 	ld	(hl),c
-                            140 ;src/Map.c:53: (*cellStack).y = (cpct_getRandom_lcg_u8()%(MAP_HEIGHT-2))+1; //RANDOM
-   021F CD F7 42      [17]  141 	call	_cpct_getRandom_lcg_u8
-   0222 45            [ 4]  142 	ld	b,l
-   0223 3E 1E         [ 7]  143 	ld	a,#0x1E
-   0225 F5            [11]  144 	push	af
-   0226 33            [ 6]  145 	inc	sp
-   0227 C5            [11]  146 	push	bc
-   0228 33            [ 6]  147 	inc	sp
-   0229 CD 45 42      [17]  148 	call	__moduchar
-   022C F1            [10]  149 	pop	af
-   022D 4D            [ 4]  150 	ld	c,l
-   022E 0C            [ 4]  151 	inc	c
-   022F 21 01 64      [10]  152 	ld	hl,#0x6401
-   0232 71            [ 7]  153 	ld	(hl),c
-                            154 ;src/Map.c:56: *(i8*)&(PLAYER_position.x) = (*cellStack).y;
-   0233 DD 36 FB DE   [19]  155 	ld	-5 (ix),#<(_PLAYER_position)
-   0237 DD 36 FC 08   [19]  156 	ld	-4 (ix),#>(_PLAYER_position)
-   023B 2E 01         [ 7]  157 	ld	l, #0x01
-   023D 7E            [ 7]  158 	ld	a,(hl)
-   023E DD 77 FD      [19]  159 	ld	-3 (ix),a
-   0241 DD 6E FB      [19]  160 	ld	l,-5 (ix)
-   0244 DD 66 FC      [19]  161 	ld	h,-4 (ix)
-   0247 DD 7E FD      [19]  162 	ld	a,-3 (ix)
-   024A 77            [ 7]  163 	ld	(hl),a
-                            164 ;src/Map.c:57: *(i8*)&(PLAYER_position.y) = (*cellStack).x;
-   024B DD 36 FB DF   [19]  165 	ld	-5 (ix),#<((_PLAYER_position + 0x0001))
-   024F DD 36 FC 08   [19]  166 	ld	-4 (ix),#>((_PLAYER_position + 0x0001))
-   0253 21 00 64      [10]  167 	ld	hl,#0x6400
-   0256 4E            [ 7]  168 	ld	c,(hl)
-   0257 DD 6E FB      [19]  169 	ld	l,-5 (ix)
-   025A DD 66 FC      [19]  170 	ld	h,-4 (ix)
-   025D 71            [ 7]  171 	ld	(hl),c
-                            172 ;src/Map.c:59: cpct_memset (MAP_MEM,CELLTYPE_UNDEFINED,MAP_SIZE);
-   025E 21 00 04      [10]  173 	ld	hl,#0x0400
-   0261 E5            [11]  174 	push	hl
-   0262 3E 87         [ 7]  175 	ld	a,#0x87
-   0264 F5            [11]  176 	push	af
-   0265 33            [ 6]  177 	inc	sp
-   0266 26 60         [ 7]  178 	ld	h, #0x60
-   0268 E5            [11]  179 	push	hl
-   0269 CD 26 43      [17]  180 	call	_cpct_memset
-                            181 ;src/Map.c:62: map[(*cellStack).x][(*cellStack).y] = CELLTYPE_FLOOR;
-   026C 3A 00 64      [13]  182 	ld	a,(#0x6400)
-   026F DD 77 FD      [19]  183 	ld	-3 (ix), a
-   0272 DD 77 FB      [19]  184 	ld	-5 (ix),a
-   0275 DD 36 FC 00   [19]  185 	ld	-4 (ix),#0x00
-   0279 3E 06         [ 7]  186 	ld	a,#0x05+1
-   027B 18 08         [12]  187 	jr	00315$
-   027D                     188 00314$:
-   027D DD CB FB 26   [23]  189 	sla	-5 (ix)
-   0281 DD CB FC 16   [23]  190 	rl	-4 (ix)
-   0285                     191 00315$:
-   0285 3D            [ 4]  192 	dec	a
-   0286 20 F5         [12]  193 	jr	NZ,00314$
-   0288 DD 7E FB      [19]  194 	ld	a,-5 (ix)
-   028B C6 00         [ 7]  195 	add	a, #0x00
-   028D DD 77 FB      [19]  196 	ld	-5 (ix),a
-   0290 DD 7E FC      [19]  197 	ld	a,-4 (ix)
-   0293 CE 60         [ 7]  198 	adc	a, #0x60
-   0295 DD 77 FC      [19]  199 	ld	-4 (ix),a
-   0298 21 01 64      [10]  200 	ld	hl,#0x6401
-   029B 4E            [ 7]  201 	ld	c,(hl)
-   029C DD 6E FB      [19]  202 	ld	l,-5 (ix)
-   029F DD 66 FC      [19]  203 	ld	h,-4 (ix)
-   02A2 06 00         [ 7]  204 	ld	b,#0x00
-   02A4 09            [11]  205 	add	hl, bc
-   02A5 36 00         [10]  206 	ld	(hl),#0x00
-                            207 ;src/Map.c:65: for(i=0;i<MAP_WIDTH;++i){
-   02A7 0E 00         [ 7]  208 	ld	c,#0x00
-   02A9                     209 00167$:
-                            210 ;src/Map.c:66: map[0][i]=CELLTYPE_WALL1;//get_random_wall();
-   02A9 21 00 60      [10]  211 	ld	hl,#0x6000
-   02AC 06 00         [ 7]  212 	ld	b,#0x00
-   02AE 09            [11]  213 	add	hl, bc
-   02AF 36 81         [10]  214 	ld	(hl),#0x81
-                            215 ;src/Map.c:67: map[MAP_HEIGHT-1][i]=CELLTYPE_WALL1;//get_random_wall();
-   02B1 21 E0 63      [10]  216 	ld	hl,#0x63E0
-   02B4 06 00         [ 7]  217 	ld	b,#0x00
-   02B6 09            [11]  218 	add	hl, bc
-   02B7 36 81         [10]  219 	ld	(hl),#0x81
-                            220 ;src/Map.c:65: for(i=0;i<MAP_WIDTH;++i){
-   02B9 0C            [ 4]  221 	inc	c
-   02BA 79            [ 4]  222 	ld	a,c
-   02BB D6 20         [ 7]  223 	sub	a, #0x20
-   02BD 38 EA         [12]  224 	jr	C,00167$
-                            225 ;src/Map.c:70: for(i=1;i<MAP_HEIGHT-1;++i){
-   02BF DD 36 F2 01   [19]  226 	ld	-14 (ix),#0x01
-   02C3                     227 00169$:
-                            228 ;src/Map.c:71: map[i][0]=CELLTYPE_WALL1;//get_random_wall();
-   02C3 DD 7E F2      [19]  229 	ld	a,-14 (ix)
-   02C6 DD 77 FB      [19]  230 	ld	-5 (ix),a
-   02C9 DD 36 FC 00   [19]  231 	ld	-4 (ix),#0x00
-   02CD 3E 06         [ 7]  232 	ld	a,#0x05+1
-   02CF 18 08         [12]  233 	jr	00317$
-   02D1                     234 00316$:
-   02D1 DD CB FB 26   [23]  235 	sla	-5 (ix)
-   02D5 DD CB FC 16   [23]  236 	rl	-4 (ix)
-   02D9                     237 00317$:
-   02D9 3D            [ 4]  238 	dec	a
-   02DA 20 F5         [12]  239 	jr	NZ,00316$
-   02DC DD 7E FB      [19]  240 	ld	a,-5 (ix)
-   02DF C6 00         [ 7]  241 	add	a, #0x00
-   02E1 DD 77 FE      [19]  242 	ld	-2 (ix),a
-   02E4 DD 7E FC      [19]  243 	ld	a,-4 (ix)
-   02E7 CE 60         [ 7]  244 	adc	a, #0x60
-   02E9 DD 77 FF      [19]  245 	ld	-1 (ix),a
-   02EC DD 6E FE      [19]  246 	ld	l,-2 (ix)
-   02EF DD 66 FF      [19]  247 	ld	h,-1 (ix)
-   02F2 36 81         [10]  248 	ld	(hl),#0x81
-                            249 ;src/Map.c:72: map[i][MAP_WIDTH-1]=CELLTYPE_WALL1;//get_random_wall();
-   02F4 DD 7E FB      [19]  250 	ld	a,-5 (ix)
-   02F7 C6 00         [ 7]  251 	add	a, #0x00
-   02F9 DD 77 FE      [19]  252 	ld	-2 (ix),a
-   02FC DD 7E FC      [19]  253 	ld	a,-4 (ix)
-   02FF CE 60         [ 7]  254 	adc	a, #0x60
-   0301 DD 77 FF      [19]  255 	ld	-1 (ix),a
-   0304 DD 7E FE      [19]  256 	ld	a,-2 (ix)
-   0307 C6 1F         [ 7]  257 	add	a, #0x1F
-   0309 DD 77 FE      [19]  258 	ld	-2 (ix),a
-   030C DD 7E FF      [19]  259 	ld	a,-1 (ix)
-   030F CE 00         [ 7]  260 	adc	a, #0x00
-   0311 DD 77 FF      [19]  261 	ld	-1 (ix),a
-   0314 DD 6E FE      [19]  262 	ld	l,-2 (ix)
-   0317 DD 66 FF      [19]  263 	ld	h,-1 (ix)
-   031A 36 81         [10]  264 	ld	(hl),#0x81
-                            265 ;src/Map.c:70: for(i=1;i<MAP_HEIGHT-1;++i){
-   031C DD 34 F2      [23]  266 	inc	-14 (ix)
-   031F DD 7E F2      [19]  267 	ld	a,-14 (ix)
-   0322 D6 1F         [ 7]  268 	sub	a, #0x1F
-   0324 38 9D         [12]  269 	jr	C,00169$
-                            270 ;src/Map.c:75: while(remainingCells>0){
-   0326 21 04 00      [10]  271 	ld	hl,#0x0004
-   0329 39            [11]  272 	add	hl,sp
-   032A DD 75 FE      [19]  273 	ld	-2 (ix),l
-   032D DD 74 FF      [19]  274 	ld	-1 (ix),h
-   0330                     275 00164$:
-   0330 DD 7E F5      [19]  276 	ld	a,-11 (ix)
-   0333 DD B6 F4      [19]  277 	or	a,-12 (ix)
-   0336 CA FE 06      [10]  278 	jp	Z,00171$
-                            279 ;src/Map.c:76: wallListPosition = wallList+wallListCount;
-   0339 C1            [10]  280 	pop	bc
-   033A E1            [10]  281 	pop	hl
-   033B E5            [11]  282 	push	hl
-   033C C5            [11]  283 	push	bc
-   033D 29            [11]  284 	add	hl, hl
-   033E 7D            [ 4]  285 	ld	a,l
-   033F C6 00         [ 7]  286 	add	a, #0x00
-   0341 DD 77 FB      [19]  287 	ld	-5 (ix),a
-   0344 7C            [ 4]  288 	ld	a,h
-   0345 CE 68         [ 7]  289 	adc	a, #0x68
-   0347 DD 77 FC      [19]  290 	ld	-4 (ix),a
-                            291 ;src/Map.c:77: while(wallListCount<MAP_SIZE){
-   034A D1            [10]  292 	pop	de
-   034B C1            [10]  293 	pop	bc
-   034C C5            [11]  294 	push	bc
-   034D D5            [11]  295 	push	de
-   034E                     296 00134$:
-                            297 ;src/Map.c:80: currentPos.y = (*wallListPosition).y;
-   034E DD 7E FE      [19]  298 	ld	a,-2 (ix)
-   0351 C6 01         [ 7]  299 	add	a, #0x01
-   0353 DD 77 F9      [19]  300 	ld	-7 (ix),a
-   0356 DD 7E FF      [19]  301 	ld	a,-1 (ix)
-   0359 CE 00         [ 7]  302 	adc	a, #0x00
-   035B DD 77 FA      [19]  303 	ld	-6 (ix),a
-                            304 ;src/Map.c:77: while(wallListCount<MAP_SIZE){
-   035E 78            [ 4]  305 	ld	a,b
-   035F D6 04         [ 7]  306 	sub	a, #0x04
-   0361 D2 FF 04      [10]  307 	jp	NC,00204$
-                            308 ;src/Map.c:79: currentPos.x = (*wallListPosition).x;
-   0364 21 04 00      [10]  309 	ld	hl,#0x0004
-   0367 39            [11]  310 	add	hl,sp
-   0368 EB            [ 4]  311 	ex	de,hl
-   0369 DD 6E FB      [19]  312 	ld	l,-5 (ix)
-   036C DD 66 FC      [19]  313 	ld	h,-4 (ix)
-   036F 7E            [ 7]  314 	ld	a,(hl)
-   0370 12            [ 7]  315 	ld	(de),a
-                            316 ;src/Map.c:80: currentPos.y = (*wallListPosition).y;
-   0371 DD 5E FB      [19]  317 	ld	e,-5 (ix)
-   0374 DD 56 FC      [19]  318 	ld	d,-4 (ix)
-   0377 13            [ 6]  319 	inc	de
-   0378 1A            [ 7]  320 	ld	a,(de)
-   0379 DD 6E F9      [19]  321 	ld	l,-7 (ix)
-   037C DD 66 FA      [19]  322 	ld	h,-6 (ix)
-   037F 77            [ 7]  323 	ld	(hl),a
-                            324 ;src/Map.c:82: convertToFloor=0;
-   0380 DD 36 F3 00   [19]  325 	ld	-13 (ix),#0x00
-                            326 ;src/Map.c:83: surroundedByWalls=1;
-   0384 DD 36 F1 01   [19]  327 	ld	-15 (ix),#0x01
-                            328 ;src/Map.c:85: if(currentPos.x>0){
-   0388 DD 6E FE      [19]  329 	ld	l,-2 (ix)
-   038B DD 66 FF      [19]  330 	ld	h,-1 (ix)
-   038E 7E            [ 7]  331 	ld	a,(hl)
-   038F DD 77 FD      [19]  332 	ld	-3 (ix),a
-                            333 ;src/Map.c:86: adjacentType = map[currentPos.x-1][currentPos.y];
-   0392 DD 6E F9      [19]  334 	ld	l,-7 (ix)
-   0395 DD 66 FA      [19]  335 	ld	h,-6 (ix)
-   0398 7E            [ 7]  336 	ld	a,(hl)
-   0399 DD 77 F8      [19]  337 	ld	-8 (ix),a
-   039C DD 7E FD      [19]  338 	ld	a,-3 (ix)
-   039F DD 77 F6      [19]  339 	ld	-10 (ix),a
-   03A2 DD 36 F7 00   [19]  340 	ld	-9 (ix),#0x00
-                            341 ;src/Map.c:85: if(currentPos.x>0){
-   03A6 DD 7E FD      [19]  342 	ld	a,-3 (ix)
-   03A9 B7            [ 4]  343 	or	a, a
-   03AA 28 2F         [12]  344 	jr	Z,00109$
-                            345 ;src/Map.c:86: adjacentType = map[currentPos.x-1][currentPos.y];
-   03AC DD 6E F6      [19]  346 	ld	l,-10 (ix)
-   03AF DD 66 F7      [19]  347 	ld	h,-9 (ix)
-   03B2 2B            [ 6]  348 	dec	hl
-   03B3 29            [11]  349 	add	hl, hl
-   03B4 29            [11]  350 	add	hl, hl
-   03B5 29            [11]  351 	add	hl, hl
-   03B6 29            [11]  352 	add	hl, hl
-   03B7 29            [11]  353 	add	hl, hl
-   03B8 D5            [11]  354 	push	de
-   03B9 11 00 60      [10]  355 	ld	de,#0x6000
-   03BC 19            [11]  356 	add	hl, de
-   03BD D1            [10]  357 	pop	de
-   03BE 7D            [ 4]  358 	ld	a,l
-   03BF DD 86 F8      [19]  359 	add	a, -8 (ix)
-   03C2 6F            [ 4]  360 	ld	l,a
-   03C3 7C            [ 4]  361 	ld	a,h
-   03C4 CE 00         [ 7]  362 	adc	a, #0x00
-   03C6 67            [ 4]  363 	ld	h,a
-   03C7 6E            [ 7]  364 	ld	l,(hl)
-                            365 ;src/Map.c:87: if(adjacentType == CELLTYPE_UNDEFINED){
-   03C8 7D            [ 4]  366 	ld	a,l
-   03C9 D6 87         [ 7]  367 	sub	a, #0x87
-   03CB 20 06         [12]  368 	jr	NZ,00106$
-                            369 ;src/Map.c:88: convertToFloor  = 1;
-   03CD DD 36 F3 01   [19]  370 	ld	-13 (ix),#0x01
-   03D1 18 08         [12]  371 	jr	00109$
-   03D3                     372 00106$:
-                            373 ;src/Map.c:90: else if(adjacentType == CELLTYPE_FLOOR){
-   03D3 7D            [ 4]  374 	ld	a,l
-   03D4 B7            [ 4]  375 	or	a, a
-   03D5 20 04         [12]  376 	jr	NZ,00109$
-                            377 ;src/Map.c:91: surroundedByWalls = 0;
-   03D7 DD 36 F1 00   [19]  378 	ld	-15 (ix),#0x00
-   03DB                     379 00109$:
-                            380 ;src/Map.c:94: if(currentPos.x < (MAP_WIDTH-1)){
-   03DB DD 7E FD      [19]  381 	ld	a,-3 (ix)
-   03DE D6 1F         [ 7]  382 	sub	a, #0x1F
-   03E0 30 2F         [12]  383 	jr	NC,00116$
-                            384 ;src/Map.c:96: adjacentType = map[currentPos.x+1][currentPos.y];
-   03E2 DD 6E F6      [19]  385 	ld	l,-10 (ix)
-   03E5 DD 66 F7      [19]  386 	ld	h,-9 (ix)
-   03E8 23            [ 6]  387 	inc	hl
-   03E9 29            [11]  388 	add	hl, hl
-   03EA 29            [11]  389 	add	hl, hl
-   03EB 29            [11]  390 	add	hl, hl
-   03EC 29            [11]  391 	add	hl, hl
-   03ED 29            [11]  392 	add	hl, hl
-   03EE D5            [11]  393 	push	de
-   03EF 11 00 60      [10]  394 	ld	de,#0x6000
-   03F2 19            [11]  395 	add	hl, de
-   03F3 D1            [10]  396 	pop	de
-   03F4 7D            [ 4]  397 	ld	a,l
-   03F5 DD 86 F8      [19]  398 	add	a, -8 (ix)
-   03F8 6F            [ 4]  399 	ld	l,a
-   03F9 7C            [ 4]  400 	ld	a,h
-   03FA CE 00         [ 7]  401 	adc	a, #0x00
-   03FC 67            [ 4]  402 	ld	h,a
-   03FD 6E            [ 7]  403 	ld	l,(hl)
-                            404 ;src/Map.c:97: if(adjacentType == CELLTYPE_UNDEFINED){
-   03FE 7D            [ 4]  405 	ld	a,l
-   03FF D6 87         [ 7]  406 	sub	a, #0x87
-   0401 20 06         [12]  407 	jr	NZ,00113$
-                            408 ;src/Map.c:98: convertToFloor  = 1;
-   0403 DD 36 F3 01   [19]  409 	ld	-13 (ix),#0x01
-   0407 18 08         [12]  410 	jr	00116$
-   0409                     411 00113$:
-                            412 ;src/Map.c:100: else if(adjacentType == CELLTYPE_FLOOR){
-   0409 7D            [ 4]  413 	ld	a,l
-   040A B7            [ 4]  414 	or	a, a
-   040B 20 04         [12]  415 	jr	NZ,00116$
-                            416 ;src/Map.c:101: surroundedByWalls = 0;
-   040D DD 36 F1 00   [19]  417 	ld	-15 (ix),#0x00
-   0411                     418 00116$:
-                            419 ;src/Map.c:106: adjacentType = map[currentPos.x][currentPos.y-1];
-   0411 DD 6E F6      [19]  420 	ld	l,-10 (ix)
-   0414 DD 66 F7      [19]  421 	ld	h,-9 (ix)
-   0417 29            [11]  422 	add	hl, hl
-   0418 29            [11]  423 	add	hl, hl
-   0419 29            [11]  424 	add	hl, hl
-   041A 29            [11]  425 	add	hl, hl
-   041B 29            [11]  426 	add	hl, hl
-   041C 7D            [ 4]  427 	ld	a,l
-   041D C6 00         [ 7]  428 	add	a, #0x00
-   041F DD 77 F6      [19]  429 	ld	-10 (ix),a
-   0422 7C            [ 4]  430 	ld	a,h
-   0423 CE 60         [ 7]  431 	adc	a, #0x60
-   0425 DD 77 F7      [19]  432 	ld	-9 (ix),a
-                            433 ;src/Map.c:104: if(currentPos.y > 0){
-   0428 DD 7E F8      [19]  434 	ld	a,-8 (ix)
-   042B B7            [ 4]  435 	or	a, a
-   042C 28 23         [12]  436 	jr	Z,00123$
-                            437 ;src/Map.c:106: adjacentType = map[currentPos.x][currentPos.y-1];
-   042E DD 6E F8      [19]  438 	ld	l,-8 (ix)
-   0431 2D            [ 4]  439 	dec	l
-   0432 DD 7E F6      [19]  440 	ld	a,-10 (ix)
-   0435 85            [ 4]  441 	add	a, l
-   0436 6F            [ 4]  442 	ld	l,a
-   0437 DD 7E F7      [19]  443 	ld	a,-9 (ix)
-   043A CE 00         [ 7]  444 	adc	a, #0x00
-   043C 67            [ 4]  445 	ld	h,a
-   043D 6E            [ 7]  446 	ld	l,(hl)
-                            447 ;src/Map.c:107: if(adjacentType == CELLTYPE_UNDEFINED){
-   043E 7D            [ 4]  448 	ld	a,l
-   043F D6 87         [ 7]  449 	sub	a, #0x87
-   0441 20 06         [12]  450 	jr	NZ,00120$
-                            451 ;src/Map.c:108: convertToFloor  = 1;
-   0443 DD 36 F3 01   [19]  452 	ld	-13 (ix),#0x01
-   0447 18 08         [12]  453 	jr	00123$
-   0449                     454 00120$:
-                            455 ;src/Map.c:110: else if(adjacentType == CELLTYPE_FLOOR){
-   0449 7D            [ 4]  456 	ld	a,l
-   044A B7            [ 4]  457 	or	a, a
-   044B 20 04         [12]  458 	jr	NZ,00123$
-                            459 ;src/Map.c:111: surroundedByWalls = 0;
-   044D DD 36 F1 00   [19]  460 	ld	-15 (ix),#0x00
-   0451                     461 00123$:
-                            462 ;src/Map.c:114: if(currentPos.y < (MAP_HEIGHT-1)){
-   0451 DD 7E F8      [19]  463 	ld	a,-8 (ix)
-   0454 D6 1F         [ 7]  464 	sub	a, #0x1F
-   0456 30 23         [12]  465 	jr	NC,00130$
-                            466 ;src/Map.c:116: adjacentType = map[currentPos.x][currentPos.y+1];
-   0458 DD 6E F8      [19]  467 	ld	l,-8 (ix)
-   045B 2C            [ 4]  468 	inc	l
-   045C DD 7E F6      [19]  469 	ld	a,-10 (ix)
-   045F 85            [ 4]  470 	add	a, l
-   0460 6F            [ 4]  471 	ld	l,a
-   0461 DD 7E F7      [19]  472 	ld	a,-9 (ix)
-   0464 CE 00         [ 7]  473 	adc	a, #0x00
-   0466 67            [ 4]  474 	ld	h,a
-   0467 6E            [ 7]  475 	ld	l,(hl)
-                            476 ;src/Map.c:117: if(adjacentType == CELLTYPE_UNDEFINED){
-   0468 7D            [ 4]  477 	ld	a,l
-   0469 D6 87         [ 7]  478 	sub	a, #0x87
-   046B 20 06         [12]  479 	jr	NZ,00127$
-                            480 ;src/Map.c:118: convertToFloor  = 1;
-   046D DD 36 F3 01   [19]  481 	ld	-13 (ix),#0x01
-   0471 18 08         [12]  482 	jr	00130$
-   0473                     483 00127$:
-                            484 ;src/Map.c:120: else if(adjacentType == CELLTYPE_FLOOR){
-   0473 7D            [ 4]  485 	ld	a,l
-   0474 B7            [ 4]  486 	or	a, a
-   0475 20 04         [12]  487 	jr	NZ,00130$
-                            488 ;src/Map.c:121: surroundedByWalls = 0;
-   0477 DD 36 F1 00   [19]  489 	ld	-15 (ix),#0x00
-   047B                     490 00130$:
-                            491 ;src/Map.c:125: (*wallListPosition).x = (*(wallList+wallListCount)).x;
-   047B 69            [ 4]  492 	ld	l, c
-   047C 60            [ 4]  493 	ld	h, b
-   047D 29            [11]  494 	add	hl, hl
-   047E FD 21 00 68   [14]  495 	ld	iy,#0x6800
-   0482 C5            [11]  496 	push	bc
-   0483 4D            [ 4]  497 	ld	c, l
-   0484 44            [ 4]  498 	ld	b, h
-   0485 FD 09         [15]  499 	add	iy, bc
-   0487 C1            [10]  500 	pop	bc
-   0488 FD 7E 00      [19]  501 	ld	a, 0 (iy)
-   048B DD 6E FB      [19]  502 	ld	l,-5 (ix)
-   048E DD 66 FC      [19]  503 	ld	h,-4 (ix)
-   0491 77            [ 7]  504 	ld	(hl),a
-                            505 ;src/Map.c:126: (*wallListPosition).y = (*(wallList+wallListCount)).y;
-   0492 FD E5         [15]  506 	push	iy
-   0494 E1            [10]  507 	pop	hl
-   0495 23            [ 6]  508 	inc	hl
-   0496 7E            [ 7]  509 	ld	a,(hl)
-   0497 12            [ 7]  510 	ld	(de),a
-                            511 ;src/Map.c:127: --wallListCount;
-   0498 0B            [ 6]  512 	dec	bc
-   0499 DD 71 ED      [19]  513 	ld	-19 (ix),c
-   049C DD 70 EE      [19]  514 	ld	-18 (ix),b
-                            515 ;src/Map.c:130: if((convertToFloor)&&(!surroundedByWalls)){
-   049F DD 7E F3      [19]  516 	ld	a,-13 (ix)
-   04A2 B7            [ 4]  517 	or	a, a
-   04A3 28 49         [12]  518 	jr	Z,00132$
-   04A5 DD 7E F1      [19]  519 	ld	a,-15 (ix)
-   04A8 B7            [ 4]  520 	or	a, a
-   04A9 20 43         [12]  521 	jr	NZ,00132$
-                            522 ;src/Map.c:131: map[currentPos.x][currentPos.y] = CELLTYPE_FLOOR;
-   04AB DD 6E FE      [19]  523 	ld	l,-2 (ix)
-   04AE DD 66 FF      [19]  524 	ld	h,-1 (ix)
-   04B1 6E            [ 7]  525 	ld	l,(hl)
-   04B2 26 00         [ 7]  526 	ld	h,#0x00
-   04B4 29            [11]  527 	add	hl, hl
-   04B5 29            [11]  528 	add	hl, hl
-   04B6 29            [11]  529 	add	hl, hl
-   04B7 29            [11]  530 	add	hl, hl
-   04B8 29            [11]  531 	add	hl, hl
-   04B9 01 00 60      [10]  532 	ld	bc,#0x6000
-   04BC 09            [11]  533 	add	hl,bc
-   04BD 4D            [ 4]  534 	ld	c,l
-   04BE 44            [ 4]  535 	ld	b,h
-   04BF DD 6E F9      [19]  536 	ld	l,-7 (ix)
-   04C2 DD 66 FA      [19]  537 	ld	h,-6 (ix)
-   04C5 6E            [ 7]  538 	ld	l, (hl)
-   04C6 26 00         [ 7]  539 	ld	h,#0x00
-   04C8 09            [11]  540 	add	hl,bc
-   04C9 36 00         [10]  541 	ld	(hl),#0x00
-                            542 ;src/Map.c:133: ++lastStackItem;
-   04CB DD 34 EB      [23]  543 	inc	-21 (ix)
-   04CE 20 03         [12]  544 	jr	NZ,00326$
-   04D0 DD 34 EC      [23]  545 	inc	-20 (ix)
-   04D3                     546 00326$:
-                            547 ;src/Map.c:134: (*(cellStack+lastStackItem)).x = currentPos.x;
-   04D3 E1            [10]  548 	pop	hl
-   04D4 E5            [11]  549 	push	hl
-   04D5 29            [11]  550 	add	hl, hl
-   04D6 4D            [ 4]  551 	ld	c, l
-   04D7 7C            [ 4]  552 	ld	a,h
-   04D8 C6 64         [ 7]  553 	add	a,#0x64
-   04DA 47            [ 4]  554 	ld	b,a
-   04DB DD 6E FE      [19]  555 	ld	l,-2 (ix)
-   04DE DD 66 FF      [19]  556 	ld	h,-1 (ix)
-   04E1 7E            [ 7]  557 	ld	a,(hl)
-   04E2 02            [ 7]  558 	ld	(bc),a
-                            559 ;src/Map.c:135: (*(cellStack+lastStackItem)).y = currentPos.y;
-   04E3 03            [ 6]  560 	inc	bc
-   04E4 DD 6E F9      [19]  561 	ld	l,-7 (ix)
-   04E7 DD 66 FA      [19]  562 	ld	h,-6 (ix)
-   04EA 7E            [ 7]  563 	ld	a,(hl)
-   04EB 02            [ 7]  564 	ld	(bc),a
-                            565 ;src/Map.c:138: break;
-   04EC 18 11         [12]  566 	jr	00204$
-   04EE                     567 00132$:
-                            568 ;src/Map.c:140: --wallListPosition;
-   04EE DD 6E FB      [19]  569 	ld	l,-5 (ix)
-   04F1 DD 66 FC      [19]  570 	ld	h,-4 (ix)
-   04F4 2B            [ 6]  571 	dec	hl
-   04F5 2B            [ 6]  572 	dec	hl
-   04F6 DD 75 FB      [19]  573 	ld	-5 (ix),l
-   04F9 DD 74 FC      [19]  574 	ld	-4 (ix),h
-   04FC C3 4E 03      [10]  575 	jp	00134$
-                            576 ;src/Map.c:142: while(lastStackItem<MAP_SIZE){
-   04FF                     577 00204$:
-   04FF DD 7E F4      [19]  578 	ld	a,-12 (ix)
-   0502 DD 77 F6      [19]  579 	ld	-10 (ix),a
-   0505 DD 7E F5      [19]  580 	ld	a,-11 (ix)
-   0508 DD 77 F7      [19]  581 	ld	-9 (ix),a
-   050B DD 7E ED      [19]  582 	ld	a,-19 (ix)
-   050E DD 77 FB      [19]  583 	ld	-5 (ix),a
-   0511 DD 7E EE      [19]  584 	ld	a,-18 (ix)
-   0514 DD 77 FC      [19]  585 	ld	-4 (ix),a
-   0517                     586 00161$:
-   0517 DD 7E EC      [19]  587 	ld	a,-20 (ix)
-   051A D6 04         [ 7]  588 	sub	a, #0x04
-   051C D2 30 03      [10]  589 	jp	NC,00164$
-                            590 ;src/Map.c:143: currentPos.x=(*(lastStackItem+cellStack)).x;
-   051F 21 04 00      [10]  591 	ld	hl,#0x0004
-   0522 39            [11]  592 	add	hl,sp
-   0523 4D            [ 4]  593 	ld	c,l
-   0524 44            [ 4]  594 	ld	b,h
-   0525 E1            [10]  595 	pop	hl
-   0526 E5            [11]  596 	push	hl
-   0527 29            [11]  597 	add	hl, hl
-   0528 FD 21 00 64   [14]  598 	ld	iy,#0x6400
-   052C EB            [ 4]  599 	ex	de,hl
-   052D FD 19         [15]  600 	add	iy, de
-   052F FD 7E 00      [19]  601 	ld	a, 0 (iy)
-   0532 02            [ 7]  602 	ld	(bc),a
-                            603 ;src/Map.c:144: currentPos.y=(*(lastStackItem+cellStack)).y;
-   0533 FD 4E 01      [19]  604 	ld	c,1 (iy)
-   0536 DD 6E F9      [19]  605 	ld	l,-7 (ix)
-   0539 DD 66 FA      [19]  606 	ld	h,-6 (ix)
-   053C 71            [ 7]  607 	ld	(hl),c
-                            608 ;src/Map.c:145: --lastStackItem;
-   053D E1            [10]  609 	pop	hl
-   053E E5            [11]  610 	push	hl
-   053F 2B            [ 6]  611 	dec	hl
-   0540 E3            [19]  612 	ex	(sp), hl
-                            613 ;src/Map.c:146: cellType = map[currentPos.x][currentPos.y];
-   0541 DD 6E FE      [19]  614 	ld	l,-2 (ix)
-   0544 DD 66 FF      [19]  615 	ld	h,-1 (ix)
-   0547 6E            [ 7]  616 	ld	l,(hl)
-   0548 26 00         [ 7]  617 	ld	h,#0x00
-   054A 29            [11]  618 	add	hl, hl
-   054B 29            [11]  619 	add	hl, hl
-   054C 29            [11]  620 	add	hl, hl
-   054D 29            [11]  621 	add	hl, hl
-   054E 29            [11]  622 	add	hl, hl
-   054F 11 00 60      [10]  623 	ld	de,#0x6000
-   0552 19            [11]  624 	add	hl,de
-   0553 59            [ 4]  625 	ld	e,c
-   0554 16 00         [ 7]  626 	ld	d,#0x00
-   0556 19            [11]  627 	add	hl,de
-   0557 4E            [ 7]  628 	ld	c,(hl)
-                            629 ;src/Map.c:148: if(cellType == CELLTYPE_UNDEFINED){
-   0558 79            [ 4]  630 	ld	a,c
-   0559 D6 87         [ 7]  631 	sub	a, #0x87
-   055B 20 47         [12]  632 	jr	NZ,00141$
-                            633 ;src/Map.c:150: if(cpct_getRandom_lcg_u8()&1){//WALL
-   055D CD F7 42      [17]  634 	call	_cpct_getRandom_lcg_u8
-   0560 CB 45         [ 8]  635 	bit	0, l
-   0562 28 06         [12]  636 	jr	Z,00138$
-                            637 ;src/Map.c:151: cellType = get_random_wall();
-   0564 CD C0 01      [17]  638 	call	_get_random_wall
-   0567 4D            [ 4]  639 	ld	c,l
-   0568 18 02         [12]  640 	jr	00139$
-   056A                     641 00138$:
-                            642 ;src/Map.c:154: cellType = CELLTYPE_FLOOR;
-   056A 0E 00         [ 7]  643 	ld	c,#0x00
-   056C                     644 00139$:
-                            645 ;src/Map.c:156: map[currentPos.x][currentPos.y]=cellType;
-   056C DD 6E FE      [19]  646 	ld	l,-2 (ix)
-   056F DD 66 FF      [19]  647 	ld	h,-1 (ix)
-   0572 6E            [ 7]  648 	ld	l,(hl)
-   0573 26 00         [ 7]  649 	ld	h,#0x00
-   0575 29            [11]  650 	add	hl, hl
-   0576 29            [11]  651 	add	hl, hl
-   0577 29            [11]  652 	add	hl, hl
-   0578 29            [11]  653 	add	hl, hl
-   0579 29            [11]  654 	add	hl, hl
-   057A EB            [ 4]  655 	ex	de,hl
-   057B 21 00 60      [10]  656 	ld	hl,#0x6000
-   057E 19            [11]  657 	add	hl,de
-   057F EB            [ 4]  658 	ex	de,hl
-   0580 DD 6E F9      [19]  659 	ld	l,-7 (ix)
-   0583 DD 66 FA      [19]  660 	ld	h,-6 (ix)
-   0586 6E            [ 7]  661 	ld	l, (hl)
-   0587 26 00         [ 7]  662 	ld	h,#0x00
-   0589 19            [11]  663 	add	hl,de
-   058A 71            [ 7]  664 	ld	(hl),c
-                            665 ;src/Map.c:157: --remainingCells;
-   058B DD 6E F6      [19]  666 	ld	l,-10 (ix)
-   058E DD 66 F7      [19]  667 	ld	h,-9 (ix)
-   0591 2B            [ 6]  668 	dec	hl
-   0592 DD 75 F6      [19]  669 	ld	-10 (ix),l
-   0595 DD 74 F7      [19]  670 	ld	-9 (ix),h
-   0598 DD 7E F6      [19]  671 	ld	a,-10 (ix)
-   059B DD 77 F4      [19]  672 	ld	-12 (ix),a
-   059E DD 7E F7      [19]  673 	ld	a,-9 (ix)
-   05A1 DD 77 F5      [19]  674 	ld	-11 (ix),a
-   05A4                     675 00141$:
-                            676 ;src/Map.c:85: if(currentPos.x>0){
-   05A4 DD 6E FE      [19]  677 	ld	l,-2 (ix)
-   05A7 DD 66 FF      [19]  678 	ld	h,-1 (ix)
-   05AA 7E            [ 7]  679 	ld	a,(hl)
-   05AB DD 77 F8      [19]  680 	ld	-8 (ix),a
-                            681 ;src/Map.c:160: if((cellType == CELLTYPE_FLOOR)){
-   05AE 79            [ 4]  682 	ld	a,c
-   05AF B7            [ 4]  683 	or	a, a
-   05B0 C2 CD 06      [10]  684 	jp	NZ,00159$
-                            685 ;src/Map.c:161: if(currentPos.x>0){
-   05B3 DD 7E F8      [19]  686 	ld	a,-8 (ix)
-   05B6 B7            [ 4]  687 	or	a, a
-   05B7 28 3F         [12]  688 	jr	Z,00145$
-                            689 ;src/Map.c:162: adjacentType = map[currentPos.x-1][currentPos.y];
-   05B9 DD 6E F8      [19]  690 	ld	l,-8 (ix)
-   05BC 26 00         [ 7]  691 	ld	h,#0x00
-   05BE 2B            [ 6]  692 	dec	hl
-   05BF 29            [11]  693 	add	hl, hl
-   05C0 29            [11]  694 	add	hl, hl
-   05C1 29            [11]  695 	add	hl, hl
-   05C2 29            [11]  696 	add	hl, hl
-   05C3 29            [11]  697 	add	hl, hl
-   05C4 01 00 60      [10]  698 	ld	bc,#0x6000
-   05C7 09            [11]  699 	add	hl,bc
-   05C8 4D            [ 4]  700 	ld	c,l
-   05C9 44            [ 4]  701 	ld	b,h
-   05CA DD 6E F9      [19]  702 	ld	l,-7 (ix)
-   05CD DD 66 FA      [19]  703 	ld	h,-6 (ix)
-   05D0 6E            [ 7]  704 	ld	l, (hl)
-   05D1 26 00         [ 7]  705 	ld	h,#0x00
-   05D3 09            [11]  706 	add	hl,bc
-   05D4 7E            [ 7]  707 	ld	a,(hl)
-                            708 ;src/Map.c:163: if(adjacentType == CELLTYPE_UNDEFINED){
-   05D5 D6 87         [ 7]  709 	sub	a, #0x87
-   05D7 20 1F         [12]  710 	jr	NZ,00145$
-                            711 ;src/Map.c:165: ++lastStackItem;
-   05D9 DD 34 EB      [23]  712 	inc	-21 (ix)
-   05DC 20 03         [12]  713 	jr	NZ,00332$
-   05DE DD 34 EC      [23]  714 	inc	-20 (ix)
-   05E1                     715 00332$:
-                            716 ;src/Map.c:166: (*(cellStack+lastStackItem)).x = currentPos.x-1;
-   05E1 E1            [10]  717 	pop	hl
-   05E2 E5            [11]  718 	push	hl
-   05E3 29            [11]  719 	add	hl, hl
-   05E4 01 00 64      [10]  720 	ld	bc,#0x6400
-   05E7 09            [11]  721 	add	hl,bc
-   05E8 DD 4E F8      [19]  722 	ld	c,-8 (ix)
-   05EB 0D            [ 4]  723 	dec	c
-   05EC 71            [ 7]  724 	ld	(hl),c
-                            725 ;src/Map.c:167: (*(cellStack+lastStackItem)).y = currentPos.y;
-   05ED 23            [ 6]  726 	inc	hl
-   05EE 4D            [ 4]  727 	ld	c,l
-   05EF 44            [ 4]  728 	ld	b,h
-   05F0 DD 6E F9      [19]  729 	ld	l,-7 (ix)
-   05F3 DD 66 FA      [19]  730 	ld	h,-6 (ix)
-   05F6 7E            [ 7]  731 	ld	a,(hl)
-   05F7 02            [ 7]  732 	ld	(bc),a
-   05F8                     733 00145$:
-                            734 ;src/Map.c:171: if(currentPos.x < (MAP_WIDTH-1)){
-   05F8 DD 6E FE      [19]  735 	ld	l,-2 (ix)
-   05FB DD 66 FF      [19]  736 	ld	h,-1 (ix)
-   05FE 4E            [ 7]  737 	ld	c,(hl)
-   05FF 79            [ 4]  738 	ld	a,c
-   0600 D6 1F         [ 7]  739 	sub	a, #0x1F
-   0602 30 3A         [12]  740 	jr	NC,00149$
-                            741 ;src/Map.c:173: adjacentType = map[currentPos.x+1][currentPos.y];
-   0604 69            [ 4]  742 	ld	l,c
-   0605 26 00         [ 7]  743 	ld	h,#0x00
-   0607 23            [ 6]  744 	inc	hl
-   0608 29            [11]  745 	add	hl, hl
-   0609 29            [11]  746 	add	hl, hl
-   060A 29            [11]  747 	add	hl, hl
-   060B 29            [11]  748 	add	hl, hl
-   060C 29            [11]  749 	add	hl, hl
-   060D EB            [ 4]  750 	ex	de,hl
-   060E 21 00 60      [10]  751 	ld	hl,#0x6000
-   0611 19            [11]  752 	add	hl,de
-   0612 EB            [ 4]  753 	ex	de,hl
-   0613 DD 6E F9      [19]  754 	ld	l,-7 (ix)
-   0616 DD 66 FA      [19]  755 	ld	h,-6 (ix)
-   0619 6E            [ 7]  756 	ld	l, (hl)
-   061A 26 00         [ 7]  757 	ld	h,#0x00
-   061C 19            [11]  758 	add	hl,de
-   061D 7E            [ 7]  759 	ld	a,(hl)
-                            760 ;src/Map.c:174: if(adjacentType == CELLTYPE_UNDEFINED){
-   061E D6 87         [ 7]  761 	sub	a, #0x87
-   0620 20 1C         [12]  762 	jr	NZ,00149$
-                            763 ;src/Map.c:177: ++lastStackItem;
-   0622 DD 34 EB      [23]  764 	inc	-21 (ix)
-   0625 20 03         [12]  765 	jr	NZ,00335$
-   0627 DD 34 EC      [23]  766 	inc	-20 (ix)
-   062A                     767 00335$:
-                            768 ;src/Map.c:178: (*(cellStack+lastStackItem)).x = currentPos.x+1;
-   062A E1            [10]  769 	pop	hl
-   062B E5            [11]  770 	push	hl
-   062C 29            [11]  771 	add	hl, hl
-   062D 11 00 64      [10]  772 	ld	de,#0x6400
-   0630 19            [11]  773 	add	hl,de
-   0631 0C            [ 4]  774 	inc	c
-   0632 71            [ 7]  775 	ld	(hl),c
-                            776 ;src/Map.c:179: (*(cellStack+lastStackItem)).y = currentPos.y;
-   0633 23            [ 6]  777 	inc	hl
-   0634 4D            [ 4]  778 	ld	c,l
-   0635 44            [ 4]  779 	ld	b,h
-   0636 DD 6E F9      [19]  780 	ld	l,-7 (ix)
-   0639 DD 66 FA      [19]  781 	ld	h,-6 (ix)
-   063C 7E            [ 7]  782 	ld	a,(hl)
-   063D 02            [ 7]  783 	ld	(bc),a
-   063E                     784 00149$:
-                            785 ;src/Map.c:86: adjacentType = map[currentPos.x-1][currentPos.y];
-   063E DD 6E F9      [19]  786 	ld	l,-7 (ix)
-   0641 DD 66 FA      [19]  787 	ld	h,-6 (ix)
-   0644 4E            [ 7]  788 	ld	c,(hl)
-                            789 ;src/Map.c:183: if(currentPos.y > 0){
-   0645 79            [ 4]  790 	ld	a,c
-   0646 B7            [ 4]  791 	or	a, a
-   0647 28 3A         [12]  792 	jr	Z,00153$
-                            793 ;src/Map.c:185: adjacentType = map[currentPos.x][currentPos.y-1];
-   0649 DD 6E FE      [19]  794 	ld	l,-2 (ix)
-   064C DD 66 FF      [19]  795 	ld	h,-1 (ix)
-   064F 46            [ 7]  796 	ld	b,(hl)
-   0650 68            [ 4]  797 	ld	l,b
-   0651 26 00         [ 7]  798 	ld	h,#0x00
-   0653 29            [11]  799 	add	hl, hl
-   0654 29            [11]  800 	add	hl, hl
-   0655 29            [11]  801 	add	hl, hl
-   0656 29            [11]  802 	add	hl, hl
-   0657 29            [11]  803 	add	hl, hl
-   0658 11 00 60      [10]  804 	ld	de,#0x6000
-   065B 19            [11]  805 	add	hl,de
-   065C 0D            [ 4]  806 	dec	c
-   065D 59            [ 4]  807 	ld	e,c
-   065E 16 00         [ 7]  808 	ld	d,#0x00
-   0660 19            [11]  809 	add	hl,de
-   0661 7E            [ 7]  810 	ld	a,(hl)
-                            811 ;src/Map.c:186: if(adjacentType == CELLTYPE_UNDEFINED){
-   0662 D6 87         [ 7]  812 	sub	a, #0x87
-   0664 20 1D         [12]  813 	jr	NZ,00153$
-                            814 ;src/Map.c:189: ++lastStackItem;
-   0666 DD 34 EB      [23]  815 	inc	-21 (ix)
-   0669 20 03         [12]  816 	jr	NZ,00338$
-   066B DD 34 EC      [23]  817 	inc	-20 (ix)
-   066E                     818 00338$:
-                            819 ;src/Map.c:190: (*(cellStack+lastStackItem)).x = currentPos.x;
-   066E E1            [10]  820 	pop	hl
-   066F E5            [11]  821 	push	hl
-   0670 29            [11]  822 	add	hl, hl
-   0671 11 00 64      [10]  823 	ld	de,#0x6400
-   0674 19            [11]  824 	add	hl,de
-   0675 70            [ 7]  825 	ld	(hl),b
-                            826 ;src/Map.c:191: (*(cellStack+lastStackItem)).y = currentPos.y-1;
-   0676 23            [ 6]  827 	inc	hl
-   0677 4D            [ 4]  828 	ld	c,l
-   0678 44            [ 4]  829 	ld	b,h
-   0679 DD 6E F9      [19]  830 	ld	l,-7 (ix)
-   067C DD 66 FA      [19]  831 	ld	h,-6 (ix)
-   067F 5E            [ 7]  832 	ld	e,(hl)
-   0680 1D            [ 4]  833 	dec	e
-   0681 7B            [ 4]  834 	ld	a,e
-   0682 02            [ 7]  835 	ld	(bc),a
-   0683                     836 00153$:
-                            837 ;src/Map.c:86: adjacentType = map[currentPos.x-1][currentPos.y];
-   0683 DD 6E F9      [19]  838 	ld	l,-7 (ix)
-   0686 DD 66 FA      [19]  839 	ld	h,-6 (ix)
-   0689 46            [ 7]  840 	ld	b,(hl)
-                            841 ;src/Map.c:195: if(currentPos.y < (MAP_HEIGHT-1)){
-   068A 78            [ 4]  842 	ld	a,b
-   068B D6 1F         [ 7]  843 	sub	a, #0x1F
-   068D D2 17 05      [10]  844 	jp	NC,00161$
-                            845 ;src/Map.c:197: adjacentType = map[currentPos.x][currentPos.y+1];
-   0690 DD 6E FE      [19]  846 	ld	l,-2 (ix)
-   0693 DD 66 FF      [19]  847 	ld	h,-1 (ix)
-   0696 4E            [ 7]  848 	ld	c,(hl)
-   0697 69            [ 4]  849 	ld	l,c
-   0698 26 00         [ 7]  850 	ld	h,#0x00
-   069A 29            [11]  851 	add	hl, hl
-   069B 29            [11]  852 	add	hl, hl
-   069C 29            [11]  853 	add	hl, hl
-   069D 29            [11]  854 	add	hl, hl
-   069E 29            [11]  855 	add	hl, hl
-   069F 11 00 60      [10]  856 	ld	de,#0x6000
-   06A2 19            [11]  857 	add	hl,de
-   06A3 04            [ 4]  858 	inc	b
-   06A4 58            [ 4]  859 	ld	e,b
-   06A5 16 00         [ 7]  860 	ld	d,#0x00
-   06A7 19            [11]  861 	add	hl,de
-   06A8 7E            [ 7]  862 	ld	a,(hl)
-                            863 ;src/Map.c:198: if(adjacentType == CELLTYPE_UNDEFINED){
-   06A9 D6 87         [ 7]  864 	sub	a, #0x87
-   06AB C2 17 05      [10]  865 	jp	NZ,00161$
-                            866 ;src/Map.c:201: ++lastStackItem;
-   06AE DD 34 EB      [23]  867 	inc	-21 (ix)
-   06B1 20 03         [12]  868 	jr	NZ,00341$
-   06B3 DD 34 EC      [23]  869 	inc	-20 (ix)
-   06B6                     870 00341$:
-                            871 ;src/Map.c:202: (*(cellStack+lastStackItem)).x = currentPos.x;
-   06B6 E1            [10]  872 	pop	hl
-   06B7 E5            [11]  873 	push	hl
-   06B8 29            [11]  874 	add	hl, hl
-   06B9 11 00 64      [10]  875 	ld	de,#0x6400
-   06BC 19            [11]  876 	add	hl,de
-   06BD 71            [ 7]  877 	ld	(hl),c
-                            878 ;src/Map.c:203: (*(cellStack+lastStackItem)).y = currentPos.y+1;
-   06BE 23            [ 6]  879 	inc	hl
-   06BF 4D            [ 4]  880 	ld	c,l
-   06C0 44            [ 4]  881 	ld	b,h
-   06C1 DD 6E F9      [19]  882 	ld	l,-7 (ix)
-   06C4 DD 66 FA      [19]  883 	ld	h,-6 (ix)
-   06C7 7E            [ 7]  884 	ld	a,(hl)
-   06C8 3C            [ 4]  885 	inc	a
-   06C9 02            [ 7]  886 	ld	(bc),a
-   06CA C3 17 05      [10]  887 	jp	00161$
-   06CD                     888 00159$:
-                            889 ;src/Map.c:209: ++wallListCount;
-   06CD DD 34 FB      [23]  890 	inc	-5 (ix)
-   06D0 20 03         [12]  891 	jr	NZ,00342$
-   06D2 DD 34 FC      [23]  892 	inc	-4 (ix)
-   06D5                     893 00342$:
-   06D5 DD 7E FB      [19]  894 	ld	a,-5 (ix)
-   06D8 DD 77 ED      [19]  895 	ld	-19 (ix),a
-   06DB DD 7E FC      [19]  896 	ld	a,-4 (ix)
-   06DE DD 77 EE      [19]  897 	ld	-18 (ix),a
-                            898 ;src/Map.c:210: (*(wallList+wallListCount)).x = currentPos.x;
-   06E1 DD 6E FB      [19]  899 	ld	l,-5 (ix)
-   06E4 DD 66 FC      [19]  900 	ld	h,-4 (ix)
-   06E7 29            [11]  901 	add	hl, hl
-   06E8 01 00 68      [10]  902 	ld	bc,#0x6800
-   06EB 09            [11]  903 	add	hl,bc
-   06EC DD 7E F8      [19]  904 	ld	a,-8 (ix)
-   06EF 77            [ 7]  905 	ld	(hl),a
-                            906 ;src/Map.c:211: (*(wallList+wallListCount)).y = currentPos.y;
-   06F0 23            [ 6]  907 	inc	hl
-   06F1 4D            [ 4]  908 	ld	c,l
-   06F2 44            [ 4]  909 	ld	b,h
-   06F3 DD 6E F9      [19]  910 	ld	l,-7 (ix)
-   06F6 DD 66 FA      [19]  911 	ld	h,-6 (ix)
-   06F9 7E            [ 7]  912 	ld	a,(hl)
-   06FA 02            [ 7]  913 	ld	(bc),a
-   06FB C3 17 05      [10]  914 	jp	00161$
-   06FE                     915 00171$:
-   06FE DD F9         [10]  916 	ld	sp, ix
-   0700 DD E1         [14]  917 	pop	ix
-   0702 C9            [10]  918 	ret
-                            919 ;src/Map.c:217: void generate_exit_door(){
-                            920 ;	---------------------------------
-                            921 ; Function generate_exit_door
-                            922 ; ---------------------------------
-   0703                     923 _generate_exit_door::
-   0703 DD E5         [15]  924 	push	ix
-   0705 DD 21 00 00   [14]  925 	ld	ix,#0
-   0709 DD 39         [15]  926 	add	ix,sp
-   070B 21 F2 FF      [10]  927 	ld	hl,#-14
-   070E 39            [11]  928 	add	hl,sp
-   070F F9            [ 6]  929 	ld	sp,hl
-                            930 ;src/Map.c:218: u8 x=(cpct_getRandom_lcg_u8()%32);
-   0710 CD F7 42      [17]  931 	call	_cpct_getRandom_lcg_u8
-   0713 7D            [ 4]  932 	ld	a,l
-   0714 E6 1F         [ 7]  933 	and	a, #0x1F
-   0716 4F            [ 4]  934 	ld	c,a
-                            935 ;src/Map.c:219: u8 y=(cpct_getRandom_lcg_u8()%32);
-   0717 C5            [11]  936 	push	bc
-   0718 CD F7 42      [17]  937 	call	_cpct_getRandom_lcg_u8
-   071B C1            [10]  938 	pop	bc
-   071C 7D            [ 4]  939 	ld	a,l
-   071D E6 1F         [ 7]  940 	and	a, #0x1F
-   071F 5F            [ 4]  941 	ld	e,a
-                            942 ;src/Map.c:220: u8 door_not_positioned=1;
-   0720 DD 36 F6 01   [19]  943 	ld	-10 (ix),#0x01
-                            944 ;src/Map.c:227: u8* position = (u8*)(MAP_MEM + x + MAP_WIDTH*y);
-   0724 06 00         [ 7]  945 	ld	b,#0x00
-   0726 21 00 60      [10]  946 	ld	hl,#0x6000
-   0729 09            [11]  947 	add	hl,bc
-   072A 4D            [ 4]  948 	ld	c,l
-   072B 44            [ 4]  949 	ld	b,h
-   072C 6B            [ 4]  950 	ld	l,e
-   072D 26 00         [ 7]  951 	ld	h,#0x00
-   072F 29            [11]  952 	add	hl, hl
-   0730 29            [11]  953 	add	hl, hl
-   0731 29            [11]  954 	add	hl, hl
-   0732 29            [11]  955 	add	hl, hl
-   0733 29            [11]  956 	add	hl, hl
-   0734 09            [11]  957 	add	hl,bc
-   0735 4D            [ 4]  958 	ld	c,l
-   0736 44            [ 4]  959 	ld	b,h
-                            960 ;src/Map.c:232: lastVal = (position-1);
-   0737 59            [ 4]  961 	ld	e,c
-   0738 50            [ 4]  962 	ld	d,b
-   0739 1B            [ 6]  963 	dec	de
-                            964 ;src/Map.c:233: nextVal = (position+1);
-   073A 21 01 00      [10]  965 	ld	hl,#0x0001
-   073D 09            [11]  966 	add	hl,bc
-   073E DD 75 F4      [19]  967 	ld	-12 (ix),l
-   0741 DD 74 F5      [19]  968 	ld	-11 (ix),h
-                            969 ;src/Map.c:234: topVal = (position-MAP_WIDTH);
-   0744 79            [ 4]  970 	ld	a,c
-   0745 C6 E0         [ 7]  971 	add	a,#0xE0
-   0747 DD 77 F2      [19]  972 	ld	-14 (ix),a
-   074A 78            [ 4]  973 	ld	a,b
-   074B CE FF         [ 7]  974 	adc	a,#0xFF
-   074D DD 77 F3      [19]  975 	ld	-13 (ix),a
-                            976 ;src/Map.c:235: bottomVal = (position+MAP_WIDTH);
-   0750 FD 21 20 00   [14]  977 	ld	iy,#0x0020
-   0754 FD 09         [15]  978 	add	iy, bc
-                            979 ;src/Map.c:237: while(door_not_positioned){
-   0756                     980 00138$:
-   0756 DD 7E F6      [19]  981 	ld	a,-10 (ix)
-   0759 B7            [ 4]  982 	or	a, a
-   075A CA AA 08      [10]  983 	jp	Z,00141$
-                            984 ;src/Map.c:238: if((*position)!=CELLTYPE_FLOOR){
-   075D 0A            [ 7]  985 	ld	a,(bc)
-   075E B7            [ 4]  986 	or	a, a
-   075F CA 70 08      [10]  987 	jp	Z,00135$
-                            988 ;src/Map.c:239: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-   0762 1A            [ 7]  989 	ld	a,(de)
-   0763 DD 77 FF      [19]  990 	ld	-1 (ix),a
-   0766 DD 73 FC      [19]  991 	ld	-4 (ix),e
-   0769 DD 72 FD      [19]  992 	ld	-3 (ix),d
-   076C DD 7E F4      [19]  993 	ld	a,-12 (ix)
-   076F DD 77 FA      [19]  994 	ld	-6 (ix),a
-   0772 DD 7E F5      [19]  995 	ld	a,-11 (ix)
-   0775 DD 77 FB      [19]  996 	ld	-5 (ix),a
-                            997 ;src/Map.c:240: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
-   0778 E1            [10]  998 	pop	hl
-   0779 E5            [11]  999 	push	hl
-   077A 7E            [ 7] 1000 	ld	a,(hl)
-   077B DD 77 FE      [19] 1001 	ld	-2 (ix),a
-   077E DD 7E F2      [19] 1002 	ld	a,-14 (ix)
-   0781 DD 77 F8      [19] 1003 	ld	-8 (ix),a
-   0784 DD 7E F3      [19] 1004 	ld	a,-13 (ix)
-   0787 DD 77 F9      [19] 1005 	ld	-7 (ix),a
-   078A FD E5         [15] 1006 	push	iy
-   078C E1            [10] 1007 	pop	hl
-                           1008 ;src/Map.c:239: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-   078D DD 7E FD      [19] 1009 	ld	a,-3 (ix)
-   0790 D6 60         [ 7] 1010 	sub	a, #0x60
-   0792 3E 00         [ 7] 1011 	ld	a,#0x00
-   0794 17            [ 4] 1012 	rla
-   0795 DD 77 FC      [19] 1013 	ld	-4 (ix),a
-   0798 DD 7E FB      [19] 1014 	ld	a,-5 (ix)
-   079B D6 64         [ 7] 1015 	sub	a, #0x64
-   079D 3E 00         [ 7] 1016 	ld	a,#0x00
-   079F 17            [ 4] 1017 	rla
-   07A0 DD 77 FA      [19] 1018 	ld	-6 (ix),a
-                           1019 ;src/Map.c:240: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
-   07A3 DD 7E F9      [19] 1020 	ld	a,-7 (ix)
-   07A6 D6 60         [ 7] 1021 	sub	a, #0x60
-   07A8 3E 00         [ 7] 1022 	ld	a,#0x00
-   07AA 17            [ 4] 1023 	rla
-   07AB DD 77 F8      [19] 1024 	ld	-8 (ix),a
-   07AE 7C            [ 4] 1025 	ld	a,h
-   07AF D6 64         [ 7] 1026 	sub	a, #0x64
-   07B1 3E 00         [ 7] 1027 	ld	a,#0x00
-   07B3 17            [ 4] 1028 	rla
-   07B4 DD 77 F7      [19] 1029 	ld	-9 (ix),a
-                           1030 ;src/Map.c:239: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-   07B7 DD 7E FF      [19] 1031 	ld	a,-1 (ix)
-   07BA B7            [ 4] 1032 	or	a, a
-   07BB 20 06         [12] 1033 	jr	NZ,00133$
-   07BD DD 7E FC      [19] 1034 	ld	a,-4 (ix)
-   07C0 B7            [ 4] 1035 	or	a, a
-   07C1 28 52         [12] 1036 	jr	Z,00129$
-   07C3                    1037 00133$:
-   07C3 DD 6E F4      [19] 1038 	ld	l,-12 (ix)
-   07C6 DD 66 F5      [19] 1039 	ld	h,-11 (ix)
-   07C9 7E            [ 7] 1040 	ld	a,(hl)
-   07CA B7            [ 4] 1041 	or	a, a
-   07CB 20 06         [12] 1042 	jr	NZ,00128$
-   07CD DD CB FA 46   [20] 1043 	bit	0,-6 (ix)
-   07D1 20 42         [12] 1044 	jr	NZ,00129$
-   07D3                    1045 00128$:
-                           1046 ;src/Map.c:240: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
-   07D3 FD 6E 00      [19] 1047 	ld	l, 0 (iy)
-   07D6 DD 7E FE      [19] 1048 	ld	a,-2 (ix)
-   07D9 B7            [ 4] 1049 	or	a, a
-   07DA 20 06         [12] 1050 	jr	NZ,00111$
-   07DC DD 7E F8      [19] 1051 	ld	a,-8 (ix)
-   07DF B7            [ 4] 1052 	or	a, a
-   07E0 28 14         [12] 1053 	jr	Z,00107$
-   07E2                    1054 00111$:
-   07E2 7D            [ 4] 1055 	ld	a,l
-   07E3 B7            [ 4] 1056 	or	a, a
-   07E4 20 10         [12] 1057 	jr	NZ,00107$
-   07E6 DD 7E F7      [19] 1058 	ld	a,-9 (ix)
-   07E9 B7            [ 4] 1059 	or	a, a
-   07EA 28 0A         [12] 1060 	jr	Z,00107$
-                           1061 ;src/Map.c:241: door_not_positioned=0;
-   07EC DD 36 F6 00   [19] 1062 	ld	-10 (ix),#0x00
-                           1063 ;src/Map.c:242: *position=CELLTYPE_DOOR;
-   07F0 3E 80         [ 7] 1064 	ld	a,#0x80
-   07F2 02            [ 7] 1065 	ld	(bc),a
-   07F3 C3 70 08      [10] 1066 	jp	00135$
-   07F6                    1067 00107$:
-                           1068 ;src/Map.c:244: else if((((*bottomVal)!=CELLTYPE_FLOOR)||(bottomVal>=END_OF_MAP_MEM)) && (((*topVal)==CELLTYPE_FLOOR)&&(topVal>=MAP_MEM))){
-   07F6 7D            [ 4] 1069 	ld	a,l
-   07F7 B7            [ 4] 1070 	or	a, a
-   07F8 20 06         [12] 1071 	jr	NZ,00105$
-   07FA DD 7E F7      [19] 1072 	ld	a,-9 (ix)
-   07FD B7            [ 4] 1073 	or	a, a
-   07FE 20 70         [12] 1074 	jr	NZ,00135$
-   0800                    1075 00105$:
-   0800 DD 7E FE      [19] 1076 	ld	a,-2 (ix)
-   0803 B7            [ 4] 1077 	or	a, a
-   0804 20 6A         [12] 1078 	jr	NZ,00135$
-   0806 DD 7E F8      [19] 1079 	ld	a,-8 (ix)
-   0809 B7            [ 4] 1080 	or	a, a
-   080A 20 64         [12] 1081 	jr	NZ,00135$
-                           1082 ;src/Map.c:245: door_not_positioned=0;
-   080C DD 36 F6 00   [19] 1083 	ld	-10 (ix),#0x00
-                           1084 ;src/Map.c:246: *position=CELLTYPE_DOOR;
-   0810 3E 80         [ 7] 1085 	ld	a,#0x80
-   0812 02            [ 7] 1086 	ld	(bc),a
-   0813 18 5B         [12] 1087 	jr	00135$
-   0815                    1088 00129$:
-                           1089 ;src/Map.c:249: else if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)!=CELLTYPE_FLOOR)||(bottomVal>=END_OF_MAP_MEM))){
-   0815 DD 7E FE      [19] 1090 	ld	a,-2 (ix)
-   0818 B7            [ 4] 1091 	or	a, a
-   0819 20 06         [12] 1092 	jr	NZ,00127$
-   081B DD 7E F8      [19] 1093 	ld	a,-8 (ix)
-   081E B7            [ 4] 1094 	or	a, a
-   081F 28 4F         [12] 1095 	jr	Z,00135$
-   0821                    1096 00127$:
-   0821 FD 7E 00      [19] 1097 	ld	a, 0 (iy)
-   0824 B7            [ 4] 1098 	or	a, a
-   0825 20 06         [12] 1099 	jr	NZ,00123$
-   0827 DD 7E F7      [19] 1100 	ld	a,-9 (ix)
-   082A B7            [ 4] 1101 	or	a, a
-   082B 20 43         [12] 1102 	jr	NZ,00135$
-   082D                    1103 00123$:
-                           1104 ;src/Map.c:239: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-   082D DD 6E F4      [19] 1105 	ld	l,-12 (ix)
-   0830 DD 66 F5      [19] 1106 	ld	h,-11 (ix)
-   0833 6E            [ 7] 1107 	ld	l,(hl)
-                           1108 ;src/Map.c:250: if((((*lastVal)!=CELLTYPE_FLOOR)|| (lastVal<MAP_MEM) ) && (((*nextVal)==CELLTYPE_FLOOR)&&(nextVal<END_OF_MAP_MEM))){
-   0834 DD 7E FF      [19] 1109 	ld	a,-1 (ix)
-   0837 B7            [ 4] 1110 	or	a, a
-   0838 20 06         [12] 1111 	jr	NZ,00122$
-   083A DD 7E FC      [19] 1112 	ld	a,-4 (ix)
-   083D B7            [ 4] 1113 	or	a, a
-   083E 28 13         [12] 1114 	jr	Z,00118$
-   0840                    1115 00122$:
-   0840 7D            [ 4] 1116 	ld	a,l
-   0841 B7            [ 4] 1117 	or	a, a
-   0842 20 0F         [12] 1118 	jr	NZ,00118$
-   0844 DD CB FA 46   [20] 1119 	bit	0,-6 (ix)
-   0848 28 09         [12] 1120 	jr	Z,00118$
-                           1121 ;src/Map.c:251: door_not_positioned=0;
-   084A DD 36 F6 00   [19] 1122 	ld	-10 (ix),#0x00
-                           1123 ;src/Map.c:252: *position=CELLTYPE_DOOR;
-   084E 3E 80         [ 7] 1124 	ld	a,#0x80
-   0850 02            [ 7] 1125 	ld	(bc),a
-   0851 18 1D         [12] 1126 	jr	00135$
-   0853                    1127 00118$:
-                           1128 ;src/Map.c:254: else if((((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM)) && (((*lastVal)==CELLTYPE_FLOOR)&&(lastVal>=MAP_MEM))){
-   0853 7D            [ 4] 1129 	ld	a,l
-   0854 B7            [ 4] 1130 	or	a, a
-   0855 20 06         [12] 1131 	jr	NZ,00116$
-   0857 DD CB FA 46   [20] 1132 	bit	0,-6 (ix)
-   085B 20 13         [12] 1133 	jr	NZ,00135$
-   085D                    1134 00116$:
-   085D DD 7E FF      [19] 1135 	ld	a,-1 (ix)
-   0860 B7            [ 4] 1136 	or	a, a
-   0861 20 0D         [12] 1137 	jr	NZ,00135$
-   0863 DD 7E FC      [19] 1138 	ld	a,-4 (ix)
-   0866 B7            [ 4] 1139 	or	a, a
-   0867 20 07         [12] 1140 	jr	NZ,00135$
-                           1141 ;src/Map.c:255: door_not_positioned=0;
-   0869 DD 36 F6 00   [19] 1142 	ld	-10 (ix),#0x00
-                           1143 ;src/Map.c:256: *position=CELLTYPE_DOOR;
-   086D 3E 80         [ 7] 1144 	ld	a,#0x80
-   086F 02            [ 7] 1145 	ld	(bc),a
-   0870                    1146 00135$:
-                           1147 ;src/Map.c:260: ++position;
-   0870 03            [ 6] 1148 	inc	bc
-                           1149 ;src/Map.c:261: ++lastVal;
-   0871 13            [ 6] 1150 	inc	de
-                           1151 ;src/Map.c:262: ++nextVal;
-   0872 DD 34 F4      [23] 1152 	inc	-12 (ix)
-   0875 20 03         [12] 1153 	jr	NZ,00223$
-   0877 DD 34 F5      [23] 1154 	inc	-11 (ix)
-   087A                    1155 00223$:
-                           1156 ;src/Map.c:263: ++topVal;
-   087A DD 34 F2      [23] 1157 	inc	-14 (ix)
-   087D 20 03         [12] 1158 	jr	NZ,00224$
-   087F DD 34 F3      [23] 1159 	inc	-13 (ix)
-   0882                    1160 00224$:
-                           1161 ;src/Map.c:264: ++bottomVal;
-   0882 FD 23         [10] 1162 	inc	iy
-                           1163 ;src/Map.c:265: if(position==END_OF_MAP_MEM){
-   0884 69            [ 4] 1164 	ld	l, c
-   0885 60            [ 4] 1165 	ld	h, b
-   0886 7D            [ 4] 1166 	ld	a,l
-   0887 B7            [ 4] 1167 	or	a, a
-   0888 C2 56 07      [10] 1168 	jp	NZ,00138$
-   088B 7C            [ 4] 1169 	ld	a,h
-   088C D6 64         [ 7] 1170 	sub	a, #0x64
-   088E C2 56 07      [10] 1171 	jp	NZ,00138$
-                           1172 ;src/Map.c:266: position = MAP_MEM;
-   0891 01 00 60      [10] 1173 	ld	bc,#0x6000
-                           1174 ;src/Map.c:267: lastVal = (position-1);
-   0894 11 FF 5F      [10] 1175 	ld	de,#0x5FFF
-                           1176 ;src/Map.c:268: nextVal = (position+1);
-   0897 DD 36 F4 01   [19] 1177 	ld	-12 (ix),#0x01
-   089B DD 36 F5 60   [19] 1178 	ld	-11 (ix),#0x60
-                           1179 ;src/Map.c:269: topVal = (position-MAP_WIDTH);
-   089F 21 E0 5F      [10] 1180 	ld	hl,#0x5FE0
-   08A2 E3            [19] 1181 	ex	(sp), hl
-                           1182 ;src/Map.c:270: bottomVal = (position+MAP_WIDTH);
-   08A3 FD 21 20 60   [14] 1183 	ld	iy,#0x6020
-   08A7 C3 56 07      [10] 1184 	jp	00138$
-   08AA                    1185 00141$:
-   08AA DD F9         [10] 1186 	ld	sp, ix
-   08AC DD E1         [14] 1187 	pop	ix
-   08AE C9            [10] 1188 	ret
-                           1189 ;src/Map.c:276: void generate_level(){
-                           1190 ;	---------------------------------
-                           1191 ; Function generate_level
-                           1192 ; ---------------------------------
-   08AF                    1193 _generate_level::
-                           1194 ;src/Map.c:277: generate_level_with_seed(r_counter);
-   08AF 3A 42 45      [13] 1195 	ld	a,(_r_counter)
-   08B2 F5            [11] 1196 	push	af
-   08B3 33            [ 6] 1197 	inc	sp
-   08B4 CD B9 08      [17] 1198 	call	_generate_level_with_seed
-   08B7 33            [ 6] 1199 	inc	sp
-   08B8 C9            [10] 1200 	ret
-                           1201 ;src/Map.c:280: void generate_level_with_seed(u8 seed){
-                           1202 ;	---------------------------------
-                           1203 ; Function generate_level_with_seed
-                           1204 ; ---------------------------------
-   08B9                    1205 _generate_level_with_seed::
-                           1206 ;src/Map.c:282: rand_seed=seed;
-   08B9 21 02 00      [10] 1207 	ld	hl, #2+0
-   08BC 39            [11] 1208 	add	hl, sp
-   08BD 7E            [ 7] 1209 	ld	a, (hl)
-   08BE 32 43 45      [13] 1210 	ld	(#_rand_seed + 0),a
-                           1211 ;src/Map.c:283: cpct_setSeed_lcg_u8(seed+level_get_level());
-   08C1 CD CF 00      [17] 1212 	call	_level_get_level
-   08C4 FD 21 02 00   [14] 1213 	ld	iy,#2
-   08C8 FD 39         [15] 1214 	add	iy,sp
-   08CA FD 7E 00      [19] 1215 	ld	a,0 (iy)
-   08CD 85            [ 4] 1216 	add	a, l
-   08CE 6F            [ 4] 1217 	ld	l,a
-   08CF CD 9D 42      [17] 1218 	call	_cpct_setSeed_lcg_u8
-                           1219 ;src/Map.c:285: generate_map();
-   08D2 CD DD 01      [17] 1220 	call	_generate_map
-                           1221 ;src/Map.c:286: generate_exit_door();
-   08D5 CD 03 07      [17] 1222 	call	_generate_exit_door
-                           1223 ;src/Map.c:287: *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
-   08D8 21 A6 60      [10] 1224 	ld	hl,#0x60A6
-   08DB 36 01         [10] 1225 	ld	(hl),#0x01
-   08DD C9            [10] 1226 	ret
-                           1227 	.area _CODE
-                           1228 	.area _INITIALIZER
-   4548                    1229 __xinit__rand_seed:
-   4548 00                 1230 	.db #0x00	; 0
-                           1231 	.area _CABS (ABS)
+                             51 	.area _HOME
+                             52 ;--------------------------------------------------------
+                             53 ; code
+                             54 ;--------------------------------------------------------
+                             55 	.area _CODE
+                             56 ;src/Map.c:14: u8 map_get_seed(){
+                             57 ;	---------------------------------
+                             58 ; Function map_get_seed
+                             59 ; ---------------------------------
+   01AD                      60 _map_get_seed::
+                             61 ;src/Map.c:15: return rand_seed;
+   01AD FD 21 16 49   [14]   62 	ld	iy,#_rand_seed
+   01B1 FD 6E 00      [19]   63 	ld	l,0 (iy)
+   01B4 C9            [10]   64 	ret
+                             65 ;src/Map.c:18: u8 get_random_wall(){
+                             66 ;	---------------------------------
+                             67 ; Function get_random_wall
+                             68 ; ---------------------------------
+   01B5                      69 _get_random_wall::
+                             70 ;src/Map.c:19: u8 cellType = cpct_getRandom_lcg_u8();
+   01B5 CD CA 46      [17]   71 	call	_cpct_getRandom_lcg_u8
+                             72 ;src/Map.c:20: if(cellType&1){
+   01B8 CB 45         [ 8]   73 	bit	0, l
+   01BA 28 03         [12]   74 	jr	Z,00108$
+                             75 ;src/Map.c:21: return CELLTYPE_WALL1;
+   01BC 2E 81         [ 7]   76 	ld	l,#0x81
+   01BE C9            [10]   77 	ret
+   01BF                      78 00108$:
+                             79 ;src/Map.c:24: if(cellType&3){
+   01BF 7D            [ 4]   80 	ld	a,l
+   01C0 E6 03         [ 7]   81 	and	a, #0x03
+   01C2 28 03         [12]   82 	jr	Z,00105$
+                             83 ;src/Map.c:25: return CELLTYPE_WALL2;
+   01C4 2E 82         [ 7]   84 	ld	l,#0x82
+   01C6 C9            [10]   85 	ret
+   01C7                      86 00105$:
+                             87 ;src/Map.c:28: if(cellType&5){
+   01C7 7D            [ 4]   88 	ld	a,l
+   01C8 E6 05         [ 7]   89 	and	a, #0x05
+   01CA 28 03         [12]   90 	jr	Z,00102$
+                             91 ;src/Map.c:29: return CELLTYPE_WALL3;
+   01CC 2E 83         [ 7]   92 	ld	l,#0x83
+   01CE C9            [10]   93 	ret
+   01CF                      94 00102$:
+                             95 ;src/Map.c:32: return CELLTYPE_WALL4;  
+   01CF 2E 84         [ 7]   96 	ld	l,#0x84
+   01D1 C9            [10]   97 	ret
+                             98 ;src/Map.c:38: void generate_map(){
+                             99 ;	---------------------------------
+                            100 ; Function generate_map
+                            101 ; ---------------------------------
+   01D2                     102 _generate_map::
+   01D2 DD E5         [15]  103 	push	ix
+   01D4 DD 21 00 00   [14]  104 	ld	ix,#0
+   01D8 DD 39         [15]  105 	add	ix,sp
+   01DA 21 EC FF      [10]  106 	ld	hl,#-20
+   01DD 39            [11]  107 	add	hl,sp
+   01DE F9            [ 6]  108 	ld	sp,hl
+                            109 ;src/Map.c:41: u16 remainingCells = MAP_SIZE-(MAP_WIDTH*2)-((MAP_HEIGHT-2)*2)-1;
+   01DF DD 36 F2 83   [19]  110 	ld	-14 (ix),#0x83
+   01E3 DD 36 F3 03   [19]  111 	ld	-13 (ix),#0x03
+                            112 ;src/Map.c:47: u16 wallListCount = 0;
+   01E7 DD 36 EE 00   [19]  113 	ld	-18 (ix),#0x00
+   01EB DD 36 EF 00   [19]  114 	ld	-17 (ix),#0x00
+                            115 ;src/Map.c:48: u16 lastStackItem = 0;
+   01EF 21 00 00      [10]  116 	ld	hl,#0x0000
+   01F2 E3            [19]  117 	ex	(sp), hl
+                            118 ;src/Map.c:50: cpct_memset (GENERATOR_DATA_PTR, 0, 4096);
+   01F3 21 00 10      [10]  119 	ld	hl,#0x1000
+   01F6 E5            [11]  120 	push	hl
+   01F7 AF            [ 4]  121 	xor	a, a
+   01F8 F5            [11]  122 	push	af
+   01F9 33            [ 6]  123 	inc	sp
+   01FA 26 64         [ 7]  124 	ld	h, #0x64
+   01FC E5            [11]  125 	push	hl
+   01FD CD F1 46      [17]  126 	call	_cpct_memset
+                            127 ;src/Map.c:52: (*cellStack).x = (cpct_getRandom_lcg_u8()%(MAP_WIDTH-2))+1; //RANDOM
+   0200 CD CA 46      [17]  128 	call	_cpct_getRandom_lcg_u8
+   0203 45            [ 4]  129 	ld	b,l
+   0204 3E 1E         [ 7]  130 	ld	a,#0x1E
+   0206 F5            [11]  131 	push	af
+   0207 33            [ 6]  132 	inc	sp
+   0208 C5            [11]  133 	push	bc
+   0209 33            [ 6]  134 	inc	sp
+   020A CD 18 46      [17]  135 	call	__moduchar
+   020D F1            [10]  136 	pop	af
+   020E 4D            [ 4]  137 	ld	c,l
+   020F 0C            [ 4]  138 	inc	c
+   0210 21 00 64      [10]  139 	ld	hl,#0x6400
+   0213 71            [ 7]  140 	ld	(hl),c
+                            141 ;src/Map.c:53: (*cellStack).y = (cpct_getRandom_lcg_u8()%(MAP_HEIGHT-2))+1; //RANDOM
+   0214 CD CA 46      [17]  142 	call	_cpct_getRandom_lcg_u8
+   0217 45            [ 4]  143 	ld	b,l
+   0218 3E 1E         [ 7]  144 	ld	a,#0x1E
+   021A F5            [11]  145 	push	af
+   021B 33            [ 6]  146 	inc	sp
+   021C C5            [11]  147 	push	bc
+   021D 33            [ 6]  148 	inc	sp
+   021E CD 18 46      [17]  149 	call	__moduchar
+   0221 F1            [10]  150 	pop	af
+   0222 4D            [ 4]  151 	ld	c,l
+   0223 0C            [ 4]  152 	inc	c
+   0224 21 01 64      [10]  153 	ld	hl,#0x6401
+   0227 71            [ 7]  154 	ld	(hl),c
+                            155 ;src/Map.c:55: rotatePlayer = cpct_getRandom_lcg_u8()%4;
+   0228 CD CA 46      [17]  156 	call	_cpct_getRandom_lcg_u8
+   022B 7D            [ 4]  157 	ld	a,l
+   022C E6 03         [ 7]  158 	and	a, #0x03
+   022E 4F            [ 4]  159 	ld	c,a
+                            160 ;src/Map.c:56: while(rotatePlayer){
+   022F                     161 00101$:
+   022F 79            [ 4]  162 	ld	a,c
+   0230 B7            [ 4]  163 	or	a, a
+   0231 28 08         [12]  164 	jr	Z,00103$
+                            165 ;src/Map.c:57: player_turn_left();
+   0233 C5            [11]  166 	push	bc
+   0234 CD 6A 08      [17]  167 	call	_player_turn_left
+   0237 C1            [10]  168 	pop	bc
+                            169 ;src/Map.c:58: --rotatePlayer;
+   0238 0D            [ 4]  170 	dec	c
+   0239 18 F4         [12]  171 	jr	00101$
+   023B                     172 00103$:
+                            173 ;src/Map.c:61: *(i8*)&(player_position.x) = (*cellStack).y;
+   023B 01 98 08      [10]  174 	ld	bc,#_player_position+0
+   023E 3A 01 64      [13]  175 	ld	a,(#0x6401)
+   0241 02            [ 7]  176 	ld	(bc),a
+                            177 ;src/Map.c:62: *(i8*)&(player_position.y) = (*cellStack).x;
+   0242 01 99 08      [10]  178 	ld	bc,#_player_position+1
+   0245 3A 00 64      [13]  179 	ld	a,(#0x6400)
+   0248 02            [ 7]  180 	ld	(bc),a
+                            181 ;src/Map.c:64: cpct_memset (MAP_MEM,CELLTYPE_UNDEFINED,MAP_SIZE);
+   0249 21 00 04      [10]  182 	ld	hl,#0x0400
+   024C E5            [11]  183 	push	hl
+   024D 3E 87         [ 7]  184 	ld	a,#0x87
+   024F F5            [11]  185 	push	af
+   0250 33            [ 6]  186 	inc	sp
+   0251 26 60         [ 7]  187 	ld	h, #0x60
+   0253 E5            [11]  188 	push	hl
+   0254 CD F1 46      [17]  189 	call	_cpct_memset
+                            190 ;src/Map.c:67: map[(*cellStack).x][(*cellStack).y] = CELLTYPE_FLOOR;
+   0257 21 00 64      [10]  191 	ld	hl,#0x6400
+   025A 6E            [ 7]  192 	ld	l,(hl)
+   025B 26 00         [ 7]  193 	ld	h,#0x00
+   025D 29            [11]  194 	add	hl, hl
+   025E 29            [11]  195 	add	hl, hl
+   025F 29            [11]  196 	add	hl, hl
+   0260 29            [11]  197 	add	hl, hl
+   0261 29            [11]  198 	add	hl, hl
+   0262 01 00 60      [10]  199 	ld	bc,#0x6000
+   0265 09            [11]  200 	add	hl,bc
+   0266 4D            [ 4]  201 	ld	c,l
+   0267 44            [ 4]  202 	ld	b,h
+   0268 21 01 64      [10]  203 	ld	hl,#0x6401
+   026B 6E            [ 7]  204 	ld	l, (hl)
+   026C 26 00         [ 7]  205 	ld	h,#0x00
+   026E 09            [11]  206 	add	hl,bc
+   026F 36 00         [10]  207 	ld	(hl),#0x00
+                            208 ;src/Map.c:70: for(i=0;i<MAP_WIDTH;++i){
+   0271 0E 00         [ 7]  209 	ld	c,#0x00
+   0273                     210 00170$:
+                            211 ;src/Map.c:71: map[0][i]=CELLTYPE_WALL1;//get_random_wall();
+   0273 21 00 60      [10]  212 	ld	hl,#0x6000
+   0276 06 00         [ 7]  213 	ld	b,#0x00
+   0278 09            [11]  214 	add	hl, bc
+   0279 36 81         [10]  215 	ld	(hl),#0x81
+                            216 ;src/Map.c:72: map[MAP_HEIGHT-1][i]=CELLTYPE_WALL1;//get_random_wall();
+   027B 21 E0 63      [10]  217 	ld	hl,#0x63E0
+   027E 06 00         [ 7]  218 	ld	b,#0x00
+   0280 09            [11]  219 	add	hl, bc
+   0281 36 81         [10]  220 	ld	(hl),#0x81
+                            221 ;src/Map.c:70: for(i=0;i<MAP_WIDTH;++i){
+   0283 0C            [ 4]  222 	inc	c
+   0284 79            [ 4]  223 	ld	a,c
+   0285 D6 20         [ 7]  224 	sub	a, #0x20
+   0287 38 EA         [12]  225 	jr	C,00170$
+                            226 ;src/Map.c:75: for(i=1;i<MAP_HEIGHT-1;++i){
+   0289 0E 01         [ 7]  227 	ld	c,#0x01
+   028B                     228 00172$:
+                            229 ;src/Map.c:76: map[i][0]=CELLTYPE_WALL1;//get_random_wall();
+   028B 69            [ 4]  230 	ld	l,c
+   028C 26 00         [ 7]  231 	ld	h,#0x00
+   028E 29            [11]  232 	add	hl, hl
+   028F 29            [11]  233 	add	hl, hl
+   0290 29            [11]  234 	add	hl, hl
+   0291 29            [11]  235 	add	hl, hl
+   0292 29            [11]  236 	add	hl, hl
+   0293 EB            [ 4]  237 	ex	de,hl
+   0294 21 00 60      [10]  238 	ld	hl,#0x6000
+   0297 19            [11]  239 	add	hl,de
+   0298 36 81         [10]  240 	ld	(hl),#0x81
+                            241 ;src/Map.c:77: map[i][MAP_WIDTH-1]=CELLTYPE_WALL1;//get_random_wall();
+   029A 21 00 60      [10]  242 	ld	hl,#0x6000
+   029D 19            [11]  243 	add	hl,de
+   029E 11 1F 00      [10]  244 	ld	de,#0x001F
+   02A1 19            [11]  245 	add	hl,de
+   02A2 36 81         [10]  246 	ld	(hl),#0x81
+                            247 ;src/Map.c:75: for(i=1;i<MAP_HEIGHT-1;++i){
+   02A4 0C            [ 4]  248 	inc	c
+   02A5 79            [ 4]  249 	ld	a,c
+   02A6 D6 1F         [ 7]  250 	sub	a, #0x1F
+   02A8 38 E1         [12]  251 	jr	C,00172$
+                            252 ;src/Map.c:80: while(remainingCells>0){
+   02AA 21 04 00      [10]  253 	ld	hl,#0x0004
+   02AD 39            [11]  254 	add	hl,sp
+   02AE DD 75 FA      [19]  255 	ld	-6 (ix),l
+   02B1 DD 74 FB      [19]  256 	ld	-5 (ix),h
+   02B4                     257 00167$:
+   02B4 DD 7E F3      [19]  258 	ld	a,-13 (ix)
+   02B7 DD B6 F2      [19]  259 	or	a,-14 (ix)
+   02BA CA 82 06      [10]  260 	jp	Z,00174$
+                            261 ;src/Map.c:81: wallListPosition = wallList+wallListCount;
+   02BD C1            [10]  262 	pop	bc
+   02BE E1            [10]  263 	pop	hl
+   02BF E5            [11]  264 	push	hl
+   02C0 C5            [11]  265 	push	bc
+   02C1 29            [11]  266 	add	hl, hl
+   02C2 7D            [ 4]  267 	ld	a,l
+   02C3 C6 00         [ 7]  268 	add	a, #0x00
+   02C5 DD 77 FC      [19]  269 	ld	-4 (ix),a
+   02C8 7C            [ 4]  270 	ld	a,h
+   02C9 CE 68         [ 7]  271 	adc	a, #0x68
+   02CB DD 77 FD      [19]  272 	ld	-3 (ix),a
+                            273 ;src/Map.c:82: while(wallListCount<MAP_SIZE){
+   02CE D1            [10]  274 	pop	de
+   02CF C1            [10]  275 	pop	bc
+   02D0 C5            [11]  276 	push	bc
+   02D1 D5            [11]  277 	push	de
+   02D2                     278 00137$:
+                            279 ;src/Map.c:85: currentPos.y = (*wallListPosition).y;
+   02D2 DD 7E FA      [19]  280 	ld	a,-6 (ix)
+   02D5 C6 01         [ 7]  281 	add	a, #0x01
+   02D7 DD 77 FE      [19]  282 	ld	-2 (ix),a
+   02DA DD 7E FB      [19]  283 	ld	a,-5 (ix)
+   02DD CE 00         [ 7]  284 	adc	a, #0x00
+   02DF DD 77 FF      [19]  285 	ld	-1 (ix),a
+                            286 ;src/Map.c:82: while(wallListCount<MAP_SIZE){
+   02E2 78            [ 4]  287 	ld	a,b
+   02E3 D6 04         [ 7]  288 	sub	a, #0x04
+   02E5 D2 83 04      [10]  289 	jp	NC,00209$
+                            290 ;src/Map.c:84: currentPos.x = (*wallListPosition).x;
+   02E8 21 04 00      [10]  291 	ld	hl,#0x0004
+   02EB 39            [11]  292 	add	hl,sp
+   02EC EB            [ 4]  293 	ex	de,hl
+   02ED DD 6E FC      [19]  294 	ld	l,-4 (ix)
+   02F0 DD 66 FD      [19]  295 	ld	h,-3 (ix)
+   02F3 7E            [ 7]  296 	ld	a,(hl)
+   02F4 12            [ 7]  297 	ld	(de),a
+                            298 ;src/Map.c:85: currentPos.y = (*wallListPosition).y;
+   02F5 DD 5E FC      [19]  299 	ld	e,-4 (ix)
+   02F8 DD 56 FD      [19]  300 	ld	d,-3 (ix)
+   02FB 13            [ 6]  301 	inc	de
+   02FC 1A            [ 7]  302 	ld	a,(de)
+   02FD DD 6E FE      [19]  303 	ld	l,-2 (ix)
+   0300 DD 66 FF      [19]  304 	ld	h,-1 (ix)
+   0303 77            [ 7]  305 	ld	(hl),a
+                            306 ;src/Map.c:87: convertToFloor=0;
+   0304 DD 36 F5 00   [19]  307 	ld	-11 (ix),#0x00
+                            308 ;src/Map.c:88: surroundedByWalls=1;
+   0308 DD 36 F4 01   [19]  309 	ld	-12 (ix),#0x01
+                            310 ;src/Map.c:90: if(currentPos.x>0){
+   030C DD 6E FA      [19]  311 	ld	l,-6 (ix)
+   030F DD 66 FB      [19]  312 	ld	h,-5 (ix)
+   0312 7E            [ 7]  313 	ld	a,(hl)
+   0313 DD 77 F8      [19]  314 	ld	-8 (ix),a
+                            315 ;src/Map.c:91: adjacentType = map[currentPos.x-1][currentPos.y];
+   0316 DD 6E FE      [19]  316 	ld	l,-2 (ix)
+   0319 DD 66 FF      [19]  317 	ld	h,-1 (ix)
+   031C 7E            [ 7]  318 	ld	a,(hl)
+   031D DD 77 F9      [19]  319 	ld	-7 (ix),a
+   0320 DD 7E F8      [19]  320 	ld	a,-8 (ix)
+   0323 DD 77 F6      [19]  321 	ld	-10 (ix),a
+   0326 DD 36 F7 00   [19]  322 	ld	-9 (ix),#0x00
+                            323 ;src/Map.c:90: if(currentPos.x>0){
+   032A DD 7E F8      [19]  324 	ld	a,-8 (ix)
+   032D B7            [ 4]  325 	or	a, a
+   032E 28 2F         [12]  326 	jr	Z,00112$
+                            327 ;src/Map.c:91: adjacentType = map[currentPos.x-1][currentPos.y];
+   0330 DD 6E F6      [19]  328 	ld	l,-10 (ix)
+   0333 DD 66 F7      [19]  329 	ld	h,-9 (ix)
+   0336 2B            [ 6]  330 	dec	hl
+   0337 29            [11]  331 	add	hl, hl
+   0338 29            [11]  332 	add	hl, hl
+   0339 29            [11]  333 	add	hl, hl
+   033A 29            [11]  334 	add	hl, hl
+   033B 29            [11]  335 	add	hl, hl
+   033C D5            [11]  336 	push	de
+   033D 11 00 60      [10]  337 	ld	de,#0x6000
+   0340 19            [11]  338 	add	hl, de
+   0341 D1            [10]  339 	pop	de
+   0342 7D            [ 4]  340 	ld	a,l
+   0343 DD 86 F9      [19]  341 	add	a, -7 (ix)
+   0346 6F            [ 4]  342 	ld	l,a
+   0347 7C            [ 4]  343 	ld	a,h
+   0348 CE 00         [ 7]  344 	adc	a, #0x00
+   034A 67            [ 4]  345 	ld	h,a
+   034B 6E            [ 7]  346 	ld	l,(hl)
+                            347 ;src/Map.c:92: if(adjacentType == CELLTYPE_UNDEFINED){
+   034C 7D            [ 4]  348 	ld	a,l
+   034D D6 87         [ 7]  349 	sub	a, #0x87
+   034F 20 06         [12]  350 	jr	NZ,00109$
+                            351 ;src/Map.c:93: convertToFloor  = 1;
+   0351 DD 36 F5 01   [19]  352 	ld	-11 (ix),#0x01
+   0355 18 08         [12]  353 	jr	00112$
+   0357                     354 00109$:
+                            355 ;src/Map.c:95: else if(adjacentType == CELLTYPE_FLOOR){
+   0357 7D            [ 4]  356 	ld	a,l
+   0358 B7            [ 4]  357 	or	a, a
+   0359 20 04         [12]  358 	jr	NZ,00112$
+                            359 ;src/Map.c:96: surroundedByWalls = 0;
+   035B DD 36 F4 00   [19]  360 	ld	-12 (ix),#0x00
+   035F                     361 00112$:
+                            362 ;src/Map.c:99: if(currentPos.x < (MAP_WIDTH-1)){
+   035F DD 7E F8      [19]  363 	ld	a,-8 (ix)
+   0362 D6 1F         [ 7]  364 	sub	a, #0x1F
+   0364 30 2F         [12]  365 	jr	NC,00119$
+                            366 ;src/Map.c:101: adjacentType = map[currentPos.x+1][currentPos.y];
+   0366 DD 6E F6      [19]  367 	ld	l,-10 (ix)
+   0369 DD 66 F7      [19]  368 	ld	h,-9 (ix)
+   036C 23            [ 6]  369 	inc	hl
+   036D 29            [11]  370 	add	hl, hl
+   036E 29            [11]  371 	add	hl, hl
+   036F 29            [11]  372 	add	hl, hl
+   0370 29            [11]  373 	add	hl, hl
+   0371 29            [11]  374 	add	hl, hl
+   0372 D5            [11]  375 	push	de
+   0373 11 00 60      [10]  376 	ld	de,#0x6000
+   0376 19            [11]  377 	add	hl, de
+   0377 D1            [10]  378 	pop	de
+   0378 7D            [ 4]  379 	ld	a,l
+   0379 DD 86 F9      [19]  380 	add	a, -7 (ix)
+   037C 6F            [ 4]  381 	ld	l,a
+   037D 7C            [ 4]  382 	ld	a,h
+   037E CE 00         [ 7]  383 	adc	a, #0x00
+   0380 67            [ 4]  384 	ld	h,a
+   0381 6E            [ 7]  385 	ld	l,(hl)
+                            386 ;src/Map.c:102: if(adjacentType == CELLTYPE_UNDEFINED){
+   0382 7D            [ 4]  387 	ld	a,l
+   0383 D6 87         [ 7]  388 	sub	a, #0x87
+   0385 20 06         [12]  389 	jr	NZ,00116$
+                            390 ;src/Map.c:103: convertToFloor  = 1;
+   0387 DD 36 F5 01   [19]  391 	ld	-11 (ix),#0x01
+   038B 18 08         [12]  392 	jr	00119$
+   038D                     393 00116$:
+                            394 ;src/Map.c:105: else if(adjacentType == CELLTYPE_FLOOR){
+   038D 7D            [ 4]  395 	ld	a,l
+   038E B7            [ 4]  396 	or	a, a
+   038F 20 04         [12]  397 	jr	NZ,00119$
+                            398 ;src/Map.c:106: surroundedByWalls = 0;
+   0391 DD 36 F4 00   [19]  399 	ld	-12 (ix),#0x00
+   0395                     400 00119$:
+                            401 ;src/Map.c:111: adjacentType = map[currentPos.x][currentPos.y-1];
+   0395 DD 6E F6      [19]  402 	ld	l,-10 (ix)
+   0398 DD 66 F7      [19]  403 	ld	h,-9 (ix)
+   039B 29            [11]  404 	add	hl, hl
+   039C 29            [11]  405 	add	hl, hl
+   039D 29            [11]  406 	add	hl, hl
+   039E 29            [11]  407 	add	hl, hl
+   039F 29            [11]  408 	add	hl, hl
+   03A0 7D            [ 4]  409 	ld	a,l
+   03A1 C6 00         [ 7]  410 	add	a, #0x00
+   03A3 DD 77 F6      [19]  411 	ld	-10 (ix),a
+   03A6 7C            [ 4]  412 	ld	a,h
+   03A7 CE 60         [ 7]  413 	adc	a, #0x60
+   03A9 DD 77 F7      [19]  414 	ld	-9 (ix),a
+                            415 ;src/Map.c:109: if(currentPos.y > 0){
+   03AC DD 7E F9      [19]  416 	ld	a,-7 (ix)
+   03AF B7            [ 4]  417 	or	a, a
+   03B0 28 23         [12]  418 	jr	Z,00126$
+                            419 ;src/Map.c:111: adjacentType = map[currentPos.x][currentPos.y-1];
+   03B2 DD 6E F9      [19]  420 	ld	l,-7 (ix)
+   03B5 2D            [ 4]  421 	dec	l
+   03B6 DD 7E F6      [19]  422 	ld	a,-10 (ix)
+   03B9 85            [ 4]  423 	add	a, l
+   03BA 6F            [ 4]  424 	ld	l,a
+   03BB DD 7E F7      [19]  425 	ld	a,-9 (ix)
+   03BE CE 00         [ 7]  426 	adc	a, #0x00
+   03C0 67            [ 4]  427 	ld	h,a
+   03C1 6E            [ 7]  428 	ld	l,(hl)
+                            429 ;src/Map.c:112: if(adjacentType == CELLTYPE_UNDEFINED){
+   03C2 7D            [ 4]  430 	ld	a,l
+   03C3 D6 87         [ 7]  431 	sub	a, #0x87
+   03C5 20 06         [12]  432 	jr	NZ,00123$
+                            433 ;src/Map.c:113: convertToFloor  = 1;
+   03C7 DD 36 F5 01   [19]  434 	ld	-11 (ix),#0x01
+   03CB 18 08         [12]  435 	jr	00126$
+   03CD                     436 00123$:
+                            437 ;src/Map.c:115: else if(adjacentType == CELLTYPE_FLOOR){
+   03CD 7D            [ 4]  438 	ld	a,l
+   03CE B7            [ 4]  439 	or	a, a
+   03CF 20 04         [12]  440 	jr	NZ,00126$
+                            441 ;src/Map.c:116: surroundedByWalls = 0;
+   03D1 DD 36 F4 00   [19]  442 	ld	-12 (ix),#0x00
+   03D5                     443 00126$:
+                            444 ;src/Map.c:119: if(currentPos.y < (MAP_HEIGHT-1)){
+   03D5 DD 7E F9      [19]  445 	ld	a,-7 (ix)
+   03D8 D6 1F         [ 7]  446 	sub	a, #0x1F
+   03DA 30 23         [12]  447 	jr	NC,00133$
+                            448 ;src/Map.c:121: adjacentType = map[currentPos.x][currentPos.y+1];
+   03DC DD 6E F9      [19]  449 	ld	l,-7 (ix)
+   03DF 2C            [ 4]  450 	inc	l
+   03E0 DD 7E F6      [19]  451 	ld	a,-10 (ix)
+   03E3 85            [ 4]  452 	add	a, l
+   03E4 6F            [ 4]  453 	ld	l,a
+   03E5 DD 7E F7      [19]  454 	ld	a,-9 (ix)
+   03E8 CE 00         [ 7]  455 	adc	a, #0x00
+   03EA 67            [ 4]  456 	ld	h,a
+   03EB 6E            [ 7]  457 	ld	l,(hl)
+                            458 ;src/Map.c:122: if(adjacentType == CELLTYPE_UNDEFINED){
+   03EC 7D            [ 4]  459 	ld	a,l
+   03ED D6 87         [ 7]  460 	sub	a, #0x87
+   03EF 20 06         [12]  461 	jr	NZ,00130$
+                            462 ;src/Map.c:123: convertToFloor  = 1;
+   03F1 DD 36 F5 01   [19]  463 	ld	-11 (ix),#0x01
+   03F5 18 08         [12]  464 	jr	00133$
+   03F7                     465 00130$:
+                            466 ;src/Map.c:125: else if(adjacentType == CELLTYPE_FLOOR){
+   03F7 7D            [ 4]  467 	ld	a,l
+   03F8 B7            [ 4]  468 	or	a, a
+   03F9 20 04         [12]  469 	jr	NZ,00133$
+                            470 ;src/Map.c:126: surroundedByWalls = 0;
+   03FB DD 36 F4 00   [19]  471 	ld	-12 (ix),#0x00
+   03FF                     472 00133$:
+                            473 ;src/Map.c:130: (*wallListPosition).x = (*(wallList+wallListCount)).x;
+   03FF 69            [ 4]  474 	ld	l, c
+   0400 60            [ 4]  475 	ld	h, b
+   0401 29            [11]  476 	add	hl, hl
+   0402 FD 21 00 68   [14]  477 	ld	iy,#0x6800
+   0406 C5            [11]  478 	push	bc
+   0407 4D            [ 4]  479 	ld	c, l
+   0408 44            [ 4]  480 	ld	b, h
+   0409 FD 09         [15]  481 	add	iy, bc
+   040B C1            [10]  482 	pop	bc
+   040C FD 7E 00      [19]  483 	ld	a, 0 (iy)
+   040F DD 6E FC      [19]  484 	ld	l,-4 (ix)
+   0412 DD 66 FD      [19]  485 	ld	h,-3 (ix)
+   0415 77            [ 7]  486 	ld	(hl),a
+                            487 ;src/Map.c:131: (*wallListPosition).y = (*(wallList+wallListCount)).y;
+   0416 FD E5         [15]  488 	push	iy
+   0418 E1            [10]  489 	pop	hl
+   0419 23            [ 6]  490 	inc	hl
+   041A 7E            [ 7]  491 	ld	a,(hl)
+   041B 12            [ 7]  492 	ld	(de),a
+                            493 ;src/Map.c:132: --wallListCount;
+   041C 0B            [ 6]  494 	dec	bc
+   041D DD 71 EE      [19]  495 	ld	-18 (ix),c
+   0420 DD 70 EF      [19]  496 	ld	-17 (ix),b
+                            497 ;src/Map.c:135: if((convertToFloor)&&(!surroundedByWalls)){
+   0423 DD 7E F5      [19]  498 	ld	a,-11 (ix)
+   0426 B7            [ 4]  499 	or	a, a
+   0427 28 49         [12]  500 	jr	Z,00135$
+   0429 DD 7E F4      [19]  501 	ld	a,-12 (ix)
+   042C B7            [ 4]  502 	or	a, a
+   042D 20 43         [12]  503 	jr	NZ,00135$
+                            504 ;src/Map.c:136: map[currentPos.x][currentPos.y] = CELLTYPE_FLOOR;
+   042F DD 6E FA      [19]  505 	ld	l,-6 (ix)
+   0432 DD 66 FB      [19]  506 	ld	h,-5 (ix)
+   0435 6E            [ 7]  507 	ld	l,(hl)
+   0436 26 00         [ 7]  508 	ld	h,#0x00
+   0438 29            [11]  509 	add	hl, hl
+   0439 29            [11]  510 	add	hl, hl
+   043A 29            [11]  511 	add	hl, hl
+   043B 29            [11]  512 	add	hl, hl
+   043C 29            [11]  513 	add	hl, hl
+   043D 01 00 60      [10]  514 	ld	bc,#0x6000
+   0440 09            [11]  515 	add	hl,bc
+   0441 4D            [ 4]  516 	ld	c,l
+   0442 44            [ 4]  517 	ld	b,h
+   0443 DD 6E FE      [19]  518 	ld	l,-2 (ix)
+   0446 DD 66 FF      [19]  519 	ld	h,-1 (ix)
+   0449 6E            [ 7]  520 	ld	l, (hl)
+   044A 26 00         [ 7]  521 	ld	h,#0x00
+   044C 09            [11]  522 	add	hl,bc
+   044D 36 00         [10]  523 	ld	(hl),#0x00
+                            524 ;src/Map.c:138: ++lastStackItem;
+   044F DD 34 EC      [23]  525 	inc	-20 (ix)
+   0452 20 03         [12]  526 	jr	NZ,00334$
+   0454 DD 34 ED      [23]  527 	inc	-19 (ix)
+   0457                     528 00334$:
+                            529 ;src/Map.c:139: (*(cellStack+lastStackItem)).x = currentPos.x;
+   0457 E1            [10]  530 	pop	hl
+   0458 E5            [11]  531 	push	hl
+   0459 29            [11]  532 	add	hl, hl
+   045A 4D            [ 4]  533 	ld	c, l
+   045B 7C            [ 4]  534 	ld	a,h
+   045C C6 64         [ 7]  535 	add	a,#0x64
+   045E 47            [ 4]  536 	ld	b,a
+   045F DD 6E FA      [19]  537 	ld	l,-6 (ix)
+   0462 DD 66 FB      [19]  538 	ld	h,-5 (ix)
+   0465 7E            [ 7]  539 	ld	a,(hl)
+   0466 02            [ 7]  540 	ld	(bc),a
+                            541 ;src/Map.c:140: (*(cellStack+lastStackItem)).y = currentPos.y;
+   0467 03            [ 6]  542 	inc	bc
+   0468 DD 6E FE      [19]  543 	ld	l,-2 (ix)
+   046B DD 66 FF      [19]  544 	ld	h,-1 (ix)
+   046E 7E            [ 7]  545 	ld	a,(hl)
+   046F 02            [ 7]  546 	ld	(bc),a
+                            547 ;src/Map.c:143: break;
+   0470 18 11         [12]  548 	jr	00209$
+   0472                     549 00135$:
+                            550 ;src/Map.c:145: --wallListPosition;
+   0472 DD 6E FC      [19]  551 	ld	l,-4 (ix)
+   0475 DD 66 FD      [19]  552 	ld	h,-3 (ix)
+   0478 2B            [ 6]  553 	dec	hl
+   0479 2B            [ 6]  554 	dec	hl
+   047A DD 75 FC      [19]  555 	ld	-4 (ix),l
+   047D DD 74 FD      [19]  556 	ld	-3 (ix),h
+   0480 C3 D2 02      [10]  557 	jp	00137$
+                            558 ;src/Map.c:147: while(lastStackItem<MAP_SIZE){
+   0483                     559 00209$:
+   0483 DD 7E F2      [19]  560 	ld	a,-14 (ix)
+   0486 DD 77 F6      [19]  561 	ld	-10 (ix),a
+   0489 DD 7E F3      [19]  562 	ld	a,-13 (ix)
+   048C DD 77 F7      [19]  563 	ld	-9 (ix),a
+   048F DD 7E EE      [19]  564 	ld	a,-18 (ix)
+   0492 DD 77 FC      [19]  565 	ld	-4 (ix),a
+   0495 DD 7E EF      [19]  566 	ld	a,-17 (ix)
+   0498 DD 77 FD      [19]  567 	ld	-3 (ix),a
+   049B                     568 00164$:
+   049B DD 7E ED      [19]  569 	ld	a,-19 (ix)
+   049E D6 04         [ 7]  570 	sub	a, #0x04
+   04A0 D2 B4 02      [10]  571 	jp	NC,00167$
+                            572 ;src/Map.c:148: currentPos.x=(*(lastStackItem+cellStack)).x;
+   04A3 21 04 00      [10]  573 	ld	hl,#0x0004
+   04A6 39            [11]  574 	add	hl,sp
+   04A7 4D            [ 4]  575 	ld	c,l
+   04A8 44            [ 4]  576 	ld	b,h
+   04A9 E1            [10]  577 	pop	hl
+   04AA E5            [11]  578 	push	hl
+   04AB 29            [11]  579 	add	hl, hl
+   04AC FD 21 00 64   [14]  580 	ld	iy,#0x6400
+   04B0 EB            [ 4]  581 	ex	de,hl
+   04B1 FD 19         [15]  582 	add	iy, de
+   04B3 FD 7E 00      [19]  583 	ld	a, 0 (iy)
+   04B6 02            [ 7]  584 	ld	(bc),a
+                            585 ;src/Map.c:149: currentPos.y=(*(lastStackItem+cellStack)).y;
+   04B7 FD 4E 01      [19]  586 	ld	c,1 (iy)
+   04BA DD 6E FE      [19]  587 	ld	l,-2 (ix)
+   04BD DD 66 FF      [19]  588 	ld	h,-1 (ix)
+   04C0 71            [ 7]  589 	ld	(hl),c
+                            590 ;src/Map.c:150: --lastStackItem;
+   04C1 E1            [10]  591 	pop	hl
+   04C2 E5            [11]  592 	push	hl
+   04C3 2B            [ 6]  593 	dec	hl
+   04C4 E3            [19]  594 	ex	(sp), hl
+                            595 ;src/Map.c:151: cellType = map[currentPos.x][currentPos.y];
+   04C5 DD 6E FA      [19]  596 	ld	l,-6 (ix)
+   04C8 DD 66 FB      [19]  597 	ld	h,-5 (ix)
+   04CB 6E            [ 7]  598 	ld	l,(hl)
+   04CC 26 00         [ 7]  599 	ld	h,#0x00
+   04CE 29            [11]  600 	add	hl, hl
+   04CF 29            [11]  601 	add	hl, hl
+   04D0 29            [11]  602 	add	hl, hl
+   04D1 29            [11]  603 	add	hl, hl
+   04D2 29            [11]  604 	add	hl, hl
+   04D3 11 00 60      [10]  605 	ld	de,#0x6000
+   04D6 19            [11]  606 	add	hl,de
+   04D7 59            [ 4]  607 	ld	e,c
+   04D8 16 00         [ 7]  608 	ld	d,#0x00
+   04DA 19            [11]  609 	add	hl,de
+   04DB 4E            [ 7]  610 	ld	c,(hl)
+                            611 ;src/Map.c:153: if(cellType == CELLTYPE_UNDEFINED){
+   04DC 79            [ 4]  612 	ld	a,c
+   04DD D6 87         [ 7]  613 	sub	a, #0x87
+   04DF 20 47         [12]  614 	jr	NZ,00144$
+                            615 ;src/Map.c:155: if(cpct_getRandom_lcg_u8()&1){//WALL
+   04E1 CD CA 46      [17]  616 	call	_cpct_getRandom_lcg_u8
+   04E4 CB 45         [ 8]  617 	bit	0, l
+   04E6 28 06         [12]  618 	jr	Z,00141$
+                            619 ;src/Map.c:156: cellType = get_random_wall();
+   04E8 CD B5 01      [17]  620 	call	_get_random_wall
+   04EB 4D            [ 4]  621 	ld	c,l
+   04EC 18 02         [12]  622 	jr	00142$
+   04EE                     623 00141$:
+                            624 ;src/Map.c:159: cellType = CELLTYPE_FLOOR;
+   04EE 0E 00         [ 7]  625 	ld	c,#0x00
+   04F0                     626 00142$:
+                            627 ;src/Map.c:161: map[currentPos.x][currentPos.y]=cellType;
+   04F0 DD 6E FA      [19]  628 	ld	l,-6 (ix)
+   04F3 DD 66 FB      [19]  629 	ld	h,-5 (ix)
+   04F6 6E            [ 7]  630 	ld	l,(hl)
+   04F7 26 00         [ 7]  631 	ld	h,#0x00
+   04F9 29            [11]  632 	add	hl, hl
+   04FA 29            [11]  633 	add	hl, hl
+   04FB 29            [11]  634 	add	hl, hl
+   04FC 29            [11]  635 	add	hl, hl
+   04FD 29            [11]  636 	add	hl, hl
+   04FE EB            [ 4]  637 	ex	de,hl
+   04FF 21 00 60      [10]  638 	ld	hl,#0x6000
+   0502 19            [11]  639 	add	hl,de
+   0503 EB            [ 4]  640 	ex	de,hl
+   0504 DD 6E FE      [19]  641 	ld	l,-2 (ix)
+   0507 DD 66 FF      [19]  642 	ld	h,-1 (ix)
+   050A 6E            [ 7]  643 	ld	l, (hl)
+   050B 26 00         [ 7]  644 	ld	h,#0x00
+   050D 19            [11]  645 	add	hl,de
+   050E 71            [ 7]  646 	ld	(hl),c
+                            647 ;src/Map.c:162: --remainingCells;
+   050F DD 6E F6      [19]  648 	ld	l,-10 (ix)
+   0512 DD 66 F7      [19]  649 	ld	h,-9 (ix)
+   0515 2B            [ 6]  650 	dec	hl
+   0516 DD 75 F6      [19]  651 	ld	-10 (ix),l
+   0519 DD 74 F7      [19]  652 	ld	-9 (ix),h
+   051C DD 7E F6      [19]  653 	ld	a,-10 (ix)
+   051F DD 77 F2      [19]  654 	ld	-14 (ix),a
+   0522 DD 7E F7      [19]  655 	ld	a,-9 (ix)
+   0525 DD 77 F3      [19]  656 	ld	-13 (ix),a
+   0528                     657 00144$:
+                            658 ;src/Map.c:90: if(currentPos.x>0){
+   0528 DD 6E FA      [19]  659 	ld	l,-6 (ix)
+   052B DD 66 FB      [19]  660 	ld	h,-5 (ix)
+   052E 7E            [ 7]  661 	ld	a,(hl)
+   052F DD 77 F9      [19]  662 	ld	-7 (ix),a
+                            663 ;src/Map.c:165: if((cellType == CELLTYPE_FLOOR)){
+   0532 79            [ 4]  664 	ld	a,c
+   0533 B7            [ 4]  665 	or	a, a
+   0534 C2 51 06      [10]  666 	jp	NZ,00162$
+                            667 ;src/Map.c:166: if(currentPos.x>0){
+   0537 DD 7E F9      [19]  668 	ld	a,-7 (ix)
+   053A B7            [ 4]  669 	or	a, a
+   053B 28 3F         [12]  670 	jr	Z,00148$
+                            671 ;src/Map.c:167: adjacentType = map[currentPos.x-1][currentPos.y];
+   053D DD 6E F9      [19]  672 	ld	l,-7 (ix)
+   0540 26 00         [ 7]  673 	ld	h,#0x00
+   0542 2B            [ 6]  674 	dec	hl
+   0543 29            [11]  675 	add	hl, hl
+   0544 29            [11]  676 	add	hl, hl
+   0545 29            [11]  677 	add	hl, hl
+   0546 29            [11]  678 	add	hl, hl
+   0547 29            [11]  679 	add	hl, hl
+   0548 01 00 60      [10]  680 	ld	bc,#0x6000
+   054B 09            [11]  681 	add	hl,bc
+   054C 4D            [ 4]  682 	ld	c,l
+   054D 44            [ 4]  683 	ld	b,h
+   054E DD 6E FE      [19]  684 	ld	l,-2 (ix)
+   0551 DD 66 FF      [19]  685 	ld	h,-1 (ix)
+   0554 6E            [ 7]  686 	ld	l, (hl)
+   0555 26 00         [ 7]  687 	ld	h,#0x00
+   0557 09            [11]  688 	add	hl,bc
+   0558 7E            [ 7]  689 	ld	a,(hl)
+                            690 ;src/Map.c:168: if(adjacentType == CELLTYPE_UNDEFINED){
+   0559 D6 87         [ 7]  691 	sub	a, #0x87
+   055B 20 1F         [12]  692 	jr	NZ,00148$
+                            693 ;src/Map.c:170: ++lastStackItem;
+   055D DD 34 EC      [23]  694 	inc	-20 (ix)
+   0560 20 03         [12]  695 	jr	NZ,00340$
+   0562 DD 34 ED      [23]  696 	inc	-19 (ix)
+   0565                     697 00340$:
+                            698 ;src/Map.c:171: (*(cellStack+lastStackItem)).x = currentPos.x-1;
+   0565 E1            [10]  699 	pop	hl
+   0566 E5            [11]  700 	push	hl
+   0567 29            [11]  701 	add	hl, hl
+   0568 01 00 64      [10]  702 	ld	bc,#0x6400
+   056B 09            [11]  703 	add	hl,bc
+   056C DD 4E F9      [19]  704 	ld	c,-7 (ix)
+   056F 0D            [ 4]  705 	dec	c
+   0570 71            [ 7]  706 	ld	(hl),c
+                            707 ;src/Map.c:172: (*(cellStack+lastStackItem)).y = currentPos.y;
+   0571 23            [ 6]  708 	inc	hl
+   0572 4D            [ 4]  709 	ld	c,l
+   0573 44            [ 4]  710 	ld	b,h
+   0574 DD 6E FE      [19]  711 	ld	l,-2 (ix)
+   0577 DD 66 FF      [19]  712 	ld	h,-1 (ix)
+   057A 7E            [ 7]  713 	ld	a,(hl)
+   057B 02            [ 7]  714 	ld	(bc),a
+   057C                     715 00148$:
+                            716 ;src/Map.c:176: if(currentPos.x < (MAP_WIDTH-1)){
+   057C DD 6E FA      [19]  717 	ld	l,-6 (ix)
+   057F DD 66 FB      [19]  718 	ld	h,-5 (ix)
+   0582 4E            [ 7]  719 	ld	c,(hl)
+   0583 79            [ 4]  720 	ld	a,c
+   0584 D6 1F         [ 7]  721 	sub	a, #0x1F
+   0586 30 3A         [12]  722 	jr	NC,00152$
+                            723 ;src/Map.c:178: adjacentType = map[currentPos.x+1][currentPos.y];
+   0588 69            [ 4]  724 	ld	l,c
+   0589 26 00         [ 7]  725 	ld	h,#0x00
+   058B 23            [ 6]  726 	inc	hl
+   058C 29            [11]  727 	add	hl, hl
+   058D 29            [11]  728 	add	hl, hl
+   058E 29            [11]  729 	add	hl, hl
+   058F 29            [11]  730 	add	hl, hl
+   0590 29            [11]  731 	add	hl, hl
+   0591 EB            [ 4]  732 	ex	de,hl
+   0592 21 00 60      [10]  733 	ld	hl,#0x6000
+   0595 19            [11]  734 	add	hl,de
+   0596 EB            [ 4]  735 	ex	de,hl
+   0597 DD 6E FE      [19]  736 	ld	l,-2 (ix)
+   059A DD 66 FF      [19]  737 	ld	h,-1 (ix)
+   059D 6E            [ 7]  738 	ld	l, (hl)
+   059E 26 00         [ 7]  739 	ld	h,#0x00
+   05A0 19            [11]  740 	add	hl,de
+   05A1 7E            [ 7]  741 	ld	a,(hl)
+                            742 ;src/Map.c:179: if(adjacentType == CELLTYPE_UNDEFINED){
+   05A2 D6 87         [ 7]  743 	sub	a, #0x87
+   05A4 20 1C         [12]  744 	jr	NZ,00152$
+                            745 ;src/Map.c:182: ++lastStackItem;
+   05A6 DD 34 EC      [23]  746 	inc	-20 (ix)
+   05A9 20 03         [12]  747 	jr	NZ,00343$
+   05AB DD 34 ED      [23]  748 	inc	-19 (ix)
+   05AE                     749 00343$:
+                            750 ;src/Map.c:183: (*(cellStack+lastStackItem)).x = currentPos.x+1;
+   05AE E1            [10]  751 	pop	hl
+   05AF E5            [11]  752 	push	hl
+   05B0 29            [11]  753 	add	hl, hl
+   05B1 11 00 64      [10]  754 	ld	de,#0x6400
+   05B4 19            [11]  755 	add	hl,de
+   05B5 0C            [ 4]  756 	inc	c
+   05B6 71            [ 7]  757 	ld	(hl),c
+                            758 ;src/Map.c:184: (*(cellStack+lastStackItem)).y = currentPos.y;
+   05B7 23            [ 6]  759 	inc	hl
+   05B8 4D            [ 4]  760 	ld	c,l
+   05B9 44            [ 4]  761 	ld	b,h
+   05BA DD 6E FE      [19]  762 	ld	l,-2 (ix)
+   05BD DD 66 FF      [19]  763 	ld	h,-1 (ix)
+   05C0 7E            [ 7]  764 	ld	a,(hl)
+   05C1 02            [ 7]  765 	ld	(bc),a
+   05C2                     766 00152$:
+                            767 ;src/Map.c:91: adjacentType = map[currentPos.x-1][currentPos.y];
+   05C2 DD 6E FE      [19]  768 	ld	l,-2 (ix)
+   05C5 DD 66 FF      [19]  769 	ld	h,-1 (ix)
+   05C8 4E            [ 7]  770 	ld	c,(hl)
+                            771 ;src/Map.c:188: if(currentPos.y > 0){
+   05C9 79            [ 4]  772 	ld	a,c
+   05CA B7            [ 4]  773 	or	a, a
+   05CB 28 3A         [12]  774 	jr	Z,00156$
+                            775 ;src/Map.c:190: adjacentType = map[currentPos.x][currentPos.y-1];
+   05CD DD 6E FA      [19]  776 	ld	l,-6 (ix)
+   05D0 DD 66 FB      [19]  777 	ld	h,-5 (ix)
+   05D3 46            [ 7]  778 	ld	b,(hl)
+   05D4 68            [ 4]  779 	ld	l,b
+   05D5 26 00         [ 7]  780 	ld	h,#0x00
+   05D7 29            [11]  781 	add	hl, hl
+   05D8 29            [11]  782 	add	hl, hl
+   05D9 29            [11]  783 	add	hl, hl
+   05DA 29            [11]  784 	add	hl, hl
+   05DB 29            [11]  785 	add	hl, hl
+   05DC 11 00 60      [10]  786 	ld	de,#0x6000
+   05DF 19            [11]  787 	add	hl,de
+   05E0 0D            [ 4]  788 	dec	c
+   05E1 59            [ 4]  789 	ld	e,c
+   05E2 16 00         [ 7]  790 	ld	d,#0x00
+   05E4 19            [11]  791 	add	hl,de
+   05E5 7E            [ 7]  792 	ld	a,(hl)
+                            793 ;src/Map.c:191: if(adjacentType == CELLTYPE_UNDEFINED){
+   05E6 D6 87         [ 7]  794 	sub	a, #0x87
+   05E8 20 1D         [12]  795 	jr	NZ,00156$
+                            796 ;src/Map.c:194: ++lastStackItem;
+   05EA DD 34 EC      [23]  797 	inc	-20 (ix)
+   05ED 20 03         [12]  798 	jr	NZ,00346$
+   05EF DD 34 ED      [23]  799 	inc	-19 (ix)
+   05F2                     800 00346$:
+                            801 ;src/Map.c:195: (*(cellStack+lastStackItem)).x = currentPos.x;
+   05F2 E1            [10]  802 	pop	hl
+   05F3 E5            [11]  803 	push	hl
+   05F4 29            [11]  804 	add	hl, hl
+   05F5 11 00 64      [10]  805 	ld	de,#0x6400
+   05F8 19            [11]  806 	add	hl,de
+   05F9 70            [ 7]  807 	ld	(hl),b
+                            808 ;src/Map.c:196: (*(cellStack+lastStackItem)).y = currentPos.y-1;
+   05FA 23            [ 6]  809 	inc	hl
+   05FB 4D            [ 4]  810 	ld	c,l
+   05FC 44            [ 4]  811 	ld	b,h
+   05FD DD 6E FE      [19]  812 	ld	l,-2 (ix)
+   0600 DD 66 FF      [19]  813 	ld	h,-1 (ix)
+   0603 5E            [ 7]  814 	ld	e,(hl)
+   0604 1D            [ 4]  815 	dec	e
+   0605 7B            [ 4]  816 	ld	a,e
+   0606 02            [ 7]  817 	ld	(bc),a
+   0607                     818 00156$:
+                            819 ;src/Map.c:91: adjacentType = map[currentPos.x-1][currentPos.y];
+   0607 DD 6E FE      [19]  820 	ld	l,-2 (ix)
+   060A DD 66 FF      [19]  821 	ld	h,-1 (ix)
+   060D 46            [ 7]  822 	ld	b,(hl)
+                            823 ;src/Map.c:200: if(currentPos.y < (MAP_HEIGHT-1)){
+   060E 78            [ 4]  824 	ld	a,b
+   060F D6 1F         [ 7]  825 	sub	a, #0x1F
+   0611 D2 9B 04      [10]  826 	jp	NC,00164$
+                            827 ;src/Map.c:202: adjacentType = map[currentPos.x][currentPos.y+1];
+   0614 DD 6E FA      [19]  828 	ld	l,-6 (ix)
+   0617 DD 66 FB      [19]  829 	ld	h,-5 (ix)
+   061A 4E            [ 7]  830 	ld	c,(hl)
+   061B 69            [ 4]  831 	ld	l,c
+   061C 26 00         [ 7]  832 	ld	h,#0x00
+   061E 29            [11]  833 	add	hl, hl
+   061F 29            [11]  834 	add	hl, hl
+   0620 29            [11]  835 	add	hl, hl
+   0621 29            [11]  836 	add	hl, hl
+   0622 29            [11]  837 	add	hl, hl
+   0623 11 00 60      [10]  838 	ld	de,#0x6000
+   0626 19            [11]  839 	add	hl,de
+   0627 04            [ 4]  840 	inc	b
+   0628 58            [ 4]  841 	ld	e,b
+   0629 16 00         [ 7]  842 	ld	d,#0x00
+   062B 19            [11]  843 	add	hl,de
+   062C 7E            [ 7]  844 	ld	a,(hl)
+                            845 ;src/Map.c:203: if(adjacentType == CELLTYPE_UNDEFINED){
+   062D D6 87         [ 7]  846 	sub	a, #0x87
+   062F C2 9B 04      [10]  847 	jp	NZ,00164$
+                            848 ;src/Map.c:206: ++lastStackItem;
+   0632 DD 34 EC      [23]  849 	inc	-20 (ix)
+   0635 20 03         [12]  850 	jr	NZ,00349$
+   0637 DD 34 ED      [23]  851 	inc	-19 (ix)
+   063A                     852 00349$:
+                            853 ;src/Map.c:207: (*(cellStack+lastStackItem)).x = currentPos.x;
+   063A E1            [10]  854 	pop	hl
+   063B E5            [11]  855 	push	hl
+   063C 29            [11]  856 	add	hl, hl
+   063D 11 00 64      [10]  857 	ld	de,#0x6400
+   0640 19            [11]  858 	add	hl,de
+   0641 71            [ 7]  859 	ld	(hl),c
+                            860 ;src/Map.c:208: (*(cellStack+lastStackItem)).y = currentPos.y+1;
+   0642 23            [ 6]  861 	inc	hl
+   0643 4D            [ 4]  862 	ld	c,l
+   0644 44            [ 4]  863 	ld	b,h
+   0645 DD 6E FE      [19]  864 	ld	l,-2 (ix)
+   0648 DD 66 FF      [19]  865 	ld	h,-1 (ix)
+   064B 7E            [ 7]  866 	ld	a,(hl)
+   064C 3C            [ 4]  867 	inc	a
+   064D 02            [ 7]  868 	ld	(bc),a
+   064E C3 9B 04      [10]  869 	jp	00164$
+   0651                     870 00162$:
+                            871 ;src/Map.c:214: ++wallListCount;
+   0651 DD 34 FC      [23]  872 	inc	-4 (ix)
+   0654 20 03         [12]  873 	jr	NZ,00350$
+   0656 DD 34 FD      [23]  874 	inc	-3 (ix)
+   0659                     875 00350$:
+   0659 DD 7E FC      [19]  876 	ld	a,-4 (ix)
+   065C DD 77 EE      [19]  877 	ld	-18 (ix),a
+   065F DD 7E FD      [19]  878 	ld	a,-3 (ix)
+   0662 DD 77 EF      [19]  879 	ld	-17 (ix),a
+                            880 ;src/Map.c:215: (*(wallList+wallListCount)).x = currentPos.x;
+   0665 DD 6E FC      [19]  881 	ld	l,-4 (ix)
+   0668 DD 66 FD      [19]  882 	ld	h,-3 (ix)
+   066B 29            [11]  883 	add	hl, hl
+   066C 01 00 68      [10]  884 	ld	bc,#0x6800
+   066F 09            [11]  885 	add	hl,bc
+   0670 DD 7E F9      [19]  886 	ld	a,-7 (ix)
+   0673 77            [ 7]  887 	ld	(hl),a
+                            888 ;src/Map.c:216: (*(wallList+wallListCount)).y = currentPos.y;
+   0674 23            [ 6]  889 	inc	hl
+   0675 4D            [ 4]  890 	ld	c,l
+   0676 44            [ 4]  891 	ld	b,h
+   0677 DD 6E FE      [19]  892 	ld	l,-2 (ix)
+   067A DD 66 FF      [19]  893 	ld	h,-1 (ix)
+   067D 7E            [ 7]  894 	ld	a,(hl)
+   067E 02            [ 7]  895 	ld	(bc),a
+   067F C3 9B 04      [10]  896 	jp	00164$
+   0682                     897 00174$:
+   0682 DD F9         [10]  898 	ld	sp, ix
+   0684 DD E1         [14]  899 	pop	ix
+   0686 C9            [10]  900 	ret
+                            901 ;src/Map.c:222: void generate_exit_door(){
+                            902 ;	---------------------------------
+                            903 ; Function generate_exit_door
+                            904 ; ---------------------------------
+   0687                     905 _generate_exit_door::
+   0687 DD E5         [15]  906 	push	ix
+   0689 DD 21 00 00   [14]  907 	ld	ix,#0
+   068D DD 39         [15]  908 	add	ix,sp
+   068F 21 F2 FF      [10]  909 	ld	hl,#-14
+   0692 39            [11]  910 	add	hl,sp
+   0693 F9            [ 6]  911 	ld	sp,hl
+                            912 ;src/Map.c:223: u8 x=(cpct_getRandom_lcg_u8()%32);
+   0694 CD CA 46      [17]  913 	call	_cpct_getRandom_lcg_u8
+   0697 7D            [ 4]  914 	ld	a,l
+   0698 E6 1F         [ 7]  915 	and	a, #0x1F
+   069A 4F            [ 4]  916 	ld	c,a
+                            917 ;src/Map.c:224: u8 y=(cpct_getRandom_lcg_u8()%32);
+   069B C5            [11]  918 	push	bc
+   069C CD CA 46      [17]  919 	call	_cpct_getRandom_lcg_u8
+   069F C1            [10]  920 	pop	bc
+   06A0 7D            [ 4]  921 	ld	a,l
+   06A1 E6 1F         [ 7]  922 	and	a, #0x1F
+   06A3 5F            [ 4]  923 	ld	e,a
+                            924 ;src/Map.c:225: u8 door_not_positioned=1;
+   06A4 DD 36 F2 01   [19]  925 	ld	-14 (ix),#0x01
+                            926 ;src/Map.c:232: u8* position = (u8*)(MAP_MEM + x + MAP_WIDTH*y);
+   06A8 06 00         [ 7]  927 	ld	b,#0x00
+   06AA 21 00 60      [10]  928 	ld	hl,#0x6000
+   06AD 09            [11]  929 	add	hl,bc
+   06AE 4D            [ 4]  930 	ld	c,l
+   06AF 44            [ 4]  931 	ld	b,h
+   06B0 6B            [ 4]  932 	ld	l,e
+   06B1 26 00         [ 7]  933 	ld	h,#0x00
+   06B3 29            [11]  934 	add	hl, hl
+   06B4 29            [11]  935 	add	hl, hl
+   06B5 29            [11]  936 	add	hl, hl
+   06B6 29            [11]  937 	add	hl, hl
+   06B7 29            [11]  938 	add	hl, hl
+   06B8 09            [11]  939 	add	hl,bc
+   06B9 4D            [ 4]  940 	ld	c,l
+   06BA 44            [ 4]  941 	ld	b,h
+                            942 ;src/Map.c:237: lastVal = (position-1);
+   06BB 59            [ 4]  943 	ld	e,c
+   06BC 50            [ 4]  944 	ld	d,b
+   06BD 1B            [ 6]  945 	dec	de
+                            946 ;src/Map.c:238: nextVal = (position+1);
+   06BE 21 01 00      [10]  947 	ld	hl,#0x0001
+   06C1 09            [11]  948 	add	hl,bc
+   06C2 DD 75 F5      [19]  949 	ld	-11 (ix),l
+   06C5 DD 74 F6      [19]  950 	ld	-10 (ix),h
+                            951 ;src/Map.c:239: topVal = (position-MAP_WIDTH);
+   06C8 79            [ 4]  952 	ld	a,c
+   06C9 C6 E0         [ 7]  953 	add	a,#0xE0
+   06CB DD 77 F3      [19]  954 	ld	-13 (ix),a
+   06CE 78            [ 4]  955 	ld	a,b
+   06CF CE FF         [ 7]  956 	adc	a,#0xFF
+   06D1 DD 77 F4      [19]  957 	ld	-12 (ix),a
+                            958 ;src/Map.c:240: bottomVal = (position+MAP_WIDTH);
+   06D4 FD 21 20 00   [14]  959 	ld	iy,#0x0020
+   06D8 FD 09         [15]  960 	add	iy, bc
+                            961 ;src/Map.c:242: while(door_not_positioned){
+   06DA                     962 00138$:
+   06DA DD 7E F2      [19]  963 	ld	a,-14 (ix)
+   06DD B7            [ 4]  964 	or	a, a
+   06DE CA 36 08      [10]  965 	jp	Z,00141$
+                            966 ;src/Map.c:243: if((*position)!=CELLTYPE_FLOOR){
+   06E1 0A            [ 7]  967 	ld	a,(bc)
+   06E2 B7            [ 4]  968 	or	a, a
+   06E3 CA F8 07      [10]  969 	jp	Z,00135$
+                            970 ;src/Map.c:244: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
+   06E6 1A            [ 7]  971 	ld	a,(de)
+   06E7 DD 77 FD      [19]  972 	ld	-3 (ix),a
+   06EA DD 73 F7      [19]  973 	ld	-9 (ix),e
+   06ED DD 72 F8      [19]  974 	ld	-8 (ix),d
+   06F0 DD 7E F5      [19]  975 	ld	a,-11 (ix)
+   06F3 DD 77 FB      [19]  976 	ld	-5 (ix),a
+   06F6 DD 7E F6      [19]  977 	ld	a,-10 (ix)
+   06F9 DD 77 FC      [19]  978 	ld	-4 (ix),a
+                            979 ;src/Map.c:245: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
+   06FC DD 6E F3      [19]  980 	ld	l,-13 (ix)
+   06FF DD 66 F4      [19]  981 	ld	h,-12 (ix)
+   0702 7E            [ 7]  982 	ld	a,(hl)
+   0703 DD 77 FA      [19]  983 	ld	-6 (ix),a
+   0706 DD 7E F3      [19]  984 	ld	a,-13 (ix)
+   0709 DD 77 FE      [19]  985 	ld	-2 (ix),a
+   070C DD 7E F4      [19]  986 	ld	a,-12 (ix)
+   070F DD 77 FF      [19]  987 	ld	-1 (ix),a
+   0712 FD E5         [15]  988 	push	iy
+   0714 E1            [10]  989 	pop	hl
+                            990 ;src/Map.c:244: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
+   0715 DD 7E F8      [19]  991 	ld	a,-8 (ix)
+   0718 D6 60         [ 7]  992 	sub	a, #0x60
+   071A 3E 00         [ 7]  993 	ld	a,#0x00
+   071C 17            [ 4]  994 	rla
+   071D DD 77 F7      [19]  995 	ld	-9 (ix),a
+   0720 DD 7E FC      [19]  996 	ld	a,-4 (ix)
+   0723 D6 64         [ 7]  997 	sub	a, #0x64
+   0725 3E 00         [ 7]  998 	ld	a,#0x00
+   0727 17            [ 4]  999 	rla
+   0728 DD 77 FB      [19] 1000 	ld	-5 (ix),a
+                           1001 ;src/Map.c:245: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
+   072B DD 7E FF      [19] 1002 	ld	a,-1 (ix)
+   072E D6 60         [ 7] 1003 	sub	a, #0x60
+   0730 3E 00         [ 7] 1004 	ld	a,#0x00
+   0732 17            [ 4] 1005 	rla
+   0733 DD 77 FE      [19] 1006 	ld	-2 (ix),a
+   0736 7C            [ 4] 1007 	ld	a,h
+   0737 D6 64         [ 7] 1008 	sub	a, #0x64
+   0739 3E 00         [ 7] 1009 	ld	a,#0x00
+   073B 17            [ 4] 1010 	rla
+   073C DD 77 F9      [19] 1011 	ld	-7 (ix),a
+                           1012 ;src/Map.c:244: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
+   073F DD 7E FD      [19] 1013 	ld	a,-3 (ix)
+   0742 B7            [ 4] 1014 	or	a, a
+   0743 20 06         [12] 1015 	jr	NZ,00133$
+   0745 DD 7E F7      [19] 1016 	ld	a,-9 (ix)
+   0748 B7            [ 4] 1017 	or	a, a
+   0749 28 52         [12] 1018 	jr	Z,00129$
+   074B                    1019 00133$:
+   074B DD 6E F5      [19] 1020 	ld	l,-11 (ix)
+   074E DD 66 F6      [19] 1021 	ld	h,-10 (ix)
+   0751 7E            [ 7] 1022 	ld	a,(hl)
+   0752 B7            [ 4] 1023 	or	a, a
+   0753 20 06         [12] 1024 	jr	NZ,00128$
+   0755 DD CB FB 46   [20] 1025 	bit	0,-5 (ix)
+   0759 20 42         [12] 1026 	jr	NZ,00129$
+   075B                    1027 00128$:
+                           1028 ;src/Map.c:245: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
+   075B FD 6E 00      [19] 1029 	ld	l, 0 (iy)
+   075E DD 7E FA      [19] 1030 	ld	a,-6 (ix)
+   0761 B7            [ 4] 1031 	or	a, a
+   0762 20 06         [12] 1032 	jr	NZ,00111$
+   0764 DD 7E FE      [19] 1033 	ld	a,-2 (ix)
+   0767 B7            [ 4] 1034 	or	a, a
+   0768 28 14         [12] 1035 	jr	Z,00107$
+   076A                    1036 00111$:
+   076A 7D            [ 4] 1037 	ld	a,l
+   076B B7            [ 4] 1038 	or	a, a
+   076C 20 10         [12] 1039 	jr	NZ,00107$
+   076E DD 7E F9      [19] 1040 	ld	a,-7 (ix)
+   0771 B7            [ 4] 1041 	or	a, a
+   0772 28 0A         [12] 1042 	jr	Z,00107$
+                           1043 ;src/Map.c:246: door_not_positioned=0;
+   0774 DD 36 F2 00   [19] 1044 	ld	-14 (ix),#0x00
+                           1045 ;src/Map.c:247: *position=CELLTYPE_DOOR;
+   0778 3E 80         [ 7] 1046 	ld	a,#0x80
+   077A 02            [ 7] 1047 	ld	(bc),a
+   077B C3 F8 07      [10] 1048 	jp	00135$
+   077E                    1049 00107$:
+                           1050 ;src/Map.c:249: else if((((*bottomVal)!=CELLTYPE_FLOOR)||(bottomVal>=END_OF_MAP_MEM)) && (((*topVal)==CELLTYPE_FLOOR)&&(topVal>=MAP_MEM))){
+   077E 7D            [ 4] 1051 	ld	a,l
+   077F B7            [ 4] 1052 	or	a, a
+   0780 20 06         [12] 1053 	jr	NZ,00105$
+   0782 DD 7E F9      [19] 1054 	ld	a,-7 (ix)
+   0785 B7            [ 4] 1055 	or	a, a
+   0786 20 70         [12] 1056 	jr	NZ,00135$
+   0788                    1057 00105$:
+   0788 DD 7E FA      [19] 1058 	ld	a,-6 (ix)
+   078B B7            [ 4] 1059 	or	a, a
+   078C 20 6A         [12] 1060 	jr	NZ,00135$
+   078E DD 7E FE      [19] 1061 	ld	a,-2 (ix)
+   0791 B7            [ 4] 1062 	or	a, a
+   0792 20 64         [12] 1063 	jr	NZ,00135$
+                           1064 ;src/Map.c:250: door_not_positioned=0;
+   0794 DD 36 F2 00   [19] 1065 	ld	-14 (ix),#0x00
+                           1066 ;src/Map.c:251: *position=CELLTYPE_DOOR;
+   0798 3E 80         [ 7] 1067 	ld	a,#0x80
+   079A 02            [ 7] 1068 	ld	(bc),a
+   079B 18 5B         [12] 1069 	jr	00135$
+   079D                    1070 00129$:
+                           1071 ;src/Map.c:254: else if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)!=CELLTYPE_FLOOR)||(bottomVal>=END_OF_MAP_MEM))){
+   079D DD 7E FA      [19] 1072 	ld	a,-6 (ix)
+   07A0 B7            [ 4] 1073 	or	a, a
+   07A1 20 06         [12] 1074 	jr	NZ,00127$
+   07A3 DD 7E FE      [19] 1075 	ld	a,-2 (ix)
+   07A6 B7            [ 4] 1076 	or	a, a
+   07A7 28 4F         [12] 1077 	jr	Z,00135$
+   07A9                    1078 00127$:
+   07A9 FD 7E 00      [19] 1079 	ld	a, 0 (iy)
+   07AC B7            [ 4] 1080 	or	a, a
+   07AD 20 06         [12] 1081 	jr	NZ,00123$
+   07AF DD 7E F9      [19] 1082 	ld	a,-7 (ix)
+   07B2 B7            [ 4] 1083 	or	a, a
+   07B3 20 43         [12] 1084 	jr	NZ,00135$
+   07B5                    1085 00123$:
+                           1086 ;src/Map.c:244: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
+   07B5 DD 6E F5      [19] 1087 	ld	l,-11 (ix)
+   07B8 DD 66 F6      [19] 1088 	ld	h,-10 (ix)
+   07BB 6E            [ 7] 1089 	ld	l,(hl)
+                           1090 ;src/Map.c:255: if((((*lastVal)!=CELLTYPE_FLOOR)|| (lastVal<MAP_MEM) ) && (((*nextVal)==CELLTYPE_FLOOR)&&(nextVal<END_OF_MAP_MEM))){
+   07BC DD 7E FD      [19] 1091 	ld	a,-3 (ix)
+   07BF B7            [ 4] 1092 	or	a, a
+   07C0 20 06         [12] 1093 	jr	NZ,00122$
+   07C2 DD 7E F7      [19] 1094 	ld	a,-9 (ix)
+   07C5 B7            [ 4] 1095 	or	a, a
+   07C6 28 13         [12] 1096 	jr	Z,00118$
+   07C8                    1097 00122$:
+   07C8 7D            [ 4] 1098 	ld	a,l
+   07C9 B7            [ 4] 1099 	or	a, a
+   07CA 20 0F         [12] 1100 	jr	NZ,00118$
+   07CC DD CB FB 46   [20] 1101 	bit	0,-5 (ix)
+   07D0 28 09         [12] 1102 	jr	Z,00118$
+                           1103 ;src/Map.c:256: door_not_positioned=0;
+   07D2 DD 36 F2 00   [19] 1104 	ld	-14 (ix),#0x00
+                           1105 ;src/Map.c:257: *position=CELLTYPE_DOOR;
+   07D6 3E 80         [ 7] 1106 	ld	a,#0x80
+   07D8 02            [ 7] 1107 	ld	(bc),a
+   07D9 18 1D         [12] 1108 	jr	00135$
+   07DB                    1109 00118$:
+                           1110 ;src/Map.c:259: else if((((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM)) && (((*lastVal)==CELLTYPE_FLOOR)&&(lastVal>=MAP_MEM))){
+   07DB 7D            [ 4] 1111 	ld	a,l
+   07DC B7            [ 4] 1112 	or	a, a
+   07DD 20 06         [12] 1113 	jr	NZ,00116$
+   07DF DD CB FB 46   [20] 1114 	bit	0,-5 (ix)
+   07E3 20 13         [12] 1115 	jr	NZ,00135$
+   07E5                    1116 00116$:
+   07E5 DD 7E FD      [19] 1117 	ld	a,-3 (ix)
+   07E8 B7            [ 4] 1118 	or	a, a
+   07E9 20 0D         [12] 1119 	jr	NZ,00135$
+   07EB DD 7E F7      [19] 1120 	ld	a,-9 (ix)
+   07EE B7            [ 4] 1121 	or	a, a
+   07EF 20 07         [12] 1122 	jr	NZ,00135$
+                           1123 ;src/Map.c:260: door_not_positioned=0;
+   07F1 DD 36 F2 00   [19] 1124 	ld	-14 (ix),#0x00
+                           1125 ;src/Map.c:261: *position=CELLTYPE_DOOR;
+   07F5 3E 80         [ 7] 1126 	ld	a,#0x80
+   07F7 02            [ 7] 1127 	ld	(bc),a
+   07F8                    1128 00135$:
+                           1129 ;src/Map.c:265: ++position;
+   07F8 03            [ 6] 1130 	inc	bc
+                           1131 ;src/Map.c:266: ++lastVal;
+   07F9 13            [ 6] 1132 	inc	de
+                           1133 ;src/Map.c:267: ++nextVal;
+   07FA DD 34 F5      [23] 1134 	inc	-11 (ix)
+   07FD 20 03         [12] 1135 	jr	NZ,00223$
+   07FF DD 34 F6      [23] 1136 	inc	-10 (ix)
+   0802                    1137 00223$:
+                           1138 ;src/Map.c:268: ++topVal;
+   0802 DD 34 F3      [23] 1139 	inc	-13 (ix)
+   0805 20 03         [12] 1140 	jr	NZ,00224$
+   0807 DD 34 F4      [23] 1141 	inc	-12 (ix)
+   080A                    1142 00224$:
+                           1143 ;src/Map.c:269: ++bottomVal;
+   080A FD 23         [10] 1144 	inc	iy
+                           1145 ;src/Map.c:270: if(position==END_OF_MAP_MEM){
+   080C 69            [ 4] 1146 	ld	l, c
+   080D 60            [ 4] 1147 	ld	h, b
+   080E 7D            [ 4] 1148 	ld	a,l
+   080F B7            [ 4] 1149 	or	a, a
+   0810 C2 DA 06      [10] 1150 	jp	NZ,00138$
+   0813 7C            [ 4] 1151 	ld	a,h
+   0814 D6 64         [ 7] 1152 	sub	a, #0x64
+   0816 C2 DA 06      [10] 1153 	jp	NZ,00138$
+                           1154 ;src/Map.c:271: position = MAP_MEM;
+   0819 01 00 60      [10] 1155 	ld	bc,#0x6000
+                           1156 ;src/Map.c:272: lastVal = (position-1);
+   081C 11 FF 5F      [10] 1157 	ld	de,#0x5FFF
+                           1158 ;src/Map.c:273: nextVal = (position+1);
+   081F DD 36 F5 01   [19] 1159 	ld	-11 (ix),#0x01
+   0823 DD 36 F6 60   [19] 1160 	ld	-10 (ix),#0x60
+                           1161 ;src/Map.c:274: topVal = (position-MAP_WIDTH);
+   0827 DD 36 F3 E0   [19] 1162 	ld	-13 (ix),#0xE0
+   082B DD 36 F4 5F   [19] 1163 	ld	-12 (ix),#0x5F
+                           1164 ;src/Map.c:275: bottomVal = (position+MAP_WIDTH);
+   082F FD 21 20 60   [14] 1165 	ld	iy,#0x6020
+   0833 C3 DA 06      [10] 1166 	jp	00138$
+   0836                    1167 00141$:
+   0836 DD F9         [10] 1168 	ld	sp, ix
+   0838 DD E1         [14] 1169 	pop	ix
+   083A C9            [10] 1170 	ret
+                           1171 ;src/Map.c:281: void generate_level(){
+                           1172 ;	---------------------------------
+                           1173 ; Function generate_level
+                           1174 ; ---------------------------------
+   083B                    1175 _generate_level::
+                           1176 ;src/Map.c:282: generate_level_with_seed(r_counter);
+   083B 3A 15 49      [13] 1177 	ld	a,(_r_counter)
+   083E F5            [11] 1178 	push	af
+   083F 33            [ 6] 1179 	inc	sp
+   0840 CD 45 08      [17] 1180 	call	_generate_level_with_seed
+   0843 33            [ 6] 1181 	inc	sp
+   0844 C9            [10] 1182 	ret
+                           1183 ;src/Map.c:285: void generate_level_with_seed(u8 seed){
+                           1184 ;	---------------------------------
+                           1185 ; Function generate_level_with_seed
+                           1186 ; ---------------------------------
+   0845                    1187 _generate_level_with_seed::
+                           1188 ;src/Map.c:287: rand_seed=seed;
+   0845 21 02 00      [10] 1189 	ld	hl, #2+0
+   0848 39            [11] 1190 	add	hl, sp
+   0849 7E            [ 7] 1191 	ld	a, (hl)
+   084A 32 16 49      [13] 1192 	ld	(#_rand_seed + 0),a
+                           1193 ;src/Map.c:288: cpct_setSeed_lcg_u8(seed+level_get_level());
+   084D CD C4 00      [17] 1194 	call	_level_get_level
+   0850 FD 21 02 00   [14] 1195 	ld	iy,#2
+   0854 FD 39         [15] 1196 	add	iy,sp
+   0856 FD 7E 00      [19] 1197 	ld	a,0 (iy)
+   0859 85            [ 4] 1198 	add	a, l
+   085A 6F            [ 4] 1199 	ld	l,a
+   085B CD 70 46      [17] 1200 	call	_cpct_setSeed_lcg_u8
+                           1201 ;src/Map.c:290: generate_map();
+   085E CD D2 01      [17] 1202 	call	_generate_map
+                           1203 ;src/Map.c:291: generate_exit_door();
+   0861 CD 87 06      [17] 1204 	call	_generate_exit_door
+                           1205 ;src/Map.c:292: *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
+   0864 21 A6 60      [10] 1206 	ld	hl,#0x60A6
+   0867 36 01         [10] 1207 	ld	(hl),#0x01
+   0869 C9            [10] 1208 	ret
+                           1209 	.area _CODE
+                           1210 	.area _INITIALIZER
+   491F                    1211 __xinit__rand_seed:
+   491F 00                 1212 	.db #0x00	; 0
+                           1213 	.area _CABS (ABS)

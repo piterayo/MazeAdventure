@@ -14,7 +14,6 @@
 	.globl _cpct_setPalette
 	.globl _cpct_fw2hw
 	.globl _cpct_setVideoMode
-	.globl _cpct_memset
 	.globl _cpct_setInterruptHandler
 	.globl _cpct_disableFirmware
 	.globl _r_counter
@@ -97,16 +96,9 @@ _game_init::
 	push	af
 	inc	sp
 	call	_cpct_setPALColour
-;src/GameFunctions.c:25: cpct_memset(CPCT_VMEM_START, g_colors[0], 0x4000);
-	ld	hl, #_g_colors + 0
-	ld	b,(hl)
-	ld	hl,#0x4000
-	push	hl
-	push	bc
-	inc	sp
-	ld	h, #0xC0
-	push	hl
-	call	_cpct_memset
+;src/GameFunctions.c:25: *((u8*)0x0000)=0xC9; //Set 0x0000 memory to always return
+	ld	hl,#0x0000
+	ld	(hl),#0xC9
 	ret
 	.area _CODE
 	.area _INITIALIZER

@@ -44,7 +44,7 @@
                              44 ; code
                              45 ;--------------------------------------------------------
                              46 	.area _CODE
-                             47 ;src/StringUtils.c:25: void* integer_to_string(u8 n, u8 format){
+                             47 ;src/StringUtils.c:35: void* integer_to_string(u8 n, u8 format){
                              48 ;	---------------------------------
                              49 ; Function integer_to_string
                              50 ; ---------------------------------
@@ -52,40 +52,40 @@
    0000 DD E5         [15]   52 	push	ix
    0002 DD 21 00 00   [14]   53 	ld	ix,#0
    0006 DD 39         [15]   54 	add	ix,sp
-                             55 ;src/StringUtils.c:26: u8* charPosition=(u8*)&i_to_s_buffer;
+                             55 ;src/StringUtils.c:36: u8* charPosition=(u8*)&i_to_s_buffer;
    0008 01r5Er01      [10]   56 	ld	bc,#_i_to_s_buffer+0
-                             57 ;src/StringUtils.c:28: switch(format){
+                             57 ;src/StringUtils.c:38: switch(format){
    000B DD 7E 05      [19]   58 	ld	a,5 (ix)
    000E D6 62         [ 7]   59 	sub	a, #0x62
    0010 28 45         [12]   60 	jr	Z,00102$
    0012 DD 7E 05      [19]   61 	ld	a,5 (ix)
    0015 D6 68         [ 7]   62 	sub	a, #0x68
    0017 20 57         [12]   63 	jr	NZ,00106$
-                             64 ;src/StringUtils.c:30: charPosition+=2;
+                             64 ;src/StringUtils.c:40: charPosition+=2;
    0019 11r60r01      [10]   65 	ld	de,#_i_to_s_buffer + 2
-                             66 ;src/StringUtils.c:32: *charPosition = 0;
+                             66 ;src/StringUtils.c:42: *charPosition = 0;
    001C AF            [ 4]   67 	xor	a, a
    001D 12            [ 7]   68 	ld	(de),a
-                             69 ;src/StringUtils.c:34: --charPosition;
+                             69 ;src/StringUtils.c:44: --charPosition;
    001E 1B            [ 6]   70 	dec	de
-                             71 ;src/StringUtils.c:36: t=n%16;
+                             71 ;src/StringUtils.c:46: t=n&0x0F;
    001F DD 7E 04      [19]   72 	ld	a,4 (ix)
    0022 E6 0F         [ 7]   73 	and	a, #0x0F
    0024 6F            [ 4]   74 	ld	l,a
-                             75 ;src/StringUtils.c:37: t=t>9?t+64:t+48;
+                             75 ;src/StringUtils.c:47: t=t>9?t+55:t+48;
    0025 3E 09         [ 7]   76 	ld	a,#0x09
    0027 95            [ 4]   77 	sub	a, l
    0028 30 05         [12]   78 	jr	NC,00110$
    002A 7D            [ 4]   79 	ld	a,l
-   002B C6 40         [ 7]   80 	add	a, #0x40
+   002B C6 37         [ 7]   80 	add	a, #0x37
    002D 18 03         [12]   81 	jr	00111$
    002F                      82 00110$:
    002F 7D            [ 4]   83 	ld	a,l
    0030 C6 30         [ 7]   84 	add	a, #0x30
    0032                      85 00111$:
-                             86 ;src/StringUtils.c:38: *charPosition=t;
+                             86 ;src/StringUtils.c:48: *charPosition=t;
    0032 12            [ 7]   87 	ld	(de),a
-                             88 ;src/StringUtils.c:39: n/=16;
+                             88 ;src/StringUtils.c:49: n>>=4;
    0033 DD 7E 04      [19]   89 	ld	a,4 (ix)
    0036 07            [ 4]   90 	rlca
    0037 07            [ 4]   91 	rlca
@@ -93,649 +93,711 @@
    0039 07            [ 4]   93 	rlca
    003A E6 0F         [ 7]   94 	and	a,#0x0F
    003C DD 77 04      [19]   95 	ld	4 (ix),a
-                             96 ;src/StringUtils.c:40: --charPosition;
+                             96 ;src/StringUtils.c:50: --charPosition;
    003F 1B            [ 6]   97 	dec	de
-                             98 ;src/StringUtils.c:42: t=n%16;
-   0040 DD 7E 04      [19]   99 	ld	a,4 (ix)
-   0043 E6 0F         [ 7]  100 	and	a, #0x0F
-   0045 6F            [ 4]  101 	ld	l,a
-                            102 ;src/StringUtils.c:43: t=t>9?t+64:t+48;
-   0046 3E 09         [ 7]  103 	ld	a,#0x09
-   0048 95            [ 4]  104 	sub	a, l
-   0049 30 05         [12]  105 	jr	NC,00112$
-   004B 7D            [ 4]  106 	ld	a,l
-   004C C6 40         [ 7]  107 	add	a, #0x40
-   004E 18 03         [12]  108 	jr	00113$
-   0050                     109 00112$:
-   0050 7D            [ 4]  110 	ld	a,l
-   0051 C6 30         [ 7]  111 	add	a, #0x30
-   0053                     112 00113$:
-                            113 ;src/StringUtils.c:44: *charPosition=t;
-   0053 12            [ 7]  114 	ld	(de),a
-                            115 ;src/StringUtils.c:45: break;
-   0054 C3rD9r00      [10]  116 	jp	00107$
-                            117 ;src/StringUtils.c:47: case 'b':{
-   0057                     118 00102$:
-                            119 ;src/StringUtils.c:49: charPosition+=8;
-   0057 21r66r01      [10]  120 	ld	hl,#_i_to_s_buffer + 8
-                            121 ;src/StringUtils.c:51: while(t){
-   005A 1E 08         [ 7]  122 	ld	e,#0x08
-   005C                     123 00103$:
-   005C 7B            [ 4]  124 	ld	a,e
-   005D B7            [ 4]  125 	or	a, a
-   005E 28 79         [12]  126 	jr	Z,00107$
-                            127 ;src/StringUtils.c:52: --t;
-   0060 1D            [ 4]  128 	dec	e
-                            129 ;src/StringUtils.c:53: --charPosition;
-   0061 2B            [ 6]  130 	dec	hl
-                            131 ;src/StringUtils.c:54: *charPosition=(n&1)+48;
-   0062 DD 7E 04      [19]  132 	ld	a,4 (ix)
-   0065 E6 01         [ 7]  133 	and	a, #0x01
-   0067 C6 30         [ 7]  134 	add	a, #0x30
-   0069 77            [ 7]  135 	ld	(hl),a
-                            136 ;src/StringUtils.c:55: n>>=1;
-   006A DD CB 04 3E   [23]  137 	srl	4 (ix)
-   006E 18 EC         [12]  138 	jr	00103$
-                            139 ;src/StringUtils.c:59: default:{
-   0070                     140 00106$:
-                            141 ;src/StringUtils.c:60: charPosition+=3;
-   0070 11r61r01      [10]  142 	ld	de,#_i_to_s_buffer + 3
-                            143 ;src/StringUtils.c:62: *charPosition = 0;
-   0073 AF            [ 4]  144 	xor	a, a
-   0074 12            [ 7]  145 	ld	(de),a
-                            146 ;src/StringUtils.c:64: --charPosition;
-   0075 1B            [ 6]  147 	dec	de
-                            148 ;src/StringUtils.c:66: *charPosition=48+(n%10);
-   0076 C5            [11]  149 	push	bc
-   0077 D5            [11]  150 	push	de
-   0078 3E 0A         [ 7]  151 	ld	a,#0x0A
-   007A F5            [11]  152 	push	af
-   007B 33            [ 6]  153 	inc	sp
-   007C DD 7E 04      [19]  154 	ld	a,4 (ix)
-   007F F5            [11]  155 	push	af
-   0080 33            [ 6]  156 	inc	sp
-   0081 CDr00r00      [17]  157 	call	__moduchar
-   0084 F1            [10]  158 	pop	af
-   0085 D1            [10]  159 	pop	de
-   0086 C1            [10]  160 	pop	bc
-   0087 7D            [ 4]  161 	ld	a,l
-   0088 C6 30         [ 7]  162 	add	a, #0x30
-   008A 12            [ 7]  163 	ld	(de),a
-                            164 ;src/StringUtils.c:67: --charPosition;
-                            165 ;src/StringUtils.c:68: n/=10;
-   008B C5            [11]  166 	push	bc
-   008C 3E 0A         [ 7]  167 	ld	a,#0x0A
-   008E F5            [11]  168 	push	af
-   008F 33            [ 6]  169 	inc	sp
-   0090 DD 7E 04      [19]  170 	ld	a,4 (ix)
-   0093 F5            [11]  171 	push	af
-   0094 33            [ 6]  172 	inc	sp
-   0095 CDr00r00      [17]  173 	call	__divuchar
-   0098 F1            [10]  174 	pop	af
-   0099 C1            [10]  175 	pop	bc
-   009A DD 75 04      [19]  176 	ld	4 (ix),l
-                            177 ;src/StringUtils.c:69: *charPosition=48+(n%10);
-   009D C5            [11]  178 	push	bc
-   009E 3E 0A         [ 7]  179 	ld	a,#0x0A
-   00A0 F5            [11]  180 	push	af
-   00A1 33            [ 6]  181 	inc	sp
-   00A2 DD 7E 04      [19]  182 	ld	a,4 (ix)
-   00A5 F5            [11]  183 	push	af
-   00A6 33            [ 6]  184 	inc	sp
-   00A7 CDr00r00      [17]  185 	call	__moduchar
-   00AA F1            [10]  186 	pop	af
-   00AB C1            [10]  187 	pop	bc
-   00AC 7D            [ 4]  188 	ld	a,l
-   00AD C6 30         [ 7]  189 	add	a, #0x30
-   00AF 32r5Fr01      [13]  190 	ld	(#(_i_to_s_buffer + 0x0001)),a
-                            191 ;src/StringUtils.c:70: --charPosition;
-                            192 ;src/StringUtils.c:71: n/=10;
-   00B2 C5            [11]  193 	push	bc
-   00B3 3E 0A         [ 7]  194 	ld	a,#0x0A
-   00B5 F5            [11]  195 	push	af
-   00B6 33            [ 6]  196 	inc	sp
-   00B7 DD 7E 04      [19]  197 	ld	a,4 (ix)
-   00BA F5            [11]  198 	push	af
-   00BB 33            [ 6]  199 	inc	sp
-   00BC CDr00r00      [17]  200 	call	__divuchar
-   00BF F1            [10]  201 	pop	af
-   00C0 C1            [10]  202 	pop	bc
-   00C1 DD 75 04      [19]  203 	ld	4 (ix),l
-                            204 ;src/StringUtils.c:72: *charPosition=48+(n%10);
-   00C4 C5            [11]  205 	push	bc
-   00C5 3E 0A         [ 7]  206 	ld	a,#0x0A
-   00C7 F5            [11]  207 	push	af
-   00C8 33            [ 6]  208 	inc	sp
-   00C9 DD 7E 04      [19]  209 	ld	a,4 (ix)
-   00CC F5            [11]  210 	push	af
-   00CD 33            [ 6]  211 	inc	sp
-   00CE CDr00r00      [17]  212 	call	__moduchar
-   00D1 F1            [10]  213 	pop	af
-   00D2 C1            [10]  214 	pop	bc
-   00D3 7D            [ 4]  215 	ld	a,l
-   00D4 C6 30         [ 7]  216 	add	a, #0x30
-   00D6 32r5Er01      [13]  217 	ld	(#_i_to_s_buffer),a
-                            218 ;src/StringUtils.c:75: }
-   00D9                     219 00107$:
-                            220 ;src/StringUtils.c:77: return i_to_s_buffer;
-   00D9 69            [ 4]  221 	ld	l, c
-   00DA 60            [ 4]  222 	ld	h, b
-   00DB DD E1         [14]  223 	pop	ix
-   00DD C9            [10]  224 	ret
-   00DE                     225 _charArray:
-   00DE FF                  226 	.db #0xFF	; 255
-   00DF FF                  227 	.db #0xFF	; 255
-   00E0 FF                  228 	.db #0xFF	; 255
-   00E1 FF                  229 	.db #0xFF	; 255
-   00E2 FF                  230 	.db #0xFF	; 255
-   00E3 FF                  231 	.db #0xFF	; 255
-   00E4 FF                  232 	.db #0xFF	; 255
-   00E5 FF                  233 	.db #0xFF	; 255
-   00E6 FF                  234 	.db #0xFF	; 255
-   00E7 FF                  235 	.db #0xFF	; 255
-   00E8 FF                  236 	.db #0xFF	; 255
-   00E9 FF                  237 	.db #0xFF	; 255
-   00EA FF                  238 	.db #0xFF	; 255
-   00EB FF                  239 	.db #0xFF	; 255
-   00EC FF                  240 	.db #0xFF	; 255
-   00ED FF                  241 	.db #0xFF	; 255
-   00EE FF                  242 	.db #0xFF	; 255
-   00EF FF                  243 	.db #0xFF	; 255
-   00F0 FF                  244 	.db #0xFF	; 255
-   00F1 FF                  245 	.db #0xFF	; 255
-   00F2 FF                  246 	.db #0xFF	; 255
-   00F3 FF                  247 	.db #0xFF	; 255
-   00F4 FF                  248 	.db #0xFF	; 255
-   00F5 FF                  249 	.db #0xFF	; 255
-   00F6 FF                  250 	.db #0xFF	; 255
-   00F7 FF                  251 	.db #0xFF	; 255
-   00F8 FF                  252 	.db #0xFF	; 255
-   00F9 FF                  253 	.db #0xFF	; 255
-   00FA FF                  254 	.db #0xFF	; 255
-   00FB FF                  255 	.db #0xFF	; 255
-   00FC FF                  256 	.db #0xFF	; 255
-   00FD FF                  257 	.db #0xFF	; 255
-   00FE 29                  258 	.db #0x29	; 41
-   00FF 24                  259 	.db #0x24	; 36
-   0100 FF                  260 	.db #0xFF	; 255
-   0101 2D                  261 	.db #0x2D	; 45
-   0102 2F                  262 	.db #0x2F	; 47
-   0103 FF                  263 	.db #0xFF	; 255
-   0104 2E                  264 	.db #0x2E	; 46
-   0105 FF                  265 	.db #0xFF	; 255
-   0106 FF                  266 	.db #0xFF	; 255
-   0107 FF                  267 	.db #0xFF	; 255
-   0108 31                  268 	.db #0x31	; 49	'1'
-   0109 2C                  269 	.db #0x2C	; 44
-   010A FF                  270 	.db #0xFF	; 255
-   010B FF                  271 	.db #0xFF	; 255
-   010C 26                  272 	.db #0x26	; 38
-   010D FF                  273 	.db #0xFF	; 255
-   010E 1A                  274 	.db #0x1A	; 26
-   010F 1B                  275 	.db #0x1B	; 27
-   0110 1C                  276 	.db #0x1C	; 28
-   0111 1D                  277 	.db #0x1D	; 29
-   0112 1E                  278 	.db #0x1E	; 30
-   0113 1F                  279 	.db #0x1F	; 31
-   0114 20                  280 	.db #0x20	; 32
-   0115 21                  281 	.db #0x21	; 33
-   0116 22                  282 	.db #0x22	; 34
-   0117 23                  283 	.db #0x23	; 35
-   0118 27                  284 	.db #0x27	; 39
-   0119 FF                  285 	.db #0xFF	; 255
-   011A 2A                  286 	.db #0x2A	; 42
-   011B FF                  287 	.db #0xFF	; 255
-   011C 2B                  288 	.db #0x2B	; 43
-   011D 25                  289 	.db #0x25	; 37
-   011E 28                  290 	.db #0x28	; 40
-   011F 00                  291 	.db #0x00	; 0
-   0120 01                  292 	.db #0x01	; 1
-   0121 02                  293 	.db #0x02	; 2
-   0122 03                  294 	.db #0x03	; 3
-   0123 04                  295 	.db #0x04	; 4
-   0124 05                  296 	.db #0x05	; 5
-   0125 06                  297 	.db #0x06	; 6
-   0126 07                  298 	.db #0x07	; 7
-   0127 08                  299 	.db #0x08	; 8
-   0128 09                  300 	.db #0x09	; 9
-   0129 0A                  301 	.db #0x0A	; 10
-   012A 0B                  302 	.db #0x0B	; 11
-   012B 0C                  303 	.db #0x0C	; 12
-   012C 0D                  304 	.db #0x0D	; 13
-   012D 0E                  305 	.db #0x0E	; 14
-   012E 0F                  306 	.db #0x0F	; 15
-   012F 10                  307 	.db #0x10	; 16
-   0130 11                  308 	.db #0x11	; 17
-   0131 12                  309 	.db #0x12	; 18
-   0132 13                  310 	.db #0x13	; 19
-   0133 14                  311 	.db #0x14	; 20
-   0134 15                  312 	.db #0x15	; 21
-   0135 16                  313 	.db #0x16	; 22
-   0136 17                  314 	.db #0x17	; 23
-   0137 18                  315 	.db #0x18	; 24
-   0138 19                  316 	.db #0x19	; 25
-   0139 FF                  317 	.db #0xFF	; 255
-   013A FF                  318 	.db #0xFF	; 255
-   013B FF                  319 	.db #0xFF	; 255
-   013C FF                  320 	.db #0xFF	; 255
-   013D FF                  321 	.db #0xFF	; 255
-   013E FF                  322 	.db #0xFF	; 255
-   013F 00                  323 	.db #0x00	; 0
-   0140 01                  324 	.db #0x01	; 1
-   0141 02                  325 	.db #0x02	; 2
-   0142 03                  326 	.db #0x03	; 3
-   0143 04                  327 	.db #0x04	; 4
-   0144 05                  328 	.db #0x05	; 5
-   0145 06                  329 	.db #0x06	; 6
-   0146 07                  330 	.db #0x07	; 7
-   0147 08                  331 	.db #0x08	; 8
-   0148 09                  332 	.db #0x09	; 9
-   0149 0A                  333 	.db #0x0A	; 10
-   014A 0B                  334 	.db #0x0B	; 11
-   014B 0C                  335 	.db #0x0C	; 12
-   014C 0D                  336 	.db #0x0D	; 13
-   014D 0E                  337 	.db #0x0E	; 14
-   014E 0F                  338 	.db #0x0F	; 15
-   014F 10                  339 	.db #0x10	; 16
-   0150 11                  340 	.db #0x11	; 17
-   0151 12                  341 	.db #0x12	; 18
-   0152 13                  342 	.db #0x13	; 19
-   0153 14                  343 	.db #0x14	; 20
-   0154 15                  344 	.db #0x15	; 21
-   0155 16                  345 	.db #0x16	; 22
-   0156 17                  346 	.db #0x17	; 23
-   0157 18                  347 	.db #0x18	; 24
-   0158 19                  348 	.db #0x19	; 25
-   0159 FF                  349 	.db #0xFF	; 255
-   015A FF                  350 	.db #0xFF	; 255
-   015B FF                  351 	.db #0xFF	; 255
-   015C 30                  352 	.db #0x30	; 48	'0'
-   015D FF                  353 	.db #0xFF	; 255
-   015E                     354 _i_to_s_buffer:
-   015E 00                  355 	.db #0x00	; 0
-   015F 00                  356 	.db #0x00	; 0
-   0160 00                  357 	.db #0x00	; 0
-   0161 00                  358 	.db #0x00	; 0
-   0162 00                  359 	.db #0x00	; 0
-   0163 00                  360 	.db #0x00	; 0
-   0164 00                  361 	.db #0x00	; 0
-   0165 00                  362 	.db #0x00	; 0
-   0166 00                  363 	.db #0x00	; 0
-                            364 ;src/StringUtils.c:81: void print_text(void * const text, u8* position, u8 bg, u8 fg){
-                            365 ;	---------------------------------
-                            366 ; Function print_text
-                            367 ; ---------------------------------
-   0167                     368 _print_text::
-   0167 DD E5         [15]  369 	push	ix
-   0169 DD 21 00 00   [14]  370 	ld	ix,#0
-   016D DD 39         [15]  371 	add	ix,sp
-   016F 21 F1 FF      [10]  372 	ld	hl,#-15
-   0172 39            [11]  373 	add	hl,sp
-   0173 F9            [ 6]  374 	ld	sp,hl
-                            375 ;src/StringUtils.c:82: u8 val, charBitArray, spritePos, fgColor=g_colors[fg], bgColor=g_colors[bg];
-   0174 DD 7E 09      [19]  376 	ld	a,9 (ix)
-   0177 C6r00         [ 7]  377 	add	a, #<(_g_colors)
-   0179 DD 77 FE      [19]  378 	ld	-2 (ix),a
-   017C 3E 00         [ 7]  379 	ld	a,#0x00
-   017E CEs00         [ 7]  380 	adc	a, #>(_g_colors)
-   0180 DD 77 FF      [19]  381 	ld	-1 (ix),a
-   0183 DD 6E FE      [19]  382 	ld	l,-2 (ix)
-   0186 DD 66 FF      [19]  383 	ld	h,-1 (ix)
-   0189 7E            [ 7]  384 	ld	a,(hl)
-   018A DD 77 F4      [19]  385 	ld	-12 (ix),a
-   018D 3Er00         [ 7]  386 	ld	a,#<(_g_colors)
-   018F DD 86 08      [19]  387 	add	a, 8 (ix)
-   0192 DD 77 FE      [19]  388 	ld	-2 (ix),a
-   0195 3Es00         [ 7]  389 	ld	a,#>(_g_colors)
-   0197 CE 00         [ 7]  390 	adc	a, #0x00
-   0199 DD 77 FF      [19]  391 	ld	-1 (ix),a
-   019C DD 6E FE      [19]  392 	ld	l,-2 (ix)
-   019F DD 66 FF      [19]  393 	ld	h,-1 (ix)
-   01A2 7E            [ 7]  394 	ld	a,(hl)
-   01A3 DD 77 F2      [19]  395 	ld	-14 (ix),a
-                            396 ;src/StringUtils.c:88: position+=10240;
-   01A6 DD 7E 06      [19]  397 	ld	a,6 (ix)
-   01A9 C6 00         [ 7]  398 	add	a, #0x00
-   01AB DD 77 06      [19]  399 	ld	6 (ix),a
-   01AE DD 7E 07      [19]  400 	ld	a,7 (ix)
-   01B1 CE 28         [ 7]  401 	adc	a, #0x28
-   01B3 DD 77 07      [19]  402 	ld	7 (ix),a
-                            403 ;src/StringUtils.c:90: while(height){
-   01B6 DD 36 F1 06   [19]  404 	ld	-15 (ix),#0x06
-   01BA DD 7E 06      [19]  405 	ld	a,6 (ix)
-   01BD DD 77 FE      [19]  406 	ld	-2 (ix),a
-   01C0 DD 7E 07      [19]  407 	ld	a,7 (ix)
-   01C3 DD 77 FF      [19]  408 	ld	-1 (ix),a
-   01C6 DD 36 FB 96   [19]  409 	ld	-5 (ix),#0x96
-   01CA                     410 00106$:
-   01CA DD 7E F1      [19]  411 	ld	a,-15 (ix)
-   01CD B7            [ 4]  412 	or	a, a
-   01CE CArCFr02      [10]  413 	jp	Z,00109$
-                            414 ;src/StringUtils.c:91: --height;
-   01D1 DD 7E FB      [19]  415 	ld	a,-5 (ix)
-   01D4 C6 E7         [ 7]  416 	add	a,#0xE7
-   01D6 DD 77 FB      [19]  417 	ld	-5 (ix),a
-   01D9 DD 35 F1      [23]  418 	dec	-15 (ix)
-                            419 ;src/StringUtils.c:92: currentChar=text;
-   01DC DD 7E 04      [19]  420 	ld	a,4 (ix)
-   01DF DD 77 F9      [19]  421 	ld	-7 (ix),a
-   01E2 DD 7E 05      [19]  422 	ld	a,5 (ix)
-   01E5 DD 77 FA      [19]  423 	ld	-6 (ix),a
-                            424 ;src/StringUtils.c:93: currentPos=position;
-   01E8 DD 7E FE      [19]  425 	ld	a,-2 (ix)
-   01EB DD 77 FC      [19]  426 	ld	-4 (ix),a
-   01EE DD 7E FF      [19]  427 	ld	a,-1 (ix)
-   01F1 DD 77 FD      [19]  428 	ld	-3 (ix),a
-                            429 ;src/StringUtils.c:95: while(*currentChar){
-   01F4                     430 00103$:
-   01F4 DD 6E F9      [19]  431 	ld	l,-7 (ix)
-   01F7 DD 66 FA      [19]  432 	ld	h,-6 (ix)
-   01FA 7E            [ 7]  433 	ld	a,(hl)
-   01FB DD 77 F6      [19]  434 	ld	-10 (ix), a
-   01FE B7            [ 4]  435 	or	a, a
-   01FF CArBCr02      [10]  436 	jp	Z,00105$
-                            437 ;src/StringUtils.c:97: spritePos = charArray[(*currentChar)];
-   0202 3ErDE         [ 7]  438 	ld	a,#<(_charArray)
-   0204 DD 86 F6      [19]  439 	add	a, -10 (ix)
-   0207 DD 77 F7      [19]  440 	ld	-9 (ix),a
-   020A 3Es00         [ 7]  441 	ld	a,#>(_charArray)
-   020C CE 00         [ 7]  442 	adc	a, #0x00
-   020E DD 77 F8      [19]  443 	ld	-8 (ix),a
-   0211 DD 6E F7      [19]  444 	ld	l,-9 (ix)
-   0214 DD 66 F8      [19]  445 	ld	h,-8 (ix)
-   0217 7E            [ 7]  446 	ld	a,(hl)
-                            447 ;src/StringUtils.c:99: charBitArray = typography_4x6_monospaced[spritePos/2 + height*width];
-   0218 DD 77 F3      [19]  448 	ld	-13 (ix), a
-   021B CB 3F         [ 8]  449 	srl	a
-   021D DD 77 F7      [19]  450 	ld	-9 (ix), a
-   0220 DD 86 FB      [19]  451 	add	a, -5 (ix)
-   0223 DD 77 F7      [19]  452 	ld	-9 (ix),a
-   0226 C6r00         [ 7]  453 	add	a,#<(_typography_4x6_monospaced)
-   0228 DD 77 F7      [19]  454 	ld	-9 (ix),a
-   022B 3Es00         [ 7]  455 	ld	a,#>(_typography_4x6_monospaced)
-   022D CE 00         [ 7]  456 	adc	a, #0x00
-   022F DD 77 F8      [19]  457 	ld	-8 (ix),a
-   0232 DD 6E F7      [19]  458 	ld	l,-9 (ix)
-   0235 DD 66 F8      [19]  459 	ld	h,-8 (ix)
-   0238 7E            [ 7]  460 	ld	a,(hl)
-   0239 DD 77 F7      [19]  461 	ld	-9 (ix),a
-                            462 ;src/StringUtils.c:101: if(spritePos%2) charBitArray<<=4;
-   023C DD CB F3 46   [20]  463 	bit	0, -13 (ix)
-   0240 28 0C         [12]  464 	jr	Z,00102$
-   0242 DD 7E F7      [19]  465 	ld	a,-9 (ix)
-   0245 07            [ 4]  466 	rlca
-   0246 07            [ 4]  467 	rlca
-   0247 07            [ 4]  468 	rlca
-   0248 07            [ 4]  469 	rlca
-   0249 E6 F0         [ 7]  470 	and	a,#0xF0
-   024B DD 77 F7      [19]  471 	ld	-9 (ix),a
-   024E                     472 00102$:
-                            473 ;src/StringUtils.c:105: val = ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b10101010;
-   024E DD CB F7 7E   [20]  474 	bit	7, -9 (ix)
-   0252 28 05         [12]  475 	jr	Z,00111$
-   0254 DD 7E F4      [19]  476 	ld	a,-12 (ix)
-   0257 18 03         [12]  477 	jr	00112$
-   0259                     478 00111$:
-   0259 DD 7E F2      [19]  479 	ld	a,-14 (ix)
-   025C                     480 00112$:
-   025C E6 AA         [ 7]  481 	and	a, #0xAA
-   025E 4F            [ 4]  482 	ld	c,a
-                            483 ;src/StringUtils.c:107: charBitArray<<=1;
-   025F DD 7E F7      [19]  484 	ld	a,-9 (ix)
-   0262 87            [ 4]  485 	add	a, a
-   0263 47            [ 4]  486 	ld	b,a
-                            487 ;src/StringUtils.c:109: val = val | ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b01010101;
-   0264 CB 78         [ 8]  488 	bit	7, b
-   0266 28 05         [12]  489 	jr	Z,00113$
-   0268 DD 7E F4      [19]  490 	ld	a,-12 (ix)
-   026B 18 03         [12]  491 	jr	00114$
-   026D                     492 00113$:
-   026D DD 7E F2      [19]  493 	ld	a,-14 (ix)
-   0270                     494 00114$:
-   0270 E6 55         [ 7]  495 	and	a, #0x55
-   0272 B1            [ 4]  496 	or	a, c
-   0273 5F            [ 4]  497 	ld	e,a
-                            498 ;src/StringUtils.c:111: charBitArray<<=1;
-   0274 78            [ 4]  499 	ld	a,b
-   0275 87            [ 4]  500 	add	a, a
-   0276 4F            [ 4]  501 	ld	c,a
-                            502 ;src/StringUtils.c:113: *currentPos=val;
-   0277 DD 6E FC      [19]  503 	ld	l,-4 (ix)
-   027A DD 66 FD      [19]  504 	ld	h,-3 (ix)
-   027D 73            [ 7]  505 	ld	(hl),e
-                            506 ;src/StringUtils.c:114: ++currentPos;
-   027E DD 5E FC      [19]  507 	ld	e,-4 (ix)
-   0281 DD 56 FD      [19]  508 	ld	d,-3 (ix)
-   0284 13            [ 6]  509 	inc	de
-                            510 ;src/StringUtils.c:118: val = ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b10101010;
-   0285 CB 79         [ 8]  511 	bit	7, c
-   0287 28 05         [12]  512 	jr	Z,00115$
-   0289 DD 7E F4      [19]  513 	ld	a,-12 (ix)
-   028C 18 03         [12]  514 	jr	00116$
-   028E                     515 00115$:
-   028E DD 7E F2      [19]  516 	ld	a,-14 (ix)
-   0291                     517 00116$:
-   0291 E6 AA         [ 7]  518 	and	a, #0xAA
-   0293 DD 77 F5      [19]  519 	ld	-11 (ix),a
-                            520 ;src/StringUtils.c:120: charBitArray<<=1;
-   0296 79            [ 4]  521 	ld	a,c
-   0297 87            [ 4]  522 	add	a, a
-                            523 ;src/StringUtils.c:122: val = val | ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b01010101;
-   0298 07            [ 4]  524 	rlca
-   0299 30 05         [12]  525 	jr	NC,00117$
-   029B DD 7E F4      [19]  526 	ld	a,-12 (ix)
-   029E 18 03         [12]  527 	jr	00118$
-   02A0                     528 00117$:
-   02A0 DD 7E F2      [19]  529 	ld	a,-14 (ix)
-   02A3                     530 00118$:
-   02A3 E6 55         [ 7]  531 	and	a, #0x55
-   02A5 DD B6 F5      [19]  532 	or	a, -11 (ix)
-                            533 ;src/StringUtils.c:126: *currentPos=val;
-   02A8 12            [ 7]  534 	ld	(de),a
-                            535 ;src/StringUtils.c:127: ++currentPos;
-   02A9 13            [ 6]  536 	inc	de
-   02AA DD 73 FC      [19]  537 	ld	-4 (ix),e
-   02AD DD 72 FD      [19]  538 	ld	-3 (ix),d
-                            539 ;src/StringUtils.c:129: ++currentChar;
-   02B0 DD 34 F9      [23]  540 	inc	-7 (ix)
-   02B3 C2rF4r01      [10]  541 	jp	NZ,00103$
-   02B6 DD 34 FA      [23]  542 	inc	-6 (ix)
-   02B9 C3rF4r01      [10]  543 	jp	00103$
-   02BC                     544 00105$:
-                            545 ;src/StringUtils.c:131: position-=(2048);
-   02BC DD 7E FE      [19]  546 	ld	a,-2 (ix)
-   02BF C6 00         [ 7]  547 	add	a,#0x00
-   02C1 DD 77 FE      [19]  548 	ld	-2 (ix),a
-   02C4 DD 7E FF      [19]  549 	ld	a,-1 (ix)
-   02C7 CE F8         [ 7]  550 	adc	a,#0xF8
-   02C9 DD 77 FF      [19]  551 	ld	-1 (ix),a
-   02CC C3rCAr01      [10]  552 	jp	00106$
-   02CF                     553 00109$:
-   02CF DD F9         [10]  554 	ld	sp, ix
-   02D1 DD E1         [14]  555 	pop	ix
-   02D3 C9            [10]  556 	ret
-                            557 ;src/StringUtils.c:136: void print_transparent_text(void* const text, u8* position, u8 fg){
-                            558 ;	---------------------------------
-                            559 ; Function print_transparent_text
-                            560 ; ---------------------------------
-   02D4                     561 _print_transparent_text::
-   02D4 DD E5         [15]  562 	push	ix
-   02D6 DD 21 00 00   [14]  563 	ld	ix,#0
-   02DA DD 39         [15]  564 	add	ix,sp
-   02DC 21 F5 FF      [10]  565 	ld	hl,#-11
-   02DF 39            [11]  566 	add	hl,sp
-   02E0 F9            [ 6]  567 	ld	sp,hl
-                            568 ;src/StringUtils.c:143: position+=10240;
-   02E1 DD 7E 06      [19]  569 	ld	a,6 (ix)
-   02E4 C6 00         [ 7]  570 	add	a, #0x00
-   02E6 DD 77 06      [19]  571 	ld	6 (ix),a
-   02E9 DD 7E 07      [19]  572 	ld	a,7 (ix)
-   02EC CE 28         [ 7]  573 	adc	a, #0x28
-   02EE DD 77 07      [19]  574 	ld	7 (ix),a
-                            575 ;src/StringUtils.c:145: while(height){
-   02F1 DD 7E 08      [19]  576 	ld	a,8 (ix)
-   02F4 C6r00         [ 7]  577 	add	a, #<(_g_colors)
-   02F6 DD 77 F7      [19]  578 	ld	-9 (ix),a
-   02F9 3E 00         [ 7]  579 	ld	a,#0x00
-   02FB CEs00         [ 7]  580 	adc	a, #>(_g_colors)
-   02FD DD 77 F8      [19]  581 	ld	-8 (ix),a
-   0300 DD 36 F5 06   [19]  582 	ld	-11 (ix),#0x06
-   0304 DD 7E 06      [19]  583 	ld	a,6 (ix)
-   0307 DD 77 FC      [19]  584 	ld	-4 (ix),a
-   030A DD 7E 07      [19]  585 	ld	a,7 (ix)
-   030D DD 77 FD      [19]  586 	ld	-3 (ix),a
-   0310 DD 36 FB 96   [19]  587 	ld	-5 (ix),#0x96
-   0314                     588 00114$:
-   0314 DD 7E F5      [19]  589 	ld	a,-11 (ix)
-   0317 B7            [ 4]  590 	or	a, a
-   0318 CAr07r04      [10]  591 	jp	Z,00117$
-                            592 ;src/StringUtils.c:146: currentChar=text;
-   031B DD 7E 04      [19]  593 	ld	a,4 (ix)
-   031E DD 77 F9      [19]  594 	ld	-7 (ix),a
-   0321 DD 7E 05      [19]  595 	ld	a,5 (ix)
-   0324 DD 77 FA      [19]  596 	ld	-6 (ix),a
-                            597 ;src/StringUtils.c:147: currentPos=position;
-   0327 DD 7E FC      [19]  598 	ld	a,-4 (ix)
-   032A DD 77 FE      [19]  599 	ld	-2 (ix),a
-   032D DD 7E FD      [19]  600 	ld	a,-3 (ix)
-   0330 DD 77 FF      [19]  601 	ld	-1 (ix),a
-                            602 ;src/StringUtils.c:148: --height;
-   0333 DD 7E FB      [19]  603 	ld	a,-5 (ix)
-   0336 C6 E7         [ 7]  604 	add	a,#0xE7
-   0338 DD 77 FB      [19]  605 	ld	-5 (ix),a
-   033B DD 35 F5      [23]  606 	dec	-11 (ix)
-                            607 ;src/StringUtils.c:149: while(*currentChar){
-   033E                     608 00111$:
-   033E DD 6E F9      [19]  609 	ld	l,-7 (ix)
-   0341 DD 66 FA      [19]  610 	ld	h,-6 (ix)
-   0344 4E            [ 7]  611 	ld	c,(hl)
-   0345 79            [ 4]  612 	ld	a,c
-   0346 B7            [ 4]  613 	or	a, a
-   0347 CArF4r03      [10]  614 	jp	Z,00113$
-                            615 ;src/StringUtils.c:151: spritePos = charArray[(*currentChar)];
-   034A 21rDEr00      [10]  616 	ld	hl,#_charArray
-   034D 06 00         [ 7]  617 	ld	b,#0x00
-   034F 09            [11]  618 	add	hl, bc
-   0350 46            [ 7]  619 	ld	b,(hl)
-                            620 ;src/StringUtils.c:153: charBitArray = typography_4x6_monospaced[spritePos/2 + height*width];
-   0351 78            [ 4]  621 	ld	a, b
-   0352 CB 3F         [ 8]  622 	srl	a
-   0354 DD 86 FB      [19]  623 	add	a, -5 (ix)
-   0357 5F            [ 4]  624 	ld	e,a
-   0358 21r00r00      [10]  625 	ld	hl,#_typography_4x6_monospaced
-   035B 16 00         [ 7]  626 	ld	d,#0x00
-   035D 19            [11]  627 	add	hl, de
-   035E 4E            [ 7]  628 	ld	c,(hl)
-                            629 ;src/StringUtils.c:155: if(spritePos%2) charBitArray<<=4;
-   035F CB 40         [ 8]  630 	bit	0, b
-   0361 28 08         [12]  631 	jr	Z,00102$
-   0363 79            [ 4]  632 	ld	a,c
-   0364 07            [ 4]  633 	rlca
-   0365 07            [ 4]  634 	rlca
-   0366 07            [ 4]  635 	rlca
-   0367 07            [ 4]  636 	rlca
-   0368 E6 F0         [ 7]  637 	and	a,#0xF0
-   036A 4F            [ 4]  638 	ld	c,a
-   036B                     639 00102$:
-                            640 ;src/StringUtils.c:157: val=*currentPos;
-   036B DD 6E FE      [19]  641 	ld	l,-2 (ix)
-   036E DD 66 FF      [19]  642 	ld	h,-1 (ix)
-   0371 46            [ 7]  643 	ld	b,(hl)
-                            644 ;src/StringUtils.c:159: if(charBitArray&0b10000000) val = (g_colors[fg]&0b10101010)|(val&0b01010101);
-   0372 CB 79         [ 8]  645 	bit	7, c
-   0374 28 0F         [12]  646 	jr	Z,00104$
-   0376 DD 6E F7      [19]  647 	ld	l,-9 (ix)
-   0379 DD 66 F8      [19]  648 	ld	h,-8 (ix)
-   037C 7E            [ 7]  649 	ld	a,(hl)
-   037D E6 AA         [ 7]  650 	and	a, #0xAA
-   037F 5F            [ 4]  651 	ld	e,a
-   0380 78            [ 4]  652 	ld	a,b
-   0381 E6 55         [ 7]  653 	and	a, #0x55
-   0383 B3            [ 4]  654 	or	a, e
-   0384 47            [ 4]  655 	ld	b,a
-   0385                     656 00104$:
-                            657 ;src/StringUtils.c:161: charBitArray<<=1;
-   0385 CB 21         [ 8]  658 	sla	c
-                            659 ;src/StringUtils.c:163: if(charBitArray&0b10000000) val = (g_colors[fg]&0b01010101)|(val&0b10101010);
-   0387 CB 79         [ 8]  660 	bit	7, c
-   0389 28 0F         [12]  661 	jr	Z,00106$
-   038B DD 6E F7      [19]  662 	ld	l,-9 (ix)
-   038E DD 66 F8      [19]  663 	ld	h,-8 (ix)
-   0391 7E            [ 7]  664 	ld	a,(hl)
-   0392 E6 55         [ 7]  665 	and	a, #0x55
-   0394 5F            [ 4]  666 	ld	e,a
-   0395 78            [ 4]  667 	ld	a,b
-   0396 E6 AA         [ 7]  668 	and	a, #0xAA
-   0398 B3            [ 4]  669 	or	a, e
-   0399 47            [ 4]  670 	ld	b,a
-   039A                     671 00106$:
-                            672 ;src/StringUtils.c:165: charBitArray<<=1;
-   039A CB 21         [ 8]  673 	sla	c
-                            674 ;src/StringUtils.c:167: *currentPos=val;
-   039C DD 6E FE      [19]  675 	ld	l,-2 (ix)
-   039F DD 66 FF      [19]  676 	ld	h,-1 (ix)
-   03A2 70            [ 7]  677 	ld	(hl),b
-                            678 ;src/StringUtils.c:168: ++currentPos;
-   03A3 DD 5E FE      [19]  679 	ld	e,-2 (ix)
-   03A6 DD 56 FF      [19]  680 	ld	d,-1 (ix)
-   03A9 13            [ 6]  681 	inc	de
-                            682 ;src/StringUtils.c:170: val=*currentPos;
-   03AA 1A            [ 7]  683 	ld	a,(de)
-   03AB DD 77 F6      [19]  684 	ld	-10 (ix),a
-                            685 ;src/StringUtils.c:172: if(charBitArray&0b10000000) val = (g_colors[fg]&0b10101010)|(val&0b01010101);
-   03AE CB 79         [ 8]  686 	bit	7, c
-   03B0 28 13         [12]  687 	jr	Z,00108$
-   03B2 DD 6E F7      [19]  688 	ld	l,-9 (ix)
-   03B5 DD 66 F8      [19]  689 	ld	h,-8 (ix)
-   03B8 7E            [ 7]  690 	ld	a,(hl)
-   03B9 E6 AA         [ 7]  691 	and	a, #0xAA
-   03BB 47            [ 4]  692 	ld	b,a
-   03BC DD 7E F6      [19]  693 	ld	a,-10 (ix)
-   03BF E6 55         [ 7]  694 	and	a, #0x55
-   03C1 B0            [ 4]  695 	or	a, b
-   03C2 DD 77 F6      [19]  696 	ld	-10 (ix),a
-   03C5                     697 00108$:
-                            698 ;src/StringUtils.c:174: charBitArray<<=1;
-   03C5 79            [ 4]  699 	ld	a,c
-   03C6 87            [ 4]  700 	add	a, a
-                            701 ;src/StringUtils.c:176: if(charBitArray&0b10000000) val = (g_colors[fg]&0b01010101)|(val&0b10101010);
-   03C7 07            [ 4]  702 	rlca
-   03C8 30 13         [12]  703 	jr	NC,00110$
-   03CA DD 6E F7      [19]  704 	ld	l,-9 (ix)
-   03CD DD 66 F8      [19]  705 	ld	h,-8 (ix)
-   03D0 7E            [ 7]  706 	ld	a,(hl)
-   03D1 E6 55         [ 7]  707 	and	a, #0x55
-   03D3 4F            [ 4]  708 	ld	c,a
-   03D4 DD 7E F6      [19]  709 	ld	a,-10 (ix)
-   03D7 E6 AA         [ 7]  710 	and	a, #0xAA
-   03D9 B1            [ 4]  711 	or	a, c
-   03DA DD 77 F6      [19]  712 	ld	-10 (ix),a
-   03DD                     713 00110$:
-                            714 ;src/StringUtils.c:180: *currentPos=val;
-   03DD DD 7E F6      [19]  715 	ld	a,-10 (ix)
-   03E0 12            [ 7]  716 	ld	(de),a
-                            717 ;src/StringUtils.c:181: ++currentPos;
-   03E1 13            [ 6]  718 	inc	de
-   03E2 DD 73 FE      [19]  719 	ld	-2 (ix),e
-   03E5 DD 72 FF      [19]  720 	ld	-1 (ix),d
-                            721 ;src/StringUtils.c:183: ++currentChar;
-   03E8 DD 34 F9      [23]  722 	inc	-7 (ix)
-   03EB C2r3Er03      [10]  723 	jp	NZ,00111$
-   03EE DD 34 FA      [23]  724 	inc	-6 (ix)
-   03F1 C3r3Er03      [10]  725 	jp	00111$
-   03F4                     726 00113$:
-                            727 ;src/StringUtils.c:185: position-=(2048);
-   03F4 DD 7E FC      [19]  728 	ld	a,-4 (ix)
-   03F7 C6 00         [ 7]  729 	add	a,#0x00
-   03F9 DD 77 FC      [19]  730 	ld	-4 (ix),a
-   03FC DD 7E FD      [19]  731 	ld	a,-3 (ix)
-   03FF CE F8         [ 7]  732 	adc	a,#0xF8
-   0401 DD 77 FD      [19]  733 	ld	-3 (ix),a
-   0404 C3r14r03      [10]  734 	jp	00114$
-   0407                     735 00117$:
-   0407 DD F9         [10]  736 	ld	sp, ix
-   0409 DD E1         [14]  737 	pop	ix
-   040B C9            [10]  738 	ret
-                            739 	.area _CODE
-                            740 	.area _INITIALIZER
-                            741 	.area _CABS (ABS)
+                             98 ;src/StringUtils.c:52: t=n>9?n+55:n+48;
+   0040 3E 09         [ 7]   99 	ld	a,#0x09
+   0042 DD 96 04      [19]  100 	sub	a, 4 (ix)
+   0045 30 07         [12]  101 	jr	NC,00112$
+   0047 DD 7E 04      [19]  102 	ld	a,4 (ix)
+   004A C6 37         [ 7]  103 	add	a, #0x37
+   004C 18 05         [12]  104 	jr	00113$
+   004E                     105 00112$:
+   004E DD 7E 04      [19]  106 	ld	a,4 (ix)
+   0051 C6 30         [ 7]  107 	add	a, #0x30
+   0053                     108 00113$:
+                            109 ;src/StringUtils.c:53: *charPosition=t;
+   0053 12            [ 7]  110 	ld	(de),a
+                            111 ;src/StringUtils.c:54: break;
+   0054 C3rD9r00      [10]  112 	jp	00107$
+                            113 ;src/StringUtils.c:56: case 'b':{
+   0057                     114 00102$:
+                            115 ;src/StringUtils.c:58: charPosition+=8;
+   0057 21r66r01      [10]  116 	ld	hl,#_i_to_s_buffer + 8
+                            117 ;src/StringUtils.c:60: while(t){
+   005A 1E 08         [ 7]  118 	ld	e,#0x08
+   005C                     119 00103$:
+   005C 7B            [ 4]  120 	ld	a,e
+   005D B7            [ 4]  121 	or	a, a
+   005E 28 79         [12]  122 	jr	Z,00107$
+                            123 ;src/StringUtils.c:61: --t;
+   0060 1D            [ 4]  124 	dec	e
+                            125 ;src/StringUtils.c:62: --charPosition;
+   0061 2B            [ 6]  126 	dec	hl
+                            127 ;src/StringUtils.c:63: *charPosition=(n&1)+48;
+   0062 DD 7E 04      [19]  128 	ld	a,4 (ix)
+   0065 E6 01         [ 7]  129 	and	a, #0x01
+   0067 C6 30         [ 7]  130 	add	a, #0x30
+   0069 77            [ 7]  131 	ld	(hl),a
+                            132 ;src/StringUtils.c:64: n>>=1;
+   006A DD CB 04 3E   [23]  133 	srl	4 (ix)
+   006E 18 EC         [12]  134 	jr	00103$
+                            135 ;src/StringUtils.c:68: default:{
+   0070                     136 00106$:
+                            137 ;src/StringUtils.c:69: charPosition+=3;
+   0070 11r61r01      [10]  138 	ld	de,#_i_to_s_buffer + 3
+                            139 ;src/StringUtils.c:71: *charPosition = 0;
+   0073 AF            [ 4]  140 	xor	a, a
+   0074 12            [ 7]  141 	ld	(de),a
+                            142 ;src/StringUtils.c:73: --charPosition;
+   0075 1B            [ 6]  143 	dec	de
+                            144 ;src/StringUtils.c:75: *charPosition=48+(n%10);
+   0076 C5            [11]  145 	push	bc
+   0077 D5            [11]  146 	push	de
+   0078 3E 0A         [ 7]  147 	ld	a,#0x0A
+   007A F5            [11]  148 	push	af
+   007B 33            [ 6]  149 	inc	sp
+   007C DD 7E 04      [19]  150 	ld	a,4 (ix)
+   007F F5            [11]  151 	push	af
+   0080 33            [ 6]  152 	inc	sp
+   0081 CDr00r00      [17]  153 	call	__moduchar
+   0084 F1            [10]  154 	pop	af
+   0085 D1            [10]  155 	pop	de
+   0086 C1            [10]  156 	pop	bc
+   0087 7D            [ 4]  157 	ld	a,l
+   0088 C6 30         [ 7]  158 	add	a, #0x30
+   008A 12            [ 7]  159 	ld	(de),a
+                            160 ;src/StringUtils.c:76: --charPosition;
+                            161 ;src/StringUtils.c:77: n/=10;
+   008B C5            [11]  162 	push	bc
+   008C 3E 0A         [ 7]  163 	ld	a,#0x0A
+   008E F5            [11]  164 	push	af
+   008F 33            [ 6]  165 	inc	sp
+   0090 DD 7E 04      [19]  166 	ld	a,4 (ix)
+   0093 F5            [11]  167 	push	af
+   0094 33            [ 6]  168 	inc	sp
+   0095 CDr00r00      [17]  169 	call	__divuchar
+   0098 F1            [10]  170 	pop	af
+   0099 C1            [10]  171 	pop	bc
+   009A DD 75 04      [19]  172 	ld	4 (ix),l
+                            173 ;src/StringUtils.c:78: *charPosition=48+(n%10);
+   009D C5            [11]  174 	push	bc
+   009E 3E 0A         [ 7]  175 	ld	a,#0x0A
+   00A0 F5            [11]  176 	push	af
+   00A1 33            [ 6]  177 	inc	sp
+   00A2 DD 7E 04      [19]  178 	ld	a,4 (ix)
+   00A5 F5            [11]  179 	push	af
+   00A6 33            [ 6]  180 	inc	sp
+   00A7 CDr00r00      [17]  181 	call	__moduchar
+   00AA F1            [10]  182 	pop	af
+   00AB C1            [10]  183 	pop	bc
+   00AC 7D            [ 4]  184 	ld	a,l
+   00AD C6 30         [ 7]  185 	add	a, #0x30
+   00AF 32r5Fr01      [13]  186 	ld	(#(_i_to_s_buffer + 0x0001)),a
+                            187 ;src/StringUtils.c:79: --charPosition;
+                            188 ;src/StringUtils.c:80: n/=10;
+   00B2 C5            [11]  189 	push	bc
+   00B3 3E 0A         [ 7]  190 	ld	a,#0x0A
+   00B5 F5            [11]  191 	push	af
+   00B6 33            [ 6]  192 	inc	sp
+   00B7 DD 7E 04      [19]  193 	ld	a,4 (ix)
+   00BA F5            [11]  194 	push	af
+   00BB 33            [ 6]  195 	inc	sp
+   00BC CDr00r00      [17]  196 	call	__divuchar
+   00BF F1            [10]  197 	pop	af
+   00C0 C1            [10]  198 	pop	bc
+   00C1 DD 75 04      [19]  199 	ld	4 (ix),l
+                            200 ;src/StringUtils.c:81: *charPosition=48+(n%10);
+   00C4 C5            [11]  201 	push	bc
+   00C5 3E 0A         [ 7]  202 	ld	a,#0x0A
+   00C7 F5            [11]  203 	push	af
+   00C8 33            [ 6]  204 	inc	sp
+   00C9 DD 7E 04      [19]  205 	ld	a,4 (ix)
+   00CC F5            [11]  206 	push	af
+   00CD 33            [ 6]  207 	inc	sp
+   00CE CDr00r00      [17]  208 	call	__moduchar
+   00D1 F1            [10]  209 	pop	af
+   00D2 C1            [10]  210 	pop	bc
+   00D3 7D            [ 4]  211 	ld	a,l
+   00D4 C6 30         [ 7]  212 	add	a, #0x30
+   00D6 32r5Er01      [13]  213 	ld	(#_i_to_s_buffer),a
+                            214 ;src/StringUtils.c:84: }
+   00D9                     215 00107$:
+                            216 ;src/StringUtils.c:86: return i_to_s_buffer;
+   00D9 69            [ 4]  217 	ld	l, c
+   00DA 60            [ 4]  218 	ld	h, b
+   00DB DD E1         [14]  219 	pop	ix
+   00DD C9            [10]  220 	ret
+   00DE                     221 _charArray:
+   00DE FF                  222 	.db #0xFF	; 255
+   00DF FF                  223 	.db #0xFF	; 255
+   00E0 FF                  224 	.db #0xFF	; 255
+   00E1 FF                  225 	.db #0xFF	; 255
+   00E2 FF                  226 	.db #0xFF	; 255
+   00E3 FF                  227 	.db #0xFF	; 255
+   00E4 FF                  228 	.db #0xFF	; 255
+   00E5 FF                  229 	.db #0xFF	; 255
+   00E6 FF                  230 	.db #0xFF	; 255
+   00E7 FF                  231 	.db #0xFF	; 255
+   00E8 FF                  232 	.db #0xFF	; 255
+   00E9 FF                  233 	.db #0xFF	; 255
+   00EA FF                  234 	.db #0xFF	; 255
+   00EB FF                  235 	.db #0xFF	; 255
+   00EC FF                  236 	.db #0xFF	; 255
+   00ED FF                  237 	.db #0xFF	; 255
+   00EE FF                  238 	.db #0xFF	; 255
+   00EF FF                  239 	.db #0xFF	; 255
+   00F0 FF                  240 	.db #0xFF	; 255
+   00F1 FF                  241 	.db #0xFF	; 255
+   00F2 FF                  242 	.db #0xFF	; 255
+   00F3 FF                  243 	.db #0xFF	; 255
+   00F4 FF                  244 	.db #0xFF	; 255
+   00F5 FF                  245 	.db #0xFF	; 255
+   00F6 FF                  246 	.db #0xFF	; 255
+   00F7 FF                  247 	.db #0xFF	; 255
+   00F8 FF                  248 	.db #0xFF	; 255
+   00F9 FF                  249 	.db #0xFF	; 255
+   00FA FF                  250 	.db #0xFF	; 255
+   00FB FF                  251 	.db #0xFF	; 255
+   00FC FF                  252 	.db #0xFF	; 255
+   00FD FF                  253 	.db #0xFF	; 255
+   00FE 29                  254 	.db #0x29	; 41
+   00FF 24                  255 	.db #0x24	; 36
+   0100 FF                  256 	.db #0xFF	; 255
+   0101 2D                  257 	.db #0x2D	; 45
+   0102 2F                  258 	.db #0x2F	; 47
+   0103 FF                  259 	.db #0xFF	; 255
+   0104 2E                  260 	.db #0x2E	; 46
+   0105 FF                  261 	.db #0xFF	; 255
+   0106 FF                  262 	.db #0xFF	; 255
+   0107 FF                  263 	.db #0xFF	; 255
+   0108 31                  264 	.db #0x31	; 49	'1'
+   0109 2C                  265 	.db #0x2C	; 44
+   010A FF                  266 	.db #0xFF	; 255
+   010B FF                  267 	.db #0xFF	; 255
+   010C 26                  268 	.db #0x26	; 38
+   010D FF                  269 	.db #0xFF	; 255
+   010E 1A                  270 	.db #0x1A	; 26
+   010F 1B                  271 	.db #0x1B	; 27
+   0110 1C                  272 	.db #0x1C	; 28
+   0111 1D                  273 	.db #0x1D	; 29
+   0112 1E                  274 	.db #0x1E	; 30
+   0113 1F                  275 	.db #0x1F	; 31
+   0114 20                  276 	.db #0x20	; 32
+   0115 21                  277 	.db #0x21	; 33
+   0116 22                  278 	.db #0x22	; 34
+   0117 23                  279 	.db #0x23	; 35
+   0118 27                  280 	.db #0x27	; 39
+   0119 FF                  281 	.db #0xFF	; 255
+   011A 2A                  282 	.db #0x2A	; 42
+   011B FF                  283 	.db #0xFF	; 255
+   011C 2B                  284 	.db #0x2B	; 43
+   011D 25                  285 	.db #0x25	; 37
+   011E 28                  286 	.db #0x28	; 40
+   011F 00                  287 	.db #0x00	; 0
+   0120 01                  288 	.db #0x01	; 1
+   0121 02                  289 	.db #0x02	; 2
+   0122 03                  290 	.db #0x03	; 3
+   0123 04                  291 	.db #0x04	; 4
+   0124 05                  292 	.db #0x05	; 5
+   0125 06                  293 	.db #0x06	; 6
+   0126 07                  294 	.db #0x07	; 7
+   0127 08                  295 	.db #0x08	; 8
+   0128 09                  296 	.db #0x09	; 9
+   0129 0A                  297 	.db #0x0A	; 10
+   012A 0B                  298 	.db #0x0B	; 11
+   012B 0C                  299 	.db #0x0C	; 12
+   012C 0D                  300 	.db #0x0D	; 13
+   012D 0E                  301 	.db #0x0E	; 14
+   012E 0F                  302 	.db #0x0F	; 15
+   012F 10                  303 	.db #0x10	; 16
+   0130 11                  304 	.db #0x11	; 17
+   0131 12                  305 	.db #0x12	; 18
+   0132 13                  306 	.db #0x13	; 19
+   0133 14                  307 	.db #0x14	; 20
+   0134 15                  308 	.db #0x15	; 21
+   0135 16                  309 	.db #0x16	; 22
+   0136 17                  310 	.db #0x17	; 23
+   0137 18                  311 	.db #0x18	; 24
+   0138 19                  312 	.db #0x19	; 25
+   0139 FF                  313 	.db #0xFF	; 255
+   013A FF                  314 	.db #0xFF	; 255
+   013B FF                  315 	.db #0xFF	; 255
+   013C FF                  316 	.db #0xFF	; 255
+   013D FF                  317 	.db #0xFF	; 255
+   013E FF                  318 	.db #0xFF	; 255
+   013F 00                  319 	.db #0x00	; 0
+   0140 01                  320 	.db #0x01	; 1
+   0141 02                  321 	.db #0x02	; 2
+   0142 03                  322 	.db #0x03	; 3
+   0143 04                  323 	.db #0x04	; 4
+   0144 05                  324 	.db #0x05	; 5
+   0145 06                  325 	.db #0x06	; 6
+   0146 07                  326 	.db #0x07	; 7
+   0147 08                  327 	.db #0x08	; 8
+   0148 09                  328 	.db #0x09	; 9
+   0149 0A                  329 	.db #0x0A	; 10
+   014A 0B                  330 	.db #0x0B	; 11
+   014B 0C                  331 	.db #0x0C	; 12
+   014C 0D                  332 	.db #0x0D	; 13
+   014D 0E                  333 	.db #0x0E	; 14
+   014E 0F                  334 	.db #0x0F	; 15
+   014F 10                  335 	.db #0x10	; 16
+   0150 11                  336 	.db #0x11	; 17
+   0151 12                  337 	.db #0x12	; 18
+   0152 13                  338 	.db #0x13	; 19
+   0153 14                  339 	.db #0x14	; 20
+   0154 15                  340 	.db #0x15	; 21
+   0155 16                  341 	.db #0x16	; 22
+   0156 17                  342 	.db #0x17	; 23
+   0157 18                  343 	.db #0x18	; 24
+   0158 19                  344 	.db #0x19	; 25
+   0159 FF                  345 	.db #0xFF	; 255
+   015A FF                  346 	.db #0xFF	; 255
+   015B FF                  347 	.db #0xFF	; 255
+   015C 30                  348 	.db #0x30	; 48	'0'
+   015D FF                  349 	.db #0xFF	; 255
+   015E                     350 _i_to_s_buffer:
+   015E 00                  351 	.db #0x00	; 0
+   015F 00                  352 	.db #0x00	; 0
+   0160 00                  353 	.db #0x00	; 0
+   0161 00                  354 	.db #0x00	; 0
+   0162 00                  355 	.db #0x00	; 0
+   0163 00                  356 	.db #0x00	; 0
+   0164 00                  357 	.db #0x00	; 0
+   0165 00                  358 	.db #0x00	; 0
+   0166 00                  359 	.db #0x00	; 0
+                            360 ;src/StringUtils.c:90: void print_text(void * const text, u8* position, u8 bg, u8 fg){
+                            361 ;	---------------------------------
+                            362 ; Function print_text
+                            363 ; ---------------------------------
+   0167                     364 _print_text::
+   0167 DD E5         [15]  365 	push	ix
+   0169 DD 21 00 00   [14]  366 	ld	ix,#0
+   016D DD 39         [15]  367 	add	ix,sp
+   016F 21 EF FF      [10]  368 	ld	hl,#-17
+   0172 39            [11]  369 	add	hl,sp
+   0173 F9            [ 6]  370 	ld	sp,hl
+                            371 ;src/StringUtils.c:91: u8 val, charBitArray, spritePos, fgColor=g_colors[fg], bgColor=g_colors[bg];
+   0174 DD 7E 09      [19]  372 	ld	a,9 (ix)
+   0177 C6r00         [ 7]  373 	add	a, #<(_g_colors)
+   0179 DD 77 FC      [19]  374 	ld	-4 (ix),a
+   017C 3E 00         [ 7]  375 	ld	a,#0x00
+   017E CEs00         [ 7]  376 	adc	a, #>(_g_colors)
+   0180 DD 77 FD      [19]  377 	ld	-3 (ix),a
+   0183 DD 6E FC      [19]  378 	ld	l,-4 (ix)
+   0186 DD 66 FD      [19]  379 	ld	h,-3 (ix)
+   0189 7E            [ 7]  380 	ld	a,(hl)
+   018A DD 77 F3      [19]  381 	ld	-13 (ix),a
+   018D 3Er00         [ 7]  382 	ld	a,#<(_g_colors)
+   018F DD 86 08      [19]  383 	add	a, 8 (ix)
+   0192 DD 77 FC      [19]  384 	ld	-4 (ix),a
+   0195 3Es00         [ 7]  385 	ld	a,#>(_g_colors)
+   0197 CE 00         [ 7]  386 	adc	a, #0x00
+   0199 DD 77 FD      [19]  387 	ld	-3 (ix),a
+   019C DD 6E FC      [19]  388 	ld	l,-4 (ix)
+   019F DD 66 FD      [19]  389 	ld	h,-3 (ix)
+   01A2 7E            [ 7]  390 	ld	a,(hl)
+   01A3 DD 77 F2      [19]  391 	ld	-14 (ix),a
+                            392 ;src/StringUtils.c:97: (position)+=0x2800;
+   01A6 DD 7E 06      [19]  393 	ld	a,6 (ix)
+   01A9 C6 00         [ 7]  394 	add	a, #0x00
+   01AB DD 77 06      [19]  395 	ld	6 (ix),a
+   01AE DD 7E 07      [19]  396 	ld	a,7 (ix)
+   01B1 CE 28         [ 7]  397 	adc	a, #0x28
+   01B3 DD 77 07      [19]  398 	ld	7 (ix),a
+                            399 ;src/StringUtils.c:98: if(position<0x2800){
+   01B6 DD 4E 06      [19]  400 	ld	c,6 (ix)
+   01B9 DD 46 07      [19]  401 	ld	b,7 (ix)
+   01BC 78            [ 4]  402 	ld	a,b
+   01BD D6 28         [ 7]  403 	sub	a, #0x28
+   01BF 30 20         [12]  404 	jr	NC,00132$
+                            405 ;src/StringUtils.c:99: position-=0x4000;
+   01C1 DD 7E 06      [19]  406 	ld	a,6 (ix)
+   01C4 C6 00         [ 7]  407 	add	a,#0x00
+   01C6 DD 77 06      [19]  408 	ld	6 (ix),a
+   01C9 DD 7E 07      [19]  409 	ld	a,7 (ix)
+   01CC CE C0         [ 7]  410 	adc	a,#0xC0
+   01CE DD 77 07      [19]  411 	ld	7 (ix),a
+                            412 ;src/StringUtils.c:100: position+=80;
+   01D1 DD 7E 06      [19]  413 	ld	a,6 (ix)
+   01D4 C6 50         [ 7]  414 	add	a, #0x50
+   01D6 DD 77 06      [19]  415 	ld	6 (ix),a
+   01D9 DD 7E 07      [19]  416 	ld	a,7 (ix)
+   01DC CE 00         [ 7]  417 	adc	a, #0x00
+   01DE DD 77 07      [19]  418 	ld	7 (ix),a
+                            419 ;src/StringUtils.c:103: while(height){
+   01E1                     420 00132$:
+   01E1 DD 36 F1 06   [19]  421 	ld	-15 (ix),#0x06
+   01E5 DD 36 FC 96   [19]  422 	ld	-4 (ix),#0x96
+   01E9                     423 00110$:
+   01E9 DD 7E F1      [19]  424 	ld	a,-15 (ix)
+   01EC B7            [ 4]  425 	or	a, a
+   01ED CAr39r03      [10]  426 	jp	Z,00113$
+                            427 ;src/StringUtils.c:104: --height;
+   01F0 DD 7E FC      [19]  428 	ld	a,-4 (ix)
+   01F3 C6 E7         [ 7]  429 	add	a,#0xE7
+   01F5 DD 77 FC      [19]  430 	ld	-4 (ix),a
+   01F8 DD 35 F1      [23]  431 	dec	-15 (ix)
+                            432 ;src/StringUtils.c:105: currentChar=text;
+   01FB DD 7E 04      [19]  433 	ld	a,4 (ix)
+   01FE DD 77 F8      [19]  434 	ld	-8 (ix),a
+   0201 DD 7E 05      [19]  435 	ld	a,5 (ix)
+   0204 DD 77 F9      [19]  436 	ld	-7 (ix),a
+                            437 ;src/StringUtils.c:106: currentPos=position;
+   0207 DD 7E 06      [19]  438 	ld	a,6 (ix)
+   020A DD 77 FA      [19]  439 	ld	-6 (ix),a
+   020D DD 7E 07      [19]  440 	ld	a,7 (ix)
+   0210 DD 77 FB      [19]  441 	ld	-5 (ix),a
+                            442 ;src/StringUtils.c:108: while(*currentChar){
+   0213                     443 00105$:
+   0213 DD 6E F8      [19]  444 	ld	l,-8 (ix)
+   0216 DD 66 F9      [19]  445 	ld	h,-7 (ix)
+   0219 7E            [ 7]  446 	ld	a,(hl)
+   021A DD 77 F7      [19]  447 	ld	-9 (ix), a
+   021D B7            [ 4]  448 	or	a, a
+   021E CAr01r03      [10]  449 	jp	Z,00107$
+                            450 ;src/StringUtils.c:110: spritePos = charArray[(*currentChar)];
+   0221 3ErDE         [ 7]  451 	ld	a,#<(_charArray)
+   0223 DD 86 F7      [19]  452 	add	a, -9 (ix)
+   0226 DD 77 FE      [19]  453 	ld	-2 (ix),a
+   0229 3Es00         [ 7]  454 	ld	a,#>(_charArray)
+   022B CE 00         [ 7]  455 	adc	a, #0x00
+   022D DD 77 FF      [19]  456 	ld	-1 (ix),a
+   0230 DD 6E FE      [19]  457 	ld	l,-2 (ix)
+   0233 DD 66 FF      [19]  458 	ld	h,-1 (ix)
+   0236 7E            [ 7]  459 	ld	a,(hl)
+                            460 ;src/StringUtils.c:112: charBitArray = typography_4x6_monospaced[spritePos/2 + height*width];
+   0237 DD 77 F4      [19]  461 	ld	-12 (ix), a
+   023A CB 3F         [ 8]  462 	srl	a
+   023C DD 77 FE      [19]  463 	ld	-2 (ix), a
+   023F DD 86 FC      [19]  464 	add	a, -4 (ix)
+   0242 DD 77 FE      [19]  465 	ld	-2 (ix),a
+   0245 C6r00         [ 7]  466 	add	a,#<(_typography_4x6_monospaced)
+   0247 DD 77 FE      [19]  467 	ld	-2 (ix),a
+   024A 3Es00         [ 7]  468 	ld	a,#>(_typography_4x6_monospaced)
+   024C CE 00         [ 7]  469 	adc	a, #0x00
+   024E DD 77 FF      [19]  470 	ld	-1 (ix),a
+   0251 DD 6E FE      [19]  471 	ld	l,-2 (ix)
+   0254 DD 66 FF      [19]  472 	ld	h,-1 (ix)
+   0257 7E            [ 7]  473 	ld	a,(hl)
+   0258 DD 77 FE      [19]  474 	ld	-2 (ix),a
+                            475 ;src/StringUtils.c:114: if(spritePos%2) charBitArray<<=4;
+   025B DD CB F4 46   [20]  476 	bit	0, -12 (ix)
+   025F 28 0C         [12]  477 	jr	Z,00104$
+   0261 DD 7E FE      [19]  478 	ld	a,-2 (ix)
+   0264 07            [ 4]  479 	rlca
+   0265 07            [ 4]  480 	rlca
+   0266 07            [ 4]  481 	rlca
+   0267 07            [ 4]  482 	rlca
+   0268 E6 F0         [ 7]  483 	and	a,#0xF0
+   026A DD 77 FE      [19]  484 	ld	-2 (ix),a
+   026D                     485 00104$:
+                            486 ;src/StringUtils.c:118: val = ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b10101010;
+   026D DD CB FE 7E   [20]  487 	bit	7, -2 (ix)
+   0271 28 05         [12]  488 	jr	Z,00115$
+   0273 DD 7E F3      [19]  489 	ld	a,-13 (ix)
+   0276 18 03         [12]  490 	jr	00116$
+   0278                     491 00115$:
+   0278 DD 7E F2      [19]  492 	ld	a,-14 (ix)
+   027B                     493 00116$:
+   027B E6 AA         [ 7]  494 	and	a, #0xAA
+   027D 4F            [ 4]  495 	ld	c,a
+                            496 ;src/StringUtils.c:120: charBitArray<<=1;
+   027E DD 7E FE      [19]  497 	ld	a,-2 (ix)
+   0281 87            [ 4]  498 	add	a, a
+   0282 47            [ 4]  499 	ld	b,a
+                            500 ;src/StringUtils.c:122: val = val | ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b01010101;
+   0283 CB 78         [ 8]  501 	bit	7, b
+   0285 28 05         [12]  502 	jr	Z,00117$
+   0287 DD 7E F3      [19]  503 	ld	a,-13 (ix)
+   028A 18 03         [12]  504 	jr	00118$
+   028C                     505 00117$:
+   028C DD 7E F2      [19]  506 	ld	a,-14 (ix)
+   028F                     507 00118$:
+   028F E6 55         [ 7]  508 	and	a, #0x55
+   0291 B1            [ 4]  509 	or	a, c
+   0292 4F            [ 4]  510 	ld	c,a
+                            511 ;src/StringUtils.c:124: charBitArray<<=1;
+   0293 78            [ 4]  512 	ld	a,b
+   0294 87            [ 4]  513 	add	a, a
+   0295 DD 77 F5      [19]  514 	ld	-11 (ix),a
+                            515 ;src/StringUtils.c:126: *currentPos=val;
+   0298 DD 6E FA      [19]  516 	ld	l,-6 (ix)
+   029B DD 66 FB      [19]  517 	ld	h,-5 (ix)
+   029E 71            [ 7]  518 	ld	(hl),c
+                            519 ;src/StringUtils.c:127: ++currentPos;
+   029F DD 7E FA      [19]  520 	ld	a,-6 (ix)
+   02A2 C6 01         [ 7]  521 	add	a, #0x01
+   02A4 DD 77 EF      [19]  522 	ld	-17 (ix),a
+   02A7 DD 7E FB      [19]  523 	ld	a,-5 (ix)
+   02AA CE 00         [ 7]  524 	adc	a, #0x00
+   02AC DD 77 F0      [19]  525 	ld	-16 (ix),a
+                            526 ;src/StringUtils.c:131: val = ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b10101010;
+   02AF DD CB F5 7E   [20]  527 	bit	7, -11 (ix)
+   02B3 28 05         [12]  528 	jr	Z,00119$
+   02B5 DD 7E F3      [19]  529 	ld	a,-13 (ix)
+   02B8 18 03         [12]  530 	jr	00120$
+   02BA                     531 00119$:
+   02BA DD 7E F2      [19]  532 	ld	a,-14 (ix)
+   02BD                     533 00120$:
+   02BD E6 AA         [ 7]  534 	and	a, #0xAA
+   02BF DD 77 F6      [19]  535 	ld	-10 (ix),a
+                            536 ;src/StringUtils.c:133: charBitArray<<=1;
+   02C2 DD 7E F5      [19]  537 	ld	a,-11 (ix)
+   02C5 87            [ 4]  538 	add	a, a
+                            539 ;src/StringUtils.c:135: val = val | ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b01010101;
+   02C6 07            [ 4]  540 	rlca
+   02C7 30 05         [12]  541 	jr	NC,00121$
+   02C9 DD 7E F3      [19]  542 	ld	a,-13 (ix)
+   02CC 18 03         [12]  543 	jr	00122$
+   02CE                     544 00121$:
+   02CE DD 7E F2      [19]  545 	ld	a,-14 (ix)
+   02D1                     546 00122$:
+   02D1 E6 55         [ 7]  547 	and	a, #0x55
+   02D3 DD 77 FE      [19]  548 	ld	-2 (ix),a
+   02D6 DD 7E F6      [19]  549 	ld	a,-10 (ix)
+   02D9 DD B6 FE      [19]  550 	or	a, -2 (ix)
+   02DC DD 77 FE      [19]  551 	ld	-2 (ix),a
+                            552 ;src/StringUtils.c:139: *currentPos=val;
+   02DF E1            [10]  553 	pop	hl
+   02E0 E5            [11]  554 	push	hl
+   02E1 DD 7E FE      [19]  555 	ld	a,-2 (ix)
+   02E4 77            [ 7]  556 	ld	(hl),a
+                            557 ;src/StringUtils.c:140: ++currentPos;
+   02E5 DD 7E EF      [19]  558 	ld	a,-17 (ix)
+   02E8 C6 01         [ 7]  559 	add	a, #0x01
+   02EA DD 77 FA      [19]  560 	ld	-6 (ix),a
+   02ED DD 7E F0      [19]  561 	ld	a,-16 (ix)
+   02F0 CE 00         [ 7]  562 	adc	a, #0x00
+   02F2 DD 77 FB      [19]  563 	ld	-5 (ix),a
+                            564 ;src/StringUtils.c:142: ++currentChar;
+   02F5 DD 34 F8      [23]  565 	inc	-8 (ix)
+   02F8 C2r13r02      [10]  566 	jp	NZ,00105$
+   02FB DD 34 F9      [23]  567 	inc	-7 (ix)
+   02FE C3r13r02      [10]  568 	jp	00105$
+   0301                     569 00107$:
+                            570 ;src/StringUtils.c:144: position-=0x0800;
+   0301 DD 7E 06      [19]  571 	ld	a,6 (ix)
+   0304 C6 00         [ 7]  572 	add	a,#0x00
+   0306 DD 77 06      [19]  573 	ld	6 (ix),a
+   0309 DD 7E 07      [19]  574 	ld	a,7 (ix)
+   030C CE F8         [ 7]  575 	adc	a,#0xF8
+                            576 ;src/StringUtils.c:146: if(position<0xC000){
+   030E DD 77 07      [19]  577 	ld	7 (ix), a
+   0311 D6 C0         [ 7]  578 	sub	a, #0xC0
+   0313 D2rE9r01      [10]  579 	jp	NC,00110$
+                            580 ;src/StringUtils.c:147: position+=0x4000;
+   0316 DD 7E 06      [19]  581 	ld	a,6 (ix)
+   0319 C6 00         [ 7]  582 	add	a, #0x00
+   031B DD 77 06      [19]  583 	ld	6 (ix),a
+   031E DD 7E 07      [19]  584 	ld	a,7 (ix)
+   0321 CE 40         [ 7]  585 	adc	a, #0x40
+   0323 DD 77 07      [19]  586 	ld	7 (ix),a
+                            587 ;src/StringUtils.c:148: position-=80;
+   0326 DD 7E 06      [19]  588 	ld	a,6 (ix)
+   0329 C6 B0         [ 7]  589 	add	a,#0xB0
+   032B DD 77 06      [19]  590 	ld	6 (ix),a
+   032E DD 7E 07      [19]  591 	ld	a,7 (ix)
+   0331 CE FF         [ 7]  592 	adc	a,#0xFF
+   0333 DD 77 07      [19]  593 	ld	7 (ix),a
+   0336 C3rE9r01      [10]  594 	jp	00110$
+   0339                     595 00113$:
+   0339 DD F9         [10]  596 	ld	sp, ix
+   033B DD E1         [14]  597 	pop	ix
+   033D C9            [10]  598 	ret
+                            599 ;src/StringUtils.c:154: void print_transparent_text(void* const text, u8* position, u8 fg){
+                            600 ;	---------------------------------
+                            601 ; Function print_transparent_text
+                            602 ; ---------------------------------
+   033E                     603 _print_transparent_text::
+   033E DD E5         [15]  604 	push	ix
+   0340 DD 21 00 00   [14]  605 	ld	ix,#0
+   0344 DD 39         [15]  606 	add	ix,sp
+   0346 21 F8 FF      [10]  607 	ld	hl,#-8
+   0349 39            [11]  608 	add	hl,sp
+   034A F9            [ 6]  609 	ld	sp,hl
+                            610 ;src/StringUtils.c:155: u8 val, charBitArray, spritePos, color = g_colors[fg];
+   034B 01r00r00      [10]  611 	ld	bc,#_g_colors+0
+   034E DD 6E 08      [19]  612 	ld	l,8 (ix)
+   0351 26 00         [ 7]  613 	ld	h,#0x00
+   0353 09            [11]  614 	add	hl,bc
+   0354 4E            [ 7]  615 	ld	c,(hl)
+                            616 ;src/StringUtils.c:161: (position)+=0x2800;
+   0355 DD 7E 06      [19]  617 	ld	a,6 (ix)
+   0358 C6 00         [ 7]  618 	add	a, #0x00
+   035A DD 77 06      [19]  619 	ld	6 (ix),a
+   035D DD 7E 07      [19]  620 	ld	a,7 (ix)
+   0360 CE 28         [ 7]  621 	adc	a, #0x28
+   0362 DD 77 07      [19]  622 	ld	7 (ix),a
+                            623 ;src/StringUtils.c:162: if(position<0x2800){
+   0365 DD 46 06      [19]  624 	ld	b,6 (ix)
+   0368 DD 5E 07      [19]  625 	ld	e,7 (ix)
+   036B 7B            [ 4]  626 	ld	a,e
+   036C D6 28         [ 7]  627 	sub	a, #0x28
+   036E 30 20         [12]  628 	jr	NC,00132$
+                            629 ;src/StringUtils.c:163: position-=0x4000;
+   0370 DD 7E 06      [19]  630 	ld	a,6 (ix)
+   0373 C6 00         [ 7]  631 	add	a,#0x00
+   0375 DD 77 06      [19]  632 	ld	6 (ix),a
+   0378 DD 7E 07      [19]  633 	ld	a,7 (ix)
+   037B CE C0         [ 7]  634 	adc	a,#0xC0
+   037D DD 77 07      [19]  635 	ld	7 (ix),a
+                            636 ;src/StringUtils.c:164: position+=80;
+   0380 DD 7E 06      [19]  637 	ld	a,6 (ix)
+   0383 C6 50         [ 7]  638 	add	a, #0x50
+   0385 DD 77 06      [19]  639 	ld	6 (ix),a
+   0388 DD 7E 07      [19]  640 	ld	a,7 (ix)
+   038B CE 00         [ 7]  641 	adc	a, #0x00
+   038D DD 77 07      [19]  642 	ld	7 (ix),a
+                            643 ;src/StringUtils.c:167: while(height){
+   0390                     644 00132$:
+   0390 79            [ 4]  645 	ld	a,c
+   0391 E6 AA         [ 7]  646 	and	a, #0xAA
+   0393 DD 77 FA      [19]  647 	ld	-6 (ix),a
+   0396 79            [ 4]  648 	ld	a,c
+   0397 E6 55         [ 7]  649 	and	a, #0x55
+   0399 DD 77 FB      [19]  650 	ld	-5 (ix),a
+   039C DD 36 F8 06   [19]  651 	ld	-8 (ix),#0x06
+   03A0 DD 36 F9 96   [19]  652 	ld	-7 (ix),#0x96
+   03A4                     653 00118$:
+   03A4 DD 7E F8      [19]  654 	ld	a,-8 (ix)
+   03A7 B7            [ 4]  655 	or	a, a
+   03A8 CAr90r04      [10]  656 	jp	Z,00121$
+                            657 ;src/StringUtils.c:168: currentChar=text;
+   03AB DD 7E 04      [19]  658 	ld	a,4 (ix)
+   03AE DD 77 FE      [19]  659 	ld	-2 (ix),a
+   03B1 DD 7E 05      [19]  660 	ld	a,5 (ix)
+   03B4 DD 77 FF      [19]  661 	ld	-1 (ix),a
+                            662 ;src/StringUtils.c:169: currentPos=position;
+   03B7 DD 7E 06      [19]  663 	ld	a,6 (ix)
+   03BA DD 77 FC      [19]  664 	ld	-4 (ix),a
+   03BD DD 7E 07      [19]  665 	ld	a,7 (ix)
+   03C0 DD 77 FD      [19]  666 	ld	-3 (ix),a
+                            667 ;src/StringUtils.c:170: --height;
+   03C3 DD 7E F9      [19]  668 	ld	a,-7 (ix)
+   03C6 C6 E7         [ 7]  669 	add	a,#0xE7
+   03C8 DD 77 F9      [19]  670 	ld	-7 (ix),a
+   03CB DD 35 F8      [23]  671 	dec	-8 (ix)
+                            672 ;src/StringUtils.c:171: while(*currentChar){
+   03CE                     673 00113$:
+   03CE DD 6E FE      [19]  674 	ld	l,-2 (ix)
+   03D1 DD 66 FF      [19]  675 	ld	h,-1 (ix)
+   03D4 4E            [ 7]  676 	ld	c,(hl)
+   03D5 79            [ 4]  677 	ld	a,c
+   03D6 B7            [ 4]  678 	or	a, a
+   03D7 CAr58r04      [10]  679 	jp	Z,00115$
+                            680 ;src/StringUtils.c:173: spritePos = charArray[(*currentChar)];
+   03DA 21rDEr00      [10]  681 	ld	hl,#_charArray
+   03DD 06 00         [ 7]  682 	ld	b,#0x00
+   03DF 09            [11]  683 	add	hl, bc
+   03E0 46            [ 7]  684 	ld	b,(hl)
+                            685 ;src/StringUtils.c:175: charBitArray = typography_4x6_monospaced[spritePos/2 + height*width];
+   03E1 78            [ 4]  686 	ld	a, b
+   03E2 CB 3F         [ 8]  687 	srl	a
+   03E4 DD 86 F9      [19]  688 	add	a, -7 (ix)
+   03E7 5F            [ 4]  689 	ld	e,a
+   03E8 21r00r00      [10]  690 	ld	hl,#_typography_4x6_monospaced
+   03EB 16 00         [ 7]  691 	ld	d,#0x00
+   03ED 19            [11]  692 	add	hl, de
+   03EE 4E            [ 7]  693 	ld	c,(hl)
+                            694 ;src/StringUtils.c:177: if(spritePos%2) charBitArray<<=4;
+   03EF CB 40         [ 8]  695 	bit	0, b
+   03F1 28 08         [12]  696 	jr	Z,00104$
+   03F3 79            [ 4]  697 	ld	a,c
+   03F4 07            [ 4]  698 	rlca
+   03F5 07            [ 4]  699 	rlca
+   03F6 07            [ 4]  700 	rlca
+   03F7 07            [ 4]  701 	rlca
+   03F8 E6 F0         [ 7]  702 	and	a,#0xF0
+   03FA 4F            [ 4]  703 	ld	c,a
+   03FB                     704 00104$:
+                            705 ;src/StringUtils.c:179: val=*currentPos;
+   03FB DD 6E FC      [19]  706 	ld	l,-4 (ix)
+   03FE DD 66 FD      [19]  707 	ld	h,-3 (ix)
+   0401 5E            [ 7]  708 	ld	e,(hl)
+                            709 ;src/StringUtils.c:181: if(charBitArray&0b10000000) val = (color&0b10101010)|(val&0b01010101);
+   0402 CB 79         [ 8]  710 	bit	7, c
+   0404 28 07         [12]  711 	jr	Z,00106$
+   0406 7B            [ 4]  712 	ld	a,e
+   0407 E6 55         [ 7]  713 	and	a, #0x55
+   0409 DD B6 FA      [19]  714 	or	a, -6 (ix)
+   040C 5F            [ 4]  715 	ld	e,a
+   040D                     716 00106$:
+                            717 ;src/StringUtils.c:183: charBitArray<<=1;
+   040D CB 21         [ 8]  718 	sla	c
+                            719 ;src/StringUtils.c:185: if(charBitArray&0b10000000) val = (color&0b01010101)|(val&0b10101010);
+   040F CB 79         [ 8]  720 	bit	7, c
+   0411 28 07         [12]  721 	jr	Z,00108$
+   0413 7B            [ 4]  722 	ld	a,e
+   0414 E6 AA         [ 7]  723 	and	a, #0xAA
+   0416 DD B6 FB      [19]  724 	or	a, -5 (ix)
+   0419 5F            [ 4]  725 	ld	e,a
+   041A                     726 00108$:
+                            727 ;src/StringUtils.c:187: charBitArray<<=1;
+   041A CB 21         [ 8]  728 	sla	c
+                            729 ;src/StringUtils.c:189: *currentPos=val;
+   041C DD 6E FC      [19]  730 	ld	l,-4 (ix)
+   041F DD 66 FD      [19]  731 	ld	h,-3 (ix)
+   0422 73            [ 7]  732 	ld	(hl),e
+                            733 ;src/StringUtils.c:190: ++currentPos;
+   0423 DD 5E FC      [19]  734 	ld	e,-4 (ix)
+   0426 DD 56 FD      [19]  735 	ld	d,-3 (ix)
+   0429 13            [ 6]  736 	inc	de
+                            737 ;src/StringUtils.c:192: val=*currentPos;
+   042A 1A            [ 7]  738 	ld	a,(de)
+   042B 47            [ 4]  739 	ld	b,a
+                            740 ;src/StringUtils.c:194: if(charBitArray&0b10000000) val = (color&0b10101010)|(val&0b01010101);
+   042C CB 79         [ 8]  741 	bit	7, c
+   042E 28 07         [12]  742 	jr	Z,00110$
+   0430 78            [ 4]  743 	ld	a,b
+   0431 E6 55         [ 7]  744 	and	a, #0x55
+   0433 DD B6 FA      [19]  745 	or	a, -6 (ix)
+   0436 47            [ 4]  746 	ld	b,a
+   0437                     747 00110$:
+                            748 ;src/StringUtils.c:196: charBitArray<<=1;
+   0437 79            [ 4]  749 	ld	a,c
+   0438 87            [ 4]  750 	add	a, a
+                            751 ;src/StringUtils.c:198: if(charBitArray&0b10000000) val = (color&0b01010101)|(val&0b10101010);
+   0439 07            [ 4]  752 	rlca
+   043A 30 07         [12]  753 	jr	NC,00112$
+   043C 78            [ 4]  754 	ld	a,b
+   043D E6 AA         [ 7]  755 	and	a, #0xAA
+   043F DD B6 FB      [19]  756 	or	a, -5 (ix)
+   0442 47            [ 4]  757 	ld	b,a
+   0443                     758 00112$:
+                            759 ;src/StringUtils.c:202: *currentPos=val;
+   0443 78            [ 4]  760 	ld	a,b
+   0444 12            [ 7]  761 	ld	(de),a
+                            762 ;src/StringUtils.c:203: ++currentPos;
+   0445 13            [ 6]  763 	inc	de
+   0446 DD 73 FC      [19]  764 	ld	-4 (ix),e
+   0449 DD 72 FD      [19]  765 	ld	-3 (ix),d
+                            766 ;src/StringUtils.c:205: ++currentChar;
+   044C DD 34 FE      [23]  767 	inc	-2 (ix)
+   044F C2rCEr03      [10]  768 	jp	NZ,00113$
+   0452 DD 34 FF      [23]  769 	inc	-1 (ix)
+   0455 C3rCEr03      [10]  770 	jp	00113$
+   0458                     771 00115$:
+                            772 ;src/StringUtils.c:207: position-=0x0800;
+   0458 DD 7E 06      [19]  773 	ld	a,6 (ix)
+   045B C6 00         [ 7]  774 	add	a,#0x00
+   045D DD 77 06      [19]  775 	ld	6 (ix),a
+   0460 DD 7E 07      [19]  776 	ld	a,7 (ix)
+   0463 CE F8         [ 7]  777 	adc	a,#0xF8
+                            778 ;src/StringUtils.c:209: if(position<0xC000){
+   0465 DD 77 07      [19]  779 	ld	7 (ix), a
+   0468 D6 C0         [ 7]  780 	sub	a, #0xC0
+   046A D2rA4r03      [10]  781 	jp	NC,00118$
+                            782 ;src/StringUtils.c:210: position+=0x4000;
+   046D DD 7E 06      [19]  783 	ld	a,6 (ix)
+   0470 C6 00         [ 7]  784 	add	a, #0x00
+   0472 DD 77 06      [19]  785 	ld	6 (ix),a
+   0475 DD 7E 07      [19]  786 	ld	a,7 (ix)
+   0478 CE 40         [ 7]  787 	adc	a, #0x40
+   047A DD 77 07      [19]  788 	ld	7 (ix),a
+                            789 ;src/StringUtils.c:211: position-=80;
+   047D DD 7E 06      [19]  790 	ld	a,6 (ix)
+   0480 C6 B0         [ 7]  791 	add	a,#0xB0
+   0482 DD 77 06      [19]  792 	ld	6 (ix),a
+   0485 DD 7E 07      [19]  793 	ld	a,7 (ix)
+   0488 CE FF         [ 7]  794 	adc	a,#0xFF
+   048A DD 77 07      [19]  795 	ld	7 (ix),a
+   048D C3rA4r03      [10]  796 	jp	00118$
+   0490                     797 00121$:
+   0490 DD F9         [10]  798 	ld	sp, ix
+   0492 DD E1         [14]  799 	pop	ix
+   0494 C9            [10]  800 	ret
+                            801 	.area _CODE
+                            802 	.area _INITIALIZER
+                            803 	.area _CABS (ABS)

@@ -10,12 +10,14 @@
 ;--------------------------------------------------------
 	.globl _print_transparent_text
 	.globl _cpct_drawSolidBox
-	.globl _entrySelected
-	.globl _entryIndex
-	.globl _lastEntry
-	.globl _buttonWidths
-	.globl _buttonText
-	.globl _entriesPosition
+	.globl _ui_gamemenu_action
+	.globl _ui_gamemenu_entrySelected
+	.globl _ui_gamemenu_entryIndex
+	.globl _ui_gamemenu_lastEntry
+	.globl _ui_gamemenu_buttonWidths
+	.globl _ui_gamemenu_buttonText
+	.globl _ui_gamemenu_action_buttonText
+	.globl _ui_gamemenu_entriesPosition
 	.globl _ui_gamemenu_init
 	.globl _ui_gamemenu_next_entry
 	.globl _ui_gamemenu_previous_entry
@@ -36,11 +38,13 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _INITIALIZED
-_lastEntry::
+_ui_gamemenu_lastEntry::
 	.ds 1
-_entryIndex::
+_ui_gamemenu_entryIndex::
 	.ds 1
-_entrySelected::
+_ui_gamemenu_entrySelected::
+	.ds 1
+_ui_gamemenu_action::
 	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
@@ -62,36 +66,40 @@ _entrySelected::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/UI_GameMenu.c:38: void ui_gamemenu_init(){
+;src/UI_GameMenu.c:44: void ui_gamemenu_init(){
 ;	---------------------------------
 ; Function ui_gamemenu_init
 ; ---------------------------------
 _ui_gamemenu_init::
-;src/UI_GameMenu.c:39: lastEntry=0;
-	ld	hl,#_lastEntry + 0
+;src/UI_GameMenu.c:45: ui_gamemenu_lastEntry=0;
+	ld	hl,#_ui_gamemenu_lastEntry + 0
 	ld	(hl), #0x00
-;src/UI_GameMenu.c:40: entryIndex=0;
-	ld	hl,#_entryIndex + 0
+;src/UI_GameMenu.c:46: ui_gamemenu_entryIndex=0;
+	ld	hl,#_ui_gamemenu_entryIndex + 0
 	ld	(hl), #0x00
-;src/UI_GameMenu.c:41: entrySelected=0;
-	ld	hl,#_entrySelected + 0
+;src/UI_GameMenu.c:47: ui_gamemenu_entrySelected=0;
+	ld	hl,#_ui_gamemenu_entrySelected + 0
 	ld	(hl), #0x00
 	ret
-_entriesPosition:
+_ui_gamemenu_entriesPosition:
 	.dw #0xC550
 	.dw #0xC6E3
 	.dw #0xC566
 	.dw #0xC584
 	.dw #0xC593
 	.dw #0xC723
-_buttonText:
+_ui_gamemenu_action_buttonText:
 	.dw __str_0
 	.dw __str_1
 	.dw __str_2
+_ui_gamemenu_buttonText:
 	.dw __str_3
 	.dw __str_4
 	.dw __str_5
-_buttonWidths:
+	.dw __str_6
+	.dw __str_7
+	.dw __str_8
+_ui_gamemenu_buttonWidths:
 	.db #0x06	; 6
 	.db #0x16	; 22
 	.db #0x06	; 6
@@ -99,79 +107,87 @@ _buttonWidths:
 	.db #0x0D	; 13
 	.db #0x0D	; 13
 __str_0:
-	.ascii "<"
+	.ascii "PICK UP"
 	.db 0x00
 __str_1:
-	.ascii "MOVE"
-	.db 0x00
-__str_2:
-	.ascii ">"
-	.db 0x00
-__str_3:
 	.ascii "ATTACK"
 	.db 0x00
+__str_2:
+	.ascii "NEXT LEVEL"
+	.db 0x00
+__str_3:
+	.ascii "<"
+	.db 0x00
 __str_4:
-	.ascii "INV"
+	.ascii "MOVE"
 	.db 0x00
 __str_5:
+	.ascii ">"
+	.db 0x00
+__str_6:
+	.db 0x00
+__str_7:
+	.ascii "INV"
+	.db 0x00
+__str_8:
 	.ascii "PAUSE"
 	.db 0x00
-;src/UI_GameMenu.c:44: void ui_gamemenu_next_entry(){
+;src/UI_GameMenu.c:50: void ui_gamemenu_next_entry(){
 ;	---------------------------------
 ; Function ui_gamemenu_next_entry
 ; ---------------------------------
 _ui_gamemenu_next_entry::
-;src/UI_GameMenu.c:45: if(entryIndex<(ENTRIES-1)){
-;src/UI_GameMenu.c:46: lastEntry=entryIndex;
-	ld	a,(#_entryIndex + 0)
+;src/UI_GameMenu.c:51: if(ui_gamemenu_entryIndex<(UI_GAMEMENU_ENTRIES-1)){
+;src/UI_GameMenu.c:52: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
+	ld	a,(#_ui_gamemenu_entryIndex + 0)
 	cp	a,#0x05
 	ret	NC
-	ld	(#_lastEntry + 0),a
-;src/UI_GameMenu.c:47: ++entryIndex;
-	ld	hl, #_entryIndex+0
+	ld	(#_ui_gamemenu_lastEntry + 0),a
+;src/UI_GameMenu.c:53: ++ui_gamemenu_entryIndex;
+	ld	hl, #_ui_gamemenu_entryIndex+0
 	inc	(hl)
 	ret
-;src/UI_GameMenu.c:51: void ui_gamemenu_previous_entry(){
+;src/UI_GameMenu.c:57: void ui_gamemenu_previous_entry(){
 ;	---------------------------------
 ; Function ui_gamemenu_previous_entry
 ; ---------------------------------
 _ui_gamemenu_previous_entry::
-;src/UI_GameMenu.c:52: if(entryIndex>0){
-	ld	a,(#_entryIndex + 0)
+;src/UI_GameMenu.c:58: if(ui_gamemenu_entryIndex>0){
+	ld	a,(#_ui_gamemenu_entryIndex + 0)
 	or	a, a
 	ret	Z
-;src/UI_GameMenu.c:53: lastEntry=entryIndex;
-	ld	a,(#_entryIndex + 0)
-	ld	(#_lastEntry + 0),a
-;src/UI_GameMenu.c:54: --entryIndex;
-	ld	hl, #_entryIndex+0
+;src/UI_GameMenu.c:59: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
+	ld	a,(#_ui_gamemenu_entryIndex + 0)
+	ld	(#_ui_gamemenu_lastEntry + 0),a
+;src/UI_GameMenu.c:60: --ui_gamemenu_entryIndex;
+	ld	hl, #_ui_gamemenu_entryIndex+0
 	dec	(hl)
 	ret
-;src/UI_GameMenu.c:58: void ui_gamemenu_unselect_entry(){
+;src/UI_GameMenu.c:64: void ui_gamemenu_unselect_entry(){
 ;	---------------------------------
 ; Function ui_gamemenu_unselect_entry
 ; ---------------------------------
 _ui_gamemenu_unselect_entry::
-;src/UI_GameMenu.c:59: entrySelected=0;
-	ld	hl,#_entrySelected + 0
+;src/UI_GameMenu.c:65: ui_gamemenu_entrySelected=0;
+	ld	hl,#_ui_gamemenu_entrySelected + 0
 	ld	(hl), #0x00
 	ret
-;src/UI_GameMenu.c:62: void ui_gamemenu_select_entry(){
+;src/UI_GameMenu.c:68: void ui_gamemenu_select_entry(){
 ;	---------------------------------
 ; Function ui_gamemenu_select_entry
 ; ---------------------------------
 _ui_gamemenu_select_entry::
-;src/UI_GameMenu.c:63: entrySelected=1;
-	ld	hl,#_entrySelected + 0
+;src/UI_GameMenu.c:69: ui_gamemenu_entrySelected=1;
+	ld	hl,#_ui_gamemenu_entrySelected + 0
 	ld	(hl), #0x01
 	ret
-;src/UI_GameMenu.c:67: void ui_gamemenu_render_refresh(){
+;src/UI_GameMenu.c:73: void ui_gamemenu_render_refresh(){
 ;	---------------------------------
 ; Function ui_gamemenu_render_refresh
 ; ---------------------------------
 _ui_gamemenu_render_refresh::
-;src/UI_GameMenu.c:70: color = (entrySelected)? g_colors[4]: g_colors[5];
-	ld	a,(#_entrySelected + 0)
+;src/UI_GameMenu.c:76: color = (ui_gamemenu_entrySelected)? g_colors[4]: g_colors[5];
+	ld	a,(#_ui_gamemenu_entrySelected + 0)
 	or	a, a
 	jr	Z,00105$
 	ld	a, (#(_g_colors + 0x0004) + 0)
@@ -180,20 +196,20 @@ _ui_gamemenu_render_refresh::
 	ld	a, (#(_g_colors + 0x0005) + 0)
 00106$:
 	ld	c,a
-;src/UI_GameMenu.c:71: cpct_drawSolidBox(entriesPosition[entryIndex],color, buttonWidths[entryIndex], BUTTON_HEIGHT);
-	ld	a,(#_entryIndex + 0)
-	add	a, #<(_buttonWidths)
+;src/UI_GameMenu.c:77: cpct_drawSolidBox(ui_gamemenu_entriesPosition[ui_gamemenu_entryIndex],color, ui_gamemenu_buttonWidths[ui_gamemenu_entryIndex], UI_GAMEMENU_BUTTON_HEIGHT);
+	ld	a,(#_ui_gamemenu_entryIndex + 0)
+	add	a, #<(_ui_gamemenu_buttonWidths)
 	ld	e,a
 	ld	a,#0x00
-	adc	a, #>(_buttonWidths)
+	adc	a, #>(_ui_gamemenu_buttonWidths)
 	ld	d,a
 	ld	a,(de)
 	ld	b,a
-	ld	iy,#_entryIndex
+	ld	iy,#_ui_gamemenu_entryIndex
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
-	ld	de,#_entriesPosition
+	ld	de,#_ui_gamemenu_entriesPosition
 	add	hl,de
 	ld	e,(hl)
 	inc	hl
@@ -207,19 +223,19 @@ _ui_gamemenu_render_refresh::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_GameMenu.c:72: print_transparent_text(buttonText[entryIndex], entriesPosition[entryIndex], 3);
-	ld	iy,#_entryIndex
+;src/UI_GameMenu.c:78: print_transparent_text(ui_gamemenu_buttonText[ui_gamemenu_entryIndex], ui_gamemenu_entriesPosition[ui_gamemenu_entryIndex], 3);
+	ld	iy,#_ui_gamemenu_entryIndex
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
 	ld	c, l
 	ld	b, h
-	ld	hl,#_entriesPosition
+	ld	hl,#_ui_gamemenu_entriesPosition
 	add	hl,bc
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-	ld	hl,#_buttonText
+	ld	hl,#_ui_gamemenu_buttonText
 	add	hl,bc
 	ld	c,(hl)
 	inc	hl
@@ -233,29 +249,29 @@ _ui_gamemenu_render_refresh::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_GameMenu.c:74: if(lastEntry!=entryIndex){
-	ld	a,(#_lastEntry + 0)
-	ld	iy,#_entryIndex
+;src/UI_GameMenu.c:80: if(ui_gamemenu_lastEntry!=ui_gamemenu_entryIndex){
+	ld	a,(#_ui_gamemenu_lastEntry + 0)
+	ld	iy,#_ui_gamemenu_entryIndex
 	sub	a, 0 (iy)
 	ret	Z
-;src/UI_GameMenu.c:75: color = g_colors[2];
+;src/UI_GameMenu.c:81: color = g_colors[2];
 	ld	hl,#_g_colors+2
 	ld	e,(hl)
-;src/UI_GameMenu.c:76: cpct_drawSolidBox(entriesPosition[lastEntry],color, buttonWidths[lastEntry], BUTTON_HEIGHT);
-	ld	a,#<(_buttonWidths)
-	ld	hl,#_lastEntry
+;src/UI_GameMenu.c:82: cpct_drawSolidBox(ui_gamemenu_entriesPosition[ui_gamemenu_lastEntry],color, ui_gamemenu_buttonWidths[ui_gamemenu_lastEntry], UI_GAMEMENU_BUTTON_HEIGHT);
+	ld	a,#<(_ui_gamemenu_buttonWidths)
+	ld	hl,#_ui_gamemenu_lastEntry
 	add	a, (hl)
 	ld	c,a
-	ld	a,#>(_buttonWidths)
+	ld	a,#>(_ui_gamemenu_buttonWidths)
 	adc	a, #0x00
 	ld	b,a
 	ld	a,(bc)
 	ld	d,a
-	ld	iy,#_lastEntry
+	ld	iy,#_ui_gamemenu_lastEntry
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
-	ld	bc,#_entriesPosition
+	ld	bc,#_ui_gamemenu_entriesPosition
 	add	hl,bc
 	ld	c,(hl)
 	inc	hl
@@ -269,19 +285,19 @@ _ui_gamemenu_render_refresh::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_GameMenu.c:77: print_transparent_text(buttonText[lastEntry], entriesPosition[lastEntry], 3);
-	ld	iy,#_lastEntry
+;src/UI_GameMenu.c:83: print_transparent_text(ui_gamemenu_buttonText[ui_gamemenu_lastEntry], ui_gamemenu_entriesPosition[ui_gamemenu_lastEntry], 3);
+	ld	iy,#_ui_gamemenu_lastEntry
 	ld	l,0 (iy)
 	ld	h,#0x00
 	add	hl, hl
 	ld	c, l
 	ld	b, h
-	ld	hl,#_entriesPosition
+	ld	hl,#_ui_gamemenu_entriesPosition
 	add	hl,bc
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-	ld	hl,#_buttonText
+	ld	hl,#_ui_gamemenu_buttonText
 	add	hl,bc
 	ld	c,(hl)
 	inc	hl
@@ -295,8 +311,11 @@ _ui_gamemenu_render_refresh::
 	pop	af
 	pop	af
 	inc	sp
+;src/UI_GameMenu.c:84: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
+	ld	a,(#_ui_gamemenu_entryIndex + 0)
+	ld	(#_ui_gamemenu_lastEntry + 0),a
 	ret
-;src/UI_GameMenu.c:82: void ui_gamemenu_render_all(){
+;src/UI_GameMenu.c:89: void ui_gamemenu_render_all(){
 ;	---------------------------------
 ; Function ui_gamemenu_render_all
 ; ---------------------------------
@@ -306,19 +325,19 @@ _ui_gamemenu_render_all::
 	add	ix,sp
 	push	af
 	dec	sp
-;src/UI_GameMenu.c:86: while(n){
+;src/UI_GameMenu.c:93: while(n){
 	ld	-3 (ix),#0x06
 00101$:
 	ld	a,-3 (ix)
 	or	a, a
-	jr	Z,00104$
-;src/UI_GameMenu.c:87: --n;
+	jr	Z,00103$
+;src/UI_GameMenu.c:94: --n;
 	dec	-3 (ix)
-;src/UI_GameMenu.c:88: color = (n==entryIndex)?((entrySelected)? g_colors[4]: g_colors[5]): g_colors[2];
-	ld	a,(#_entryIndex + 0)
+;src/UI_GameMenu.c:95: color = (n==ui_gamemenu_entryIndex)?((ui_gamemenu_entrySelected)? g_colors[4]: g_colors[5]): g_colors[2];
+	ld	a,(#_ui_gamemenu_entryIndex + 0)
 	sub	a, -3 (ix)
 	jr	NZ,00106$
-	ld	a,(#_entrySelected + 0)
+	ld	a,(#_ui_gamemenu_entrySelected + 0)
 	or	a, a
 	jr	Z,00108$
 	ld	a, (#_g_colors + 4)
@@ -330,11 +349,11 @@ _ui_gamemenu_render_all::
 	ld	a, (#_g_colors + 2)
 00107$:
 	ld	c,a
-;src/UI_GameMenu.c:89: cpct_drawSolidBox(entriesPosition[n],color, buttonWidths[n], BUTTON_HEIGHT);
-	ld	a,#<(_buttonWidths)
+;src/UI_GameMenu.c:96: cpct_drawSolidBox(ui_gamemenu_entriesPosition[n],color, ui_gamemenu_buttonWidths[n], UI_GAMEMENU_BUTTON_HEIGHT);
+	ld	a,#<(_ui_gamemenu_buttonWidths)
 	add	a, -3 (ix)
 	ld	l,a
-	ld	a,#>(_buttonWidths)
+	ld	a,#>(_ui_gamemenu_buttonWidths)
 	adc	a, #0x00
 	ld	h,a
 	ld	b,(hl)
@@ -342,7 +361,7 @@ _ui_gamemenu_render_all::
 	ld	h,#0x00
 	add	hl, hl
 	ex	de,hl
-	ld	hl,#_entriesPosition
+	ld	hl,#_ui_gamemenu_entriesPosition
 	add	hl,de
 	ld	-2 (ix),l
 	ld	-1 (ix),h
@@ -365,13 +384,13 @@ _ui_gamemenu_render_all::
 	pop	af
 	inc	sp
 	pop	de
-;src/UI_GameMenu.c:90: print_transparent_text(buttonText[n], entriesPosition[n], 3);
+;src/UI_GameMenu.c:97: print_transparent_text(ui_gamemenu_buttonText[n], ui_gamemenu_entriesPosition[n], 3);
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
-	ld	hl,#_buttonText
+	ld	hl,#_ui_gamemenu_buttonText
 	add	hl,de
 	ld	e,(hl)
 	inc	hl
@@ -386,34 +405,39 @@ _ui_gamemenu_render_all::
 	pop	af
 	inc	sp
 	jp	00101$
-00104$:
+00103$:
+;src/UI_GameMenu.c:100: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
+	ld	a,(#_ui_gamemenu_entryIndex + 0)
+	ld	(#_ui_gamemenu_lastEntry + 0),a
 	ld	sp, ix
 	pop	ix
 	ret
-;src/UI_GameMenu.c:96: u8 ui_gamemenu_get_entry(){
+;src/UI_GameMenu.c:103: u8 ui_gamemenu_get_entry(){
 ;	---------------------------------
 ; Function ui_gamemenu_get_entry
 ; ---------------------------------
 _ui_gamemenu_get_entry::
-;src/UI_GameMenu.c:97: return entryIndex;
-	ld	iy,#_entryIndex
+;src/UI_GameMenu.c:104: return ui_gamemenu_entryIndex;
+	ld	iy,#_ui_gamemenu_entryIndex
 	ld	l,0 (iy)
 	ret
-;src/UI_GameMenu.c:100: u8 ui_gamemenu_is_selected(){
+;src/UI_GameMenu.c:107: u8 ui_gamemenu_is_selected(){
 ;	---------------------------------
 ; Function ui_gamemenu_is_selected
 ; ---------------------------------
 _ui_gamemenu_is_selected::
-;src/UI_GameMenu.c:101: return entrySelected;
-	ld	iy,#_entrySelected
+;src/UI_GameMenu.c:108: return ui_gamemenu_entrySelected;
+	ld	iy,#_ui_gamemenu_entrySelected
 	ld	l,0 (iy)
 	ret
 	.area _CODE
 	.area _INITIALIZER
-__xinit__lastEntry:
+__xinit__ui_gamemenu_lastEntry:
 	.db #0x00	; 0
-__xinit__entryIndex:
+__xinit__ui_gamemenu_entryIndex:
 	.db #0x00	; 0
-__xinit__entrySelected:
+__xinit__ui_gamemenu_entrySelected:
+	.db #0x00	; 0
+__xinit__ui_gamemenu_action:
 	.db #0x00	; 0
 	.area _CABS (ABS)

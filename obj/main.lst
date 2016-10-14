@@ -43,20 +43,20 @@
                              43 ; code
                              44 ;--------------------------------------------------------
                              45 	.area _CODE
-                             46 ;src/main.c:28: void main(void) {
+                             46 ;src/main.c:26: void main(void) {
                              47 ;	---------------------------------
                              48 ; Function main
                              49 ; ---------------------------------
    0000                      50 _main::
-                             51 ;src/main.c:29: game_init();
+                             51 ;src/main.c:27: game_init();
    0000 CDr00r00      [17]   52 	call	_game_init
-                             53 ;src/main.c:31: statemanager_set_state(STATE_MAINMENU);
+                             53 ;src/main.c:29: statemanager_set_state(STATE_MAINMENU);
    0003 AF            [ 4]   54 	xor	a, a
    0004 F5            [11]   55 	push	af
    0005 33            [ 6]   56 	inc	sp
    0006 CDr00r00      [17]   57 	call	_statemanager_set_state
    0009 33            [ 6]   58 	inc	sp
-                             59 ;src/main.c:33: statemanager_main_loop();
+                             59 ;src/main.c:31: statemanager_main_loop();
    000A C3r00r00      [10]   60 	jp  _statemanager_main_loop
                              61 	.area _CODE
                              62 	.area _INITIALIZER

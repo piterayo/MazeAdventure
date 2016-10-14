@@ -8,58 +8,157 @@
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
-                             11 	.globl _PLAYER_directionArray
-                             12 	.globl _PLAYER_directionIndex
-                             13 	.globl _PLAYER_direction
-                             14 	.globl _PLAYER_position
-                             15 ;--------------------------------------------------------
-                             16 ; special function registers
-                             17 ;--------------------------------------------------------
-                             18 ;--------------------------------------------------------
-                             19 ; ram data
-                             20 ;--------------------------------------------------------
-                             21 	.area _DATA
+                             11 	.globl _player_directionArray
+                             12 	.globl _player_directionIndex
+                             13 	.globl _player_direction
+                             14 	.globl _player_position
+                             15 	.globl _player_turn_left
+                             16 	.globl _player_turn_right
+                             17 	.globl _player_move_forward
+                             18 	.globl _player_get_direction_index
+                             19 ;--------------------------------------------------------
+                             20 ; special function registers
+                             21 ;--------------------------------------------------------
                              22 ;--------------------------------------------------------
                              23 ; ram data
                              24 ;--------------------------------------------------------
-                             25 	.area _INITIALIZED
+                             25 	.area _DATA
                              26 ;--------------------------------------------------------
-                             27 ; absolute external ram data
+                             27 ; ram data
                              28 ;--------------------------------------------------------
-                             29 	.area _DABS (ABS)
+                             29 	.area _INITIALIZED
                              30 ;--------------------------------------------------------
-                             31 ; global & static initialisations
+                             31 ; absolute external ram data
                              32 ;--------------------------------------------------------
-                             33 	.area _HOME
-                             34 	.area _GSINIT
-                             35 	.area _GSFINAL
-                             36 	.area _GSINIT
-                             37 ;--------------------------------------------------------
-                             38 ; Home
-                             39 ;--------------------------------------------------------
-                             40 	.area _HOME
-                             41 	.area _HOME
-                             42 ;--------------------------------------------------------
-                             43 ; code
-                             44 ;--------------------------------------------------------
-                             45 	.area _CODE
-                             46 	.area _CODE
-   0000                      47 _PLAYER_position:
-   0000 01                   48 	.db #0x01	; 1
-   0001 01                   49 	.db #0x01	; 1
-   0002                      50 _PLAYER_direction:
-   0002 01                   51 	.db #0x01	;  1
-   0003 00                   52 	.db #0x00	;  0
-   0004                      53 _PLAYER_directionIndex:
-   0004 00                   54 	.db #0x00	; 0
-   0005                      55 _PLAYER_directionArray:
-   0005 01                   56 	.db #0x01	;  1
-   0006 00                   57 	.db #0x00	;  0
-   0007 00                   58 	.db #0x00	;  0
-   0008 FF                   59 	.db #0xFF	; -1
-   0009 FF                   60 	.db #0xFF	; -1
-   000A 00                   61 	.db #0x00	;  0
-   000B 00                   62 	.db #0x00	;  0
-   000C 01                   63 	.db #0x01	;  1
-                             64 	.area _INITIALIZER
-                             65 	.area _CABS (ABS)
+                             33 	.area _DABS (ABS)
+                             34 ;--------------------------------------------------------
+                             35 ; global & static initialisations
+                             36 ;--------------------------------------------------------
+                             37 	.area _HOME
+                             38 	.area _GSINIT
+                             39 	.area _GSFINAL
+                             40 	.area _GSINIT
+                             41 ;--------------------------------------------------------
+                             42 ; Home
+                             43 ;--------------------------------------------------------
+                             44 	.area _HOME
+                             45 	.area _HOME
+                             46 ;--------------------------------------------------------
+                             47 ; code
+                             48 ;--------------------------------------------------------
+                             49 	.area _CODE
+                             50 ;src/Player.c:19: void player_turn_left(){
+                             51 ;	---------------------------------
+                             52 ; Function player_turn_left
+                             53 ; ---------------------------------
+   0000                      54 _player_turn_left::
+                             55 ;src/Player.c:20: *(u8*)&(player_directionIndex)=(player_directionIndex+2)&7;
+   0000 01r32r00      [10]   56 	ld	bc,#_player_directionIndex+0
+   0003 3Ar32r00      [13]   57 	ld	a,(#_player_directionIndex + 0)
+   0006 C6 02         [ 7]   58 	add	a, #0x02
+   0008 E6 07         [ 7]   59 	and	a, #0x07
+   000A 02            [ 7]   60 	ld	(bc),a
+                             61 ;src/Player.c:21: *(i8*)&(player_direction.x) = player_directionArray[(player_directionIndex)];
+   000B 01r30r00      [10]   62 	ld	bc,#_player_direction+0
+   000E 11r33r00      [10]   63 	ld	de,#_player_directionArray+0
+   0011 FD 21r32r00   [14]   64 	ld	iy,#_player_directionIndex
+   0015 FD 6E 00      [19]   65 	ld	l,0 (iy)
+   0018 26 00         [ 7]   66 	ld	h,#0x00
+   001A 19            [11]   67 	add	hl,de
+   001B 7E            [ 7]   68 	ld	a,(hl)
+   001C 02            [ 7]   69 	ld	(bc),a
+                             70 ;src/Player.c:22: *(i8*)&(player_direction.y) = player_directionArray[((player_directionIndex)+1)];
+   001D 01r31r00      [10]   71 	ld	bc,#_player_direction+1
+   0020 FD 21r32r00   [14]   72 	ld	iy,#_player_directionIndex
+   0024 FD 6E 00      [19]   73 	ld	l,0 (iy)
+   0027 2C            [ 4]   74 	inc	l
+   0028 26 00         [ 7]   75 	ld	h,#0x00
+   002A 19            [11]   76 	add	hl,de
+   002B 7E            [ 7]   77 	ld	a,(hl)
+   002C 02            [ 7]   78 	ld	(bc),a
+   002D C9            [10]   79 	ret
+   002E                      80 _player_position:
+   002E 01                   81 	.db #0x01	; 1
+   002F 01                   82 	.db #0x01	; 1
+   0030                      83 _player_direction:
+   0030 01                   84 	.db #0x01	;  1
+   0031 00                   85 	.db #0x00	;  0
+   0032                      86 _player_directionIndex:
+   0032 00                   87 	.db #0x00	; 0
+   0033                      88 _player_directionArray:
+   0033 01                   89 	.db #0x01	;  1
+   0034 00                   90 	.db #0x00	;  0
+   0035 00                   91 	.db #0x00	;  0
+   0036 FF                   92 	.db #0xFF	; -1
+   0037 FF                   93 	.db #0xFF	; -1
+   0038 00                   94 	.db #0x00	;  0
+   0039 00                   95 	.db #0x00	;  0
+   003A 01                   96 	.db #0x01	;  1
+                             97 ;src/Player.c:25: void player_turn_right(){
+                             98 ;	---------------------------------
+                             99 ; Function player_turn_right
+                            100 ; ---------------------------------
+   003B                     101 _player_turn_right::
+                            102 ;src/Player.c:27: *(u8*)&(player_directionIndex)=(player_directionIndex-2)&7;
+   003B 01r32r00      [10]  103 	ld	bc,#_player_directionIndex+0
+   003E 3Ar32r00      [13]  104 	ld	a,(#_player_directionIndex + 0)
+   0041 C6 FE         [ 7]  105 	add	a,#0xFE
+   0043 E6 07         [ 7]  106 	and	a, #0x07
+   0045 02            [ 7]  107 	ld	(bc),a
+                            108 ;src/Player.c:28: *(i8*)&(player_direction.x) = player_directionArray[(player_directionIndex)];
+   0046 01r30r00      [10]  109 	ld	bc,#_player_direction+0
+   0049 11r33r00      [10]  110 	ld	de,#_player_directionArray+0
+   004C FD 21r32r00   [14]  111 	ld	iy,#_player_directionIndex
+   0050 FD 6E 00      [19]  112 	ld	l,0 (iy)
+   0053 26 00         [ 7]  113 	ld	h,#0x00
+   0055 19            [11]  114 	add	hl,de
+   0056 7E            [ 7]  115 	ld	a,(hl)
+   0057 02            [ 7]  116 	ld	(bc),a
+                            117 ;src/Player.c:29: *(i8*)&(player_direction.y) = player_directionArray[((player_directionIndex)+1)];
+   0058 01r31r00      [10]  118 	ld	bc,#_player_direction+1
+   005B FD 21r32r00   [14]  119 	ld	iy,#_player_directionIndex
+   005F FD 6E 00      [19]  120 	ld	l,0 (iy)
+   0062 2C            [ 4]  121 	inc	l
+   0063 26 00         [ 7]  122 	ld	h,#0x00
+   0065 19            [11]  123 	add	hl,de
+   0066 7E            [ 7]  124 	ld	a,(hl)
+   0067 02            [ 7]  125 	ld	(bc),a
+   0068 C9            [10]  126 	ret
+                            127 ;src/Player.c:32: void player_move_forward(){
+                            128 ;	---------------------------------
+                            129 ; Function player_move_forward
+                            130 ; ---------------------------------
+   0069                     131 _player_move_forward::
+                            132 ;src/Player.c:33: *(i8*)&(player_position.x) = player_position.x + player_direction.x;
+   0069 21r2Er00      [10]  133 	ld	hl,#_player_position+0
+   006C 4D            [ 4]  134 	ld	c, l
+   006D 44            [ 4]  135 	ld	b, h
+   006E 56            [ 7]  136 	ld	d,(hl)
+   006F 21r30r00      [10]  137 	ld	hl,#_player_direction+0
+   0072 5E            [ 7]  138 	ld	e,(hl)
+   0073 7A            [ 4]  139 	ld	a,d
+   0074 83            [ 4]  140 	add	a, e
+   0075 02            [ 7]  141 	ld	(bc),a
+                            142 ;src/Player.c:34: *(i8*)&(player_position.y) = player_position.y + player_direction.y;
+   0076 21r2Fr00      [10]  143 	ld	hl,#_player_position+1
+   0079 4D            [ 4]  144 	ld	c, l
+   007A 44            [ 4]  145 	ld	b, h
+   007B 56            [ 7]  146 	ld	d,(hl)
+   007C 21r31r00      [10]  147 	ld	hl,#_player_direction+1
+   007F 5E            [ 7]  148 	ld	e,(hl)
+   0080 7A            [ 4]  149 	ld	a,d
+   0081 83            [ 4]  150 	add	a, e
+   0082 02            [ 7]  151 	ld	(bc),a
+   0083 C9            [10]  152 	ret
+                            153 ;src/Player.c:37: u8 player_get_direction_index(){
+                            154 ;	---------------------------------
+                            155 ; Function player_get_direction_index
+                            156 ; ---------------------------------
+   0084                     157 _player_get_direction_index::
+                            158 ;src/Player.c:38: return player_directionIndex;
+   0084 FD 21r32r00   [14]  159 	ld	iy,#_player_directionIndex
+   0088 FD 6E 00      [19]  160 	ld	l,0 (iy)
+   008B C9            [10]  161 	ret
+                            162 	.area _CODE
+                            163 	.area _INITIALIZER
+                            164 	.area _CABS (ABS)

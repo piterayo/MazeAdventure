@@ -1,0 +1,133 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.5 #9498 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module State_LoadLevel
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _level_load_level
+                             12 	.globl _generate_level
+                             13 	.globl _print_transparent_text
+                             14 	.globl _draw_minimap_to_buffer
+                             15 	.globl _render_draw_to_buffer
+                             16 	.globl _statemanager_input_accepted
+                             17 	.globl _statemanager_set_state
+                             18 	.globl _statemanager_close_state
+                             19 	.globl _cpct_memset
+                             20 	.globl _state_loadlevel_enter
+                             21 	.globl _state_loadlevel_input
+                             22 	.globl _state_loadlevel_update
+                             23 	.globl _state_loadlevel_render
+                             24 	.globl _state_loadlevel_exit
+                             25 ;--------------------------------------------------------
+                             26 ; special function registers
+                             27 ;--------------------------------------------------------
+                             28 ;--------------------------------------------------------
+                             29 ; ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area _DATA
+                             32 ;--------------------------------------------------------
+                             33 ; ram data
+                             34 ;--------------------------------------------------------
+                             35 	.area _INITIALIZED
+                             36 ;--------------------------------------------------------
+                             37 ; absolute external ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area _DABS (ABS)
+                             40 ;--------------------------------------------------------
+                             41 ; global & static initialisations
+                             42 ;--------------------------------------------------------
+                             43 	.area _HOME
+                             44 	.area _GSINIT
+                             45 	.area _GSFINAL
+                             46 	.area _GSINIT
+                             47 ;--------------------------------------------------------
+                             48 ; Home
+                             49 ;--------------------------------------------------------
+                             50 	.area _HOME
+                             51 	.area _HOME
+                             52 ;--------------------------------------------------------
+                             53 ; code
+                             54 ;--------------------------------------------------------
+                             55 	.area _CODE
+                             56 ;src/State_LoadLevel.c:10: void state_loadlevel_enter(){
+                             57 ;	---------------------------------
+                             58 ; Function state_loadlevel_enter
+                             59 ; ---------------------------------
+   0000                      60 _state_loadlevel_enter::
+                             61 ;src/State_LoadLevel.c:11: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+   0000 21r01r00      [10]   62 	ld	hl,#_g_colors+1
+   0003 46            [ 7]   63 	ld	b,(hl)
+   0004 21 00 40      [10]   64 	ld	hl,#0x4000
+   0007 E5            [11]   65 	push	hl
+   0008 C5            [11]   66 	push	bc
+   0009 33            [ 6]   67 	inc	sp
+   000A 26 C0         [ 7]   68 	ld	h, #0xC0
+   000C E5            [11]   69 	push	hl
+   000D CDr00r00      [17]   70 	call	_cpct_memset
+                             71 ;src/State_LoadLevel.c:13: print_transparent_text("LOADING", 0xe391, 3);
+   0010 3E 03         [ 7]   72 	ld	a,#0x03
+   0012 F5            [11]   73 	push	af
+   0013 33            [ 6]   74 	inc	sp
+   0014 21 91 E3      [10]   75 	ld	hl,#0xE391
+   0017 E5            [11]   76 	push	hl
+   0018 21r2Fr00      [10]   77 	ld	hl,#___str_0
+   001B E5            [11]   78 	push	hl
+   001C CDr00r00      [17]   79 	call	_print_transparent_text
+   001F F1            [10]   80 	pop	af
+   0020 F1            [10]   81 	pop	af
+   0021 33            [ 6]   82 	inc	sp
+                             83 ;src/State_LoadLevel.c:15: generate_level();
+   0022 CDr00r00      [17]   84 	call	_generate_level
+                             85 ;src/State_LoadLevel.c:16: level_load_level();
+   0025 CDr00r00      [17]   86 	call	_level_load_level
+                             87 ;src/State_LoadLevel.c:18: render_draw_to_buffer();
+   0028 CDr00r00      [17]   88 	call	_render_draw_to_buffer
+                             89 ;src/State_LoadLevel.c:19: draw_minimap_to_buffer();
+   002B CDr00r00      [17]   90 	call	_draw_minimap_to_buffer
+   002E C9            [10]   91 	ret
+   002F                      92 ___str_0:
+   002F 4C 4F 41 44 49 4E    93 	.ascii "LOADING"
+        47
+   0036 00                   94 	.db 0x00
+                             95 ;src/State_LoadLevel.c:23: void state_loadlevel_input(){
+                             96 ;	---------------------------------
+                             97 ; Function state_loadlevel_input
+                             98 ; ---------------------------------
+   0037                      99 _state_loadlevel_input::
+                            100 ;src/State_LoadLevel.c:24: statemanager_input_accepted();
+   0037 C3r00r00      [10]  101 	jp  _statemanager_input_accepted
+                            102 ;src/State_LoadLevel.c:27: void state_loadlevel_update(){
+                            103 ;	---------------------------------
+                            104 ; Function state_loadlevel_update
+                            105 ; ---------------------------------
+   003A                     106 _state_loadlevel_update::
+                            107 ;src/State_LoadLevel.c:28: statemanager_close_state();
+   003A CDr00r00      [17]  108 	call	_statemanager_close_state
+                            109 ;src/State_LoadLevel.c:29: statemanager_set_state(STATE_INGAME);
+   003D 3E 01         [ 7]  110 	ld	a,#0x01
+   003F F5            [11]  111 	push	af
+   0040 33            [ 6]  112 	inc	sp
+   0041 CDr00r00      [17]  113 	call	_statemanager_set_state
+   0044 33            [ 6]  114 	inc	sp
+   0045 C9            [10]  115 	ret
+                            116 ;src/State_LoadLevel.c:32: void state_loadlevel_render(){
+                            117 ;	---------------------------------
+                            118 ; Function state_loadlevel_render
+                            119 ; ---------------------------------
+   0046                     120 _state_loadlevel_render::
+                            121 ;src/State_LoadLevel.c:34: }
+   0046 C9            [10]  122 	ret
+                            123 ;src/State_LoadLevel.c:36: void state_loadlevel_exit(){
+                            124 ;	---------------------------------
+                            125 ; Function state_loadlevel_exit
+                            126 ; ---------------------------------
+   0047                     127 _state_loadlevel_exit::
+                            128 ;src/State_LoadLevel.c:38: }
+   0047 C9            [10]  129 	ret
+                            130 	.area _CODE
+                            131 	.area _INITIALIZER
+                            132 	.area _CABS (ABS)

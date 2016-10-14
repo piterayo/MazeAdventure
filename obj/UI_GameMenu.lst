@@ -10,410 +10,436 @@
                              10 ;--------------------------------------------------------
                              11 	.globl _print_transparent_text
                              12 	.globl _cpct_drawSolidBox
-                             13 	.globl _entrySelected
-                             14 	.globl _entryIndex
-                             15 	.globl _lastEntry
-                             16 	.globl _buttonWidths
-                             17 	.globl _buttonText
-                             18 	.globl _entriesPosition
-                             19 	.globl _ui_gamemenu_init
-                             20 	.globl _ui_gamemenu_next_entry
-                             21 	.globl _ui_gamemenu_previous_entry
-                             22 	.globl _ui_gamemenu_unselect_entry
-                             23 	.globl _ui_gamemenu_select_entry
-                             24 	.globl _ui_gamemenu_render_refresh
-                             25 	.globl _ui_gamemenu_render_all
-                             26 	.globl _ui_gamemenu_get_entry
-                             27 	.globl _ui_gamemenu_is_selected
-                             28 ;--------------------------------------------------------
-                             29 ; special function registers
+                             13 	.globl _ui_gamemenu_action
+                             14 	.globl _ui_gamemenu_entrySelected
+                             15 	.globl _ui_gamemenu_entryIndex
+                             16 	.globl _ui_gamemenu_lastEntry
+                             17 	.globl _ui_gamemenu_buttonWidths
+                             18 	.globl _ui_gamemenu_buttonText
+                             19 	.globl _ui_gamemenu_action_buttonText
+                             20 	.globl _ui_gamemenu_entriesPosition
+                             21 	.globl _ui_gamemenu_init
+                             22 	.globl _ui_gamemenu_next_entry
+                             23 	.globl _ui_gamemenu_previous_entry
+                             24 	.globl _ui_gamemenu_unselect_entry
+                             25 	.globl _ui_gamemenu_select_entry
+                             26 	.globl _ui_gamemenu_render_refresh
+                             27 	.globl _ui_gamemenu_render_all
+                             28 	.globl _ui_gamemenu_get_entry
+                             29 	.globl _ui_gamemenu_is_selected
                              30 ;--------------------------------------------------------
-                             31 ;--------------------------------------------------------
-                             32 ; ram data
+                             31 ; special function registers
+                             32 ;--------------------------------------------------------
                              33 ;--------------------------------------------------------
-                             34 	.area _DATA
+                             34 ; ram data
                              35 ;--------------------------------------------------------
-                             36 ; ram data
+                             36 	.area _DATA
                              37 ;--------------------------------------------------------
-                             38 	.area _INITIALIZED
-   0000                      39 _lastEntry::
-   0000                      40 	.ds 1
-   0001                      41 _entryIndex::
-   0001                      42 	.ds 1
-   0002                      43 _entrySelected::
-   0002                      44 	.ds 1
-                             45 ;--------------------------------------------------------
-                             46 ; absolute external ram data
-                             47 ;--------------------------------------------------------
-                             48 	.area _DABS (ABS)
+                             38 ; ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area _INITIALIZED
+   0000                      41 _ui_gamemenu_lastEntry::
+   0000                      42 	.ds 1
+   0001                      43 _ui_gamemenu_entryIndex::
+   0001                      44 	.ds 1
+   0002                      45 _ui_gamemenu_entrySelected::
+   0002                      46 	.ds 1
+   0003                      47 _ui_gamemenu_action::
+   0003                      48 	.ds 1
                              49 ;--------------------------------------------------------
-                             50 ; global & static initialisations
+                             50 ; absolute external ram data
                              51 ;--------------------------------------------------------
-                             52 	.area _HOME
-                             53 	.area _GSINIT
-                             54 	.area _GSFINAL
-                             55 	.area _GSINIT
-                             56 ;--------------------------------------------------------
-                             57 ; Home
-                             58 ;--------------------------------------------------------
-                             59 	.area _HOME
-                             60 	.area _HOME
-                             61 ;--------------------------------------------------------
-                             62 ; code
-                             63 ;--------------------------------------------------------
-                             64 	.area _CODE
-                             65 ;src/UI_GameMenu.c:38: void ui_gamemenu_init(){
-                             66 ;	---------------------------------
-                             67 ; Function ui_gamemenu_init
-                             68 ; ---------------------------------
-   0000                      69 _ui_gamemenu_init::
-                             70 ;src/UI_GameMenu.c:39: lastEntry=0;
-   0000 21r00r00      [10]   71 	ld	hl,#_lastEntry + 0
-   0003 36 00         [10]   72 	ld	(hl), #0x00
-                             73 ;src/UI_GameMenu.c:40: entryIndex=0;
-   0005 21r01r00      [10]   74 	ld	hl,#_entryIndex + 0
-   0008 36 00         [10]   75 	ld	(hl), #0x00
-                             76 ;src/UI_GameMenu.c:41: entrySelected=0;
-   000A 21r02r00      [10]   77 	ld	hl,#_entrySelected + 0
-   000D 36 00         [10]   78 	ld	(hl), #0x00
-   000F C9            [10]   79 	ret
-   0010                      80 _entriesPosition:
-   0010 50 C5                81 	.dw #0xC550
-   0012 E3 C6                82 	.dw #0xC6E3
-   0014 66 C5                83 	.dw #0xC566
-   0016 84 C5                84 	.dw #0xC584
-   0018 93 C5                85 	.dw #0xC593
-   001A 23 C7                86 	.dw #0xC723
-   001C                      87 _buttonText:
-   001Cr2Er00                88 	.dw __str_0
-   001Er30r00                89 	.dw __str_1
-   0020r35r00                90 	.dw __str_2
-   0022r37r00                91 	.dw __str_3
-   0024r3Er00                92 	.dw __str_4
-   0026r42r00                93 	.dw __str_5
-   0028                      94 _buttonWidths:
-   0028 06                   95 	.db #0x06	; 6
-   0029 16                   96 	.db #0x16	; 22
-   002A 06                   97 	.db #0x06	; 6
-   002B 0D                   98 	.db #0x0D	; 13
-   002C 0D                   99 	.db #0x0D	; 13
-   002D 0D                  100 	.db #0x0D	; 13
-   002E                     101 __str_0:
-   002E 3C                  102 	.ascii "<"
-   002F 00                  103 	.db 0x00
-   0030                     104 __str_1:
-   0030 4D 4F 56 45         105 	.ascii "MOVE"
-   0034 00                  106 	.db 0x00
-   0035                     107 __str_2:
-   0035 3E                  108 	.ascii ">"
-   0036 00                  109 	.db 0x00
-   0037                     110 __str_3:
-   0037 41 54 54 41 43 4B   111 	.ascii "ATTACK"
-   003D 00                  112 	.db 0x00
-   003E                     113 __str_4:
-   003E 49 4E 56            114 	.ascii "INV"
-   0041 00                  115 	.db 0x00
-   0042                     116 __str_5:
-   0042 50 41 55 53 45      117 	.ascii "PAUSE"
-   0047 00                  118 	.db 0x00
-                            119 ;src/UI_GameMenu.c:44: void ui_gamemenu_next_entry(){
-                            120 ;	---------------------------------
-                            121 ; Function ui_gamemenu_next_entry
-                            122 ; ---------------------------------
-   0048                     123 _ui_gamemenu_next_entry::
-                            124 ;src/UI_GameMenu.c:45: if(entryIndex<(ENTRIES-1)){
-                            125 ;src/UI_GameMenu.c:46: lastEntry=entryIndex;
-   0048 3Ar01r00      [13]  126 	ld	a,(#_entryIndex + 0)
-   004B FE 05         [ 7]  127 	cp	a,#0x05
-   004D D0            [11]  128 	ret	NC
-   004E 32r00r00      [13]  129 	ld	(#_lastEntry + 0),a
-                            130 ;src/UI_GameMenu.c:47: ++entryIndex;
-   0051 21r01r00      [10]  131 	ld	hl, #_entryIndex+0
-   0054 34            [11]  132 	inc	(hl)
-   0055 C9            [10]  133 	ret
-                            134 ;src/UI_GameMenu.c:51: void ui_gamemenu_previous_entry(){
-                            135 ;	---------------------------------
-                            136 ; Function ui_gamemenu_previous_entry
-                            137 ; ---------------------------------
-   0056                     138 _ui_gamemenu_previous_entry::
-                            139 ;src/UI_GameMenu.c:52: if(entryIndex>0){
-   0056 3Ar01r00      [13]  140 	ld	a,(#_entryIndex + 0)
-   0059 B7            [ 4]  141 	or	a, a
-   005A C8            [11]  142 	ret	Z
-                            143 ;src/UI_GameMenu.c:53: lastEntry=entryIndex;
-   005B 3Ar01r00      [13]  144 	ld	a,(#_entryIndex + 0)
-   005E 32r00r00      [13]  145 	ld	(#_lastEntry + 0),a
-                            146 ;src/UI_GameMenu.c:54: --entryIndex;
-   0061 21r01r00      [10]  147 	ld	hl, #_entryIndex+0
-   0064 35            [11]  148 	dec	(hl)
-   0065 C9            [10]  149 	ret
-                            150 ;src/UI_GameMenu.c:58: void ui_gamemenu_unselect_entry(){
+                             52 	.area _DABS (ABS)
+                             53 ;--------------------------------------------------------
+                             54 ; global & static initialisations
+                             55 ;--------------------------------------------------------
+                             56 	.area _HOME
+                             57 	.area _GSINIT
+                             58 	.area _GSFINAL
+                             59 	.area _GSINIT
+                             60 ;--------------------------------------------------------
+                             61 ; Home
+                             62 ;--------------------------------------------------------
+                             63 	.area _HOME
+                             64 	.area _HOME
+                             65 ;--------------------------------------------------------
+                             66 ; code
+                             67 ;--------------------------------------------------------
+                             68 	.area _CODE
+                             69 ;src/UI_GameMenu.c:44: void ui_gamemenu_init(){
+                             70 ;	---------------------------------
+                             71 ; Function ui_gamemenu_init
+                             72 ; ---------------------------------
+   0000                      73 _ui_gamemenu_init::
+                             74 ;src/UI_GameMenu.c:45: ui_gamemenu_lastEntry=0;
+   0000 21r00r00      [10]   75 	ld	hl,#_ui_gamemenu_lastEntry + 0
+   0003 36 00         [10]   76 	ld	(hl), #0x00
+                             77 ;src/UI_GameMenu.c:46: ui_gamemenu_entryIndex=0;
+   0005 21r01r00      [10]   78 	ld	hl,#_ui_gamemenu_entryIndex + 0
+   0008 36 00         [10]   79 	ld	(hl), #0x00
+                             80 ;src/UI_GameMenu.c:47: ui_gamemenu_entrySelected=0;
+   000A 21r02r00      [10]   81 	ld	hl,#_ui_gamemenu_entrySelected + 0
+   000D 36 00         [10]   82 	ld	(hl), #0x00
+   000F C9            [10]   83 	ret
+   0010                      84 _ui_gamemenu_entriesPosition:
+   0010 50 C5                85 	.dw #0xC550
+   0012 E3 C6                86 	.dw #0xC6E3
+   0014 66 C5                87 	.dw #0xC566
+   0016 84 C5                88 	.dw #0xC584
+   0018 93 C5                89 	.dw #0xC593
+   001A 23 C7                90 	.dw #0xC723
+   001C                      91 _ui_gamemenu_action_buttonText:
+   001Cr34r00                92 	.dw __str_0
+   001Er3Cr00                93 	.dw __str_1
+   0020r43r00                94 	.dw __str_2
+   0022                      95 _ui_gamemenu_buttonText:
+   0022r4Er00                96 	.dw __str_3
+   0024r50r00                97 	.dw __str_4
+   0026r55r00                98 	.dw __str_5
+   0028r57r00                99 	.dw __str_6
+   002Ar58r00               100 	.dw __str_7
+   002Cr5Cr00               101 	.dw __str_8
+   002E                     102 _ui_gamemenu_buttonWidths:
+   002E 06                  103 	.db #0x06	; 6
+   002F 16                  104 	.db #0x16	; 22
+   0030 06                  105 	.db #0x06	; 6
+   0031 0D                  106 	.db #0x0D	; 13
+   0032 0D                  107 	.db #0x0D	; 13
+   0033 0D                  108 	.db #0x0D	; 13
+   0034                     109 __str_0:
+   0034 50 49 43 4B 20 55   110 	.ascii "PICK UP"
+        50
+   003B 00                  111 	.db 0x00
+   003C                     112 __str_1:
+   003C 41 54 54 41 43 4B   113 	.ascii "ATTACK"
+   0042 00                  114 	.db 0x00
+   0043                     115 __str_2:
+   0043 4E 45 58 54 20 4C   116 	.ascii "NEXT LEVEL"
+        45 56 45 4C
+   004D 00                  117 	.db 0x00
+   004E                     118 __str_3:
+   004E 3C                  119 	.ascii "<"
+   004F 00                  120 	.db 0x00
+   0050                     121 __str_4:
+   0050 4D 4F 56 45         122 	.ascii "MOVE"
+   0054 00                  123 	.db 0x00
+   0055                     124 __str_5:
+   0055 3E                  125 	.ascii ">"
+   0056 00                  126 	.db 0x00
+   0057                     127 __str_6:
+   0057 00                  128 	.db 0x00
+   0058                     129 __str_7:
+   0058 49 4E 56            130 	.ascii "INV"
+   005B 00                  131 	.db 0x00
+   005C                     132 __str_8:
+   005C 50 41 55 53 45      133 	.ascii "PAUSE"
+   0061 00                  134 	.db 0x00
+                            135 ;src/UI_GameMenu.c:50: void ui_gamemenu_next_entry(){
+                            136 ;	---------------------------------
+                            137 ; Function ui_gamemenu_next_entry
+                            138 ; ---------------------------------
+   0062                     139 _ui_gamemenu_next_entry::
+                            140 ;src/UI_GameMenu.c:51: if(ui_gamemenu_entryIndex<(UI_GAMEMENU_ENTRIES-1)){
+                            141 ;src/UI_GameMenu.c:52: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
+   0062 3Ar01r00      [13]  142 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   0065 FE 05         [ 7]  143 	cp	a,#0x05
+   0067 D0            [11]  144 	ret	NC
+   0068 32r00r00      [13]  145 	ld	(#_ui_gamemenu_lastEntry + 0),a
+                            146 ;src/UI_GameMenu.c:53: ++ui_gamemenu_entryIndex;
+   006B 21r01r00      [10]  147 	ld	hl, #_ui_gamemenu_entryIndex+0
+   006E 34            [11]  148 	inc	(hl)
+   006F C9            [10]  149 	ret
+                            150 ;src/UI_GameMenu.c:57: void ui_gamemenu_previous_entry(){
                             151 ;	---------------------------------
-                            152 ; Function ui_gamemenu_unselect_entry
+                            152 ; Function ui_gamemenu_previous_entry
                             153 ; ---------------------------------
-   0066                     154 _ui_gamemenu_unselect_entry::
-                            155 ;src/UI_GameMenu.c:59: entrySelected=0;
-   0066 21r02r00      [10]  156 	ld	hl,#_entrySelected + 0
-   0069 36 00         [10]  157 	ld	(hl), #0x00
-   006B C9            [10]  158 	ret
-                            159 ;src/UI_GameMenu.c:62: void ui_gamemenu_select_entry(){
-                            160 ;	---------------------------------
-                            161 ; Function ui_gamemenu_select_entry
-                            162 ; ---------------------------------
-   006C                     163 _ui_gamemenu_select_entry::
-                            164 ;src/UI_GameMenu.c:63: entrySelected=1;
-   006C 21r02r00      [10]  165 	ld	hl,#_entrySelected + 0
-   006F 36 01         [10]  166 	ld	(hl), #0x01
-   0071 C9            [10]  167 	ret
-                            168 ;src/UI_GameMenu.c:67: void ui_gamemenu_render_refresh(){
-                            169 ;	---------------------------------
-                            170 ; Function ui_gamemenu_render_refresh
-                            171 ; ---------------------------------
-   0072                     172 _ui_gamemenu_render_refresh::
-                            173 ;src/UI_GameMenu.c:70: color = (entrySelected)? g_colors[4]: g_colors[5];
-   0072 3Ar02r00      [13]  174 	ld	a,(#_entrySelected + 0)
-   0075 B7            [ 4]  175 	or	a, a
-   0076 28 05         [12]  176 	jr	Z,00105$
-   0078 3Ar04r00      [13]  177 	ld	a, (#(_g_colors + 0x0004) + 0)
-   007B 18 03         [12]  178 	jr	00106$
-   007D                     179 00105$:
-   007D 3Ar05r00      [13]  180 	ld	a, (#(_g_colors + 0x0005) + 0)
-   0080                     181 00106$:
-   0080 4F            [ 4]  182 	ld	c,a
-                            183 ;src/UI_GameMenu.c:71: cpct_drawSolidBox(entriesPosition[entryIndex],color, buttonWidths[entryIndex], BUTTON_HEIGHT);
-   0081 3Ar01r00      [13]  184 	ld	a,(#_entryIndex + 0)
-   0084 C6r28         [ 7]  185 	add	a, #<(_buttonWidths)
-   0086 5F            [ 4]  186 	ld	e,a
-   0087 3E 00         [ 7]  187 	ld	a,#0x00
-   0089 CEs00         [ 7]  188 	adc	a, #>(_buttonWidths)
-   008B 57            [ 4]  189 	ld	d,a
-   008C 1A            [ 7]  190 	ld	a,(de)
-   008D 47            [ 4]  191 	ld	b,a
-   008E FD 21r01r00   [14]  192 	ld	iy,#_entryIndex
-   0092 FD 6E 00      [19]  193 	ld	l,0 (iy)
-   0095 26 00         [ 7]  194 	ld	h,#0x00
-   0097 29            [11]  195 	add	hl, hl
-   0098 11r10r00      [10]  196 	ld	de,#_entriesPosition
-   009B 19            [11]  197 	add	hl,de
-   009C 5E            [ 7]  198 	ld	e,(hl)
-   009D 23            [ 6]  199 	inc	hl
-   009E 56            [ 7]  200 	ld	d,(hl)
-   009F 3E 18         [ 7]  201 	ld	a,#0x18
-   00A1 F5            [11]  202 	push	af
-   00A2 33            [ 6]  203 	inc	sp
-   00A3 C5            [11]  204 	push	bc
-   00A4 D5            [11]  205 	push	de
-   00A5 CDr00r00      [17]  206 	call	_cpct_drawSolidBox
-   00A8 F1            [10]  207 	pop	af
-   00A9 F1            [10]  208 	pop	af
-   00AA 33            [ 6]  209 	inc	sp
-                            210 ;src/UI_GameMenu.c:72: print_transparent_text(buttonText[entryIndex], entriesPosition[entryIndex], 3);
-   00AB FD 21r01r00   [14]  211 	ld	iy,#_entryIndex
-   00AF FD 6E 00      [19]  212 	ld	l,0 (iy)
-   00B2 26 00         [ 7]  213 	ld	h,#0x00
-   00B4 29            [11]  214 	add	hl, hl
-   00B5 4D            [ 4]  215 	ld	c, l
-   00B6 44            [ 4]  216 	ld	b, h
-   00B7 21r10r00      [10]  217 	ld	hl,#_entriesPosition
-   00BA 09            [11]  218 	add	hl,bc
-   00BB 5E            [ 7]  219 	ld	e,(hl)
-   00BC 23            [ 6]  220 	inc	hl
-   00BD 56            [ 7]  221 	ld	d,(hl)
-   00BE 21r1Cr00      [10]  222 	ld	hl,#_buttonText
-   00C1 09            [11]  223 	add	hl,bc
-   00C2 4E            [ 7]  224 	ld	c,(hl)
-   00C3 23            [ 6]  225 	inc	hl
-   00C4 46            [ 7]  226 	ld	b,(hl)
-   00C5 3E 03         [ 7]  227 	ld	a,#0x03
-   00C7 F5            [11]  228 	push	af
-   00C8 33            [ 6]  229 	inc	sp
-   00C9 D5            [11]  230 	push	de
-   00CA C5            [11]  231 	push	bc
-   00CB CDr00r00      [17]  232 	call	_print_transparent_text
-   00CE F1            [10]  233 	pop	af
-   00CF F1            [10]  234 	pop	af
-   00D0 33            [ 6]  235 	inc	sp
-                            236 ;src/UI_GameMenu.c:74: if(lastEntry!=entryIndex){
-   00D1 3Ar00r00      [13]  237 	ld	a,(#_lastEntry + 0)
-   00D4 FD 21r01r00   [14]  238 	ld	iy,#_entryIndex
-   00D8 FD 96 00      [19]  239 	sub	a, 0 (iy)
-   00DB C8            [11]  240 	ret	Z
-                            241 ;src/UI_GameMenu.c:75: color = g_colors[2];
-   00DC 21r02r00      [10]  242 	ld	hl,#_g_colors+2
-   00DF 5E            [ 7]  243 	ld	e,(hl)
-                            244 ;src/UI_GameMenu.c:76: cpct_drawSolidBox(entriesPosition[lastEntry],color, buttonWidths[lastEntry], BUTTON_HEIGHT);
-   00E0 3Er28         [ 7]  245 	ld	a,#<(_buttonWidths)
-   00E2 21r00r00      [10]  246 	ld	hl,#_lastEntry
-   00E5 86            [ 7]  247 	add	a, (hl)
-   00E6 4F            [ 4]  248 	ld	c,a
-   00E7 3Es00         [ 7]  249 	ld	a,#>(_buttonWidths)
-   00E9 CE 00         [ 7]  250 	adc	a, #0x00
-   00EB 47            [ 4]  251 	ld	b,a
-   00EC 0A            [ 7]  252 	ld	a,(bc)
-   00ED 57            [ 4]  253 	ld	d,a
-   00EE FD 21r00r00   [14]  254 	ld	iy,#_lastEntry
-   00F2 FD 6E 00      [19]  255 	ld	l,0 (iy)
-   00F5 26 00         [ 7]  256 	ld	h,#0x00
-   00F7 29            [11]  257 	add	hl, hl
-   00F8 01r10r00      [10]  258 	ld	bc,#_entriesPosition
-   00FB 09            [11]  259 	add	hl,bc
-   00FC 4E            [ 7]  260 	ld	c,(hl)
-   00FD 23            [ 6]  261 	inc	hl
-   00FE 46            [ 7]  262 	ld	b,(hl)
-   00FF 3E 18         [ 7]  263 	ld	a,#0x18
-   0101 F5            [11]  264 	push	af
-   0102 33            [ 6]  265 	inc	sp
-   0103 D5            [11]  266 	push	de
-   0104 C5            [11]  267 	push	bc
-   0105 CDr00r00      [17]  268 	call	_cpct_drawSolidBox
-   0108 F1            [10]  269 	pop	af
-   0109 F1            [10]  270 	pop	af
-   010A 33            [ 6]  271 	inc	sp
-                            272 ;src/UI_GameMenu.c:77: print_transparent_text(buttonText[lastEntry], entriesPosition[lastEntry], 3);
-   010B FD 21r00r00   [14]  273 	ld	iy,#_lastEntry
-   010F FD 6E 00      [19]  274 	ld	l,0 (iy)
-   0112 26 00         [ 7]  275 	ld	h,#0x00
-   0114 29            [11]  276 	add	hl, hl
-   0115 4D            [ 4]  277 	ld	c, l
-   0116 44            [ 4]  278 	ld	b, h
-   0117 21r10r00      [10]  279 	ld	hl,#_entriesPosition
-   011A 09            [11]  280 	add	hl,bc
-   011B 5E            [ 7]  281 	ld	e,(hl)
-   011C 23            [ 6]  282 	inc	hl
-   011D 56            [ 7]  283 	ld	d,(hl)
-   011E 21r1Cr00      [10]  284 	ld	hl,#_buttonText
-   0121 09            [11]  285 	add	hl,bc
-   0122 4E            [ 7]  286 	ld	c,(hl)
-   0123 23            [ 6]  287 	inc	hl
-   0124 46            [ 7]  288 	ld	b,(hl)
-   0125 3E 03         [ 7]  289 	ld	a,#0x03
-   0127 F5            [11]  290 	push	af
-   0128 33            [ 6]  291 	inc	sp
-   0129 D5            [11]  292 	push	de
-   012A C5            [11]  293 	push	bc
-   012B CDr00r00      [17]  294 	call	_print_transparent_text
-   012E F1            [10]  295 	pop	af
-   012F F1            [10]  296 	pop	af
-   0130 33            [ 6]  297 	inc	sp
-   0131 C9            [10]  298 	ret
-                            299 ;src/UI_GameMenu.c:82: void ui_gamemenu_render_all(){
-                            300 ;	---------------------------------
-                            301 ; Function ui_gamemenu_render_all
-                            302 ; ---------------------------------
-   0132                     303 _ui_gamemenu_render_all::
-   0132 DD E5         [15]  304 	push	ix
-   0134 DD 21 00 00   [14]  305 	ld	ix,#0
-   0138 DD 39         [15]  306 	add	ix,sp
-   013A F5            [11]  307 	push	af
-   013B 3B            [ 6]  308 	dec	sp
-                            309 ;src/UI_GameMenu.c:86: while(n){
-   013C DD 36 FD 06   [19]  310 	ld	-3 (ix),#0x06
-   0140                     311 00101$:
-   0140 DD 7E FD      [19]  312 	ld	a,-3 (ix)
-   0143 B7            [ 4]  313 	or	a, a
-   0144 28 77         [12]  314 	jr	Z,00104$
-                            315 ;src/UI_GameMenu.c:87: --n;
-   0146 DD 35 FD      [23]  316 	dec	-3 (ix)
-                            317 ;src/UI_GameMenu.c:88: color = (n==entryIndex)?((entrySelected)? g_colors[4]: g_colors[5]): g_colors[2];
-   0149 3Ar01r00      [13]  318 	ld	a,(#_entryIndex + 0)
-   014C DD 96 FD      [19]  319 	sub	a, -3 (ix)
-   014F 20 10         [12]  320 	jr	NZ,00106$
-   0151 3Ar02r00      [13]  321 	ld	a,(#_entrySelected + 0)
-   0154 B7            [ 4]  322 	or	a, a
-   0155 28 05         [12]  323 	jr	Z,00108$
-   0157 3Ar04r00      [13]  324 	ld	a, (#_g_colors + 4)
-   015A 18 08         [12]  325 	jr	00107$
-   015C                     326 00108$:
-   015C 3Ar05r00      [13]  327 	ld	a, (#_g_colors + 5)
-   015F 18 03         [12]  328 	jr	00107$
-   0161                     329 00106$:
-   0161 3Ar02r00      [13]  330 	ld	a, (#_g_colors + 2)
-   0164                     331 00107$:
-   0164 4F            [ 4]  332 	ld	c,a
-                            333 ;src/UI_GameMenu.c:89: cpct_drawSolidBox(entriesPosition[n],color, buttonWidths[n], BUTTON_HEIGHT);
-   0165 3Er28         [ 7]  334 	ld	a,#<(_buttonWidths)
-   0167 DD 86 FD      [19]  335 	add	a, -3 (ix)
-   016A 6F            [ 4]  336 	ld	l,a
-   016B 3Es00         [ 7]  337 	ld	a,#>(_buttonWidths)
-   016D CE 00         [ 7]  338 	adc	a, #0x00
-   016F 67            [ 4]  339 	ld	h,a
-   0170 46            [ 7]  340 	ld	b,(hl)
-   0171 DD 6E FD      [19]  341 	ld	l,-3 (ix)
-   0174 26 00         [ 7]  342 	ld	h,#0x00
-   0176 29            [11]  343 	add	hl, hl
-   0177 EB            [ 4]  344 	ex	de,hl
-   0178 21r10r00      [10]  345 	ld	hl,#_entriesPosition
-   017B 19            [11]  346 	add	hl,de
-   017C DD 75 FE      [19]  347 	ld	-2 (ix),l
-   017F DD 74 FF      [19]  348 	ld	-1 (ix),h
-   0182 DD 6E FE      [19]  349 	ld	l,-2 (ix)
-   0185 DD 66 FF      [19]  350 	ld	h,-1 (ix)
-   0188 7E            [ 7]  351 	ld	a, (hl)
-   0189 23            [ 6]  352 	inc	hl
-   018A 66            [ 7]  353 	ld	h,(hl)
-   018B 6F            [ 4]  354 	ld	l,a
-   018C E5            [11]  355 	push	hl
-   018D FD E1         [14]  356 	pop	iy
-   018F D5            [11]  357 	push	de
-   0190 3E 18         [ 7]  358 	ld	a,#0x18
-   0192 F5            [11]  359 	push	af
-   0193 33            [ 6]  360 	inc	sp
-   0194 C5            [11]  361 	push	bc
-   0195 FD E5         [15]  362 	push	iy
-   0197 CDr00r00      [17]  363 	call	_cpct_drawSolidBox
-   019A F1            [10]  364 	pop	af
-   019B F1            [10]  365 	pop	af
-   019C 33            [ 6]  366 	inc	sp
-   019D D1            [10]  367 	pop	de
-                            368 ;src/UI_GameMenu.c:90: print_transparent_text(buttonText[n], entriesPosition[n], 3);
-   019E DD 6E FE      [19]  369 	ld	l,-2 (ix)
-   01A1 DD 66 FF      [19]  370 	ld	h,-1 (ix)
-   01A4 4E            [ 7]  371 	ld	c,(hl)
-   01A5 23            [ 6]  372 	inc	hl
-   01A6 46            [ 7]  373 	ld	b,(hl)
-   01A7 21r1Cr00      [10]  374 	ld	hl,#_buttonText
-   01AA 19            [11]  375 	add	hl,de
-   01AB 5E            [ 7]  376 	ld	e,(hl)
-   01AC 23            [ 6]  377 	inc	hl
-   01AD 56            [ 7]  378 	ld	d,(hl)
-   01AE 3E 03         [ 7]  379 	ld	a,#0x03
-   01B0 F5            [11]  380 	push	af
-   01B1 33            [ 6]  381 	inc	sp
-   01B2 C5            [11]  382 	push	bc
-   01B3 D5            [11]  383 	push	de
-   01B4 CDr00r00      [17]  384 	call	_print_transparent_text
-   01B7 F1            [10]  385 	pop	af
-   01B8 F1            [10]  386 	pop	af
-   01B9 33            [ 6]  387 	inc	sp
-   01BA C3r40r01      [10]  388 	jp	00101$
-   01BD                     389 00104$:
-   01BD DD F9         [10]  390 	ld	sp, ix
-   01BF DD E1         [14]  391 	pop	ix
-   01C1 C9            [10]  392 	ret
-                            393 ;src/UI_GameMenu.c:96: u8 ui_gamemenu_get_entry(){
-                            394 ;	---------------------------------
-                            395 ; Function ui_gamemenu_get_entry
-                            396 ; ---------------------------------
-   01C2                     397 _ui_gamemenu_get_entry::
-                            398 ;src/UI_GameMenu.c:97: return entryIndex;
-   01C2 FD 21r01r00   [14]  399 	ld	iy,#_entryIndex
-   01C6 FD 6E 00      [19]  400 	ld	l,0 (iy)
-   01C9 C9            [10]  401 	ret
-                            402 ;src/UI_GameMenu.c:100: u8 ui_gamemenu_is_selected(){
-                            403 ;	---------------------------------
-                            404 ; Function ui_gamemenu_is_selected
-                            405 ; ---------------------------------
-   01CA                     406 _ui_gamemenu_is_selected::
-                            407 ;src/UI_GameMenu.c:101: return entrySelected;
-   01CA FD 21r02r00   [14]  408 	ld	iy,#_entrySelected
-   01CE FD 6E 00      [19]  409 	ld	l,0 (iy)
-   01D1 C9            [10]  410 	ret
-                            411 	.area _CODE
-                            412 	.area _INITIALIZER
-   0000                     413 __xinit__lastEntry:
-   0000 00                  414 	.db #0x00	; 0
-   0001                     415 __xinit__entryIndex:
-   0001 00                  416 	.db #0x00	; 0
-   0002                     417 __xinit__entrySelected:
-   0002 00                  418 	.db #0x00	; 0
-                            419 	.area _CABS (ABS)
+   0070                     154 _ui_gamemenu_previous_entry::
+                            155 ;src/UI_GameMenu.c:58: if(ui_gamemenu_entryIndex>0){
+   0070 3Ar01r00      [13]  156 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   0073 B7            [ 4]  157 	or	a, a
+   0074 C8            [11]  158 	ret	Z
+                            159 ;src/UI_GameMenu.c:59: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
+   0075 3Ar01r00      [13]  160 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   0078 32r00r00      [13]  161 	ld	(#_ui_gamemenu_lastEntry + 0),a
+                            162 ;src/UI_GameMenu.c:60: --ui_gamemenu_entryIndex;
+   007B 21r01r00      [10]  163 	ld	hl, #_ui_gamemenu_entryIndex+0
+   007E 35            [11]  164 	dec	(hl)
+   007F C9            [10]  165 	ret
+                            166 ;src/UI_GameMenu.c:64: void ui_gamemenu_unselect_entry(){
+                            167 ;	---------------------------------
+                            168 ; Function ui_gamemenu_unselect_entry
+                            169 ; ---------------------------------
+   0080                     170 _ui_gamemenu_unselect_entry::
+                            171 ;src/UI_GameMenu.c:65: ui_gamemenu_entrySelected=0;
+   0080 21r02r00      [10]  172 	ld	hl,#_ui_gamemenu_entrySelected + 0
+   0083 36 00         [10]  173 	ld	(hl), #0x00
+   0085 C9            [10]  174 	ret
+                            175 ;src/UI_GameMenu.c:68: void ui_gamemenu_select_entry(){
+                            176 ;	---------------------------------
+                            177 ; Function ui_gamemenu_select_entry
+                            178 ; ---------------------------------
+   0086                     179 _ui_gamemenu_select_entry::
+                            180 ;src/UI_GameMenu.c:69: ui_gamemenu_entrySelected=1;
+   0086 21r02r00      [10]  181 	ld	hl,#_ui_gamemenu_entrySelected + 0
+   0089 36 01         [10]  182 	ld	(hl), #0x01
+   008B C9            [10]  183 	ret
+                            184 ;src/UI_GameMenu.c:73: void ui_gamemenu_render_refresh(){
+                            185 ;	---------------------------------
+                            186 ; Function ui_gamemenu_render_refresh
+                            187 ; ---------------------------------
+   008C                     188 _ui_gamemenu_render_refresh::
+                            189 ;src/UI_GameMenu.c:76: color = (ui_gamemenu_entrySelected)? g_colors[4]: g_colors[5];
+   008C 3Ar02r00      [13]  190 	ld	a,(#_ui_gamemenu_entrySelected + 0)
+   008F B7            [ 4]  191 	or	a, a
+   0090 28 05         [12]  192 	jr	Z,00105$
+   0092 3Ar04r00      [13]  193 	ld	a, (#(_g_colors + 0x0004) + 0)
+   0095 18 03         [12]  194 	jr	00106$
+   0097                     195 00105$:
+   0097 3Ar05r00      [13]  196 	ld	a, (#(_g_colors + 0x0005) + 0)
+   009A                     197 00106$:
+   009A 4F            [ 4]  198 	ld	c,a
+                            199 ;src/UI_GameMenu.c:77: cpct_drawSolidBox(ui_gamemenu_entriesPosition[ui_gamemenu_entryIndex],color, ui_gamemenu_buttonWidths[ui_gamemenu_entryIndex], UI_GAMEMENU_BUTTON_HEIGHT);
+   009B 3Ar01r00      [13]  200 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   009E C6r2E         [ 7]  201 	add	a, #<(_ui_gamemenu_buttonWidths)
+   00A0 5F            [ 4]  202 	ld	e,a
+   00A1 3E 00         [ 7]  203 	ld	a,#0x00
+   00A3 CEs00         [ 7]  204 	adc	a, #>(_ui_gamemenu_buttonWidths)
+   00A5 57            [ 4]  205 	ld	d,a
+   00A6 1A            [ 7]  206 	ld	a,(de)
+   00A7 47            [ 4]  207 	ld	b,a
+   00A8 FD 21r01r00   [14]  208 	ld	iy,#_ui_gamemenu_entryIndex
+   00AC FD 6E 00      [19]  209 	ld	l,0 (iy)
+   00AF 26 00         [ 7]  210 	ld	h,#0x00
+   00B1 29            [11]  211 	add	hl, hl
+   00B2 11r10r00      [10]  212 	ld	de,#_ui_gamemenu_entriesPosition
+   00B5 19            [11]  213 	add	hl,de
+   00B6 5E            [ 7]  214 	ld	e,(hl)
+   00B7 23            [ 6]  215 	inc	hl
+   00B8 56            [ 7]  216 	ld	d,(hl)
+   00B9 3E 18         [ 7]  217 	ld	a,#0x18
+   00BB F5            [11]  218 	push	af
+   00BC 33            [ 6]  219 	inc	sp
+   00BD C5            [11]  220 	push	bc
+   00BE D5            [11]  221 	push	de
+   00BF CDr00r00      [17]  222 	call	_cpct_drawSolidBox
+   00C2 F1            [10]  223 	pop	af
+   00C3 F1            [10]  224 	pop	af
+   00C4 33            [ 6]  225 	inc	sp
+                            226 ;src/UI_GameMenu.c:78: print_transparent_text(ui_gamemenu_buttonText[ui_gamemenu_entryIndex], ui_gamemenu_entriesPosition[ui_gamemenu_entryIndex], 3);
+   00C5 FD 21r01r00   [14]  227 	ld	iy,#_ui_gamemenu_entryIndex
+   00C9 FD 6E 00      [19]  228 	ld	l,0 (iy)
+   00CC 26 00         [ 7]  229 	ld	h,#0x00
+   00CE 29            [11]  230 	add	hl, hl
+   00CF 4D            [ 4]  231 	ld	c, l
+   00D0 44            [ 4]  232 	ld	b, h
+   00D1 21r10r00      [10]  233 	ld	hl,#_ui_gamemenu_entriesPosition
+   00D4 09            [11]  234 	add	hl,bc
+   00D5 5E            [ 7]  235 	ld	e,(hl)
+   00D6 23            [ 6]  236 	inc	hl
+   00D7 56            [ 7]  237 	ld	d,(hl)
+   00D8 21r22r00      [10]  238 	ld	hl,#_ui_gamemenu_buttonText
+   00DB 09            [11]  239 	add	hl,bc
+   00DC 4E            [ 7]  240 	ld	c,(hl)
+   00DD 23            [ 6]  241 	inc	hl
+   00DE 46            [ 7]  242 	ld	b,(hl)
+   00DF 3E 03         [ 7]  243 	ld	a,#0x03
+   00E1 F5            [11]  244 	push	af
+   00E2 33            [ 6]  245 	inc	sp
+   00E3 D5            [11]  246 	push	de
+   00E4 C5            [11]  247 	push	bc
+   00E5 CDr00r00      [17]  248 	call	_print_transparent_text
+   00E8 F1            [10]  249 	pop	af
+   00E9 F1            [10]  250 	pop	af
+   00EA 33            [ 6]  251 	inc	sp
+                            252 ;src/UI_GameMenu.c:80: if(ui_gamemenu_lastEntry!=ui_gamemenu_entryIndex){
+   00EB 3Ar00r00      [13]  253 	ld	a,(#_ui_gamemenu_lastEntry + 0)
+   00EE FD 21r01r00   [14]  254 	ld	iy,#_ui_gamemenu_entryIndex
+   00F2 FD 96 00      [19]  255 	sub	a, 0 (iy)
+   00F5 C8            [11]  256 	ret	Z
+                            257 ;src/UI_GameMenu.c:81: color = g_colors[2];
+   00F6 21r02r00      [10]  258 	ld	hl,#_g_colors+2
+   00F9 5E            [ 7]  259 	ld	e,(hl)
+                            260 ;src/UI_GameMenu.c:82: cpct_drawSolidBox(ui_gamemenu_entriesPosition[ui_gamemenu_lastEntry],color, ui_gamemenu_buttonWidths[ui_gamemenu_lastEntry], UI_GAMEMENU_BUTTON_HEIGHT);
+   00FA 3Er2E         [ 7]  261 	ld	a,#<(_ui_gamemenu_buttonWidths)
+   00FC 21r00r00      [10]  262 	ld	hl,#_ui_gamemenu_lastEntry
+   00FF 86            [ 7]  263 	add	a, (hl)
+   0100 4F            [ 4]  264 	ld	c,a
+   0101 3Es00         [ 7]  265 	ld	a,#>(_ui_gamemenu_buttonWidths)
+   0103 CE 00         [ 7]  266 	adc	a, #0x00
+   0105 47            [ 4]  267 	ld	b,a
+   0106 0A            [ 7]  268 	ld	a,(bc)
+   0107 57            [ 4]  269 	ld	d,a
+   0108 FD 21r00r00   [14]  270 	ld	iy,#_ui_gamemenu_lastEntry
+   010C FD 6E 00      [19]  271 	ld	l,0 (iy)
+   010F 26 00         [ 7]  272 	ld	h,#0x00
+   0111 29            [11]  273 	add	hl, hl
+   0112 01r10r00      [10]  274 	ld	bc,#_ui_gamemenu_entriesPosition
+   0115 09            [11]  275 	add	hl,bc
+   0116 4E            [ 7]  276 	ld	c,(hl)
+   0117 23            [ 6]  277 	inc	hl
+   0118 46            [ 7]  278 	ld	b,(hl)
+   0119 3E 18         [ 7]  279 	ld	a,#0x18
+   011B F5            [11]  280 	push	af
+   011C 33            [ 6]  281 	inc	sp
+   011D D5            [11]  282 	push	de
+   011E C5            [11]  283 	push	bc
+   011F CDr00r00      [17]  284 	call	_cpct_drawSolidBox
+   0122 F1            [10]  285 	pop	af
+   0123 F1            [10]  286 	pop	af
+   0124 33            [ 6]  287 	inc	sp
+                            288 ;src/UI_GameMenu.c:83: print_transparent_text(ui_gamemenu_buttonText[ui_gamemenu_lastEntry], ui_gamemenu_entriesPosition[ui_gamemenu_lastEntry], 3);
+   0125 FD 21r00r00   [14]  289 	ld	iy,#_ui_gamemenu_lastEntry
+   0129 FD 6E 00      [19]  290 	ld	l,0 (iy)
+   012C 26 00         [ 7]  291 	ld	h,#0x00
+   012E 29            [11]  292 	add	hl, hl
+   012F 4D            [ 4]  293 	ld	c, l
+   0130 44            [ 4]  294 	ld	b, h
+   0131 21r10r00      [10]  295 	ld	hl,#_ui_gamemenu_entriesPosition
+   0134 09            [11]  296 	add	hl,bc
+   0135 5E            [ 7]  297 	ld	e,(hl)
+   0136 23            [ 6]  298 	inc	hl
+   0137 56            [ 7]  299 	ld	d,(hl)
+   0138 21r22r00      [10]  300 	ld	hl,#_ui_gamemenu_buttonText
+   013B 09            [11]  301 	add	hl,bc
+   013C 4E            [ 7]  302 	ld	c,(hl)
+   013D 23            [ 6]  303 	inc	hl
+   013E 46            [ 7]  304 	ld	b,(hl)
+   013F 3E 03         [ 7]  305 	ld	a,#0x03
+   0141 F5            [11]  306 	push	af
+   0142 33            [ 6]  307 	inc	sp
+   0143 D5            [11]  308 	push	de
+   0144 C5            [11]  309 	push	bc
+   0145 CDr00r00      [17]  310 	call	_print_transparent_text
+   0148 F1            [10]  311 	pop	af
+   0149 F1            [10]  312 	pop	af
+   014A 33            [ 6]  313 	inc	sp
+                            314 ;src/UI_GameMenu.c:84: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
+   014B 3Ar01r00      [13]  315 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   014E 32r00r00      [13]  316 	ld	(#_ui_gamemenu_lastEntry + 0),a
+   0151 C9            [10]  317 	ret
+                            318 ;src/UI_GameMenu.c:89: void ui_gamemenu_render_all(){
+                            319 ;	---------------------------------
+                            320 ; Function ui_gamemenu_render_all
+                            321 ; ---------------------------------
+   0152                     322 _ui_gamemenu_render_all::
+   0152 DD E5         [15]  323 	push	ix
+   0154 DD 21 00 00   [14]  324 	ld	ix,#0
+   0158 DD 39         [15]  325 	add	ix,sp
+   015A F5            [11]  326 	push	af
+   015B 3B            [ 6]  327 	dec	sp
+                            328 ;src/UI_GameMenu.c:93: while(n){
+   015C DD 36 FD 06   [19]  329 	ld	-3 (ix),#0x06
+   0160                     330 00101$:
+   0160 DD 7E FD      [19]  331 	ld	a,-3 (ix)
+   0163 B7            [ 4]  332 	or	a, a
+   0164 28 77         [12]  333 	jr	Z,00103$
+                            334 ;src/UI_GameMenu.c:94: --n;
+   0166 DD 35 FD      [23]  335 	dec	-3 (ix)
+                            336 ;src/UI_GameMenu.c:95: color = (n==ui_gamemenu_entryIndex)?((ui_gamemenu_entrySelected)? g_colors[4]: g_colors[5]): g_colors[2];
+   0169 3Ar01r00      [13]  337 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   016C DD 96 FD      [19]  338 	sub	a, -3 (ix)
+   016F 20 10         [12]  339 	jr	NZ,00106$
+   0171 3Ar02r00      [13]  340 	ld	a,(#_ui_gamemenu_entrySelected + 0)
+   0174 B7            [ 4]  341 	or	a, a
+   0175 28 05         [12]  342 	jr	Z,00108$
+   0177 3Ar04r00      [13]  343 	ld	a, (#_g_colors + 4)
+   017A 18 08         [12]  344 	jr	00107$
+   017C                     345 00108$:
+   017C 3Ar05r00      [13]  346 	ld	a, (#_g_colors + 5)
+   017F 18 03         [12]  347 	jr	00107$
+   0181                     348 00106$:
+   0181 3Ar02r00      [13]  349 	ld	a, (#_g_colors + 2)
+   0184                     350 00107$:
+   0184 4F            [ 4]  351 	ld	c,a
+                            352 ;src/UI_GameMenu.c:96: cpct_drawSolidBox(ui_gamemenu_entriesPosition[n],color, ui_gamemenu_buttonWidths[n], UI_GAMEMENU_BUTTON_HEIGHT);
+   0185 3Er2E         [ 7]  353 	ld	a,#<(_ui_gamemenu_buttonWidths)
+   0187 DD 86 FD      [19]  354 	add	a, -3 (ix)
+   018A 6F            [ 4]  355 	ld	l,a
+   018B 3Es00         [ 7]  356 	ld	a,#>(_ui_gamemenu_buttonWidths)
+   018D CE 00         [ 7]  357 	adc	a, #0x00
+   018F 67            [ 4]  358 	ld	h,a
+   0190 46            [ 7]  359 	ld	b,(hl)
+   0191 DD 6E FD      [19]  360 	ld	l,-3 (ix)
+   0194 26 00         [ 7]  361 	ld	h,#0x00
+   0196 29            [11]  362 	add	hl, hl
+   0197 EB            [ 4]  363 	ex	de,hl
+   0198 21r10r00      [10]  364 	ld	hl,#_ui_gamemenu_entriesPosition
+   019B 19            [11]  365 	add	hl,de
+   019C DD 75 FE      [19]  366 	ld	-2 (ix),l
+   019F DD 74 FF      [19]  367 	ld	-1 (ix),h
+   01A2 DD 6E FE      [19]  368 	ld	l,-2 (ix)
+   01A5 DD 66 FF      [19]  369 	ld	h,-1 (ix)
+   01A8 7E            [ 7]  370 	ld	a, (hl)
+   01A9 23            [ 6]  371 	inc	hl
+   01AA 66            [ 7]  372 	ld	h,(hl)
+   01AB 6F            [ 4]  373 	ld	l,a
+   01AC E5            [11]  374 	push	hl
+   01AD FD E1         [14]  375 	pop	iy
+   01AF D5            [11]  376 	push	de
+   01B0 3E 18         [ 7]  377 	ld	a,#0x18
+   01B2 F5            [11]  378 	push	af
+   01B3 33            [ 6]  379 	inc	sp
+   01B4 C5            [11]  380 	push	bc
+   01B5 FD E5         [15]  381 	push	iy
+   01B7 CDr00r00      [17]  382 	call	_cpct_drawSolidBox
+   01BA F1            [10]  383 	pop	af
+   01BB F1            [10]  384 	pop	af
+   01BC 33            [ 6]  385 	inc	sp
+   01BD D1            [10]  386 	pop	de
+                            387 ;src/UI_GameMenu.c:97: print_transparent_text(ui_gamemenu_buttonText[n], ui_gamemenu_entriesPosition[n], 3);
+   01BE DD 6E FE      [19]  388 	ld	l,-2 (ix)
+   01C1 DD 66 FF      [19]  389 	ld	h,-1 (ix)
+   01C4 4E            [ 7]  390 	ld	c,(hl)
+   01C5 23            [ 6]  391 	inc	hl
+   01C6 46            [ 7]  392 	ld	b,(hl)
+   01C7 21r22r00      [10]  393 	ld	hl,#_ui_gamemenu_buttonText
+   01CA 19            [11]  394 	add	hl,de
+   01CB 5E            [ 7]  395 	ld	e,(hl)
+   01CC 23            [ 6]  396 	inc	hl
+   01CD 56            [ 7]  397 	ld	d,(hl)
+   01CE 3E 03         [ 7]  398 	ld	a,#0x03
+   01D0 F5            [11]  399 	push	af
+   01D1 33            [ 6]  400 	inc	sp
+   01D2 C5            [11]  401 	push	bc
+   01D3 D5            [11]  402 	push	de
+   01D4 CDr00r00      [17]  403 	call	_print_transparent_text
+   01D7 F1            [10]  404 	pop	af
+   01D8 F1            [10]  405 	pop	af
+   01D9 33            [ 6]  406 	inc	sp
+   01DA C3r60r01      [10]  407 	jp	00101$
+   01DD                     408 00103$:
+                            409 ;src/UI_GameMenu.c:100: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
+   01DD 3Ar01r00      [13]  410 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   01E0 32r00r00      [13]  411 	ld	(#_ui_gamemenu_lastEntry + 0),a
+   01E3 DD F9         [10]  412 	ld	sp, ix
+   01E5 DD E1         [14]  413 	pop	ix
+   01E7 C9            [10]  414 	ret
+                            415 ;src/UI_GameMenu.c:103: u8 ui_gamemenu_get_entry(){
+                            416 ;	---------------------------------
+                            417 ; Function ui_gamemenu_get_entry
+                            418 ; ---------------------------------
+   01E8                     419 _ui_gamemenu_get_entry::
+                            420 ;src/UI_GameMenu.c:104: return ui_gamemenu_entryIndex;
+   01E8 FD 21r01r00   [14]  421 	ld	iy,#_ui_gamemenu_entryIndex
+   01EC FD 6E 00      [19]  422 	ld	l,0 (iy)
+   01EF C9            [10]  423 	ret
+                            424 ;src/UI_GameMenu.c:107: u8 ui_gamemenu_is_selected(){
+                            425 ;	---------------------------------
+                            426 ; Function ui_gamemenu_is_selected
+                            427 ; ---------------------------------
+   01F0                     428 _ui_gamemenu_is_selected::
+                            429 ;src/UI_GameMenu.c:108: return ui_gamemenu_entrySelected;
+   01F0 FD 21r02r00   [14]  430 	ld	iy,#_ui_gamemenu_entrySelected
+   01F4 FD 6E 00      [19]  431 	ld	l,0 (iy)
+   01F7 C9            [10]  432 	ret
+                            433 	.area _CODE
+                            434 	.area _INITIALIZER
+   0000                     435 __xinit__ui_gamemenu_lastEntry:
+   0000 00                  436 	.db #0x00	; 0
+   0001                     437 __xinit__ui_gamemenu_entryIndex:
+   0001 00                  438 	.db #0x00	; 0
+   0002                     439 __xinit__ui_gamemenu_entrySelected:
+   0002 00                  440 	.db #0x00	; 0
+   0003                     441 __xinit__ui_gamemenu_action:
+   0003 00                  442 	.db #0x00	; 0
+                            443 	.area _CABS (ABS)

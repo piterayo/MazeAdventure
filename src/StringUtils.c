@@ -9,6 +9,16 @@
 #define CHARSET_LENGHT 50
 
 
+//ICONS
+// # = Shield
+// $ = Key
+// + = Sword
+// & = Potion
+// < = Left arrow
+// > = Right arrow
+// * = Face
+// ~ = Venom
+
 const u8 charArray[128]={
     255,255,255,255,255,255,255,255,    255,255,255,255,255,255,255,255, //15
     255,255,255,255,255,255,255,255,    255,255,255,255,255,255,255,255, //31
@@ -33,14 +43,13 @@ void* integer_to_string(u8 n, u8 format){
             
             --charPosition;
             
-            t=n%16;
-            t=t>9?t+64:t+48;
+            t=n&0x0F;
+            t=t>9?t+55:t+48;
             *charPosition=t;
-            n/=16;
+            n>>=4;
             --charPosition;
             
-            t=n%16;
-            t=t>9?t+64:t+48;
+            t=n>9?n+55:n+48;
             *charPosition=t;
             break;
         }
@@ -85,7 +94,11 @@ void print_text(void * const text, u8* position, u8 bg, u8 fg){
     u8 height = (2*typography_4x6_monospaced_LENGTH/CHARSET_LENGHT);
     u8 width = (CHARSET_LENGHT/2);
     
-    position+=10240;
+    (position)+=0x2800;
+    if(position<0x2800){
+        position-=0x4000;
+        position+=80;
+    }
     
     while(height){
         --height;
@@ -128,19 +141,28 @@ void print_text(void * const text, u8* position, u8 bg, u8 fg){
             
             ++currentChar;
         }
-        position-=(2048);
+        position-=0x0800;
+        
+        if(position<0xC000){
+            position+=0x4000;
+            position-=80;
+        } 
     }
     
 }
 
 void print_transparent_text(void* const text, u8* position, u8 fg){
-    u8 val, charBitArray, spritePos;
+    u8 val, charBitArray, spritePos, color = g_colors[fg];
     u8* currentChar;
     u8* currentPos;
     u8 height = (2*typography_4x6_monospaced_LENGTH/CHARSET_LENGHT);
     u8 width = (CHARSET_LENGHT/2);
     
-    position+=10240;
+    (position)+=0x2800;
+    if(position<0x2800){
+        position-=0x4000;
+        position+=80;
+    }
     
     while(height){
         currentChar=text;
@@ -156,11 +178,11 @@ void print_transparent_text(void* const text, u8* position, u8 fg){
             
             val=*currentPos;
             
-            if(charBitArray&0b10000000) val = (g_colors[fg]&0b10101010)|(val&0b01010101);
+            if(charBitArray&0b10000000) val = (color&0b10101010)|(val&0b01010101);
             
             charBitArray<<=1;
             
-            if(charBitArray&0b10000000) val = (g_colors[fg]&0b01010101)|(val&0b10101010);
+            if(charBitArray&0b10000000) val = (color&0b01010101)|(val&0b10101010);
             
             charBitArray<<=1;
             
@@ -169,11 +191,11 @@ void print_transparent_text(void* const text, u8* position, u8 fg){
             
             val=*currentPos;
             
-            if(charBitArray&0b10000000) val = (g_colors[fg]&0b10101010)|(val&0b01010101);
+            if(charBitArray&0b10000000) val = (color&0b10101010)|(val&0b01010101);
             
             charBitArray<<=1;
             
-            if(charBitArray&0b10000000) val = (g_colors[fg]&0b01010101)|(val&0b10101010);
+            if(charBitArray&0b10000000) val = (color&0b01010101)|(val&0b10101010);
             
             charBitArray<<=1;
             
@@ -182,6 +204,12 @@ void print_transparent_text(void* const text, u8* position, u8 fg){
             
             ++currentChar;
         }
-        position-=(2048);
+        position-=0x0800;
+        
+        if(position<0xC000){
+            position+=0x4000;
+            position-=80;
+        } 
+        
     }
 }

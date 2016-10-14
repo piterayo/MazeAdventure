@@ -37,7 +37,7 @@ u8 get_random_wall(){
 
 void generate_map(){
     
-    u8 cellType, surroundedByWalls, convertToFloor, adjacentType,i;
+    u8 cellType, surroundedByWalls, convertToFloor, adjacentType,i, rotatePlayer;
     u16 remainingCells = MAP_SIZE-(MAP_WIDTH*2)-((MAP_HEIGHT-2)*2)-1;
     u8 (*map)[MAP_HEIGHT] = MAP_MEM;
     Vec2u* cellStack = (Vec2u*)GENERATOR_DATA_PTR;
@@ -52,9 +52,14 @@ void generate_map(){
     (*cellStack).x = (cpct_getRandom_lcg_u8()%(MAP_WIDTH-2))+1; //RANDOM
     (*cellStack).y = (cpct_getRandom_lcg_u8()%(MAP_HEIGHT-2))+1; //RANDOM
     
+    rotatePlayer = cpct_getRandom_lcg_u8()%4;
+    while(rotatePlayer){
+        player_turn_left();
+        --rotatePlayer;
+    }
     
-    *(i8*)&(PLAYER_position.x) = (*cellStack).y;
-    *(i8*)&(PLAYER_position.y) = (*cellStack).x;
+    *(i8*)&(player_position.x) = (*cellStack).y;
+    *(i8*)&(player_position.y) = (*cellStack).x;
     
     cpct_memset (MAP_MEM,CELLTYPE_UNDEFINED,MAP_SIZE);
     

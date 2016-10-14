@@ -14,24 +14,19 @@
 
 #include "UI_Compass.h"
 #include "UI_GameMenu.h"
+#include "UI_PlayerStats.h"
 
-const u8 isInitialized = 0;
+// const u8 isInitialized = 0;
 
 const u8 updateRenderBuffer = 0;
 
 void state_ingame_enter(){
-    if(!isInitialized){
-        generate_level();
-        level_set_level(0);
-        level_load_level();
-        
-        ui_gamemenu_init();
-        
-        render_draw_to_buffer();
-        draw_minimap_to_buffer();
-        *(u8*)&isInitialized = 1;
-    }
-    cpct_memset(CPCT_VMEM_START, g_colors[12], 0x4000);
+    cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+    
+    ui_gamemenu_init();
+    
+    
+    ui_gamemenu_render_all();
     state_ingame_render();
 }
 
@@ -72,24 +67,24 @@ void state_ingame_update(){
         ui_gamemenu_render_refresh();
         switch(ui_gamemenu_get_entry()){
             case 0:{
-                *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
-                *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
-                *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+                
+                player_turn_left();
+                
                 
                 *(u8*)&updateRenderBuffer = 1;
                 break;
             }
             case 1:{
-                *(i8*)&(PLAYER_position.x) = PLAYER_position.x + PLAYER_direction.x;
-                *(i8*)&(PLAYER_position.y) = PLAYER_position.y + PLAYER_direction.y;
+                
+                player_move_forward();
+                
                 
                 *(u8*)&updateRenderBuffer = 1;
                 break;
             }
             case 2:{
-                *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
-                *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
-                *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+                
+                player_turn_right();
                 
                 *(u8*)&updateRenderBuffer = 1;
                 break;
@@ -120,11 +115,12 @@ void state_ingame_update(){
 
 void state_ingame_render(){
     ui_gamemenu_render_refresh();
+    ui_playerstats_render();
     cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
     renderCompass();
     cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
 }
 
 void state_ingame_exit(){
-       *(u8*)&isInitialized = 0;
+       // *(u8*)&isInitialized = 0;
 }

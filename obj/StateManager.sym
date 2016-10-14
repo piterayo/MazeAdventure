@@ -8,20 +8,27 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
     ___sdcc_call_hl                                                **** GX
-  0 _changeToState                                                 004A GR
+  0 _changeToState                                                 006D GR
+  0 _closeState                                                    006B GR
     _cpct_keyboardStatusBuffer                                     **** GX
     _cpct_scanKeyboard_f                                           **** GX
     _cpct_waitVSYNC                                                **** GX
-  0 _currentState                                                  0049 GR
-  0 _inputReceived                                                 004B GR
-  0 _last_keyboardStatusBuffer                                     004C GR
-  0 _scan_input                                                    0067 GR
-  0 _stateArray                                                    002B GR
+  0 _currentState                                                  006C GR
+  0 _gameRunning                                                   006F GR
+  0 _inputReceived                                                 006E GR
+  0 _last_keyboardStatusBuffer                                     0070 GR
+  0 _scan_input                                                    00D2 GR
+  0 _stateArray                                                    003B GR
     _state_ingame_enter                                            **** GX
     _state_ingame_exit                                             **** GX
     _state_ingame_input                                            **** GX
     _state_ingame_render                                           **** GX
     _state_ingame_update                                           **** GX
+    _state_loadlevel_enter                                         **** GX
+    _state_loadlevel_exit                                          **** GX
+    _state_loadlevel_input                                         **** GX
+    _state_loadlevel_render                                        **** GX
+    _state_loadlevel_update                                        **** GX
     _state_mainmenu_enter                                          **** GX
     _state_mainmenu_exit                                           **** GX
     _state_mainmenu_input                                          **** GX
@@ -32,14 +39,16 @@ Symbol Table
     _state_pausemenu_input                                         **** GX
     _state_pausemenu_render                                        **** GX
     _state_pausemenu_update                                        **** GX
-  0 _statemanager_change_state                                     0000 GR
-  0 _statemanager_close_state                                      0100 GR
-  0 _statemanager_input_accepted                                   0056 GR
-  0 _statemanager_main_loop                                        013F GR
-  0 _statemanager_manage_input                                     00B8 GR
-  0 _statemanager_render_state                                     00E2 GR
-  0 _statemanager_set_state                                        005C GR
-  0 _statemanager_update_state                                     0124 GR
+  0 _statemanager_change_state                                     007A GR
+  0 _statemanager_close_state                                      016D GR
+  0 _statemanager_drop_state                                       0000 GR
+  0 _statemanager_exit_game                                        018E GR
+  0 _statemanager_input_accepted                                   00C1 GR
+  0 _statemanager_main_loop                                        0194 GR
+  0 _statemanager_manage_input                                     0123 GR
+  0 _statemanager_render_state                                     014F GR
+  0 _statemanager_set_state                                        00C7 GR
+  0 _statemanager_update_state                                     0173 GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -47,7 +56,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  14D   flags    0
+   0 _CODE                                      size  1AA   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

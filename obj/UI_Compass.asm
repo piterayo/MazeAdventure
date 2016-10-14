@@ -8,6 +8,7 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _player_get_direction_index
 	.globl _cpct_drawSprite
 	.globl _renderCompass
 ;--------------------------------------------------------
@@ -46,14 +47,13 @@
 ; Function renderCompass
 ; ---------------------------------
 _renderCompass::
-;src/UI_Compass.c:7: cpct_drawSprite(compass_tileset[PLAYER_directionIndex/2],COMPASS_POSITION,8,16);
-	ld	bc,#_compass_tileset+0
-	ld	iy,#_PLAYER_directionIndex
-	ld	l,0 (iy)
+;src/UI_Compass.c:7: cpct_drawSprite(compass_tileset[player_get_direction_index()/2],COMPASS_POSITION,8,16);
+	call	_player_get_direction_index
 	srl	l
 	ld	h,#0x00
 	add	hl, hl
-	add	hl,bc
+	ld	de,#_compass_tileset
+	add	hl,de
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)

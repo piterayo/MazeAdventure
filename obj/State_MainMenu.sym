@@ -7,26 +7,36 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       003B R
+  0 ___str_0                                                       002C R
     _cpct_isKeyPressed                                             **** GX
     _cpct_memset                                                   **** GX
     _g_colors                                                      **** GX
+    _level_set_level                                               **** GX
     _print_transparent_text                                        **** GX
   0 _state_mainmenu_enter                                          0000 GR
-  0 _state_mainmenu_exit                                           0045 GR
-  0 _state_mainmenu_input                                          0003 GR
-  0 _state_mainmenu_render                                         0018 GR
-  0 _state_mainmenu_update                                         0017 GR
+  0 _state_mainmenu_exit                                           00AE GR
+  0 _state_mainmenu_input                                          0036 GR
+  0 _state_mainmenu_render                                         00AB GR
+  0 _state_mainmenu_update                                         0065 GR
+    _statemanager_exit_game                                        **** GX
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
-
+    _ui_mainmenu_get_entry                                         **** GX
+    _ui_mainmenu_init                                              **** GX
+    _ui_mainmenu_is_selected                                       **** GX
+    _ui_mainmenu_next_entry                                        **** GX
+    _ui_mainmenu_previous_entry                                    **** GX
+    _ui_mainmenu_render_all                                        **** GX
+    _ui_mainmenu_render_refresh                                    **** GX
+    _ui_mainmenu_select_entry                                      **** GX
+    _ui_mainmenu_unselect_entry                                    **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   46   flags    0
+   0 _CODE                                      size   AF   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

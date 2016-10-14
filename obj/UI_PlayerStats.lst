@@ -8,37 +8,171 @@
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
-                             11 ;--------------------------------------------------------
-                             12 ; special function registers
-                             13 ;--------------------------------------------------------
-                             14 ;--------------------------------------------------------
-                             15 ; ram data
-                             16 ;--------------------------------------------------------
-                             17 	.area _DATA
+                             11 	.globl _print_transparent_text
+                             12 	.globl _cpct_drawSolidBox
+                             13 	.globl _strings
+                             14 	.globl _ui_playerstats_render
+                             15 ;--------------------------------------------------------
+                             16 ; special function registers
+                             17 ;--------------------------------------------------------
                              18 ;--------------------------------------------------------
                              19 ; ram data
                              20 ;--------------------------------------------------------
-                             21 	.area _INITIALIZED
+                             21 	.area _DATA
                              22 ;--------------------------------------------------------
-                             23 ; absolute external ram data
+                             23 ; ram data
                              24 ;--------------------------------------------------------
-                             25 	.area _DABS (ABS)
+                             25 	.area _INITIALIZED
                              26 ;--------------------------------------------------------
-                             27 ; global & static initialisations
+                             27 ; absolute external ram data
                              28 ;--------------------------------------------------------
-                             29 	.area _HOME
-                             30 	.area _GSINIT
-                             31 	.area _GSFINAL
-                             32 	.area _GSINIT
-                             33 ;--------------------------------------------------------
-                             34 ; Home
-                             35 ;--------------------------------------------------------
-                             36 	.area _HOME
-                             37 	.area _HOME
-                             38 ;--------------------------------------------------------
-                             39 ; code
-                             40 ;--------------------------------------------------------
-                             41 	.area _CODE
-                             42 	.area _CODE
-                             43 	.area _INITIALIZER
-                             44 	.area _CABS (ABS)
+                             29 	.area _DABS (ABS)
+                             30 ;--------------------------------------------------------
+                             31 ; global & static initialisations
+                             32 ;--------------------------------------------------------
+                             33 	.area _HOME
+                             34 	.area _GSINIT
+                             35 	.area _GSFINAL
+                             36 	.area _GSINIT
+                             37 ;--------------------------------------------------------
+                             38 ; Home
+                             39 ;--------------------------------------------------------
+                             40 	.area _HOME
+                             41 	.area _HOME
+                             42 ;--------------------------------------------------------
+                             43 ; code
+                             44 ;--------------------------------------------------------
+                             45 	.area _CODE
+                             46 ;src/UI_PlayerStats.c:16: void ui_playerstats_render(){
+                             47 ;	---------------------------------
+                             48 ; Function ui_playerstats_render
+                             49 ; ---------------------------------
+   0000                      50 _ui_playerstats_render::
+                             51 ;src/UI_PlayerStats.c:17: print_transparent_text("STATS", UI_PLAYERSTATS_POSITION+1, UI_PLAYERSTATS_TEXT_COLOR);
+   0000 3E 03         [ 7]   52 	ld	a,#0x03
+   0002 F5            [11]   53 	push	af
+   0003 33            [ 6]   54 	inc	sp
+   0004 21 A1 C0      [10]   55 	ld	hl,#0xC0A1
+   0007 E5            [11]   56 	push	hl
+   0008 21rA2r00      [10]   57 	ld	hl,#___str_0
+   000B E5            [11]   58 	push	hl
+   000C CDr00r00      [17]   59 	call	_print_transparent_text
+   000F F1            [10]   60 	pop	af
+   0010 F1            [10]   61 	pop	af
+   0011 33            [ 6]   62 	inc	sp
+                             63 ;src/UI_PlayerStats.c:19: print_transparent_text("HP", UI_PLAYERSTATS_POSITION+160, UI_PLAYERSTATS_TEXT_COLOR);
+   0012 3E 03         [ 7]   64 	ld	a,#0x03
+   0014 F5            [11]   65 	push	af
+   0015 33            [ 6]   66 	inc	sp
+   0016 21 40 C1      [10]   67 	ld	hl,#0xC140
+   0019 E5            [11]   68 	push	hl
+   001A 21rA8r00      [10]   69 	ld	hl,#___str_1
+   001D E5            [11]   70 	push	hl
+   001E CDr00r00      [17]   71 	call	_print_transparent_text
+   0021 F1            [10]   72 	pop	af
+   0022 F1            [10]   73 	pop	af
+   0023 33            [ 6]   74 	inc	sp
+                             75 ;src/UI_PlayerStats.c:20: cpct_drawSolidBox(UI_PLAYERSTATS_POSITION+164+2048, g_colors[7], 10,4);
+   0024 21r07r00      [10]   76 	ld	hl,#_g_colors+7
+   0027 46            [ 7]   77 	ld	b,(hl)
+   0028 21 0A 04      [10]   78 	ld	hl,#0x040A
+   002B E5            [11]   79 	push	hl
+   002C C5            [11]   80 	push	bc
+   002D 33            [ 6]   81 	inc	sp
+   002E 21 44 C9      [10]   82 	ld	hl,#0xC944
+   0031 E5            [11]   83 	push	hl
+   0032 CDr00r00      [17]   84 	call	_cpct_drawSolidBox
+   0035 F1            [10]   85 	pop	af
+   0036 F1            [10]   86 	pop	af
+   0037 33            [ 6]   87 	inc	sp
+                             88 ;src/UI_PlayerStats.c:21: print_transparent_text(strings[0], UI_PLAYERSTATS_POSITION+240, UI_PLAYERSTATS_TEXT_COLOR);
+   0038 ED 4Br98r00   [20]   89 	ld	bc, (#_strings + 0)
+   003C 3E 03         [ 7]   90 	ld	a,#0x03
+   003E F5            [11]   91 	push	af
+   003F 33            [ 6]   92 	inc	sp
+   0040 21 90 C1      [10]   93 	ld	hl,#0xC190
+   0043 E5            [11]   94 	push	hl
+   0044 C5            [11]   95 	push	bc
+   0045 CDr00r00      [17]   96 	call	_print_transparent_text
+   0048 F1            [10]   97 	pop	af
+   0049 F1            [10]   98 	pop	af
+   004A 33            [ 6]   99 	inc	sp
+                            100 ;src/UI_PlayerStats.c:22: print_transparent_text(strings[1], UI_PLAYERSTATS_POSITION+320, UI_PLAYERSTATS_TEXT_COLOR);
+   004B ED 4Br9Ar00   [20]  101 	ld	bc, (#_strings + 2)
+   004F 3E 03         [ 7]  102 	ld	a,#0x03
+   0051 F5            [11]  103 	push	af
+   0052 33            [ 6]  104 	inc	sp
+   0053 21 E0 C1      [10]  105 	ld	hl,#0xC1E0
+   0056 E5            [11]  106 	push	hl
+   0057 C5            [11]  107 	push	bc
+   0058 CDr00r00      [17]  108 	call	_print_transparent_text
+   005B F1            [10]  109 	pop	af
+   005C F1            [10]  110 	pop	af
+   005D 33            [ 6]  111 	inc	sp
+                            112 ;src/UI_PlayerStats.c:23: print_transparent_text(strings[2], UI_PLAYERSTATS_POSITION+400, UI_PLAYERSTATS_TEXT_COLOR);
+   005E ED 4Br9Cr00   [20]  113 	ld	bc, (#_strings + 4)
+   0062 3E 03         [ 7]  114 	ld	a,#0x03
+   0064 F5            [11]  115 	push	af
+   0065 33            [ 6]  116 	inc	sp
+   0066 21 30 C2      [10]  117 	ld	hl,#0xC230
+   0069 E5            [11]  118 	push	hl
+   006A C5            [11]  119 	push	bc
+   006B CDr00r00      [17]  120 	call	_print_transparent_text
+   006E F1            [10]  121 	pop	af
+   006F F1            [10]  122 	pop	af
+   0070 33            [ 6]  123 	inc	sp
+                            124 ;src/UI_PlayerStats.c:24: print_transparent_text(strings[3], UI_PLAYERSTATS_POSITION+480, UI_PLAYERSTATS_TEXT_COLOR);
+   0071 ED 4Br9Er00   [20]  125 	ld	bc, (#_strings + 6)
+   0075 3E 03         [ 7]  126 	ld	a,#0x03
+   0077 F5            [11]  127 	push	af
+   0078 33            [ 6]  128 	inc	sp
+   0079 21 80 C2      [10]  129 	ld	hl,#0xC280
+   007C E5            [11]  130 	push	hl
+   007D C5            [11]  131 	push	bc
+   007E CDr00r00      [17]  132 	call	_print_transparent_text
+   0081 F1            [10]  133 	pop	af
+   0082 F1            [10]  134 	pop	af
+   0083 33            [ 6]  135 	inc	sp
+                            136 ;src/UI_PlayerStats.c:25: print_transparent_text(strings[4], UI_PLAYERSTATS_POSITION+560, UI_PLAYERSTATS_TEXT_COLOR);
+   0084 ED 4BrA0r00   [20]  137 	ld	bc, (#_strings + 8)
+   0088 3E 03         [ 7]  138 	ld	a,#0x03
+   008A F5            [11]  139 	push	af
+   008B 33            [ 6]  140 	inc	sp
+   008C 21 D0 C2      [10]  141 	ld	hl,#0xC2D0
+   008F E5            [11]  142 	push	hl
+   0090 C5            [11]  143 	push	bc
+   0091 CDr00r00      [17]  144 	call	_print_transparent_text
+   0094 F1            [10]  145 	pop	af
+   0095 F1            [10]  146 	pop	af
+   0096 33            [ 6]  147 	inc	sp
+   0097 C9            [10]  148 	ret
+   0098                     149 _strings:
+   0098rABr00               150 	.dw __str_2
+   009ArB2r00               151 	.dw __str_3
+   009CrB9r00               152 	.dw __str_4
+   009ErC0r00               153 	.dw __str_5
+   00A0rC7r00               154 	.dw __str_6
+   00A2                     155 ___str_0:
+   00A2 53 54 41 54 53      156 	.ascii "STATS"
+   00A7 00                  157 	.db 0x00
+   00A8                     158 ___str_1:
+   00A8 48 50               159 	.ascii "HP"
+   00AA 00                  160 	.db 0x00
+   00AB                     161 __str_2:
+   00AB 20 31 30 3A 31 30   162 	.ascii " 10:10"
+   00B1 00                  163 	.db 0x00
+   00B2                     164 __str_3:
+   00B2 2B 20 31 2E 30 30   165 	.ascii "+ 1.00"
+   00B8 00                  166 	.db 0x00
+   00B9                     167 __str_4:
+   00B9 23 20 30 2E 30 30   168 	.ascii "# 0.00"
+   00BF 00                  169 	.db 0x00
+   00C0                     170 __str_5:
+   00C0 26 20 20 30 30 30   171 	.ascii "&  000"
+   00C6 00                  172 	.db 0x00
+   00C7                     173 __str_6:
+   00C7 24 20 20 20 20 30   174 	.ascii "$    0"
+   00CD 00                  175 	.db 0x00
+                            176 	.area _CODE
+                            177 	.area _INITIALIZER
+                            178 	.area _CABS (ABS)

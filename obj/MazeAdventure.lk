@@ -15,7 +15,10 @@ obj/main.rel
 obj/Map.rel
 obj/Player.rel
 obj/Renderer.rel
+obj/State_Credits.rel
 obj/State_InGame.rel
+obj/State_Intro.rel
+obj/State_LoadLevel.rel
 obj/State_MainMenu.rel
 obj/StateManager.rel
 obj/State_PauseMenu.rel

@@ -5,9 +5,14 @@
 #include <cpctelera.h>
 #include "Structures.h"
 
-extern const Vec2u PLAYER_position;
-extern const Vec2i PLAYER_direction;
-extern const u8 PLAYER_directionIndex;
-extern const i8 PLAYER_directionArray[8];
+extern const Vec2u player_position;
+extern const Vec2i player_direction;
+
+extern void player_turn_left();
+extern void player_turn_right();
+
+extern void player_move_forward();
+
+extern u8 player_get_direction_index();
 
 #endif

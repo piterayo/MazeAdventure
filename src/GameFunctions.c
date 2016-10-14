@@ -21,6 +21,6 @@ void game_init(){
     level_init_palettes();
     cpct_setPalette(g_palette,16);
     cpct_setBorder(g_palette[1]);
-    // Clear Screen
-    cpct_memset(CPCT_VMEM_START, g_colors[0], 0x4000);
+    
+    *((u8*)0x0000)=0xC9; //Set 0x0000 memory to always return
 }

@@ -7,9 +7,9 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-    _PLAYER_directionIndex                                         **** GX
     _compass_tileset                                               **** GX
     _cpct_drawSprite                                               **** GX
+    _player_get_direction_index                                    **** GX
   0 _renderCompass                                                 0000 GR
 
 
@@ -18,7 +18,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   20   flags    0
+   0 _CODE                                      size   1C   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

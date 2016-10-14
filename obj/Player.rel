@@ -1,13 +1,17 @@
 XL2
-H 9 areas 5 global symbols
+H 9 areas 9 global symbols
 M Player
 O -mz80
 S .__.ABS. Def0000
-A _CODE size D flags 0 addr 0
-S _PLAYER_position Def0000
-S _PLAYER_directionIndex Def0004
-S _PLAYER_directionArray Def0005
-S _PLAYER_direction Def0002
+A _CODE size 8C flags 0 addr 0
+S _player_position Def002E
+S _player_directionIndex Def0032
+S _player_directionArray Def0033
+S _player_direction Def0030
+S _player_turn_right Def003B
+S _player_move_forward Def0069
+S _player_turn_left Def0000
+S _player_get_direction_index Def0084
 A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
 A _DABS size 0 flags 8 addr 0
@@ -18,17 +22,47 @@ A _INITIALIZER size 0 flags 0 addr 0
 A _CABS size 0 flags 8 addr 0
 T 00 00
 R 00 00 00 00
-T 00 00 01 01
+T 00 00 01 32 00 3A 32 00 C6 02 E6 07 02 01 30 00
+R 00 00 00 00 00 03 00 00 00 06 00 00 00 0E 00 00
+T 0E 00 11 33 00 FD 21 32 00 FD 6E 00 26 00 19 7E
+R 00 00 00 00 00 03 00 00 00 07 00 00
+T 1C 00 02 01 31 00 FD 21 32 00 FD 6E 00 2C 26 00
+R 00 00 00 00 00 04 00 00 00 08 00 00
+T 2A 00 19 7E 02 C9
 R 00 00 00 00
-T 02 00
+T 2E 00
 R 00 00 00 00
-T 02 00 01 00
+T 2E 00 01 01
 R 00 00 00 00
-T 04 00
+T 30 00
 R 00 00 00 00
-T 04 00 00
+T 30 00 01 00
 R 00 00 00 00
-T 05 00
+T 32 00
 R 00 00 00 00
-T 05 00 01 00 00 FF FF 00 00 01
+T 32 00 00
 R 00 00 00 00
+T 33 00
+R 00 00 00 00
+T 33 00 01 00 00 FF FF 00 00 01
+R 00 00 00 00
+T 3B 00
+R 00 00 00 00
+T 3B 00 01 32 00 3A 32 00 C6 FE E6 07 02 01 30 00
+R 00 00 00 00 00 03 00 00 00 06 00 00 00 0E 00 00
+T 49 00 11 33 00 FD 21 32 00 FD 6E 00 26 00 19 7E
+R 00 00 00 00 00 03 00 00 00 07 00 00
+T 57 00 02 01 31 00 FD 21 32 00 FD 6E 00 2C 26 00
+R 00 00 00 00 00 04 00 00 00 08 00 00
+T 65 00 19 7E 02 C9
+R 00 00 00 00
+T 69 00
+R 00 00 00 00
+T 69 00 21 2E 00 4D 44 56 21 30 00 5E 7A 83 02 21
+R 00 00 00 00 00 03 00 00 00 09 00 00
+T 77 00 2F 00 4D 44 56 21 31 00 5E 7A 83 02 C9
+R 00 00 00 00 00 02 00 00 00 08 00 00
+T 84 00
+R 00 00 00 00
+T 84 00 FD 21 32 00 FD 6E 00 C9
+R 00 00 00 00 00 04 00 00

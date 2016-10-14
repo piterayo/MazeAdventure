@@ -5,8 +5,14 @@
 #include "State_MainMenu.h"
 #include "State_InGame.h"
 #include "State_PauseMenu.h"
+#include "State_LoadLevel.h"
 
 typedef struct State{
+    
+    u8 id;
+    u8 lastStateid;
+    
+    
     void (* enterState)();
     void (* inputState)();
     void (* updateState)();
@@ -14,9 +20,12 @@ typedef struct State{
     void (* exitState)();
 } State;
 
-const State stateArray[3]={
+const State stateArray[4]={
     //Main Menu
     {
+        0,
+        0,
+        
         state_mainmenu_enter,
         state_mainmenu_input,
         state_mainmenu_update,
@@ -25,6 +34,8 @@ const State stateArray[3]={
     },
     //InGame
     {
+        1,
+        0,
         state_ingame_enter,
         state_ingame_input,
         state_ingame_update,
@@ -33,13 +44,27 @@ const State stateArray[3]={
     },
     //Pause Menu
     {
+        2,
+        0,
         state_pausemenu_enter,
         state_pausemenu_input,
         state_pausemenu_update,
         state_pausemenu_render,
         state_pausemenu_exit
     },
+    //Load Level
+    {
+        3,
+        0,
+        state_loadlevel_enter,
+        state_loadlevel_input,
+        state_loadlevel_update,
+        state_loadlevel_render,
+        state_loadlevel_exit
+    },
 };
+
+const u8 closeState=0;
 
 const u8 currentState=0;
 
@@ -47,10 +72,21 @@ const u8 changeToState = 0;
 
 const u8 inputReceived = 0;
 
+const u8 gameRunning = 1;
+
 const u8 last_keyboardStatusBuffer[10]={0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+
+void statemanager_drop_state(){
+    if(closeState){
+        stateArray[currentState].exitState();
+        *(u8*)&currentState = stateArray[currentState].lastStateid;
+        *(u8*)&closeState=0;
+    }
+}
 
 void statemanager_change_state(){
     if(changeToState){
+        *(u8*)&(stateArray[changeToState-1].lastStateid) = currentState;
         *(u8*)&currentState = changeToState-1;
         stateArray[currentState].enterState();
         *(u8*)&changeToState = 0;
@@ -99,16 +135,21 @@ void statemanager_render_state(){
     stateArray[currentState].renderState();
 }
 
-void statemanager_close_state(u8 state){
-        stateArray[state].exitState();
+void statemanager_close_state(){
+    *(u8*)&closeState=1;
 }
 
 void statemanager_update_state(){
     stateArray[currentState].updateState();
 }
 
+void statemanager_exit_game(){
+    *(u8*)&gameRunning=0;
+}
+
 void statemanager_main_loop(){
-   while(1) {
+   while(gameRunning) {
+       statemanager_drop_state();
        statemanager_change_state();
        statemanager_manage_input();
        statemanager_update_state();

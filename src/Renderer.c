@@ -55,21 +55,21 @@ void calculate_cells_in_view(){
     u8 offset=0, n=0, j, i;
     i8 x0, y0, dx, dy, x=0, y=0, vert=0;
     
-    if(PLAYER_direction.y!=0){
+    if(player_direction.y!=0){
         vert=1;
-        dy=PLAYER_direction.y;
-        dx=-PLAYER_direction.y;
+        dy=player_direction.y;
+        dx=-player_direction.y;
         
-        x0 = PLAYER_position.x-(17*dx);
-        y0 = PLAYER_position.y+(6*dy);
+        x0 = player_position.x-(17*dx);
+        y0 = player_position.y+(6*dy);
     }
     else{
         vert=0;
-        dy=PLAYER_direction.x;
-        dx=PLAYER_direction.x;
+        dy=player_direction.x;
+        dx=player_direction.x;
         
-        y0 = PLAYER_position.y-(17*dy);
-        x0 = PLAYER_position.x+(6*dx);
+        y0 = player_position.y-(17*dy);
+        x0 = player_position.x+(6*dx);
         
     }
     
@@ -788,18 +788,18 @@ void draw_minimap_to_buffer(){
     
     //u8 (*map)[MAP_HEIGHT] = MAP_MEM;
     //u8 pixMask; 
-    x=(PLAYER_position.x-MINIMAP_WIDTH_HALF);
-    y=(PLAYER_position.y-MINIMAP_HEIGHT_HALF);
+    x=(player_position.x-MINIMAP_WIDTH_HALF);
+    y=(player_position.y-MINIMAP_HEIGHT_HALF);
     
     for(j=0;j<MINIMAP_HEIGHT;++j){
         for(n=0;n<MINIMAP_HEIGHT_WIDTH_RATIO;++n){
-            x=(PLAYER_position.x-MINIMAP_WIDTH_HALF);
+            x=(player_position.x-MINIMAP_WIDTH_HALF);
             for(i=0;i<MINIMAP_WIDTH;++i){
                 if((x<0)||(x>=MAP_WIDTH)||(y<0)||(y>=MAP_HEIGHT)){
                     *ptr=g_colors[MINIMAP_WALL_COLOR];
                     *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_WALL_COLOR];
                 }
-                else if((x==PLAYER_position.x)&&(y==PLAYER_position.y)){
+                else if((x==player_position.x)&&(y==player_position.y)){
                     *ptr=g_colors[MINIMAP_PLAYER_COLOR];
                     *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_PLAYER_COLOR];
                 }
