@@ -30,8 +30,8 @@
                              30 ; ram data
                              31 ;--------------------------------------------------------
                              32 	.area _INITIALIZED
-   417A                      33 _rand_seed::
-   417A                      34 	.ds 1
+   4543                      33 _rand_seed::
+   4543                      34 	.ds 1
                              35 ;--------------------------------------------------------
                              36 ; absolute external ram data
                              37 ;--------------------------------------------------------
@@ -58,7 +58,7 @@
                              58 ; ---------------------------------
    01B8                      59 _map_get_seed::
                              60 ;src/Map.c:15: return rand_seed;
-   01B8 FD 21 7A 41   [14]   61 	ld	iy,#_rand_seed
+   01B8 FD 21 43 45   [14]   61 	ld	iy,#_rand_seed
    01BC FD 6E 00      [19]   62 	ld	l,0 (iy)
    01BF C9            [10]   63 	ret
                              64 ;src/Map.c:18: u8 get_random_wall(){
@@ -67,7 +67,7 @@
                              67 ; ---------------------------------
    01C0                      68 _get_random_wall::
                              69 ;src/Map.c:19: u8 cellType = cpct_getRandom_lcg_u8();
-   01C0 CD 36 3F      [17]   70 	call	_cpct_getRandom_lcg_u8
+   01C0 CD F7 42      [17]   70 	call	_cpct_getRandom_lcg_u8
                              71 ;src/Map.c:20: if(cellType&1){
    01C3 CB 45         [ 8]   72 	bit	0, l
    01C5 28 03         [12]   73 	jr	Z,00108$
@@ -122,30 +122,30 @@
    0204 33            [ 6]  122 	inc	sp
    0205 26 64         [ 7]  123 	ld	h, #0x64
    0207 E5            [11]  124 	push	hl
-   0208 CD 5D 3F      [17]  125 	call	_cpct_memset
+   0208 CD 26 43      [17]  125 	call	_cpct_memset
                             126 ;src/Map.c:52: (*cellStack).x = (cpct_getRandom_lcg_u8()%(MAP_WIDTH-2))+1; //RANDOM
-   020B CD 36 3F      [17]  127 	call	_cpct_getRandom_lcg_u8
+   020B CD F7 42      [17]  127 	call	_cpct_getRandom_lcg_u8
    020E 45            [ 4]  128 	ld	b,l
    020F 3E 1E         [ 7]  129 	ld	a,#0x1E
    0211 F5            [11]  130 	push	af
    0212 33            [ 6]  131 	inc	sp
    0213 C5            [11]  132 	push	bc
    0214 33            [ 6]  133 	inc	sp
-   0215 CD 84 3E      [17]  134 	call	__moduchar
+   0215 CD 45 42      [17]  134 	call	__moduchar
    0218 F1            [10]  135 	pop	af
    0219 4D            [ 4]  136 	ld	c,l
    021A 0C            [ 4]  137 	inc	c
    021B 21 00 64      [10]  138 	ld	hl,#0x6400
    021E 71            [ 7]  139 	ld	(hl),c
                             140 ;src/Map.c:53: (*cellStack).y = (cpct_getRandom_lcg_u8()%(MAP_HEIGHT-2))+1; //RANDOM
-   021F CD 36 3F      [17]  141 	call	_cpct_getRandom_lcg_u8
+   021F CD F7 42      [17]  141 	call	_cpct_getRandom_lcg_u8
    0222 45            [ 4]  142 	ld	b,l
    0223 3E 1E         [ 7]  143 	ld	a,#0x1E
    0225 F5            [11]  144 	push	af
    0226 33            [ 6]  145 	inc	sp
    0227 C5            [11]  146 	push	bc
    0228 33            [ 6]  147 	inc	sp
-   0229 CD 84 3E      [17]  148 	call	__moduchar
+   0229 CD 45 42      [17]  148 	call	__moduchar
    022C F1            [10]  149 	pop	af
    022D 4D            [ 4]  150 	ld	c,l
    022E 0C            [ 4]  151 	inc	c
@@ -177,7 +177,7 @@
    0265 33            [ 6]  177 	inc	sp
    0266 26 60         [ 7]  178 	ld	h, #0x60
    0268 E5            [11]  179 	push	hl
-   0269 CD 5D 3F      [17]  180 	call	_cpct_memset
+   0269 CD 26 43      [17]  180 	call	_cpct_memset
                             181 ;src/Map.c:62: map[(*cellStack).x][(*cellStack).y] = CELLTYPE_FLOOR;
    026C 3A 00 64      [13]  182 	ld	a,(#0x6400)
    026F DD 77 FD      [19]  183 	ld	-3 (ix), a
@@ -631,7 +631,7 @@
    0559 D6 87         [ 7]  631 	sub	a, #0x87
    055B 20 47         [12]  632 	jr	NZ,00141$
                             633 ;src/Map.c:150: if(cpct_getRandom_lcg_u8()&1){//WALL
-   055D CD 36 3F      [17]  634 	call	_cpct_getRandom_lcg_u8
+   055D CD F7 42      [17]  634 	call	_cpct_getRandom_lcg_u8
    0560 CB 45         [ 8]  635 	bit	0, l
    0562 28 06         [12]  636 	jr	Z,00138$
                             637 ;src/Map.c:151: cellType = get_random_wall();
@@ -928,13 +928,13 @@
    070E 39            [11]  928 	add	hl,sp
    070F F9            [ 6]  929 	ld	sp,hl
                             930 ;src/Map.c:218: u8 x=(cpct_getRandom_lcg_u8()%32);
-   0710 CD 36 3F      [17]  931 	call	_cpct_getRandom_lcg_u8
+   0710 CD F7 42      [17]  931 	call	_cpct_getRandom_lcg_u8
    0713 7D            [ 4]  932 	ld	a,l
    0714 E6 1F         [ 7]  933 	and	a, #0x1F
    0716 4F            [ 4]  934 	ld	c,a
                             935 ;src/Map.c:219: u8 y=(cpct_getRandom_lcg_u8()%32);
    0717 C5            [11]  936 	push	bc
-   0718 CD 36 3F      [17]  937 	call	_cpct_getRandom_lcg_u8
+   0718 CD F7 42      [17]  937 	call	_cpct_getRandom_lcg_u8
    071B C1            [10]  938 	pop	bc
    071C 7D            [ 4]  939 	ld	a,l
    071D E6 1F         [ 7]  940 	and	a, #0x1F
@@ -1192,7 +1192,7 @@
                            1192 ; ---------------------------------
    08AF                    1193 _generate_level::
                            1194 ;src/Map.c:277: generate_level_with_seed(r_counter);
-   08AF 3A 79 41      [13] 1195 	ld	a,(_r_counter)
+   08AF 3A 42 45      [13] 1195 	ld	a,(_r_counter)
    08B2 F5            [11] 1196 	push	af
    08B3 33            [ 6] 1197 	inc	sp
    08B4 CD B9 08      [17] 1198 	call	_generate_level_with_seed
@@ -1207,7 +1207,7 @@
    08B9 21 02 00      [10] 1207 	ld	hl, #2+0
    08BC 39            [11] 1208 	add	hl, sp
    08BD 7E            [ 7] 1209 	ld	a, (hl)
-   08BE 32 7A 41      [13] 1210 	ld	(#_rand_seed + 0),a
+   08BE 32 43 45      [13] 1210 	ld	(#_rand_seed + 0),a
                            1211 ;src/Map.c:283: cpct_setSeed_lcg_u8(seed+level_get_level());
    08C1 CD CF 00      [17] 1212 	call	_level_get_level
    08C4 FD 21 02 00   [14] 1213 	ld	iy,#2
@@ -1215,7 +1215,7 @@
    08CA FD 7E 00      [19] 1215 	ld	a,0 (iy)
    08CD 85            [ 4] 1216 	add	a, l
    08CE 6F            [ 4] 1217 	ld	l,a
-   08CF CD 9B 3E      [17] 1218 	call	_cpct_setSeed_lcg_u8
+   08CF CD 9D 42      [17] 1218 	call	_cpct_setSeed_lcg_u8
                            1219 ;src/Map.c:285: generate_map();
    08D2 CD DD 01      [17] 1220 	call	_generate_map
                            1221 ;src/Map.c:286: generate_exit_door();
@@ -1226,6 +1226,6 @@
    08DD C9            [10] 1226 	ret
                            1227 	.area _CODE
                            1228 	.area _INITIALIZER
-   417E                    1229 __xinit__rand_seed:
-   417E 00                 1230 	.db #0x00	; 0
+   4548                    1229 __xinit__rand_seed:
+   4548 00                 1230 	.db #0x00	; 0
                            1231 	.area _CABS (ABS)

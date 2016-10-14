@@ -7,11 +7,13 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
+  0 ___str_0                                                       003B R
     _cpct_isKeyPressed                                             **** GX
     _cpct_memset                                                   **** GX
     _g_colors                                                      **** GX
+    _print_transparent_text                                        **** GX
   0 _state_mainmenu_enter                                          0000 GR
-  0 _state_mainmenu_exit                                           0029 GR
+  0 _state_mainmenu_exit                                           0045 GR
   0 _state_mainmenu_input                                          0003 GR
   0 _state_mainmenu_render                                         0018 GR
   0 _state_mainmenu_update                                         0017 GR
@@ -24,7 +26,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   2A   flags    0
+   0 _CODE                                      size   46   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

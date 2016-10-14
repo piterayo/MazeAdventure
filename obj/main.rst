@@ -54,10 +54,10 @@
    01AE AF            [ 4]   54 	xor	a, a
    01AF F5            [11]   55 	push	af
    01B0 33            [ 6]   56 	inc	sp
-   01B1 CD 70 1C      [17]   57 	call	_statemanager_set_state
+   01B1 CD 8F 1C      [17]   57 	call	_statemanager_set_state
    01B4 33            [ 6]   58 	inc	sp
                              59 ;src/main.c:33: statemanager_main_loop();
-   01B5 C3 50 1D      [10]   60 	jp  _statemanager_main_loop
+   01B5 C3 72 1D      [10]   60 	jp  _statemanager_main_loop
                              61 	.area _CODE
                              62 	.area _INITIALIZER
                              63 	.area _CABS (ABS)

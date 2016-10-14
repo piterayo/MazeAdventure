@@ -5,6 +5,8 @@
 
 #include "GameDefinitions.h"
 
+#include "StringUtils.h"
+
 #include "Map.h"
 #include "Player.h"
 #include "Renderer.h"
@@ -22,6 +24,9 @@ void state_ingame_enter(){
         generate_level();
         level_set_level(0);
         level_load_level();
+        
+        ui_gamemenu_init();
+        
         render_draw_to_buffer();
         draw_minimap_to_buffer();
         *(u8*)&isInitialized = 1;
@@ -44,6 +49,7 @@ void state_ingame_input(){
             ui_gamemenu_select_entry();
             statemanager_input_accepted();
         }
+        //DEBUG
         else if(cpct_isKeyPressed(Key_1)){
             level_set_level(0);
             level_load_level();
@@ -63,7 +69,7 @@ void state_ingame_input(){
 void state_ingame_update(){
     
     if(ui_gamemenu_is_selected()){
-        ui_gamemenu_render();
+        ui_gamemenu_render_refresh();
         switch(ui_gamemenu_get_entry()){
             case 0:{
                 *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex+2)&7;
@@ -84,6 +90,7 @@ void state_ingame_update(){
                 *(u8*)&(PLAYER_directionIndex)=(PLAYER_directionIndex-2)&7;
                 *(i8*)&(PLAYER_direction.x) = PLAYER_directionArray[(PLAYER_directionIndex)];
                 *(i8*)&(PLAYER_direction.y) = PLAYER_directionArray[((PLAYER_directionIndex)+1)];
+                
                 *(u8*)&updateRenderBuffer = 1;
                 break;
             }
@@ -112,7 +119,7 @@ void state_ingame_update(){
 }
 
 void state_ingame_render(){
-    ui_gamemenu_render();
+    ui_gamemenu_render_refresh();
     cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
     renderCompass();
     cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);

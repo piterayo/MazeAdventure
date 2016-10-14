@@ -12,6 +12,7 @@
 	.globl _statemanager_render_state
 	.globl _statemanager_manage_input
 	.globl _statemanager_change_state
+	.globl _cpct_waitVSYNC
 	.globl _cpct_scanKeyboard_f
 	.globl _last_keyboardStatusBuffer
 	.globl _inputReceived
@@ -242,7 +243,9 @@ _statemanager_manage_input::
 ; Function statemanager_render_state
 ; ---------------------------------
 _statemanager_render_state::
-;src/StateManager.c:98: stateArray[currentState].renderState();
+;src/StateManager.c:98: cpct_waitVSYNC();
+	call	_cpct_waitVSYNC
+;src/StateManager.c:99: stateArray[currentState].renderState();
 	ld	bc,#_stateArray+0
 	ld	hl,#_currentState + 0
 	ld	e, (hl)
@@ -261,7 +264,7 @@ _statemanager_render_state::
 	ld	h,(hl)
 	ld	l, c
 	jp  ___sdcc_call_hl
-;src/StateManager.c:101: void statemanager_close_state(u8 state){
+;src/StateManager.c:102: void statemanager_close_state(u8 state){
 ;	---------------------------------
 ; Function statemanager_close_state
 ; ---------------------------------
@@ -269,7 +272,7 @@ _statemanager_close_state::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;src/StateManager.c:102: stateArray[state].exitState();
+;src/StateManager.c:103: stateArray[state].exitState();
 	ld	bc,#_stateArray+0
 	ld	e,4 (ix)
 	ld	d,#0x00
@@ -288,12 +291,12 @@ _statemanager_close_state::
 	ld	l, c
 	pop	ix
 	jp	___sdcc_call_hl
-;src/StateManager.c:105: void statemanager_update_state(){
+;src/StateManager.c:106: void statemanager_update_state(){
 ;	---------------------------------
 ; Function statemanager_update_state
 ; ---------------------------------
 _statemanager_update_state::
-;src/StateManager.c:106: stateArray[currentState].updateState();
+;src/StateManager.c:107: stateArray[currentState].updateState();
 	ld	bc,#_stateArray+0
 	ld	hl,#_currentState + 0
 	ld	e, (hl)
@@ -312,20 +315,20 @@ _statemanager_update_state::
 	ld	h,(hl)
 	ld	l, c
 	jp  ___sdcc_call_hl
-;src/StateManager.c:109: void statemanager_main_loop(){
+;src/StateManager.c:110: void statemanager_main_loop(){
 ;	---------------------------------
 ; Function statemanager_main_loop
 ; ---------------------------------
 _statemanager_main_loop::
-;src/StateManager.c:110: while(1) {
+;src/StateManager.c:111: while(1) {
 00102$:
-;src/StateManager.c:111: statemanager_change_state();
+;src/StateManager.c:112: statemanager_change_state();
 	call	_statemanager_change_state
-;src/StateManager.c:112: statemanager_manage_input();
+;src/StateManager.c:113: statemanager_manage_input();
 	call	_statemanager_manage_input
-;src/StateManager.c:113: statemanager_update_state();
+;src/StateManager.c:114: statemanager_update_state();
 	call	_statemanager_update_state
-;src/StateManager.c:114: statemanager_render_state();
+;src/StateManager.c:115: statemanager_render_state();
 	call	_statemanager_render_state
 	jr	00102$
 	.area _CODE

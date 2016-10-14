@@ -11,6 +11,7 @@ Symbol Table
   0 _changeToState                                                 004A GR
     _cpct_keyboardStatusBuffer                                     **** GX
     _cpct_scanKeyboard_f                                           **** GX
+    _cpct_waitVSYNC                                                **** GX
   0 _currentState                                                  0049 GR
   0 _inputReceived                                                 004B GR
   0 _last_keyboardStatusBuffer                                     004C GR
@@ -32,20 +33,21 @@ Symbol Table
     _state_pausemenu_render                                        **** GX
     _state_pausemenu_update                                        **** GX
   0 _statemanager_change_state                                     0000 GR
-  0 _statemanager_close_state                                      00FD GR
+  0 _statemanager_close_state                                      0100 GR
   0 _statemanager_input_accepted                                   0056 GR
-  0 _statemanager_main_loop                                        013C GR
+  0 _statemanager_main_loop                                        013F GR
   0 _statemanager_manage_input                                     00B8 GR
   0 _statemanager_render_state                                     00E2 GR
   0 _statemanager_set_state                                        005C GR
-  0 _statemanager_update_state                                     0121 GR
+  0 _statemanager_update_state                                     0124 GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  14A   flags    0
+   0 _CODE                                      size  14D   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

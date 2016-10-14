@@ -27,8 +27,8 @@
                              27 ; ram data
                              28 ;--------------------------------------------------------
                              29 	.area _DATA
-   4178                      30 _current_level::
-   4178                      31 	.ds 1
+   4541                      30 _current_level::
+   4541                      31 	.ds 1
                              32 ;--------------------------------------------------------
                              33 ; ram data
                              34 ;--------------------------------------------------------
@@ -59,7 +59,7 @@
                              59 ; ---------------------------------
    00CF                      60 _level_get_level::
                              61 ;src/Level.c:20: return current_level;
-   00CF FD 21 78 41   [14]   62 	ld	iy,#_current_level
+   00CF FD 21 41 45   [14]   62 	ld	iy,#_current_level
    00D3 FD 6E 00      [19]   63 	ld	l,0 (iy)
    00D6 C9            [10]   64 	ret
    00D7                      65 _level_palettes:
@@ -112,7 +112,7 @@
    00FF 21 02 00      [10]  112 	ld	hl, #2+0
    0102 39            [11]  113 	add	hl, sp
    0103 7E            [ 7]  114 	ld	a, (hl)
-   0104 32 78 41      [13]  115 	ld	(#_current_level + 0),a
+   0104 32 41 45      [13]  115 	ld	(#_current_level + 0),a
    0107 C9            [10]  116 	ret
                             117 ;src/Level.c:27: void level_init_palettes(){
                             118 ;	---------------------------------
@@ -124,25 +124,25 @@
    010B E5            [11]  124 	push	hl
    010C 21 D7 00      [10]  125 	ld	hl,#_level_palettes
    010F E5            [11]  126 	push	hl
-   0110 CD A0 3E      [17]  127 	call	_cpct_fw2hw
+   0110 CD A2 42      [17]  127 	call	_cpct_fw2hw
                             128 ;src/Level.c:29: cpct_fw2hw(level_palettes[1],VARIABLE_COLORS);
    0113 21 0A 00      [10]  129 	ld	hl,#0x000A
    0116 E5            [11]  130 	push	hl
    0117 21 E1 00      [10]  131 	ld	hl,#(_level_palettes + 0x000a)
    011A E5            [11]  132 	push	hl
-   011B CD A0 3E      [17]  133 	call	_cpct_fw2hw
+   011B CD A2 42      [17]  133 	call	_cpct_fw2hw
                             134 ;src/Level.c:30: cpct_fw2hw(level_palettes[2],VARIABLE_COLORS);
    011E 21 0A 00      [10]  135 	ld	hl,#0x000A
    0121 E5            [11]  136 	push	hl
    0122 21 EB 00      [10]  137 	ld	hl,#(_level_palettes + 0x0014)
    0125 E5            [11]  138 	push	hl
-   0126 CD A0 3E      [17]  139 	call	_cpct_fw2hw
+   0126 CD A2 42      [17]  139 	call	_cpct_fw2hw
                             140 ;src/Level.c:31: cpct_fw2hw(level_palettes[3],VARIABLE_COLORS);
    0129 21 0A 00      [10]  141 	ld	hl,#0x000A
    012C E5            [11]  142 	push	hl
    012D 21 F5 00      [10]  143 	ld	hl,#(_level_palettes + 0x001e)
    0130 E5            [11]  144 	push	hl
-   0131 CD A0 3E      [17]  145 	call	_cpct_fw2hw
+   0131 CD A2 42      [17]  145 	call	_cpct_fw2hw
    0134 C9            [10]  146 	ret
                             147 ;src/Level.c:34: void setLevelPalette(u8 i){
                             148 ;	---------------------------------
@@ -170,13 +170,13 @@
    0152 C5            [11]  170 	push	bc
    0153 21 9B 0A      [10]  171 	ld	hl,#(_g_palette + 0x0006)
    0156 E5            [11]  172 	push	hl
-   0157 CD 55 3F      [17]  173 	call	_cpct_memcpy
+   0157 CD 1E 43      [17]  173 	call	_cpct_memcpy
                             174 ;src/Level.c:36: cpct_setPalette(g_palette,16);
    015A 21 10 00      [10]  175 	ld	hl,#0x0010
    015D E5            [11]  176 	push	hl
    015E 21 95 0A      [10]  177 	ld	hl,#_g_palette
    0161 E5            [11]  178 	push	hl
-   0162 CD BC 3D      [17]  179 	call	_cpct_setPalette
+   0162 CD 7D 41      [17]  179 	call	_cpct_setPalette
    0165 DD E1         [14]  180 	pop	ix
    0167 C9            [10]  181 	ret
                             182 ;src/Level.c:39: void level_load_level(){
@@ -185,28 +185,28 @@
                             185 ; ---------------------------------
    0168                     186 _level_load_level::
                             187 ;src/Level.c:42: index =((current_level<8)?0:(
-   0168 3A 78 41      [13]  188 	ld	a,(#_current_level + 0)
+   0168 3A 41 45      [13]  188 	ld	a,(#_current_level + 0)
    016B D6 08         [ 7]  189 	sub	a, #0x08
    016D 30 04         [12]  190 	jr	NC,00103$
    016F 06 00         [ 7]  191 	ld	b,#0x00
    0171 18 23         [12]  192 	jr	00104$
    0173                     193 00103$:
                             194 ;src/Level.c:43: (current_level<24)?1:(
-   0173 3A 78 41      [13]  195 	ld	a,(#_current_level + 0)
+   0173 3A 41 45      [13]  195 	ld	a,(#_current_level + 0)
    0176 D6 18         [ 7]  196 	sub	a, #0x18
    0178 30 04         [12]  197 	jr	NC,00105$
    017A 06 01         [ 7]  198 	ld	b,#0x01
    017C 18 18         [12]  199 	jr	00106$
    017E                     200 00105$:
                             201 ;src/Level.c:44: (current_level<56)?2:(
-   017E 3A 78 41      [13]  202 	ld	a,(#_current_level + 0)
+   017E 3A 41 45      [13]  202 	ld	a,(#_current_level + 0)
    0181 D6 38         [ 7]  203 	sub	a, #0x38
    0183 30 04         [12]  204 	jr	NC,00107$
    0185 06 02         [ 7]  205 	ld	b,#0x02
    0187 18 0D         [12]  206 	jr	00108$
    0189                     207 00107$:
                             208 ;src/Level.c:45: (current_level<120)?4:0
-   0189 3A 78 41      [13]  209 	ld	a,(#_current_level + 0)
+   0189 3A 41 45      [13]  209 	ld	a,(#_current_level + 0)
    018C D6 78         [ 7]  210 	sub	a, #0x78
    018E 30 04         [12]  211 	jr	NC,00109$
    0190 06 04         [ 7]  212 	ld	b,#0x04
@@ -221,14 +221,14 @@
    0196 C5            [11]  221 	push	bc
    0197 C5            [11]  222 	push	bc
    0198 33            [ 6]  223 	inc	sp
-   0199 CD 76 1E      [17]  224 	call	_uncompress_theme_textures
+   0199 CD A4 22      [17]  224 	call	_uncompress_theme_textures
    019C 33            [ 6]  225 	inc	sp
    019D C1            [10]  226 	pop	bc
                             227 ;src/Level.c:49: uncompress_enemy_textures(index);
    019E C5            [11]  228 	push	bc
    019F C5            [11]  229 	push	bc
    01A0 33            [ 6]  230 	inc	sp
-   01A1 CD 21 1F      [17]  231 	call	_uncompress_enemy_textures
+   01A1 CD 4F 23      [17]  231 	call	_uncompress_enemy_textures
    01A4 33            [ 6]  232 	inc	sp
    01A5 33            [ 6]  233 	inc	sp
    01A6 CD 35 01      [17]  234 	call	_setLevelPalette

@@ -1,5 +1,5 @@
 XL2
-H 9 areas 21 global symbols
+H 9 areas 22 global symbols
 M StateManager
 O -mz80
 S _state_pausemenu_input Ref0000
@@ -19,22 +19,23 @@ S ___sdcc_call_hl Ref0000
 S _state_ingame_exit Ref0000
 S _state_pausemenu_enter Ref0000
 S _state_ingame_render Ref0000
+S _cpct_waitVSYNC Ref0000
 S _state_ingame_update Ref0000
 S _state_mainmenu_enter Ref0000
-A _CODE size 14A flags 0 addr 0
+A _CODE size 14D flags 0 addr 0
 S _statemanager_input_accepted Def0056
 S _statemanager_set_state Def005C
 S _changeToState Def004A
-S _statemanager_close_state Def00FD
+S _statemanager_close_state Def0100
 S _scan_input Def0067
 S _statemanager_change_state Def0000
 S _last_keyboardStatusBuffer Def004C
 S _currentState Def0049
 S _statemanager_manage_input Def00B8
 S _inputReceived Def004B
-S _statemanager_main_loop Def013C
+S _statemanager_main_loop Def013F
 S _statemanager_render_state Def00E2
-S _statemanager_update_state Def0121
+S _statemanager_update_state Def0124
 S _stateArray Def002B
 A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
@@ -57,11 +58,11 @@ R 00 00 00 00
 T 2B 00
 R 00 00 00 00
 T 2B 00 00 00 00 00 00 00
-R 00 00 00 00 02 02 12 00 02 04 02 00 02 06 0A 00
+R 00 00 00 00 02 02 13 00 02 04 02 00 02 06 0A 00
 T 31 00 00 00 00 00 00 00
 R 00 00 00 00 02 02 09 00 02 04 06 00 02 06 04 00
 T 37 00 00 00 00 00 00 00
-R 00 00 00 00 02 02 0C 00 02 04 11 00 02 06 10 00
+R 00 00 00 00 02 02 0C 00 02 04 12 00 02 06 10 00
 T 3D 00 00 00 00 00 00 00
 R 00 00 00 00 02 02 0E 00 02 04 0F 00 02 06 00 00
 T 43 00 00 00 00 00 00 00
@@ -126,29 +127,31 @@ T DC 00 21 4B 00 36 00 C9
 R 00 00 00 00 00 03 00 00
 T E2 00
 R 00 00 00 00
-T E2 00 01 2B 00 21 49 00 5E 16 00 6B 62 29 29 19
-R 00 00 00 00 00 03 00 00 00 06 00 00
-T F0 00 29 09 11 06 00 19 4E 23 66 69 C3 00 00
-R 00 00 00 00 02 0D 0D 00
-T FD 00
+T E2 00 CD 00 00 01 2B 00 21 49 00 5E 16 00 6B 62
+R 00 00 00 00 02 03 11 00 00 06 00 00 00 09 00 00
+T F0 00 29 29 19 29 09 11 06 00 19 4E 23 66 69 C3
 R 00 00 00 00
-T FD 00 DD E5 DD 21 00 00 DD 39 01 2B 00 DD 5E 04
+T FE 00 00 00
+R 00 00 00 00 02 02 0D 00
+T 00 01
+R 00 00 00 00
+T 00 01 DD E5 DD 21 00 00 DD 39 01 2B 00 DD 5E 04
 R 00 00 00 00 00 0B 00 00
-T 0B 01 16 00 6B 62 29 29 19 29 09 11 08 00 19 4E
+T 0E 01 16 00 6B 62 29 29 19 29 09 11 08 00 19 4E
 R 00 00 00 00
-T 19 01 23 66 69 DD E1 C3 00 00
+T 1C 01 23 66 69 DD E1 C3 00 00
 R 00 00 00 00 02 08 0D 00
-T 21 01
+T 24 01
 R 00 00 00 00
-T 21 01 01 2B 00 21 49 00 5E 16 00 6B 62 29 29 19
+T 24 01 01 2B 00 21 49 00 5E 16 00 6B 62 29 29 19
 R 00 00 00 00 00 03 00 00 00 06 00 00
-T 2F 01 29 09 11 04 00 19 4E 23 66 69 C3 00 00
+T 32 01 29 09 11 04 00 19 4E 23 66 69 C3 00 00
 R 00 00 00 00 02 0D 0D 00
-T 3C 01
+T 3F 01
 R 00 00 00 00
-T 3C 01
+T 3F 01
 R 00 00 00 00
-T 3C 01 CD 00 00 CD B8 00 CD 21 01 CD
+T 3F 01 CD 00 00 CD B8 00 CD 24 01 CD
 R 00 00 00 00 00 03 00 00 00 06 00 00 00 09 00 00
-T 46 01 E2 00 18 F2
+T 49 01 E2 00 18 F2
 R 00 00 00 00 00 02 00 00

@@ -12,322 +12,325 @@
                              12 	.globl _statemanager_render_state
                              13 	.globl _statemanager_manage_input
                              14 	.globl _statemanager_change_state
-                             15 	.globl _cpct_scanKeyboard_f
-                             16 	.globl _last_keyboardStatusBuffer
-                             17 	.globl _inputReceived
-                             18 	.globl _changeToState
-                             19 	.globl _currentState
-                             20 	.globl _stateArray
-                             21 	.globl _statemanager_input_accepted
-                             22 	.globl _statemanager_set_state
-                             23 	.globl _scan_input
-                             24 	.globl _statemanager_close_state
-                             25 	.globl _statemanager_main_loop
-                             26 ;--------------------------------------------------------
-                             27 ; special function registers
-                             28 ;--------------------------------------------------------
+                             15 	.globl _cpct_waitVSYNC
+                             16 	.globl _cpct_scanKeyboard_f
+                             17 	.globl _last_keyboardStatusBuffer
+                             18 	.globl _inputReceived
+                             19 	.globl _changeToState
+                             20 	.globl _currentState
+                             21 	.globl _stateArray
+                             22 	.globl _statemanager_input_accepted
+                             23 	.globl _statemanager_set_state
+                             24 	.globl _scan_input
+                             25 	.globl _statemanager_close_state
+                             26 	.globl _statemanager_main_loop
+                             27 ;--------------------------------------------------------
+                             28 ; special function registers
                              29 ;--------------------------------------------------------
-                             30 ; ram data
-                             31 ;--------------------------------------------------------
-                             32 	.area _DATA
-                             33 ;--------------------------------------------------------
-                             34 ; ram data
-                             35 ;--------------------------------------------------------
-                             36 	.area _INITIALIZED
-                             37 ;--------------------------------------------------------
-                             38 ; absolute external ram data
-                             39 ;--------------------------------------------------------
-                             40 	.area _DABS (ABS)
-                             41 ;--------------------------------------------------------
-                             42 ; global & static initialisations
-                             43 ;--------------------------------------------------------
-                             44 	.area _HOME
-                             45 	.area _GSINIT
-                             46 	.area _GSFINAL
-                             47 	.area _GSINIT
-                             48 ;--------------------------------------------------------
-                             49 ; Home
-                             50 ;--------------------------------------------------------
-                             51 	.area _HOME
+                             30 ;--------------------------------------------------------
+                             31 ; ram data
+                             32 ;--------------------------------------------------------
+                             33 	.area _DATA
+                             34 ;--------------------------------------------------------
+                             35 ; ram data
+                             36 ;--------------------------------------------------------
+                             37 	.area _INITIALIZED
+                             38 ;--------------------------------------------------------
+                             39 ; absolute external ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area _DABS (ABS)
+                             42 ;--------------------------------------------------------
+                             43 ; global & static initialisations
+                             44 ;--------------------------------------------------------
+                             45 	.area _HOME
+                             46 	.area _GSINIT
+                             47 	.area _GSFINAL
+                             48 	.area _GSINIT
+                             49 ;--------------------------------------------------------
+                             50 ; Home
+                             51 ;--------------------------------------------------------
                              52 	.area _HOME
-                             53 ;--------------------------------------------------------
-                             54 ; code
-                             55 ;--------------------------------------------------------
-                             56 	.area _CODE
-                             57 ;src/StateManager.c:52: void statemanager_change_state(){
-                             58 ;	---------------------------------
-                             59 ; Function statemanager_change_state
-                             60 ; ---------------------------------
-   0000                      61 _statemanager_change_state::
-                             62 ;src/StateManager.c:53: if(changeToState){
-   0000 21r4Ar00      [10]   63 	ld	hl,#_changeToState + 0
-   0003 4E            [ 7]   64 	ld	c, (hl)
-   0004 3Ar4Ar00      [13]   65 	ld	a,(#_changeToState + 0)
-   0007 B7            [ 4]   66 	or	a, a
-   0008 C8            [11]   67 	ret	Z
-                             68 ;src/StateManager.c:54: *(u8*)&currentState = changeToState-1;
-   0009 21r49r00      [10]   69 	ld	hl,#_currentState+0
-   000C 0D            [ 4]   70 	dec	c
-   000D 71            [ 7]   71 	ld	(hl),c
-                             72 ;src/StateManager.c:55: stateArray[currentState].enterState();
-   000E 01r2Br00      [10]   73 	ld	bc,#_stateArray+0
-   0011 21r49r00      [10]   74 	ld	hl,#_currentState + 0
-   0014 5E            [ 7]   75 	ld	e, (hl)
-   0015 16 00         [ 7]   76 	ld	d,#0x00
-   0017 6B            [ 4]   77 	ld	l, e
-   0018 62            [ 4]   78 	ld	h, d
-   0019 29            [11]   79 	add	hl, hl
-   001A 29            [11]   80 	add	hl, hl
-   001B 19            [11]   81 	add	hl, de
-   001C 29            [11]   82 	add	hl, hl
-   001D 09            [11]   83 	add	hl,bc
-   001E 4E            [ 7]   84 	ld	c,(hl)
-   001F 23            [ 6]   85 	inc	hl
-   0020 66            [ 7]   86 	ld	h,(hl)
-   0021 69            [ 4]   87 	ld	l, c
-   0022 CDr00r00      [17]   88 	call	___sdcc_call_hl
-                             89 ;src/StateManager.c:56: *(u8*)&changeToState = 0;
-   0025 21r4Ar00      [10]   90 	ld	hl,#_changeToState
-   0028 36 00         [10]   91 	ld	(hl),#0x00
-   002A C9            [10]   92 	ret
-   002B                      93 _stateArray:
-   002Br00r00                94 	.dw _state_mainmenu_enter
-   002Dr00r00                95 	.dw _state_mainmenu_input
-   002Fr00r00                96 	.dw _state_mainmenu_update
-   0031r00r00                97 	.dw _state_mainmenu_render
-   0033r00r00                98 	.dw _state_mainmenu_exit
-   0035r00r00                99 	.dw _state_ingame_enter
-   0037r00r00               100 	.dw _state_ingame_input
-   0039r00r00               101 	.dw _state_ingame_update
-   003Br00r00               102 	.dw _state_ingame_render
-   003Dr00r00               103 	.dw _state_ingame_exit
-   003Fr00r00               104 	.dw _state_pausemenu_enter
-   0041r00r00               105 	.dw _state_pausemenu_input
-   0043r00r00               106 	.dw _state_pausemenu_update
-   0045r00r00               107 	.dw _state_pausemenu_render
-   0047r00r00               108 	.dw _state_pausemenu_exit
-   0049                     109 _currentState:
-   0049 00                  110 	.db #0x00	; 0
-   004A                     111 _changeToState:
-   004A 00                  112 	.db #0x00	; 0
-   004B                     113 _inputReceived:
-   004B 00                  114 	.db #0x00	; 0
-   004C                     115 _last_keyboardStatusBuffer:
-   004C FF                  116 	.db #0xFF	; 255
-   004D FF                  117 	.db #0xFF	; 255
-   004E FF                  118 	.db #0xFF	; 255
-   004F FF                  119 	.db #0xFF	; 255
-   0050 FF                  120 	.db #0xFF	; 255
-   0051 FF                  121 	.db #0xFF	; 255
-   0052 FF                  122 	.db #0xFF	; 255
-   0053 FF                  123 	.db #0xFF	; 255
-   0054 FF                  124 	.db #0xFF	; 255
-   0055 FF                  125 	.db #0xFF	; 255
-                            126 ;src/StateManager.c:60: void statemanager_input_accepted(){
-                            127 ;	---------------------------------
-                            128 ; Function statemanager_input_accepted
-                            129 ; ---------------------------------
-   0056                     130 _statemanager_input_accepted::
-                            131 ;src/StateManager.c:61: *(u8*)&inputReceived=1;
-   0056 21r4Br00      [10]  132 	ld	hl,#_inputReceived
-   0059 36 01         [10]  133 	ld	(hl),#0x01
-   005B C9            [10]  134 	ret
-                            135 ;src/StateManager.c:64: void statemanager_set_state(u8 state){
-                            136 ;	---------------------------------
-                            137 ; Function statemanager_set_state
-                            138 ; ---------------------------------
-   005C                     139 _statemanager_set_state::
-                            140 ;src/StateManager.c:65: *(u8*)&changeToState = state+1;
-   005C 01r4Ar00      [10]  141 	ld	bc,#_changeToState+0
-   005F 21 02 00      [10]  142 	ld	hl, #2+0
-   0062 39            [11]  143 	add	hl, sp
-   0063 7E            [ 7]  144 	ld	a, (hl)
-   0064 3C            [ 4]  145 	inc	a
-   0065 02            [ 7]  146 	ld	(bc),a
-   0066 C9            [10]  147 	ret
-                            148 ;src/StateManager.c:68: void scan_input(){
-                            149 ;	---------------------------------
-                            150 ; Function scan_input
-                            151 ; ---------------------------------
-   0067                     152 _scan_input::
-   0067 DD E5         [15]  153 	push	ix
-   0069 DD 21 00 00   [14]  154 	ld	ix,#0
-   006D DD 39         [15]  155 	add	ix,sp
-   006F F5            [11]  156 	push	af
-   0070 F5            [11]  157 	push	af
-   0071 3B            [ 6]  158 	dec	sp
-                            159 ;src/StateManager.c:69: u8 t,n=10, anyKeyPressed=0xFF;
-   0072 DD 36 FD FF   [19]  160 	ld	-3 (ix),#0xFF
-                            161 ;src/StateManager.c:70: u8* currentStatus=(cpct_keyboardStatusBuffer+n);
-                            162 ;src/StateManager.c:71: u8* lastStatus=(((u8*)last_keyboardStatusBuffer)+n);
-                            163 ;src/StateManager.c:73: cpct_scanKeyboard_f();
-   0076 CDr00r00      [17]  164 	call	_cpct_scanKeyboard_f
-                            165 ;src/StateManager.c:74: while(n){
-   0079 DD 36 FB 0A   [19]  166 	ld	-5 (ix),#0x0A
-   007D 01r0Ar00      [10]  167 	ld	bc,#(_cpct_keyboardStatusBuffer + 0x000a)
-   0080 11r56r00      [10]  168 	ld	de,#(_last_keyboardStatusBuffer + 0x000a)
-   0083                     169 00101$:
-   0083 DD 7E FB      [19]  170 	ld	a,-5 (ix)
-   0086 B7            [ 4]  171 	or	a, a
-   0087 28 2A         [12]  172 	jr	Z,00104$
-                            173 ;src/StateManager.c:75: --n;
-   0089 DD 35 FB      [23]  174 	dec	-5 (ix)
-                            175 ;src/StateManager.c:76: --currentStatus;
-   008C 0B            [ 6]  176 	dec	bc
-                            177 ;src/StateManager.c:77: --lastStatus;
-   008D 1B            [ 6]  178 	dec	de
-                            179 ;src/StateManager.c:79: t=*(currentStatus);
-   008E 0A            [ 7]  180 	ld	a,(bc)
-   008F DD 77 FC      [19]  181 	ld	-4 (ix),a
-                            182 ;src/StateManager.c:80: anyKeyPressed&=t;
-   0092 DD 7E FD      [19]  183 	ld	a,-3 (ix)
-   0095 DD A6 FC      [19]  184 	and	a, -4 (ix)
-   0098 DD 77 FD      [19]  185 	ld	-3 (ix),a
-                            186 ;src/StateManager.c:81: *currentStatus=((*lastStatus)|(~t));
-   009B 1A            [ 7]  187 	ld	a,(de)
-   009C DD 77 FE      [19]  188 	ld	-2 (ix),a
-   009F DD 7E FC      [19]  189 	ld	a,-4 (ix)
-   00A2 2F            [ 4]  190 	cpl
-   00A3 DD 77 FF      [19]  191 	ld	-1 (ix),a
-   00A6 DD 7E FE      [19]  192 	ld	a,-2 (ix)
-   00A9 DD B6 FF      [19]  193 	or	a, -1 (ix)
-   00AC 02            [ 7]  194 	ld	(bc),a
-                            195 ;src/StateManager.c:82: *lastStatus=t;
-   00AD DD 7E FC      [19]  196 	ld	a,-4 (ix)
-   00B0 12            [ 7]  197 	ld	(de),a
-   00B1 18 D0         [12]  198 	jr	00101$
-   00B3                     199 00104$:
-   00B3 DD F9         [10]  200 	ld	sp, ix
-   00B5 DD E1         [14]  201 	pop	ix
-   00B7 C9            [10]  202 	ret
-                            203 ;src/StateManager.c:89: void statemanager_manage_input(){
-                            204 ;	---------------------------------
-                            205 ; Function statemanager_manage_input
-                            206 ; ---------------------------------
-   00B8                     207 _statemanager_manage_input::
-                            208 ;src/StateManager.c:90: while(!inputReceived){
-   00B8                     209 00101$:
-   00B8 3Ar4Br00      [13]  210 	ld	a,(#_inputReceived + 0)
-   00BB B7            [ 4]  211 	or	a, a
-   00BC 20 1E         [12]  212 	jr	NZ,00103$
-                            213 ;src/StateManager.c:91: scan_input();
-   00BE CDr67r00      [17]  214 	call	_scan_input
-                            215 ;src/StateManager.c:92: stateArray[currentState].inputState();
-   00C1 21r49r00      [10]  216 	ld	hl,#_currentState + 0
-   00C4 4E            [ 7]  217 	ld	c, (hl)
-   00C5 06 00         [ 7]  218 	ld	b,#0x00
-   00C7 69            [ 4]  219 	ld	l, c
-   00C8 60            [ 4]  220 	ld	h, b
-   00C9 29            [11]  221 	add	hl, hl
-   00CA 29            [11]  222 	add	hl, hl
-   00CB 09            [11]  223 	add	hl, bc
-   00CC 29            [11]  224 	add	hl, hl
-   00CD 11r2Br00      [10]  225 	ld	de,#_stateArray
-   00D0 19            [11]  226 	add	hl,de
-   00D1 23            [ 6]  227 	inc	hl
-   00D2 23            [ 6]  228 	inc	hl
-   00D3 4E            [ 7]  229 	ld	c,(hl)
-   00D4 23            [ 6]  230 	inc	hl
-   00D5 66            [ 7]  231 	ld	h,(hl)
-   00D6 69            [ 4]  232 	ld	l, c
-   00D7 CDr00r00      [17]  233 	call	___sdcc_call_hl
-   00DA 18 DC         [12]  234 	jr	00101$
-   00DC                     235 00103$:
-                            236 ;src/StateManager.c:94: *(u8*)&inputReceived=0;
-   00DC 21r4Br00      [10]  237 	ld	hl,#_inputReceived
-   00DF 36 00         [10]  238 	ld	(hl),#0x00
-   00E1 C9            [10]  239 	ret
-                            240 ;src/StateManager.c:97: void statemanager_render_state(){
-                            241 ;	---------------------------------
-                            242 ; Function statemanager_render_state
-                            243 ; ---------------------------------
-   00E2                     244 _statemanager_render_state::
-                            245 ;src/StateManager.c:98: stateArray[currentState].renderState();
-   00E2 01r2Br00      [10]  246 	ld	bc,#_stateArray+0
-   00E5 21r49r00      [10]  247 	ld	hl,#_currentState + 0
-   00E8 5E            [ 7]  248 	ld	e, (hl)
-   00E9 16 00         [ 7]  249 	ld	d,#0x00
-   00EB 6B            [ 4]  250 	ld	l, e
-   00EC 62            [ 4]  251 	ld	h, d
-   00ED 29            [11]  252 	add	hl, hl
-   00EE 29            [11]  253 	add	hl, hl
-   00EF 19            [11]  254 	add	hl, de
+                             53 	.area _HOME
+                             54 ;--------------------------------------------------------
+                             55 ; code
+                             56 ;--------------------------------------------------------
+                             57 	.area _CODE
+                             58 ;src/StateManager.c:52: void statemanager_change_state(){
+                             59 ;	---------------------------------
+                             60 ; Function statemanager_change_state
+                             61 ; ---------------------------------
+   0000                      62 _statemanager_change_state::
+                             63 ;src/StateManager.c:53: if(changeToState){
+   0000 21r4Ar00      [10]   64 	ld	hl,#_changeToState + 0
+   0003 4E            [ 7]   65 	ld	c, (hl)
+   0004 3Ar4Ar00      [13]   66 	ld	a,(#_changeToState + 0)
+   0007 B7            [ 4]   67 	or	a, a
+   0008 C8            [11]   68 	ret	Z
+                             69 ;src/StateManager.c:54: *(u8*)&currentState = changeToState-1;
+   0009 21r49r00      [10]   70 	ld	hl,#_currentState+0
+   000C 0D            [ 4]   71 	dec	c
+   000D 71            [ 7]   72 	ld	(hl),c
+                             73 ;src/StateManager.c:55: stateArray[currentState].enterState();
+   000E 01r2Br00      [10]   74 	ld	bc,#_stateArray+0
+   0011 21r49r00      [10]   75 	ld	hl,#_currentState + 0
+   0014 5E            [ 7]   76 	ld	e, (hl)
+   0015 16 00         [ 7]   77 	ld	d,#0x00
+   0017 6B            [ 4]   78 	ld	l, e
+   0018 62            [ 4]   79 	ld	h, d
+   0019 29            [11]   80 	add	hl, hl
+   001A 29            [11]   81 	add	hl, hl
+   001B 19            [11]   82 	add	hl, de
+   001C 29            [11]   83 	add	hl, hl
+   001D 09            [11]   84 	add	hl,bc
+   001E 4E            [ 7]   85 	ld	c,(hl)
+   001F 23            [ 6]   86 	inc	hl
+   0020 66            [ 7]   87 	ld	h,(hl)
+   0021 69            [ 4]   88 	ld	l, c
+   0022 CDr00r00      [17]   89 	call	___sdcc_call_hl
+                             90 ;src/StateManager.c:56: *(u8*)&changeToState = 0;
+   0025 21r4Ar00      [10]   91 	ld	hl,#_changeToState
+   0028 36 00         [10]   92 	ld	(hl),#0x00
+   002A C9            [10]   93 	ret
+   002B                      94 _stateArray:
+   002Br00r00                95 	.dw _state_mainmenu_enter
+   002Dr00r00                96 	.dw _state_mainmenu_input
+   002Fr00r00                97 	.dw _state_mainmenu_update
+   0031r00r00                98 	.dw _state_mainmenu_render
+   0033r00r00                99 	.dw _state_mainmenu_exit
+   0035r00r00               100 	.dw _state_ingame_enter
+   0037r00r00               101 	.dw _state_ingame_input
+   0039r00r00               102 	.dw _state_ingame_update
+   003Br00r00               103 	.dw _state_ingame_render
+   003Dr00r00               104 	.dw _state_ingame_exit
+   003Fr00r00               105 	.dw _state_pausemenu_enter
+   0041r00r00               106 	.dw _state_pausemenu_input
+   0043r00r00               107 	.dw _state_pausemenu_update
+   0045r00r00               108 	.dw _state_pausemenu_render
+   0047r00r00               109 	.dw _state_pausemenu_exit
+   0049                     110 _currentState:
+   0049 00                  111 	.db #0x00	; 0
+   004A                     112 _changeToState:
+   004A 00                  113 	.db #0x00	; 0
+   004B                     114 _inputReceived:
+   004B 00                  115 	.db #0x00	; 0
+   004C                     116 _last_keyboardStatusBuffer:
+   004C FF                  117 	.db #0xFF	; 255
+   004D FF                  118 	.db #0xFF	; 255
+   004E FF                  119 	.db #0xFF	; 255
+   004F FF                  120 	.db #0xFF	; 255
+   0050 FF                  121 	.db #0xFF	; 255
+   0051 FF                  122 	.db #0xFF	; 255
+   0052 FF                  123 	.db #0xFF	; 255
+   0053 FF                  124 	.db #0xFF	; 255
+   0054 FF                  125 	.db #0xFF	; 255
+   0055 FF                  126 	.db #0xFF	; 255
+                            127 ;src/StateManager.c:60: void statemanager_input_accepted(){
+                            128 ;	---------------------------------
+                            129 ; Function statemanager_input_accepted
+                            130 ; ---------------------------------
+   0056                     131 _statemanager_input_accepted::
+                            132 ;src/StateManager.c:61: *(u8*)&inputReceived=1;
+   0056 21r4Br00      [10]  133 	ld	hl,#_inputReceived
+   0059 36 01         [10]  134 	ld	(hl),#0x01
+   005B C9            [10]  135 	ret
+                            136 ;src/StateManager.c:64: void statemanager_set_state(u8 state){
+                            137 ;	---------------------------------
+                            138 ; Function statemanager_set_state
+                            139 ; ---------------------------------
+   005C                     140 _statemanager_set_state::
+                            141 ;src/StateManager.c:65: *(u8*)&changeToState = state+1;
+   005C 01r4Ar00      [10]  142 	ld	bc,#_changeToState+0
+   005F 21 02 00      [10]  143 	ld	hl, #2+0
+   0062 39            [11]  144 	add	hl, sp
+   0063 7E            [ 7]  145 	ld	a, (hl)
+   0064 3C            [ 4]  146 	inc	a
+   0065 02            [ 7]  147 	ld	(bc),a
+   0066 C9            [10]  148 	ret
+                            149 ;src/StateManager.c:68: void scan_input(){
+                            150 ;	---------------------------------
+                            151 ; Function scan_input
+                            152 ; ---------------------------------
+   0067                     153 _scan_input::
+   0067 DD E5         [15]  154 	push	ix
+   0069 DD 21 00 00   [14]  155 	ld	ix,#0
+   006D DD 39         [15]  156 	add	ix,sp
+   006F F5            [11]  157 	push	af
+   0070 F5            [11]  158 	push	af
+   0071 3B            [ 6]  159 	dec	sp
+                            160 ;src/StateManager.c:69: u8 t,n=10, anyKeyPressed=0xFF;
+   0072 DD 36 FD FF   [19]  161 	ld	-3 (ix),#0xFF
+                            162 ;src/StateManager.c:70: u8* currentStatus=(cpct_keyboardStatusBuffer+n);
+                            163 ;src/StateManager.c:71: u8* lastStatus=(((u8*)last_keyboardStatusBuffer)+n);
+                            164 ;src/StateManager.c:73: cpct_scanKeyboard_f();
+   0076 CDr00r00      [17]  165 	call	_cpct_scanKeyboard_f
+                            166 ;src/StateManager.c:74: while(n){
+   0079 DD 36 FB 0A   [19]  167 	ld	-5 (ix),#0x0A
+   007D 01r0Ar00      [10]  168 	ld	bc,#(_cpct_keyboardStatusBuffer + 0x000a)
+   0080 11r56r00      [10]  169 	ld	de,#(_last_keyboardStatusBuffer + 0x000a)
+   0083                     170 00101$:
+   0083 DD 7E FB      [19]  171 	ld	a,-5 (ix)
+   0086 B7            [ 4]  172 	or	a, a
+   0087 28 2A         [12]  173 	jr	Z,00104$
+                            174 ;src/StateManager.c:75: --n;
+   0089 DD 35 FB      [23]  175 	dec	-5 (ix)
+                            176 ;src/StateManager.c:76: --currentStatus;
+   008C 0B            [ 6]  177 	dec	bc
+                            178 ;src/StateManager.c:77: --lastStatus;
+   008D 1B            [ 6]  179 	dec	de
+                            180 ;src/StateManager.c:79: t=*(currentStatus);
+   008E 0A            [ 7]  181 	ld	a,(bc)
+   008F DD 77 FC      [19]  182 	ld	-4 (ix),a
+                            183 ;src/StateManager.c:80: anyKeyPressed&=t;
+   0092 DD 7E FD      [19]  184 	ld	a,-3 (ix)
+   0095 DD A6 FC      [19]  185 	and	a, -4 (ix)
+   0098 DD 77 FD      [19]  186 	ld	-3 (ix),a
+                            187 ;src/StateManager.c:81: *currentStatus=((*lastStatus)|(~t));
+   009B 1A            [ 7]  188 	ld	a,(de)
+   009C DD 77 FE      [19]  189 	ld	-2 (ix),a
+   009F DD 7E FC      [19]  190 	ld	a,-4 (ix)
+   00A2 2F            [ 4]  191 	cpl
+   00A3 DD 77 FF      [19]  192 	ld	-1 (ix),a
+   00A6 DD 7E FE      [19]  193 	ld	a,-2 (ix)
+   00A9 DD B6 FF      [19]  194 	or	a, -1 (ix)
+   00AC 02            [ 7]  195 	ld	(bc),a
+                            196 ;src/StateManager.c:82: *lastStatus=t;
+   00AD DD 7E FC      [19]  197 	ld	a,-4 (ix)
+   00B0 12            [ 7]  198 	ld	(de),a
+   00B1 18 D0         [12]  199 	jr	00101$
+   00B3                     200 00104$:
+   00B3 DD F9         [10]  201 	ld	sp, ix
+   00B5 DD E1         [14]  202 	pop	ix
+   00B7 C9            [10]  203 	ret
+                            204 ;src/StateManager.c:89: void statemanager_manage_input(){
+                            205 ;	---------------------------------
+                            206 ; Function statemanager_manage_input
+                            207 ; ---------------------------------
+   00B8                     208 _statemanager_manage_input::
+                            209 ;src/StateManager.c:90: while(!inputReceived){
+   00B8                     210 00101$:
+   00B8 3Ar4Br00      [13]  211 	ld	a,(#_inputReceived + 0)
+   00BB B7            [ 4]  212 	or	a, a
+   00BC 20 1E         [12]  213 	jr	NZ,00103$
+                            214 ;src/StateManager.c:91: scan_input();
+   00BE CDr67r00      [17]  215 	call	_scan_input
+                            216 ;src/StateManager.c:92: stateArray[currentState].inputState();
+   00C1 21r49r00      [10]  217 	ld	hl,#_currentState + 0
+   00C4 4E            [ 7]  218 	ld	c, (hl)
+   00C5 06 00         [ 7]  219 	ld	b,#0x00
+   00C7 69            [ 4]  220 	ld	l, c
+   00C8 60            [ 4]  221 	ld	h, b
+   00C9 29            [11]  222 	add	hl, hl
+   00CA 29            [11]  223 	add	hl, hl
+   00CB 09            [11]  224 	add	hl, bc
+   00CC 29            [11]  225 	add	hl, hl
+   00CD 11r2Br00      [10]  226 	ld	de,#_stateArray
+   00D0 19            [11]  227 	add	hl,de
+   00D1 23            [ 6]  228 	inc	hl
+   00D2 23            [ 6]  229 	inc	hl
+   00D3 4E            [ 7]  230 	ld	c,(hl)
+   00D4 23            [ 6]  231 	inc	hl
+   00D5 66            [ 7]  232 	ld	h,(hl)
+   00D6 69            [ 4]  233 	ld	l, c
+   00D7 CDr00r00      [17]  234 	call	___sdcc_call_hl
+   00DA 18 DC         [12]  235 	jr	00101$
+   00DC                     236 00103$:
+                            237 ;src/StateManager.c:94: *(u8*)&inputReceived=0;
+   00DC 21r4Br00      [10]  238 	ld	hl,#_inputReceived
+   00DF 36 00         [10]  239 	ld	(hl),#0x00
+   00E1 C9            [10]  240 	ret
+                            241 ;src/StateManager.c:97: void statemanager_render_state(){
+                            242 ;	---------------------------------
+                            243 ; Function statemanager_render_state
+                            244 ; ---------------------------------
+   00E2                     245 _statemanager_render_state::
+                            246 ;src/StateManager.c:98: cpct_waitVSYNC();
+   00E2 CDr00r00      [17]  247 	call	_cpct_waitVSYNC
+                            248 ;src/StateManager.c:99: stateArray[currentState].renderState();
+   00E5 01r2Br00      [10]  249 	ld	bc,#_stateArray+0
+   00E8 21r49r00      [10]  250 	ld	hl,#_currentState + 0
+   00EB 5E            [ 7]  251 	ld	e, (hl)
+   00EC 16 00         [ 7]  252 	ld	d,#0x00
+   00EE 6B            [ 4]  253 	ld	l, e
+   00EF 62            [ 4]  254 	ld	h, d
    00F0 29            [11]  255 	add	hl, hl
-   00F1 09            [11]  256 	add	hl,bc
-   00F2 11 06 00      [10]  257 	ld	de, #0x0006
-   00F5 19            [11]  258 	add	hl, de
-   00F6 4E            [ 7]  259 	ld	c,(hl)
-   00F7 23            [ 6]  260 	inc	hl
-   00F8 66            [ 7]  261 	ld	h,(hl)
-   00F9 69            [ 4]  262 	ld	l, c
-   00FA C3r00r00      [10]  263 	jp  ___sdcc_call_hl
-                            264 ;src/StateManager.c:101: void statemanager_close_state(u8 state){
-                            265 ;	---------------------------------
-                            266 ; Function statemanager_close_state
-                            267 ; ---------------------------------
-   00FD                     268 _statemanager_close_state::
-   00FD DD E5         [15]  269 	push	ix
-   00FF DD 21 00 00   [14]  270 	ld	ix,#0
-   0103 DD 39         [15]  271 	add	ix,sp
-                            272 ;src/StateManager.c:102: stateArray[state].exitState();
-   0105 01r2Br00      [10]  273 	ld	bc,#_stateArray+0
-   0108 DD 5E 04      [19]  274 	ld	e,4 (ix)
-   010B 16 00         [ 7]  275 	ld	d,#0x00
-   010D 6B            [ 4]  276 	ld	l, e
-   010E 62            [ 4]  277 	ld	h, d
-   010F 29            [11]  278 	add	hl, hl
-   0110 29            [11]  279 	add	hl, hl
-   0111 19            [11]  280 	add	hl, de
+   00F1 29            [11]  256 	add	hl, hl
+   00F2 19            [11]  257 	add	hl, de
+   00F3 29            [11]  258 	add	hl, hl
+   00F4 09            [11]  259 	add	hl,bc
+   00F5 11 06 00      [10]  260 	ld	de, #0x0006
+   00F8 19            [11]  261 	add	hl, de
+   00F9 4E            [ 7]  262 	ld	c,(hl)
+   00FA 23            [ 6]  263 	inc	hl
+   00FB 66            [ 7]  264 	ld	h,(hl)
+   00FC 69            [ 4]  265 	ld	l, c
+   00FD C3r00r00      [10]  266 	jp  ___sdcc_call_hl
+                            267 ;src/StateManager.c:102: void statemanager_close_state(u8 state){
+                            268 ;	---------------------------------
+                            269 ; Function statemanager_close_state
+                            270 ; ---------------------------------
+   0100                     271 _statemanager_close_state::
+   0100 DD E5         [15]  272 	push	ix
+   0102 DD 21 00 00   [14]  273 	ld	ix,#0
+   0106 DD 39         [15]  274 	add	ix,sp
+                            275 ;src/StateManager.c:103: stateArray[state].exitState();
+   0108 01r2Br00      [10]  276 	ld	bc,#_stateArray+0
+   010B DD 5E 04      [19]  277 	ld	e,4 (ix)
+   010E 16 00         [ 7]  278 	ld	d,#0x00
+   0110 6B            [ 4]  279 	ld	l, e
+   0111 62            [ 4]  280 	ld	h, d
    0112 29            [11]  281 	add	hl, hl
-   0113 09            [11]  282 	add	hl,bc
-   0114 11 08 00      [10]  283 	ld	de, #0x0008
-   0117 19            [11]  284 	add	hl, de
-   0118 4E            [ 7]  285 	ld	c,(hl)
-   0119 23            [ 6]  286 	inc	hl
-   011A 66            [ 7]  287 	ld	h,(hl)
-   011B 69            [ 4]  288 	ld	l, c
-   011C DD E1         [14]  289 	pop	ix
-   011E C3r00r00      [10]  290 	jp	___sdcc_call_hl
-                            291 ;src/StateManager.c:105: void statemanager_update_state(){
-                            292 ;	---------------------------------
-                            293 ; Function statemanager_update_state
-                            294 ; ---------------------------------
-   0121                     295 _statemanager_update_state::
-                            296 ;src/StateManager.c:106: stateArray[currentState].updateState();
-   0121 01r2Br00      [10]  297 	ld	bc,#_stateArray+0
-   0124 21r49r00      [10]  298 	ld	hl,#_currentState + 0
-   0127 5E            [ 7]  299 	ld	e, (hl)
-   0128 16 00         [ 7]  300 	ld	d,#0x00
-   012A 6B            [ 4]  301 	ld	l, e
-   012B 62            [ 4]  302 	ld	h, d
-   012C 29            [11]  303 	add	hl, hl
-   012D 29            [11]  304 	add	hl, hl
-   012E 19            [11]  305 	add	hl, de
+   0113 29            [11]  282 	add	hl, hl
+   0114 19            [11]  283 	add	hl, de
+   0115 29            [11]  284 	add	hl, hl
+   0116 09            [11]  285 	add	hl,bc
+   0117 11 08 00      [10]  286 	ld	de, #0x0008
+   011A 19            [11]  287 	add	hl, de
+   011B 4E            [ 7]  288 	ld	c,(hl)
+   011C 23            [ 6]  289 	inc	hl
+   011D 66            [ 7]  290 	ld	h,(hl)
+   011E 69            [ 4]  291 	ld	l, c
+   011F DD E1         [14]  292 	pop	ix
+   0121 C3r00r00      [10]  293 	jp	___sdcc_call_hl
+                            294 ;src/StateManager.c:106: void statemanager_update_state(){
+                            295 ;	---------------------------------
+                            296 ; Function statemanager_update_state
+                            297 ; ---------------------------------
+   0124                     298 _statemanager_update_state::
+                            299 ;src/StateManager.c:107: stateArray[currentState].updateState();
+   0124 01r2Br00      [10]  300 	ld	bc,#_stateArray+0
+   0127 21r49r00      [10]  301 	ld	hl,#_currentState + 0
+   012A 5E            [ 7]  302 	ld	e, (hl)
+   012B 16 00         [ 7]  303 	ld	d,#0x00
+   012D 6B            [ 4]  304 	ld	l, e
+   012E 62            [ 4]  305 	ld	h, d
    012F 29            [11]  306 	add	hl, hl
-   0130 09            [11]  307 	add	hl,bc
-   0131 11 04 00      [10]  308 	ld	de, #0x0004
-   0134 19            [11]  309 	add	hl, de
-   0135 4E            [ 7]  310 	ld	c,(hl)
-   0136 23            [ 6]  311 	inc	hl
-   0137 66            [ 7]  312 	ld	h,(hl)
-   0138 69            [ 4]  313 	ld	l, c
-   0139 C3r00r00      [10]  314 	jp  ___sdcc_call_hl
-                            315 ;src/StateManager.c:109: void statemanager_main_loop(){
-                            316 ;	---------------------------------
-                            317 ; Function statemanager_main_loop
-                            318 ; ---------------------------------
-   013C                     319 _statemanager_main_loop::
-                            320 ;src/StateManager.c:110: while(1) {
-   013C                     321 00102$:
-                            322 ;src/StateManager.c:111: statemanager_change_state();
-   013C CDr00r00      [17]  323 	call	_statemanager_change_state
-                            324 ;src/StateManager.c:112: statemanager_manage_input();
-   013F CDrB8r00      [17]  325 	call	_statemanager_manage_input
-                            326 ;src/StateManager.c:113: statemanager_update_state();
-   0142 CDr21r01      [17]  327 	call	_statemanager_update_state
-                            328 ;src/StateManager.c:114: statemanager_render_state();
-   0145 CDrE2r00      [17]  329 	call	_statemanager_render_state
-   0148 18 F2         [12]  330 	jr	00102$
-                            331 	.area _CODE
-                            332 	.area _INITIALIZER
-                            333 	.area _CABS (ABS)
+   0130 29            [11]  307 	add	hl, hl
+   0131 19            [11]  308 	add	hl, de
+   0132 29            [11]  309 	add	hl, hl
+   0133 09            [11]  310 	add	hl,bc
+   0134 11 04 00      [10]  311 	ld	de, #0x0004
+   0137 19            [11]  312 	add	hl, de
+   0138 4E            [ 7]  313 	ld	c,(hl)
+   0139 23            [ 6]  314 	inc	hl
+   013A 66            [ 7]  315 	ld	h,(hl)
+   013B 69            [ 4]  316 	ld	l, c
+   013C C3r00r00      [10]  317 	jp  ___sdcc_call_hl
+                            318 ;src/StateManager.c:110: void statemanager_main_loop(){
+                            319 ;	---------------------------------
+                            320 ; Function statemanager_main_loop
+                            321 ; ---------------------------------
+   013F                     322 _statemanager_main_loop::
+                            323 ;src/StateManager.c:111: while(1) {
+   013F                     324 00102$:
+                            325 ;src/StateManager.c:112: statemanager_change_state();
+   013F CDr00r00      [17]  326 	call	_statemanager_change_state
+                            327 ;src/StateManager.c:113: statemanager_manage_input();
+   0142 CDrB8r00      [17]  328 	call	_statemanager_manage_input
+                            329 ;src/StateManager.c:114: statemanager_update_state();
+   0145 CDr24r01      [17]  330 	call	_statemanager_update_state
+                            331 ;src/StateManager.c:115: statemanager_render_state();
+   0148 CDrE2r00      [17]  332 	call	_statemanager_render_state
+   014B 18 F2         [12]  333 	jr	00102$
+                            334 	.area _CODE
+                            335 	.area _INITIALIZER
+                            336 	.area _CABS (ABS)

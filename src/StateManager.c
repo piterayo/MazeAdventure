@@ -95,6 +95,7 @@ void statemanager_manage_input(){
 }
 
 void statemanager_render_state(){
+    cpct_waitVSYNC();
     stateArray[currentState].renderState();
 }
 

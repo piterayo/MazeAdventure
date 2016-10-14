@@ -7,6 +7,8 @@
 
 #include "Renderer.h"
 
+#include "StringUtils.h"
+
 void state_mainmenu_enter(){
     state_mainmenu_render();
 }
@@ -23,7 +25,8 @@ void state_mainmenu_update(){
 }
 
 void state_mainmenu_render(){
-   cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+    cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+    print_transparent_text("MAIN MENU", CPCT_VMEM_START, 3);
 }
 
 void state_mainmenu_exit(){
