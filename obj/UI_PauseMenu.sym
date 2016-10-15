@@ -7,20 +7,45 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-
+  0 __str_0                                                        0028 R
+  0 __str_1                                                        0031 R
+  0 __str_2                                                        0039 R
+  0 __str_3                                                        0047 R
+  7 __xinit__ui_pausemenu_entryIndex                               0001 R
+  7 __xinit__ui_pausemenu_entrySelected                            0002 R
+  7 __xinit__ui_pausemenu_lastEntry                                0000 R
+    _cpct_drawSolidBox                                             **** GX
+    _g_colors                                                      **** GX
+    _print_transparent_text                                        **** GX
+  0 _ui_pausemenu_buttonText                                       0020 GR
+  0 _ui_pausemenu_entriesPosition                                  0010 GR
+  0 _ui_pausemenu_entriesTextPosition                              0018 GR
+  2 _ui_pausemenu_entryIndex                                       0001 GR
+  2 _ui_pausemenu_entrySelected                                    0002 GR
+  0 _ui_pausemenu_get_entry                                        004C GR
+  0 _ui_pausemenu_init                                             0000 GR
+  0 _ui_pausemenu_is_selected                                      0054 GR
+  2 _ui_pausemenu_lastEntry                                        0000 GR
+  0 _ui_pausemenu_next_entry                                       005C GR
+  0 _ui_pausemenu_previous_entry                                   006A GR
+  0 _ui_pausemenu_render_all                                       0106 GR
+  0 _ui_pausemenu_render_button                                    0086 GR
+  0 _ui_pausemenu_render_refresh                                   00ED GR
+  0 _ui_pausemenu_select_entry                                     007A GR
+  0 _ui_pausemenu_unselect_entry                                   0080 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size    0   flags    0
+   0 _CODE                                      size  11E   flags    0
    1 _DATA                                      size    0   flags    0
-   2 _INITIALIZED                               size    0   flags    0
+   2 _INITIALIZED                               size    3   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0
    5 _GSINIT                                    size    0   flags    0
    6 _GSFINAL                                   size    0   flags    0
-   7 _INITIALIZER                               size    0   flags    0
+   7 _INITIALIZER                               size    3   flags    0
    8 _CABS                                      size    0   flags    8
 

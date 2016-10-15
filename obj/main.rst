@@ -47,17 +47,17 @@
                              47 ;	---------------------------------
                              48 ; Function main
                              49 ; ---------------------------------
-   01A0                      50 _main::
+   0191                      50 _main::
                              51 ;src/main.c:27: game_init();
-   01A0 CD 8A 00      [17]   52 	call	_game_init
+   0191 CD 80 00      [17]   52 	call	_game_init
                              53 ;src/main.c:29: statemanager_set_state(STATE_MAINMENU);
-   01A3 AF            [ 4]   54 	xor	a, a
-   01A4 F5            [11]   55 	push	af
-   01A5 33            [ 6]   56 	inc	sp
-   01A6 CD 23 1D      [17]   57 	call	_statemanager_set_state
-   01A9 33            [ 6]   58 	inc	sp
+   0194 AF            [ 4]   54 	xor	a, a
+   0195 F5            [11]   55 	push	af
+   0196 33            [ 6]   56 	inc	sp
+   0197 CD 85 1D      [17]   57 	call	_statemanager_set_state
+   019A 33            [ 6]   58 	inc	sp
                              59 ;src/main.c:31: statemanager_main_loop();
-   01AA C3 F0 1D      [10]   60 	jp  _statemanager_main_loop
+   019B C3 5B 1E      [10]   60 	jp  _statemanager_main_loop
                              61 	.area _CODE
                              62 	.area _INITIALIZER
                              63 	.area _CABS (ABS)

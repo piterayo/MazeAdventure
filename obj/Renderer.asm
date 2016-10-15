@@ -326,7 +326,7 @@ _g_palette:
 	.db #0x0D	; 13
 	.db #0x1A	; 26
 	.db #0x06	; 6
-	.db #0x18	; 24
+	.db #0x0F	; 15
 	.db #0x01	; 1
 	.db #0x09	; 9
 	.db #0x19	; 25

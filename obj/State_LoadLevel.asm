@@ -15,9 +15,9 @@
 	.globl _render_draw_to_buffer
 	.globl _statemanager_input_accepted
 	.globl _statemanager_set_state
-	.globl _statemanager_close_state
 	.globl _cpct_memset
 	.globl _state_loadlevel_enter
+	.globl _state_loadlevel_return
 	.globl _state_loadlevel_input
 	.globl _state_loadlevel_update
 	.globl _state_loadlevel_render
@@ -92,40 +92,45 @@ _state_loadlevel_enter::
 ___str_0:
 	.ascii "LOADING"
 	.db 0x00
-;src/State_LoadLevel.c:23: void state_loadlevel_input(){
+;src/State_LoadLevel.c:23: void state_loadlevel_return(){
+;	---------------------------------
+; Function state_loadlevel_return
+; ---------------------------------
+_state_loadlevel_return::
+;src/State_LoadLevel.c:25: }
+	ret
+;src/State_LoadLevel.c:28: void state_loadlevel_input(){
 ;	---------------------------------
 ; Function state_loadlevel_input
 ; ---------------------------------
 _state_loadlevel_input::
-;src/State_LoadLevel.c:24: statemanager_input_accepted();
+;src/State_LoadLevel.c:29: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
-;src/State_LoadLevel.c:27: void state_loadlevel_update(){
+;src/State_LoadLevel.c:32: void state_loadlevel_update(){
 ;	---------------------------------
 ; Function state_loadlevel_update
 ; ---------------------------------
 _state_loadlevel_update::
-;src/State_LoadLevel.c:28: statemanager_close_state();
-	call	_statemanager_close_state
-;src/State_LoadLevel.c:29: statemanager_set_state(STATE_INGAME);
+;src/State_LoadLevel.c:34: statemanager_set_state(STATE_INGAME);
 	ld	a,#0x01
 	push	af
 	inc	sp
 	call	_statemanager_set_state
 	inc	sp
 	ret
-;src/State_LoadLevel.c:32: void state_loadlevel_render(){
+;src/State_LoadLevel.c:37: void state_loadlevel_render(){
 ;	---------------------------------
 ; Function state_loadlevel_render
 ; ---------------------------------
 _state_loadlevel_render::
-;src/State_LoadLevel.c:34: }
+;src/State_LoadLevel.c:39: }
 	ret
-;src/State_LoadLevel.c:36: void state_loadlevel_exit(){
+;src/State_LoadLevel.c:41: void state_loadlevel_exit(){
 ;	---------------------------------
 ; Function state_loadlevel_exit
 ; ---------------------------------
 _state_loadlevel_exit::
-;src/State_LoadLevel.c:38: }
+;src/State_LoadLevel.c:43: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

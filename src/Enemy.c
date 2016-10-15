@@ -5,9 +5,9 @@ const u8 activeEnemies = 0;
 
 Enemy enemyArray[15];
 
-u8 abs(u8 n){
-    return ~n+1;
-}
+// u8 abs(u8 n){
+    // return ~n+1;
+// }
 
 void Enemy_spawn_new(){
     u8 i=15;

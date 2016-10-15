@@ -13,7 +13,7 @@ Symbol Table
     _draw_minimap_to_buffer                                        **** GX
     _g_colors                                                      **** GX
     _g_texturedWalls                                               **** GX
-    _level_load_level                                              **** GX
+    _level_get_level                                               **** GX
     _level_set_level                                               **** GX
     _player_move_forward                                           **** GX
     _player_turn_left                                              **** GX
@@ -21,13 +21,19 @@ Symbol Table
     _renderCompass                                                 **** GX
     _render_draw_to_buffer                                         **** GX
   0 _state_ingame_enter                                            0000 GR
-  0 _state_ingame_exit                                             011C GR
-  0 _state_ingame_input                                            001B GR
-  0 _state_ingame_render                                           00F4 GR
-  0 _state_ingame_update                                           0093 GR
+  0 _state_ingame_exit                                             016A GR
+  0 _state_ingame_input                                            0021 GR
+  0 _state_ingame_render                                           0142 GR
+  0 _state_ingame_return                                           001B GR
+  0 _state_ingame_update                                           008A GR
+    _statemanager_close_state                                      **** GX
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
+    _ui_gamemenu_above_entry                                       **** GX
+    _ui_gamemenu_below_entry                                       **** GX
+    _ui_gamemenu_get_action                                        **** GX
     _ui_gamemenu_get_entry                                         **** GX
+    _ui_gamemenu_get_movement                                      **** GX
     _ui_gamemenu_init                                              **** GX
     _ui_gamemenu_is_selected                                       **** GX
     _ui_gamemenu_next_entry                                        **** GX
@@ -36,16 +42,16 @@ Symbol Table
     _ui_gamemenu_render_refresh                                    **** GX
     _ui_gamemenu_select_entry                                      **** GX
     _ui_gamemenu_unselect_entry                                    **** GX
+    _ui_gamemenu_update_action                                     **** GX
     _ui_playerstats_render                                         **** GX
   0 _updateRenderBuffer                                            001A GR
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  11D   flags    0
+   0 _CODE                                      size  16B   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

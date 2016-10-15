@@ -5,6 +5,8 @@
 
 extern void state_mainmenu_enter();
 
+extern void state_mainmenu_return();
+
 extern void state_mainmenu_input();
 
 extern void state_mainmenu_update();

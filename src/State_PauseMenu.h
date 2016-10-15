@@ -5,6 +5,8 @@
 
 extern void state_pausemenu_enter();
 
+extern void state_pausemenu_return();
+
 extern void state_pausemenu_input();
 
 extern void state_pausemenu_update();

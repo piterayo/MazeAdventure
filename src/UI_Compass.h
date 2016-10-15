@@ -4,7 +4,7 @@
 #include <cpctelera.h>
 #include "GameDefinitions.h"
 
-#define COMPASS_POSITION    0xC024
+#define COMPASS_POSITION    (SCREEN_PTR_AT(CPCT_VMEM_START, 36, 0))
 
 extern void renderCompass();
 

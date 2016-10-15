@@ -5,6 +5,8 @@
 
 extern void state_loadlevel_enter();
 
+extern void state_loadlevel_return();
+
 extern void state_loadlevel_input();
 
 extern void state_loadlevel_update();

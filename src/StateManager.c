@@ -14,6 +14,7 @@ typedef struct State{
     
     
     void (* enterState)();
+    void (* returnState)();
     void (* inputState)();
     void (* updateState)();
     void (* renderState)();
@@ -27,6 +28,7 @@ const State stateArray[4]={
         0,
         
         state_mainmenu_enter,
+        state_mainmenu_return,
         state_mainmenu_input,
         state_mainmenu_update,
         state_mainmenu_render,
@@ -37,6 +39,7 @@ const State stateArray[4]={
         1,
         0,
         state_ingame_enter,
+        state_ingame_return,
         state_ingame_input,
         state_ingame_update,
         state_ingame_render,
@@ -47,6 +50,7 @@ const State stateArray[4]={
         2,
         0,
         state_pausemenu_enter,
+        state_pausemenu_return,
         state_pausemenu_input,
         state_pausemenu_update,
         state_pausemenu_render,
@@ -57,6 +61,7 @@ const State stateArray[4]={
         3,
         0,
         state_loadlevel_enter,
+        state_loadlevel_return,
         state_loadlevel_input,
         state_loadlevel_update,
         state_loadlevel_render,
@@ -80,6 +85,7 @@ void statemanager_drop_state(){
     if(closeState){
         stateArray[currentState].exitState();
         *(u8*)&currentState = stateArray[currentState].lastStateid;
+        stateArray[currentState].returnState();
         *(u8*)&closeState=0;
     }
 }
@@ -119,7 +125,7 @@ void scan_input(){
         
     }
     
-    // if(~anyKeyPressed) ++r_counter;
+    if(~anyKeyPressed) ++r_counter;
 }
 
 void statemanager_manage_input(){

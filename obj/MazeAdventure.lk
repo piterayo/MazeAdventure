@@ -21,6 +21,7 @@ obj/State_Intro.rel
 obj/State_LoadLevel.rel
 obj/State_MainMenu.rel
 obj/StateManager.rel
+obj/State_Options.rel
 obj/State_PauseMenu.rel
 obj/StringUtils.rel
 obj/Textures.rel

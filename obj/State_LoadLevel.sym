@@ -16,11 +16,11 @@ Symbol Table
     _print_transparent_text                                        **** GX
     _render_draw_to_buffer                                         **** GX
   0 _state_loadlevel_enter                                         0000 GR
-  0 _state_loadlevel_exit                                          0047 GR
-  0 _state_loadlevel_input                                         0037 GR
-  0 _state_loadlevel_render                                        0046 GR
-  0 _state_loadlevel_update                                        003A GR
-    _statemanager_close_state                                      **** GX
+  0 _state_loadlevel_exit                                          0045 GR
+  0 _state_loadlevel_input                                         0038 GR
+  0 _state_loadlevel_render                                        0044 GR
+  0 _state_loadlevel_return                                        0037 GR
+  0 _state_loadlevel_update                                        003B GR
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
 
@@ -30,7 +30,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   48   flags    0
+   0 _CODE                                      size   46   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

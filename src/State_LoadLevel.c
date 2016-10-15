@@ -20,12 +20,17 @@ void state_loadlevel_enter(){
     
 }
 
+void state_loadlevel_return(){
+    
+}
+
+
 void state_loadlevel_input(){
     statemanager_input_accepted();
 }
 
 void state_loadlevel_update(){
-    statemanager_close_state();
+    // statemanager_close_state();
     statemanager_set_state(STATE_INGAME);
 }
 

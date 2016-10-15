@@ -8,121 +8,106 @@
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
-                             11 	.globl _abs
-                             12 	.globl _enemyArray
-                             13 	.globl _activeEnemies
-                             14 	.globl _Enemy_spawn_new
-                             15 	.globl _Enemy_update_logic
-                             16 ;--------------------------------------------------------
-                             17 ; special function registers
+                             11 	.globl _enemyArray
+                             12 	.globl _activeEnemies
+                             13 	.globl _Enemy_spawn_new
+                             14 	.globl _Enemy_update_logic
+                             15 ;--------------------------------------------------------
+                             16 ; special function registers
+                             17 ;--------------------------------------------------------
                              18 ;--------------------------------------------------------
-                             19 ;--------------------------------------------------------
-                             20 ; ram data
-                             21 ;--------------------------------------------------------
-                             22 	.area _DATA
-   4860                      23 _enemyArray::
-   4860                      24 	.ds 180
-                             25 ;--------------------------------------------------------
-                             26 ; ram data
-                             27 ;--------------------------------------------------------
-                             28 	.area _INITIALIZED
-                             29 ;--------------------------------------------------------
-                             30 ; absolute external ram data
-                             31 ;--------------------------------------------------------
-                             32 	.area _DABS (ABS)
-                             33 ;--------------------------------------------------------
-                             34 ; global & static initialisations
-                             35 ;--------------------------------------------------------
-                             36 	.area _HOME
-                             37 	.area _GSINIT
-                             38 	.area _GSFINAL
-                             39 	.area _GSINIT
-                             40 ;--------------------------------------------------------
-                             41 ; Home
-                             42 ;--------------------------------------------------------
+                             19 ; ram data
+                             20 ;--------------------------------------------------------
+                             21 	.area _DATA
+   49F4                      22 _enemyArray::
+   49F4                      23 	.ds 180
+                             24 ;--------------------------------------------------------
+                             25 ; ram data
+                             26 ;--------------------------------------------------------
+                             27 	.area _INITIALIZED
+                             28 ;--------------------------------------------------------
+                             29 ; absolute external ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area _DABS (ABS)
+                             32 ;--------------------------------------------------------
+                             33 ; global & static initialisations
+                             34 ;--------------------------------------------------------
+                             35 	.area _HOME
+                             36 	.area _GSINIT
+                             37 	.area _GSFINAL
+                             38 	.area _GSINIT
+                             39 ;--------------------------------------------------------
+                             40 ; Home
+                             41 ;--------------------------------------------------------
+                             42 	.area _HOME
                              43 	.area _HOME
-                             44 	.area _HOME
-                             45 ;--------------------------------------------------------
-                             46 ; code
-                             47 ;--------------------------------------------------------
-                             48 	.area _CODE
-                             49 ;src/Enemy.c:8: u8 abs(u8 n){
-                             50 ;	---------------------------------
-                             51 ; Function abs
-                             52 ; ---------------------------------
-   0040                      53 _abs::
-                             54 ;src/Enemy.c:9: return ~n+1;
-   0040 21 02 00      [10]   55 	ld	hl, #2+0
-   0043 39            [11]   56 	add	hl, sp
-   0044 7E            [ 7]   57 	ld	a, (hl)
-   0045 2F            [ 4]   58 	cpl
-   0046 4F            [ 4]   59 	ld	c,a
-   0047 0C            [ 4]   60 	inc	c
-   0048 69            [ 4]   61 	ld	l,c
-   0049 C9            [10]   62 	ret
-   004A                      63 _activeEnemies:
-   004A 00                   64 	.db #0x00	; 0
-                             65 ;src/Enemy.c:12: void Enemy_spawn_new(){
-                             66 ;	---------------------------------
-                             67 ; Function Enemy_spawn_new
-                             68 ; ---------------------------------
-   004B                      69 _Enemy_spawn_new::
-                             70 ;src/Enemy.c:15: if(activeEnemies<15){
-   004B 3A 4A 00      [13]   71 	ld	a,(#_activeEnemies + 0)
-   004E D6 0F         [ 7]   72 	sub	a, #0x0F
-   0050 D0            [11]   73 	ret	NC
-                             74 ;src/Enemy.c:16: while(i){
-   0051 0E 0F         [ 7]   75 	ld	c,#0x0F
-   0053 11 B4 00      [10]   76 	ld	de,#0x00B4
-   0056                      77 00103$:
-   0056 79            [ 4]   78 	ld	a,c
-   0057 B7            [ 4]   79 	or	a, a
-   0058 C8            [11]   80 	ret	Z
-                             81 ;src/Enemy.c:17: --i;
-   0059 7B            [ 4]   82 	ld	a,e
-   005A C6 F4         [ 7]   83 	add	a,#0xF4
-   005C 5F            [ 4]   84 	ld	e,a
-   005D 7A            [ 4]   85 	ld	a,d
-   005E CE FF         [ 7]   86 	adc	a,#0xFF
-   0060 57            [ 4]   87 	ld	d,a
-   0061 0D            [ 4]   88 	dec	c
-                             89 ;src/Enemy.c:18: if(enemyArray[i].hitPoints==0){
-   0062 FD 21 60 48   [14]   90 	ld	iy,#_enemyArray+0
-   0066 FD 19         [15]   91 	add	iy,de
-   0068 FD E5         [15]   92 	push	iy
-   006A E1            [10]   93 	pop	hl
-   006B 23            [ 6]   94 	inc	hl
-   006C 23            [ 6]   95 	inc	hl
-   006D 23            [ 6]   96 	inc	hl
-   006E 7E            [ 7]   97 	ld	a, (hl)
-   006F 23            [ 6]   98 	inc	hl
-   0070 66            [ 7]   99 	ld	h,(hl)
-   0071 B4            [ 4]  100 	or	a,h
-   0072 20 E2         [12]  101 	jr	NZ,00103$
-                            102 ;src/Enemy.c:19: e = &enemyArray[i];
-   0074 FD E5         [15]  103 	push	iy
-   0076 C1            [10]  104 	pop	bc
-                            105 ;src/Enemy.c:21: e->textureId = 0;
-   0077 AF            [ 4]  106 	xor	a, a
-   0078 02            [ 7]  107 	ld	(bc),a
-                            108 ;src/Enemy.c:23: e->hitPoints = 10;
-   0079 03            [ 6]  109 	inc	bc
-   007A 03            [ 6]  110 	inc	bc
-   007B 03            [ 6]  111 	inc	bc
-   007C 60            [ 4]  112 	ld	h,b
-   007D 69            [ 4]  113 	ld	l, c
-   007E 36 0A         [10]  114 	ld	(hl),#0x0A
-   0080 23            [ 6]  115 	inc	hl
-   0081 36 00         [10]  116 	ld	(hl),#0x00
-                            117 ;src/Enemy.c:25: break;
-   0083 C9            [10]  118 	ret
-                            119 ;src/Enemy.c:31: void Enemy_update_logic(){
-                            120 ;	---------------------------------
-                            121 ; Function Enemy_update_logic
-                            122 ; ---------------------------------
-   0084                     123 _Enemy_update_logic::
-                            124 ;src/Enemy.c:33: }
-   0084 C9            [10]  125 	ret
-                            126 	.area _CODE
-                            127 	.area _INITIALIZER
-                            128 	.area _CABS (ABS)
+                             44 ;--------------------------------------------------------
+                             45 ; code
+                             46 ;--------------------------------------------------------
+                             47 	.area _CODE
+                             48 ;src/Enemy.c:12: void Enemy_spawn_new(){
+                             49 ;	---------------------------------
+                             50 ; Function Enemy_spawn_new
+                             51 ; ---------------------------------
+   0040                      52 _Enemy_spawn_new::
+                             53 ;src/Enemy.c:15: if(activeEnemies<15){
+   0040 3A 79 00      [13]   54 	ld	a,(#_activeEnemies + 0)
+   0043 D6 0F         [ 7]   55 	sub	a, #0x0F
+   0045 D0            [11]   56 	ret	NC
+                             57 ;src/Enemy.c:16: while(i){
+   0046 0E 0F         [ 7]   58 	ld	c,#0x0F
+   0048 11 B4 00      [10]   59 	ld	de,#0x00B4
+   004B                      60 00103$:
+   004B 79            [ 4]   61 	ld	a,c
+   004C B7            [ 4]   62 	or	a, a
+   004D C8            [11]   63 	ret	Z
+                             64 ;src/Enemy.c:17: --i;
+   004E 7B            [ 4]   65 	ld	a,e
+   004F C6 F4         [ 7]   66 	add	a,#0xF4
+   0051 5F            [ 4]   67 	ld	e,a
+   0052 7A            [ 4]   68 	ld	a,d
+   0053 CE FF         [ 7]   69 	adc	a,#0xFF
+   0055 57            [ 4]   70 	ld	d,a
+   0056 0D            [ 4]   71 	dec	c
+                             72 ;src/Enemy.c:18: if(enemyArray[i].hitPoints==0){
+   0057 FD 21 F4 49   [14]   73 	ld	iy,#_enemyArray+0
+   005B FD 19         [15]   74 	add	iy,de
+   005D FD E5         [15]   75 	push	iy
+   005F E1            [10]   76 	pop	hl
+   0060 23            [ 6]   77 	inc	hl
+   0061 23            [ 6]   78 	inc	hl
+   0062 23            [ 6]   79 	inc	hl
+   0063 7E            [ 7]   80 	ld	a, (hl)
+   0064 23            [ 6]   81 	inc	hl
+   0065 66            [ 7]   82 	ld	h,(hl)
+   0066 B4            [ 4]   83 	or	a,h
+   0067 20 E2         [12]   84 	jr	NZ,00103$
+                             85 ;src/Enemy.c:19: e = &enemyArray[i];
+   0069 FD E5         [15]   86 	push	iy
+   006B C1            [10]   87 	pop	bc
+                             88 ;src/Enemy.c:21: e->textureId = 0;
+   006C AF            [ 4]   89 	xor	a, a
+   006D 02            [ 7]   90 	ld	(bc),a
+                             91 ;src/Enemy.c:23: e->hitPoints = 10;
+   006E 03            [ 6]   92 	inc	bc
+   006F 03            [ 6]   93 	inc	bc
+   0070 03            [ 6]   94 	inc	bc
+   0071 60            [ 4]   95 	ld	h,b
+   0072 69            [ 4]   96 	ld	l, c
+   0073 36 0A         [10]   97 	ld	(hl),#0x0A
+   0075 23            [ 6]   98 	inc	hl
+   0076 36 00         [10]   99 	ld	(hl),#0x00
+                            100 ;src/Enemy.c:25: break;
+   0078 C9            [10]  101 	ret
+   0079                     102 _activeEnemies:
+   0079 00                  103 	.db #0x00	; 0
+                            104 ;src/Enemy.c:31: void Enemy_update_logic(){
+                            105 ;	---------------------------------
+                            106 ; Function Enemy_update_logic
+                            107 ; ---------------------------------
+   007A                     108 _Enemy_update_logic::
+                            109 ;src/Enemy.c:33: }
+   007A C9            [10]  110 	ret
+                            111 	.area _CODE
+                            112 	.area _INITIALIZER
+                            113 	.area _CABS (ABS)

@@ -8,17 +8,26 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
     _cpct_drawSolidBox                                             **** GX
-    _cpct_getScreenPtr                                             **** GX
     _cpct_isKeyPressed                                             **** GX
     _g_colors                                                      **** GX
   0 _state_pausemenu_enter                                         0000 GR
-  0 _state_pausemenu_exit                                          0048 GR
-  0 _state_pausemenu_input                                         001D GR
-  0 _state_pausemenu_render                                        0047 GR
-  0 _state_pausemenu_update                                        0046 GR
+  0 _state_pausemenu_exit                                          00A3 GR
+  0 _state_pausemenu_input                                         0031 GR
+  0 _state_pausemenu_render                                        00A0 GR
+  0 _state_pausemenu_return                                        002E GR
+  0 _state_pausemenu_update                                        0060 GR
     _statemanager_close_state                                      **** GX
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
+    _ui_pausemenu_get_entry                                        **** GX
+    _ui_pausemenu_init                                             **** GX
+    _ui_pausemenu_is_selected                                      **** GX
+    _ui_pausemenu_next_entry                                       **** GX
+    _ui_pausemenu_previous_entry                                   **** GX
+    _ui_pausemenu_render_all                                       **** GX
+    _ui_pausemenu_render_refresh                                   **** GX
+    _ui_pausemenu_select_entry                                     **** GX
+    _ui_pausemenu_unselect_entry                                   **** GX
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -26,7 +35,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   67   flags    0
+   0 _CODE                                      size   B8   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -15,9 +15,9 @@
                              15 	.globl _render_draw_to_buffer
                              16 	.globl _statemanager_input_accepted
                              17 	.globl _statemanager_set_state
-                             18 	.globl _statemanager_close_state
-                             19 	.globl _cpct_memset
-                             20 	.globl _state_loadlevel_enter
+                             18 	.globl _cpct_memset
+                             19 	.globl _state_loadlevel_enter
+                             20 	.globl _state_loadlevel_return
                              21 	.globl _state_loadlevel_input
                              22 	.globl _state_loadlevel_update
                              23 	.globl _state_loadlevel_render
@@ -93,41 +93,46 @@
    002F 4C 4F 41 44 49 4E    93 	.ascii "LOADING"
         47
    0036 00                   94 	.db 0x00
-                             95 ;src/State_LoadLevel.c:23: void state_loadlevel_input(){
+                             95 ;src/State_LoadLevel.c:23: void state_loadlevel_return(){
                              96 ;	---------------------------------
-                             97 ; Function state_loadlevel_input
+                             97 ; Function state_loadlevel_return
                              98 ; ---------------------------------
-   0037                      99 _state_loadlevel_input::
-                            100 ;src/State_LoadLevel.c:24: statemanager_input_accepted();
-   0037 C3r00r00      [10]  101 	jp  _statemanager_input_accepted
-                            102 ;src/State_LoadLevel.c:27: void state_loadlevel_update(){
+   0037                      99 _state_loadlevel_return::
+                            100 ;src/State_LoadLevel.c:25: }
+   0037 C9            [10]  101 	ret
+                            102 ;src/State_LoadLevel.c:28: void state_loadlevel_input(){
                             103 ;	---------------------------------
-                            104 ; Function state_loadlevel_update
+                            104 ; Function state_loadlevel_input
                             105 ; ---------------------------------
-   003A                     106 _state_loadlevel_update::
-                            107 ;src/State_LoadLevel.c:28: statemanager_close_state();
-   003A CDr00r00      [17]  108 	call	_statemanager_close_state
-                            109 ;src/State_LoadLevel.c:29: statemanager_set_state(STATE_INGAME);
-   003D 3E 01         [ 7]  110 	ld	a,#0x01
-   003F F5            [11]  111 	push	af
-   0040 33            [ 6]  112 	inc	sp
-   0041 CDr00r00      [17]  113 	call	_statemanager_set_state
-   0044 33            [ 6]  114 	inc	sp
-   0045 C9            [10]  115 	ret
-                            116 ;src/State_LoadLevel.c:32: void state_loadlevel_render(){
-                            117 ;	---------------------------------
-                            118 ; Function state_loadlevel_render
-                            119 ; ---------------------------------
-   0046                     120 _state_loadlevel_render::
-                            121 ;src/State_LoadLevel.c:34: }
-   0046 C9            [10]  122 	ret
-                            123 ;src/State_LoadLevel.c:36: void state_loadlevel_exit(){
-                            124 ;	---------------------------------
-                            125 ; Function state_loadlevel_exit
-                            126 ; ---------------------------------
-   0047                     127 _state_loadlevel_exit::
-                            128 ;src/State_LoadLevel.c:38: }
-   0047 C9            [10]  129 	ret
-                            130 	.area _CODE
-                            131 	.area _INITIALIZER
-                            132 	.area _CABS (ABS)
+   0038                     106 _state_loadlevel_input::
+                            107 ;src/State_LoadLevel.c:29: statemanager_input_accepted();
+   0038 C3r00r00      [10]  108 	jp  _statemanager_input_accepted
+                            109 ;src/State_LoadLevel.c:32: void state_loadlevel_update(){
+                            110 ;	---------------------------------
+                            111 ; Function state_loadlevel_update
+                            112 ; ---------------------------------
+   003B                     113 _state_loadlevel_update::
+                            114 ;src/State_LoadLevel.c:34: statemanager_set_state(STATE_INGAME);
+   003B 3E 01         [ 7]  115 	ld	a,#0x01
+   003D F5            [11]  116 	push	af
+   003E 33            [ 6]  117 	inc	sp
+   003F CDr00r00      [17]  118 	call	_statemanager_set_state
+   0042 33            [ 6]  119 	inc	sp
+   0043 C9            [10]  120 	ret
+                            121 ;src/State_LoadLevel.c:37: void state_loadlevel_render(){
+                            122 ;	---------------------------------
+                            123 ; Function state_loadlevel_render
+                            124 ; ---------------------------------
+   0044                     125 _state_loadlevel_render::
+                            126 ;src/State_LoadLevel.c:39: }
+   0044 C9            [10]  127 	ret
+                            128 ;src/State_LoadLevel.c:41: void state_loadlevel_exit(){
+                            129 ;	---------------------------------
+                            130 ; Function state_loadlevel_exit
+                            131 ; ---------------------------------
+   0045                     132 _state_loadlevel_exit::
+                            133 ;src/State_LoadLevel.c:43: }
+   0045 C9            [10]  134 	ret
+                            135 	.area _CODE
+                            136 	.area _INITIALIZER
+                            137 	.area _CABS (ABS)

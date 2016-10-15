@@ -16,9 +16,16 @@
 void state_mainmenu_enter(){
     cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
     print_transparent_text("MAIN MENU", CPCT_VMEM_START, 3);
+    // print_transparent_text(integer_to_string(SCREEN_PTR_AT(CPCT_VMEM_START, 0, (200-16-4-16-4-16-4-16-4-16)), 'h'), CPCT_VMEM_START+80+6, 3);
+    // print_transparent_text(integer_to_string((SCREEN_PTR_AT(CPCT_VMEM_START, 0, (200-16-4-16-4-16-4-16-4-16)))>>8, 'h'), CPCT_VMEM_START+80, 3);
     ui_mainmenu_init();
     ui_mainmenu_render_all();
-    state_mainmenu_render();
+    // state_mainmenu_render();
+}
+
+void state_mainmenu_return(){
+    ui_mainmenu_render_all();
+    // state_mainmenu_render();
 }
 
 void state_mainmenu_input(){

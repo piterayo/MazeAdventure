@@ -7,7 +7,7 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       002C R
+  0 ___str_0                                                       0029 R
     _cpct_isKeyPressed                                             **** GX
     _cpct_memset                                                   **** GX
     _g_colors                                                      **** GX
@@ -17,6 +17,7 @@ Symbol Table
   0 _state_mainmenu_exit                                           00AE GR
   0 _state_mainmenu_input                                          0036 GR
   0 _state_mainmenu_render                                         00AB GR
+  0 _state_mainmenu_return                                         0033 GR
   0 _state_mainmenu_update                                         0065 GR
     _statemanager_exit_game                                        **** GX
     _statemanager_input_accepted                                   **** GX
@@ -30,6 +31,7 @@ Symbol Table
     _ui_mainmenu_render_refresh                                    **** GX
     _ui_mainmenu_select_entry                                      **** GX
     _ui_mainmenu_unselect_entry                                    **** GX
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
