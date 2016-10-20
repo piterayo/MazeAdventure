@@ -37,12 +37,12 @@
                              37 ; ram data
                              38 ;--------------------------------------------------------
                              39 	.area _INITIALIZED
-   4AB3                      40 _ui_pausemenu_lastEntry::
-   4AB3                      41 	.ds 1
-   4AB4                      42 _ui_pausemenu_entryIndex::
-   4AB4                      43 	.ds 1
-   4AB5                      44 _ui_pausemenu_entrySelected::
-   4AB5                      45 	.ds 1
+   4FAD                      40 _ui_pausemenu_lastEntry::
+   4FAD                      41 	.ds 1
+   4FAE                      42 _ui_pausemenu_entryIndex::
+   4FAE                      43 	.ds 1
+   4FAF                      44 _ui_pausemenu_entrySelected::
+   4FAF                      45 	.ds 1
                              46 ;--------------------------------------------------------
                              47 ; absolute external ram data
                              48 ;--------------------------------------------------------
@@ -67,239 +67,240 @@
                              67 ;	---------------------------------
                              68 ; Function ui_pausemenu_init
                              69 ; ---------------------------------
-   2968                      70 _ui_pausemenu_init::
+   2824                      70 _ui_pausemenu_init::
                              71 ;src/UI_PauseMenu.c:58: ui_pausemenu_lastEntry=0;
-   2968 21 B3 4A      [10]   72 	ld	hl,#_ui_pausemenu_lastEntry + 0
-   296B 36 00         [10]   73 	ld	(hl), #0x00
+   2824 21 AD 4F      [10]   72 	ld	hl,#_ui_pausemenu_lastEntry + 0
+   2827 36 00         [10]   73 	ld	(hl), #0x00
                              74 ;src/UI_PauseMenu.c:59: ui_pausemenu_entryIndex=0;
-   296D 21 B4 4A      [10]   75 	ld	hl,#_ui_pausemenu_entryIndex + 0
-   2970 36 00         [10]   76 	ld	(hl), #0x00
+   2829 21 AE 4F      [10]   75 	ld	hl,#_ui_pausemenu_entryIndex + 0
+   282C 36 00         [10]   76 	ld	(hl), #0x00
                              77 ;src/UI_PauseMenu.c:60: ui_pausemenu_entrySelected=0;
-   2972 21 B5 4A      [10]   78 	ld	hl,#_ui_pausemenu_entrySelected + 0
-   2975 36 00         [10]   79 	ld	(hl), #0x00
-   2977 C9            [10]   80 	ret
-   2978                      81 _ui_pausemenu_entriesPosition:
-   2978 AA C1                82 	.dw #0xC1AA
-   297A EA C2                83 	.dw #0xC2EA
-   297C 2A C4                84 	.dw #0xC42A
-   297E 6A C5                85 	.dw #0xC56A
-   2980                      86 _ui_pausemenu_entriesTextPosition:
-   2980 00 CA                87 	.dw #0xCA00
-   2982 42 CB                88 	.dw #0xCB42
-   2984 7C CC                89 	.dw #0xCC7C
-   2986 C4 CD                90 	.dw #0xCDC4
-   2988                      91 _ui_pausemenu_buttonText:
-   2988 90 29                92 	.dw __str_0
-   298A 99 29                93 	.dw __str_1
-   298C A1 29                94 	.dw __str_2
-   298E AF 29                95 	.dw __str_3
-   2990                      96 __str_0:
-   2990 43 4F 4E 54 49 4E    97 	.ascii "CONTINUE"
+   282E 21 AF 4F      [10]   78 	ld	hl,#_ui_pausemenu_entrySelected + 0
+   2831 36 00         [10]   79 	ld	(hl), #0x00
+   2833 C9            [10]   80 	ret
+   2834                      81 _ui_pausemenu_entriesPosition:
+   2834 AA C1                82 	.dw #0xC1AA
+   2836 EA C2                83 	.dw #0xC2EA
+   2838 2A C4                84 	.dw #0xC42A
+   283A 6A C5                85 	.dw #0xC56A
+   283C                      86 _ui_pausemenu_entriesTextPosition:
+   283C 00 CA                87 	.dw #0xCA00
+   283E 42 CB                88 	.dw #0xCB42
+   2840 7B CC                89 	.dw #0xCC7B
+   2842 C4 CD                90 	.dw #0xCDC4
+   2844                      91 _ui_pausemenu_buttonText:
+   2844 4C 28                92 	.dw __str_0
+   2846 55 28                93 	.dw __str_1
+   2848 5D 28                94 	.dw __str_2
+   284A 6B 28                95 	.dw __str_3
+   284C                      96 __str_0:
+   284C 43 4F 4E 54 49 4E    97 	.ascii "CONTINUE"
         55 45
-   2998 00                   98 	.db 0x00
-   2999                      99 __str_1:
-   2999 4F 50 54 49 4F 4E   100 	.ascii "OPTIONS"
+   2854 00                   98 	.db 0x00
+   2855                      99 __str_1:
+   2855 4F 50 54 49 4F 4E   100 	.ascii "OPTIONS"
         53
-   29A0 00                  101 	.db 0x00
-   29A1                     102 __str_2:
-   29A1 53 41 56 45 20 41   103 	.ascii "SAVE AND EXIT"
+   285C 00                  101 	.db 0x00
+   285D                     102 __str_2:
+   285D 53 41 56 45 20 41   103 	.ascii "SAVE AND EXIT"
         4E 44 20 45 58 49
         54
-   29AE 00                  104 	.db 0x00
-   29AF                     105 __str_3:
-   29AF 45 58 49 54         106 	.ascii "EXIT"
-   29B3 00                  107 	.db 0x00
+   286A 00                  104 	.db 0x00
+   286B                     105 __str_3:
+   286B 45 58 49 54         106 	.ascii "EXIT"
+   286F 00                  107 	.db 0x00
                             108 ;src/UI_PauseMenu.c:63: u8 ui_pausemenu_get_entry(){
                             109 ;	---------------------------------
                             110 ; Function ui_pausemenu_get_entry
                             111 ; ---------------------------------
-   29B4                     112 _ui_pausemenu_get_entry::
+   2870                     112 _ui_pausemenu_get_entry::
                             113 ;src/UI_PauseMenu.c:64: return ui_pausemenu_entryIndex;
-   29B4 FD 21 B4 4A   [14]  114 	ld	iy,#_ui_pausemenu_entryIndex
-   29B8 FD 6E 00      [19]  115 	ld	l,0 (iy)
-   29BB C9            [10]  116 	ret
+   2870 FD 21 AE 4F   [14]  114 	ld	iy,#_ui_pausemenu_entryIndex
+   2874 FD 6E 00      [19]  115 	ld	l,0 (iy)
+   2877 C9            [10]  116 	ret
                             117 ;src/UI_PauseMenu.c:67: u8 ui_pausemenu_is_selected(){
                             118 ;	---------------------------------
                             119 ; Function ui_pausemenu_is_selected
                             120 ; ---------------------------------
-   29BC                     121 _ui_pausemenu_is_selected::
+   2878                     121 _ui_pausemenu_is_selected::
                             122 ;src/UI_PauseMenu.c:68: return ui_pausemenu_entrySelected;
-   29BC FD 21 B5 4A   [14]  123 	ld	iy,#_ui_pausemenu_entrySelected
-   29C0 FD 6E 00      [19]  124 	ld	l,0 (iy)
-   29C3 C9            [10]  125 	ret
+   2878 FD 21 AF 4F   [14]  123 	ld	iy,#_ui_pausemenu_entrySelected
+   287C FD 6E 00      [19]  124 	ld	l,0 (iy)
+   287F C9            [10]  125 	ret
                             126 ;src/UI_PauseMenu.c:71: void ui_pausemenu_next_entry(){
                             127 ;	---------------------------------
                             128 ; Function ui_pausemenu_next_entry
                             129 ; ---------------------------------
-   29C4                     130 _ui_pausemenu_next_entry::
+   2880                     130 _ui_pausemenu_next_entry::
                             131 ;src/UI_PauseMenu.c:72: if(ui_pausemenu_entryIndex<(UI_PAUSEMENU_ENTRIES-1)){
                             132 ;src/UI_PauseMenu.c:73: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
-   29C4 3A B4 4A      [13]  133 	ld	a,(#_ui_pausemenu_entryIndex + 0)
-   29C7 FE 03         [ 7]  134 	cp	a,#0x03
-   29C9 D0            [11]  135 	ret	NC
-   29CA 32 B3 4A      [13]  136 	ld	(#_ui_pausemenu_lastEntry + 0),a
+   2880 3A AE 4F      [13]  133 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   2883 FE 03         [ 7]  134 	cp	a,#0x03
+   2885 D0            [11]  135 	ret	NC
+   2886 32 AD 4F      [13]  136 	ld	(#_ui_pausemenu_lastEntry + 0),a
                             137 ;src/UI_PauseMenu.c:74: ++ui_pausemenu_entryIndex;
-   29CD 21 B4 4A      [10]  138 	ld	hl, #_ui_pausemenu_entryIndex+0
-   29D0 34            [11]  139 	inc	(hl)
-   29D1 C9            [10]  140 	ret
+   2889 21 AE 4F      [10]  138 	ld	hl, #_ui_pausemenu_entryIndex+0
+   288C 34            [11]  139 	inc	(hl)
+   288D C9            [10]  140 	ret
                             141 ;src/UI_PauseMenu.c:78: void ui_pausemenu_previous_entry(){
                             142 ;	---------------------------------
                             143 ; Function ui_pausemenu_previous_entry
                             144 ; ---------------------------------
-   29D2                     145 _ui_pausemenu_previous_entry::
+   288E                     145 _ui_pausemenu_previous_entry::
                             146 ;src/UI_PauseMenu.c:79: if(ui_pausemenu_entryIndex>0){
-   29D2 3A B4 4A      [13]  147 	ld	a,(#_ui_pausemenu_entryIndex + 0)
-   29D5 B7            [ 4]  148 	or	a, a
-   29D6 C8            [11]  149 	ret	Z
+   288E 3A AE 4F      [13]  147 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   2891 B7            [ 4]  148 	or	a, a
+   2892 C8            [11]  149 	ret	Z
                             150 ;src/UI_PauseMenu.c:80: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
-   29D7 3A B4 4A      [13]  151 	ld	a,(#_ui_pausemenu_entryIndex + 0)
-   29DA 32 B3 4A      [13]  152 	ld	(#_ui_pausemenu_lastEntry + 0),a
+   2893 3A AE 4F      [13]  151 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   2896 32 AD 4F      [13]  152 	ld	(#_ui_pausemenu_lastEntry + 0),a
                             153 ;src/UI_PauseMenu.c:81: --ui_pausemenu_entryIndex;
-   29DD 21 B4 4A      [10]  154 	ld	hl, #_ui_pausemenu_entryIndex+0
-   29E0 35            [11]  155 	dec	(hl)
-   29E1 C9            [10]  156 	ret
+   2899 21 AE 4F      [10]  154 	ld	hl, #_ui_pausemenu_entryIndex+0
+   289C 35            [11]  155 	dec	(hl)
+   289D C9            [10]  156 	ret
                             157 ;src/UI_PauseMenu.c:85: void ui_pausemenu_select_entry(){
                             158 ;	---------------------------------
                             159 ; Function ui_pausemenu_select_entry
                             160 ; ---------------------------------
-   29E2                     161 _ui_pausemenu_select_entry::
+   289E                     161 _ui_pausemenu_select_entry::
                             162 ;src/UI_PauseMenu.c:86: ui_pausemenu_entrySelected=1;
-   29E2 21 B5 4A      [10]  163 	ld	hl,#_ui_pausemenu_entrySelected + 0
-   29E5 36 01         [10]  164 	ld	(hl), #0x01
-   29E7 C9            [10]  165 	ret
+   289E 21 AF 4F      [10]  163 	ld	hl,#_ui_pausemenu_entrySelected + 0
+   28A1 36 01         [10]  164 	ld	(hl), #0x01
+   28A3 C9            [10]  165 	ret
                             166 ;src/UI_PauseMenu.c:89: void ui_pausemenu_unselect_entry(){
                             167 ;	---------------------------------
                             168 ; Function ui_pausemenu_unselect_entry
                             169 ; ---------------------------------
-   29E8                     170 _ui_pausemenu_unselect_entry::
+   28A4                     170 _ui_pausemenu_unselect_entry::
                             171 ;src/UI_PauseMenu.c:90: ui_pausemenu_entrySelected=0;
-   29E8 21 B5 4A      [10]  172 	ld	hl,#_ui_pausemenu_entrySelected + 0
-   29EB 36 00         [10]  173 	ld	(hl), #0x00
-   29ED C9            [10]  174 	ret
+   28A4 21 AF 4F      [10]  172 	ld	hl,#_ui_pausemenu_entrySelected + 0
+   28A7 36 00         [10]  173 	ld	(hl), #0x00
+   28A9 C9            [10]  174 	ret
                             175 ;src/UI_PauseMenu.c:93: void ui_pausemenu_render_button(u8 n){
                             176 ;	---------------------------------
                             177 ; Function ui_pausemenu_render_button
                             178 ; ---------------------------------
-   29EE                     179 _ui_pausemenu_render_button::
-   29EE DD E5         [15]  180 	push	ix
-   29F0 DD 21 00 00   [14]  181 	ld	ix,#0
-   29F4 DD 39         [15]  182 	add	ix,sp
-                            183 ;src/UI_PauseMenu.c:95: color = (n==ui_pausemenu_entryIndex)?((ui_pausemenu_entrySelected)? g_colors[4]: g_colors[5]): g_colors[2];
-   29F6 DD 7E 04      [19]  184 	ld	a,4 (ix)
-   29F9 FD 21 B4 4A   [14]  185 	ld	iy,#_ui_pausemenu_entryIndex
-   29FD FD 96 00      [19]  186 	sub	a, 0 (iy)
-   2A00 20 10         [12]  187 	jr	NZ,00103$
-   2A02 3A B5 4A      [13]  188 	ld	a,(#_ui_pausemenu_entrySelected + 0)
-   2A05 B7            [ 4]  189 	or	a, a
-   2A06 28 05         [12]  190 	jr	Z,00105$
-   2A08 3A A7 0A      [13]  191 	ld	a, (#(_g_colors + 0x0004) + 0)
-   2A0B 18 08         [12]  192 	jr	00104$
-   2A0D                     193 00105$:
-   2A0D 3A A8 0A      [13]  194 	ld	a, (#(_g_colors + 0x0005) + 0)
-   2A10 18 03         [12]  195 	jr	00104$
-   2A12                     196 00103$:
-   2A12 3A A5 0A      [13]  197 	ld	a, (#(_g_colors + 0x0002) + 0)
-   2A15                     198 00104$:
-   2A15 47            [ 4]  199 	ld	b,a
-                            200 ;src/UI_PauseMenu.c:96: cpct_drawSolidBox(ui_pausemenu_entriesPosition[n],color, UI_PAUSEMENU_BUTTON_WIDTH, UI_PAUSEMENU_BUTTON_HEIGHT);
-   2A16 DD 6E 04      [19]  201 	ld	l,4 (ix)
-   2A19 26 00         [ 7]  202 	ld	h,#0x00
-   2A1B 29            [11]  203 	add	hl, hl
-   2A1C EB            [ 4]  204 	ex	de,hl
-   2A1D 21 78 29      [10]  205 	ld	hl,#_ui_pausemenu_entriesPosition
-   2A20 19            [11]  206 	add	hl,de
-   2A21 7E            [ 7]  207 	ld	a, (hl)
-   2A22 23            [ 6]  208 	inc	hl
-   2A23 66            [ 7]  209 	ld	h,(hl)
-   2A24 6F            [ 4]  210 	ld	l,a
-   2A25 E5            [11]  211 	push	hl
-   2A26 FD E1         [14]  212 	pop	iy
-   2A28 D5            [11]  213 	push	de
-   2A29 21 1C 18      [10]  214 	ld	hl,#0x181C
-   2A2C E5            [11]  215 	push	hl
-   2A2D C5            [11]  216 	push	bc
-   2A2E 33            [ 6]  217 	inc	sp
-   2A2F FD E5         [15]  218 	push	iy
-   2A31 CD CB 48      [17]  219 	call	_cpct_drawSolidBox
-   2A34 F1            [10]  220 	pop	af
-   2A35 F1            [10]  221 	pop	af
-   2A36 33            [ 6]  222 	inc	sp
-   2A37 D1            [10]  223 	pop	de
+   28AA                     179 _ui_pausemenu_render_button::
+   28AA DD E5         [15]  180 	push	ix
+   28AC DD 21 00 00   [14]  181 	ld	ix,#0
+   28B0 DD 39         [15]  182 	add	ix,sp
+   28B2 3B            [ 6]  183 	dec	sp
+                            184 ;src/UI_PauseMenu.c:95: color = (n==ui_pausemenu_entryIndex)?((ui_pausemenu_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
+   28B3 DD 7E 04      [19]  185 	ld	a,4 (ix)
+   28B6 FD 21 AE 4F   [14]  186 	ld	iy,#_ui_pausemenu_entryIndex
+   28BA FD 96 00      [19]  187 	sub	a, 0 (iy)
+   28BD 20 10         [12]  188 	jr	NZ,00103$
+   28BF 3A AF 4F      [13]  189 	ld	a,(#_ui_pausemenu_entrySelected + 0)
+   28C2 B7            [ 4]  190 	or	a, a
+   28C3 28 05         [12]  191 	jr	Z,00105$
+   28C5 3A A7 0A      [13]  192 	ld	a, (#(_g_colors + 0x0004) + 0)
+   28C8 18 08         [12]  193 	jr	00104$
+   28CA                     194 00105$:
+   28CA 3A A9 0A      [13]  195 	ld	a, (#(_g_colors + 0x0006) + 0)
+   28CD 18 03         [12]  196 	jr	00104$
+   28CF                     197 00103$:
+   28CF 3A A5 0A      [13]  198 	ld	a, (#(_g_colors + 0x0002) + 0)
+   28D2                     199 00104$:
+   28D2 DD 77 FF      [19]  200 	ld	-1 (ix),a
+                            201 ;src/UI_PauseMenu.c:96: cpct_drawSolidBox(ui_pausemenu_entriesPosition[n],color, UI_PAUSEMENU_BUTTON_WIDTH, UI_PAUSEMENU_BUTTON_HEIGHT);
+   28D5 DD 6E 04      [19]  202 	ld	l,4 (ix)
+   28D8 26 00         [ 7]  203 	ld	h,#0x00
+   28DA 29            [11]  204 	add	hl, hl
+   28DB 4D            [ 4]  205 	ld	c, l
+   28DC 44            [ 4]  206 	ld	b, h
+   28DD 21 34 28      [10]  207 	ld	hl,#_ui_pausemenu_entriesPosition
+   28E0 09            [11]  208 	add	hl,bc
+   28E1 5E            [ 7]  209 	ld	e,(hl)
+   28E2 23            [ 6]  210 	inc	hl
+   28E3 56            [ 7]  211 	ld	d,(hl)
+   28E4 C5            [11]  212 	push	bc
+   28E5 21 1C 18      [10]  213 	ld	hl,#0x181C
+   28E8 E5            [11]  214 	push	hl
+   28E9 DD 7E FF      [19]  215 	ld	a,-1 (ix)
+   28EC F5            [11]  216 	push	af
+   28ED 33            [ 6]  217 	inc	sp
+   28EE D5            [11]  218 	push	de
+   28EF CD C0 4D      [17]  219 	call	_cpct_drawSolidBox
+   28F2 F1            [10]  220 	pop	af
+   28F3 F1            [10]  221 	pop	af
+   28F4 33            [ 6]  222 	inc	sp
+   28F5 C1            [10]  223 	pop	bc
                             224 ;src/UI_PauseMenu.c:97: print_transparent_text(ui_pausemenu_buttonText[n], ui_pausemenu_entriesTextPosition[n], 3);
-   2A38 21 80 29      [10]  225 	ld	hl,#_ui_pausemenu_entriesTextPosition
-   2A3B 19            [11]  226 	add	hl,de
-   2A3C 4E            [ 7]  227 	ld	c,(hl)
-   2A3D 23            [ 6]  228 	inc	hl
-   2A3E 46            [ 7]  229 	ld	b,(hl)
-   2A3F 21 88 29      [10]  230 	ld	hl,#_ui_pausemenu_buttonText
-   2A42 19            [11]  231 	add	hl,de
-   2A43 5E            [ 7]  232 	ld	e,(hl)
-   2A44 23            [ 6]  233 	inc	hl
-   2A45 56            [ 7]  234 	ld	d,(hl)
-   2A46 3E 03         [ 7]  235 	ld	a,#0x03
-   2A48 F5            [11]  236 	push	af
-   2A49 33            [ 6]  237 	inc	sp
-   2A4A C5            [11]  238 	push	bc
-   2A4B D5            [11]  239 	push	de
-   2A4C CD 67 22      [17]  240 	call	_print_transparent_text
-   2A4F F1            [10]  241 	pop	af
-   2A50 F1            [10]  242 	pop	af
-   2A51 33            [ 6]  243 	inc	sp
-   2A52 DD E1         [14]  244 	pop	ix
-   2A54 C9            [10]  245 	ret
-                            246 ;src/UI_PauseMenu.c:100: void ui_pausemenu_render_refresh(){
-                            247 ;	---------------------------------
-                            248 ; Function ui_pausemenu_render_refresh
-                            249 ; ---------------------------------
-   2A55                     250 _ui_pausemenu_render_refresh::
-                            251 ;src/UI_PauseMenu.c:102: ui_pausemenu_render_button(ui_pausemenu_entryIndex);
-   2A55 3A B4 4A      [13]  252 	ld	a,(_ui_pausemenu_entryIndex)
-   2A58 F5            [11]  253 	push	af
-   2A59 33            [ 6]  254 	inc	sp
-   2A5A CD EE 29      [17]  255 	call	_ui_pausemenu_render_button
-   2A5D 33            [ 6]  256 	inc	sp
-                            257 ;src/UI_PauseMenu.c:103: ui_pausemenu_render_button(ui_pausemenu_lastEntry);
-   2A5E 3A B3 4A      [13]  258 	ld	a,(_ui_pausemenu_lastEntry)
-   2A61 F5            [11]  259 	push	af
-   2A62 33            [ 6]  260 	inc	sp
-   2A63 CD EE 29      [17]  261 	call	_ui_pausemenu_render_button
-   2A66 33            [ 6]  262 	inc	sp
-                            263 ;src/UI_PauseMenu.c:105: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
-   2A67 3A B4 4A      [13]  264 	ld	a,(#_ui_pausemenu_entryIndex + 0)
-   2A6A 32 B3 4A      [13]  265 	ld	(#_ui_pausemenu_lastEntry + 0),a
-   2A6D C9            [10]  266 	ret
-                            267 ;src/UI_PauseMenu.c:108: void ui_pausemenu_render_all(){
-                            268 ;	---------------------------------
-                            269 ; Function ui_pausemenu_render_all
-                            270 ; ---------------------------------
-   2A6E                     271 _ui_pausemenu_render_all::
-                            272 ;src/UI_PauseMenu.c:112: while(n){
-   2A6E 06 04         [ 7]  273 	ld	b,#0x04
-   2A70                     274 00101$:
-   2A70 78            [ 4]  275 	ld	a,b
-   2A71 B7            [ 4]  276 	or	a, a
-   2A72 28 0B         [12]  277 	jr	Z,00103$
-                            278 ;src/UI_PauseMenu.c:113: --n;
-   2A74 05            [ 4]  279 	dec	b
-                            280 ;src/UI_PauseMenu.c:114: ui_pausemenu_render_button(n);
-   2A75 C5            [11]  281 	push	bc
-   2A76 C5            [11]  282 	push	bc
-   2A77 33            [ 6]  283 	inc	sp
-   2A78 CD EE 29      [17]  284 	call	_ui_pausemenu_render_button
-   2A7B 33            [ 6]  285 	inc	sp
-   2A7C C1            [10]  286 	pop	bc
-   2A7D 18 F1         [12]  287 	jr	00101$
-   2A7F                     288 00103$:
-                            289 ;src/UI_PauseMenu.c:117: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
-   2A7F 3A B4 4A      [13]  290 	ld	a,(#_ui_pausemenu_entryIndex + 0)
-   2A82 32 B3 4A      [13]  291 	ld	(#_ui_pausemenu_lastEntry + 0),a
-   2A85 C9            [10]  292 	ret
-                            293 	.area _CODE
-                            294 	.area _INITIALIZER
-   4AC0                     295 __xinit__ui_pausemenu_lastEntry:
-   4AC0 00                  296 	.db #0x00	; 0
-   4AC1                     297 __xinit__ui_pausemenu_entryIndex:
-   4AC1 00                  298 	.db #0x00	; 0
-   4AC2                     299 __xinit__ui_pausemenu_entrySelected:
-   4AC2 00                  300 	.db #0x00	; 0
-                            301 	.area _CABS (ABS)
+   28F6 21 3C 28      [10]  225 	ld	hl,#_ui_pausemenu_entriesTextPosition
+   28F9 09            [11]  226 	add	hl,bc
+   28FA 5E            [ 7]  227 	ld	e,(hl)
+   28FB 23            [ 6]  228 	inc	hl
+   28FC 56            [ 7]  229 	ld	d,(hl)
+   28FD 21 44 28      [10]  230 	ld	hl,#_ui_pausemenu_buttonText
+   2900 09            [11]  231 	add	hl,bc
+   2901 4E            [ 7]  232 	ld	c,(hl)
+   2902 23            [ 6]  233 	inc	hl
+   2903 46            [ 7]  234 	ld	b,(hl)
+   2904 3E 03         [ 7]  235 	ld	a,#0x03
+   2906 F5            [11]  236 	push	af
+   2907 33            [ 6]  237 	inc	sp
+   2908 D5            [11]  238 	push	de
+   2909 C5            [11]  239 	push	bc
+   290A CD 70 22      [17]  240 	call	_print_transparent_text
+   290D F1            [10]  241 	pop	af
+   290E F1            [10]  242 	pop	af
+   290F 33            [ 6]  243 	inc	sp
+   2910 33            [ 6]  244 	inc	sp
+   2911 DD E1         [14]  245 	pop	ix
+   2913 C9            [10]  246 	ret
+                            247 ;src/UI_PauseMenu.c:100: void ui_pausemenu_render_refresh(){
+                            248 ;	---------------------------------
+                            249 ; Function ui_pausemenu_render_refresh
+                            250 ; ---------------------------------
+   2914                     251 _ui_pausemenu_render_refresh::
+                            252 ;src/UI_PauseMenu.c:102: ui_pausemenu_render_button(ui_pausemenu_entryIndex);
+   2914 3A AE 4F      [13]  253 	ld	a,(_ui_pausemenu_entryIndex)
+   2917 F5            [11]  254 	push	af
+   2918 33            [ 6]  255 	inc	sp
+   2919 CD AA 28      [17]  256 	call	_ui_pausemenu_render_button
+   291C 33            [ 6]  257 	inc	sp
+                            258 ;src/UI_PauseMenu.c:103: ui_pausemenu_render_button(ui_pausemenu_lastEntry);
+   291D 3A AD 4F      [13]  259 	ld	a,(_ui_pausemenu_lastEntry)
+   2920 F5            [11]  260 	push	af
+   2921 33            [ 6]  261 	inc	sp
+   2922 CD AA 28      [17]  262 	call	_ui_pausemenu_render_button
+   2925 33            [ 6]  263 	inc	sp
+                            264 ;src/UI_PauseMenu.c:105: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
+   2926 3A AE 4F      [13]  265 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   2929 32 AD 4F      [13]  266 	ld	(#_ui_pausemenu_lastEntry + 0),a
+   292C C9            [10]  267 	ret
+                            268 ;src/UI_PauseMenu.c:108: void ui_pausemenu_render_all(){
+                            269 ;	---------------------------------
+                            270 ; Function ui_pausemenu_render_all
+                            271 ; ---------------------------------
+   292D                     272 _ui_pausemenu_render_all::
+                            273 ;src/UI_PauseMenu.c:112: while(n){
+   292D 06 04         [ 7]  274 	ld	b,#0x04
+   292F                     275 00101$:
+   292F 78            [ 4]  276 	ld	a,b
+   2930 B7            [ 4]  277 	or	a, a
+   2931 28 0B         [12]  278 	jr	Z,00103$
+                            279 ;src/UI_PauseMenu.c:113: --n;
+   2933 05            [ 4]  280 	dec	b
+                            281 ;src/UI_PauseMenu.c:114: ui_pausemenu_render_button(n);
+   2934 C5            [11]  282 	push	bc
+   2935 C5            [11]  283 	push	bc
+   2936 33            [ 6]  284 	inc	sp
+   2937 CD AA 28      [17]  285 	call	_ui_pausemenu_render_button
+   293A 33            [ 6]  286 	inc	sp
+   293B C1            [10]  287 	pop	bc
+   293C 18 F1         [12]  288 	jr	00101$
+   293E                     289 00103$:
+                            290 ;src/UI_PauseMenu.c:117: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
+   293E 3A AE 4F      [13]  291 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   2941 32 AD 4F      [13]  292 	ld	(#_ui_pausemenu_lastEntry + 0),a
+   2944 C9            [10]  293 	ret
+                            294 	.area _CODE
+                            295 	.area _INITIALIZER
+   4FB9                     296 __xinit__ui_pausemenu_lastEntry:
+   4FB9 00                  297 	.db #0x00	; 0
+   4FBA                     298 __xinit__ui_pausemenu_entryIndex:
+   4FBA 00                  299 	.db #0x00	; 0
+   4FBB                     300 __xinit__ui_pausemenu_entrySelected:
+   4FBB 00                  301 	.db #0x00	; 0
+                            302 	.area _CABS (ABS)

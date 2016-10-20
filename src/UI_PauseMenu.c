@@ -7,22 +7,22 @@
 #include "StringUtils.h"
 #include "Renderer.h"
 
-#define UI_PAUSEMENU_BUTTON_CONTINUE_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START, 26, 40))
+#define UI_PAUSEMENU_BUTTON_CONTINUE_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START, 26, 40))
 
-#define UI_PAUSEMENU_BUTTON_OPTIONS_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START, 26, 72))
+#define UI_PAUSEMENU_BUTTON_OPTIONS_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START, 26, 72))
 
-#define UI_PAUSEMENU_BUTTON_SAVE_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START, 26, 104))
+#define UI_PAUSEMENU_BUTTON_SAVE_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START, 26, 104))
 
-#define UI_PAUSEMENU_BUTTON_EXIT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START, 26, 136))
+#define UI_PAUSEMENU_BUTTON_EXIT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START, 26, 136))
 
 
-#define UI_PAUSEMENU_BUTTON_CONTINUE_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START, 32, 49))
+#define UI_PAUSEMENU_BUTTON_CONTINUE_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START, 32, 49))
 
-#define UI_PAUSEMENU_BUTTON_OPTIONS_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START, 34, 81))
+#define UI_PAUSEMENU_BUTTON_OPTIONS_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START, 34, 81))
 
-#define UI_PAUSEMENU_BUTTON_SAVE_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START, 28, 113))
+#define UI_PAUSEMENU_BUTTON_SAVE_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START, 27, 113))
 
-#define UI_PAUSEMENU_BUTTON_EXIT_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START, 36, 145))
+#define UI_PAUSEMENU_BUTTON_EXIT_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START, 36, 145))
 
 #define UI_PAUSEMENU_ENTRIES 4
 
@@ -34,14 +34,14 @@ u8 ui_pausemenu_lastEntry=0;
 u8 ui_pausemenu_entryIndex=0;
 u8 ui_pausemenu_entrySelected=0;
 
-const u8* const ui_pausemenu_entriesPosition[UI_PAUSEMENU_ENTRIES]={
+const void* const ui_pausemenu_entriesPosition[UI_PAUSEMENU_ENTRIES]={
     UI_PAUSEMENU_BUTTON_CONTINUE_POSITION,
     UI_PAUSEMENU_BUTTON_OPTIONS_POSITION,
     UI_PAUSEMENU_BUTTON_SAVE_POSITION,
     UI_PAUSEMENU_BUTTON_EXIT_POSITION
 };
 
-const u8* const ui_pausemenu_entriesTextPosition[UI_PAUSEMENU_ENTRIES]={
+const void* const ui_pausemenu_entriesTextPosition[UI_PAUSEMENU_ENTRIES]={
     UI_PAUSEMENU_BUTTON_CONTINUE_TEXT_POSITION,
     UI_PAUSEMENU_BUTTON_OPTIONS_TEXT_POSITION,
     UI_PAUSEMENU_BUTTON_SAVE_TEXT_POSITION,
@@ -92,7 +92,7 @@ void ui_pausemenu_unselect_entry(){
 
 void ui_pausemenu_render_button(u8 n){
     u8 color;
-    color = (n==ui_pausemenu_entryIndex)?((ui_pausemenu_entrySelected)? g_colors[4]: g_colors[5]): g_colors[2];
+    color = (n==ui_pausemenu_entryIndex)?((ui_pausemenu_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
     cpct_drawSolidBox(ui_pausemenu_entriesPosition[n],color, UI_PAUSEMENU_BUTTON_WIDTH, UI_PAUSEMENU_BUTTON_HEIGHT);
     print_transparent_text(ui_pausemenu_buttonText[n], ui_pausemenu_entriesTextPosition[n], 3);
 }

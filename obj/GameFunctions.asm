@@ -25,12 +25,12 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _DATA
+_r_counter::
+	.ds 2
 ;--------------------------------------------------------
 ; ram data
 ;--------------------------------------------------------
 	.area _INITIALIZED
-_r_counter::
-	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -59,6 +59,9 @@ _game_interrupt_handler::
 ;src/GameFunctions.c:12: ++r_counter;
 	ld	hl, #_r_counter+0
 	inc	(hl)
+	ret	NZ
+	ld	hl, #_r_counter+1
+	inc	(hl)
 	ret
 ;src/GameFunctions.c:15: void game_init(){
 ;	---------------------------------
@@ -70,24 +73,24 @@ _game_init::
 ;src/GameFunctions.c:17: cpct_setVideoMode(0);
 	ld	l,#0x00
 	call	_cpct_setVideoMode
-;src/GameFunctions.c:18: cpct_fw2hw(g_palette,16);
+;src/GameFunctions.c:19: cpct_fw2hw(g_palette,16);
 	ld	hl,#0x0010
 	push	hl
 	ld	hl,#_g_palette
 	push	hl
 	call	_cpct_fw2hw
-;src/GameFunctions.c:19: cpct_setInterruptHandler(game_interrupt_handler);
+;src/GameFunctions.c:21: cpct_setInterruptHandler(game_interrupt_handler);
 	ld	hl,#_game_interrupt_handler
 	call	_cpct_setInterruptHandler
-;src/GameFunctions.c:20: level_init_palettes();
+;src/GameFunctions.c:22: level_init_palettes();
 	call	_level_init_palettes
-;src/GameFunctions.c:21: cpct_setPalette(g_palette,16);
+;src/GameFunctions.c:23: cpct_setPalette(g_palette,16);
 	ld	hl,#0x0010
 	push	hl
 	ld	hl,#_g_palette
 	push	hl
 	call	_cpct_setPalette
-;src/GameFunctions.c:22: cpct_setBorder(g_palette[1]);
+;src/GameFunctions.c:24: cpct_setBorder(g_palette[1]);
 	ld	hl, #_g_palette + 1
 	ld	b,(hl)
 	push	bc
@@ -99,6 +102,4 @@ _game_init::
 	ret
 	.area _CODE
 	.area _INITIALIZER
-__xinit__r_counter:
-	.db #0x00	; 0
 	.area _CABS (ABS)

@@ -16,7 +16,7 @@ u8 map_get_seed(){
 }
 
 u8 get_random_wall(){
-    u8 cellType = cpct_getRandom_lcg_u8();
+    u8 cellType = cpct_getRandom_mxor_u8 ();
     if(cellType&1){
         return CELLTYPE_WALL1;
     }
@@ -49,10 +49,10 @@ void generate_map(){
     
     cpct_memset (GENERATOR_DATA_PTR, 0, 4096);
     
-    (*cellStack).x = (cpct_getRandom_lcg_u8()%(MAP_WIDTH-2))+1; //RANDOM
-    (*cellStack).y = (cpct_getRandom_lcg_u8()%(MAP_HEIGHT-2))+1; //RANDOM
+    (*cellStack).x = (cpct_getRandom_mxor_u8 ()%(MAP_WIDTH-2))+1; //RANDOM
+    (*cellStack).y = (cpct_getRandom_mxor_u8 ()%(MAP_HEIGHT-2))+1; //RANDOM
     
-    rotatePlayer = cpct_getRandom_lcg_u8()%4;
+    rotatePlayer = cpct_getRandom_mxor_u8 ()%4;
     while(rotatePlayer){
         player_turn_left();
         --rotatePlayer;
@@ -152,7 +152,7 @@ void generate_map(){
             
             if(cellType == CELLTYPE_UNDEFINED){
                 
-                if(cpct_getRandom_lcg_u8()&1){//WALL
+                if(cpct_getRandom_mxor_u8 ()&1){//WALL
                     cellType = get_random_wall();
                 }
                 else{//FLOOR
@@ -220,8 +220,8 @@ void generate_map(){
 }
 
 void generate_exit_door(){
-    u8 x=(cpct_getRandom_lcg_u8()%32);
-    u8 y=(cpct_getRandom_lcg_u8()%32);
+    u8 x=(cpct_getRandom_mxor_u8 ()%32);
+    u8 y=(cpct_getRandom_mxor_u8 ()%32);
     u8 door_not_positioned=1;
     
     u8* lastVal;
@@ -282,12 +282,21 @@ void generate_level(){
     generate_level_with_seed(r_counter);
 }
 
-void generate_level_with_seed(u8 seed){
+void generate_level_with_seed(u8 seed) __z88dk_fastcall{
     
     rand_seed=seed;
-    cpct_setSeed_lcg_u8(seed+level_get_level());
+    // cpct_setSeed_lcg_u8(seed+level_get_level());
+    
+    cpct_setSeed_mxor(((seed+level_get_level())&0xFFFE) + 1);
+    cpct_restoreState_mxor_u8();
+    
     
     generate_map();
     generate_exit_door();
+    
+    //DEBUG
     *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
+    *(u8*)(MAP_MEM + 7 + MAP_WIDTH*5)=0b00000010;
+    *(u8*)(MAP_MEM + 8 + MAP_WIDTH*5)=0b00000011;
+    *(u8*)(MAP_MEM + 9 + MAP_WIDTH*5)=0b00000100;
 }

@@ -64,7 +64,7 @@
 ; Function state_pausemenu_enter
 ; ---------------------------------
 _state_pausemenu_enter::
-;src/State_PauseMenu.c:15: cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 23, 28), g_colors[4], 34, 144);
+;src/State_PauseMenu.c:15: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[4], 34, 144);
 	ld	hl, #_g_colors + 4
 	ld	b,(hl)
 	ld	hl,#0x9022
@@ -77,7 +77,7 @@ _state_pausemenu_enter::
 	pop	af
 	pop	af
 	inc	sp
-;src/State_PauseMenu.c:16: cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 24, 32), g_colors[1], 32, 136);
+;src/State_PauseMenu.c:16: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 24, 32), g_colors[1], 32, 136);
 	ld	hl, #_g_colors + 1
 	ld	b,(hl)
 	ld	hl,#0x8820
@@ -94,7 +94,7 @@ _state_pausemenu_enter::
 	call	_ui_pausemenu_init
 ;src/State_PauseMenu.c:18: ui_pausemenu_render_all();
 	jp  _ui_pausemenu_render_all
-;src/State_PauseMenu.c:21: void state_pausemenu_return(){
+;src/State_PauseMenu.c:21: void state_pausemenu_return() {
 ;	---------------------------------
 ; Function state_pausemenu_return
 ; ---------------------------------
@@ -182,15 +182,12 @@ _state_pausemenu_update::
 ;src/State_PauseMenu.c:58: case 3:{
 00104$:
 ;src/State_PauseMenu.c:59: statemanager_set_state(STATE_MAINMENU);
-	xor	a, a
-	push	af
-	inc	sp
+	ld	l,#0x00
 	call	_statemanager_set_state
-	inc	sp
 ;src/State_PauseMenu.c:62: }
 ;src/State_PauseMenu.c:64: ui_pausemenu_unselect_entry();
 	jp  _ui_pausemenu_unselect_entry
-;src/State_PauseMenu.c:67: void state_pausemenu_render(){
+;src/State_PauseMenu.c:67: void state_pausemenu_render() {
 ;	---------------------------------
 ; Function state_pausemenu_render
 ; ---------------------------------
@@ -202,7 +199,7 @@ _state_pausemenu_render::
 ; Function state_pausemenu_exit
 ; ---------------------------------
 _state_pausemenu_exit::
-;src/State_PauseMenu.c:72: cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 23, 28), g_colors[1], 34, 144);
+;src/State_PauseMenu.c:72: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[1], 34, 144);
 	ld	hl, #(_g_colors + 0x0001) + 0
 	ld	b,(hl)
 	ld	hl,#0x9022

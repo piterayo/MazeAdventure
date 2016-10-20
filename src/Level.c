@@ -10,17 +10,17 @@
 u8 current_level;
 
 const u8 level_palettes[4][VARIABLE_COLORS]={
-    {0,9,3,18,10,20,0,4,17,14},
-    {11,21,3,9,25,15,1,2,17,14},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0},
+    { 0, 9, 3, 5,10,14,17,18,20},
+    {11,21, 1, 2, 3,16,24,26, 0},
+    { 1,13, 2, 3,11,16,18,24,25},
+    { 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
 
 u8 level_get_level(){
     return current_level;
 }
 
-void level_set_level(u8 l){
+void level_set_level(u8 l) __z88dk_fastcall{
     current_level=l;
 }
 
@@ -42,7 +42,7 @@ void level_load_level(){
     index =((current_level<8)?0:(
             (current_level<24)?1:(
             (current_level<56)?2:(
-            (current_level<120)?4:0
+            (current_level<120)?3:0
             ))));
     
     uncompress_theme_textures(index);

@@ -58,7 +58,7 @@
 ; Function state_loadlevel_enter
 ; ---------------------------------
 _state_loadlevel_enter::
-;src/State_LoadLevel.c:11: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+;src/State_LoadLevel.c:12: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
 	ld	hl,#_g_colors+1
 	ld	b,(hl)
 	ld	hl,#0x4000
@@ -68,7 +68,7 @@ _state_loadlevel_enter::
 	ld	h, #0xC0
 	push	hl
 	call	_cpct_memset
-;src/State_LoadLevel.c:13: print_transparent_text("LOADING", 0xe391, 3);
+;src/State_LoadLevel.c:14: print_transparent_text("LOADING", 0xe391, 3);
 	ld	a,#0x03
 	push	af
 	inc	sp
@@ -80,44 +80,40 @@ _state_loadlevel_enter::
 	pop	af
 	pop	af
 	inc	sp
-;src/State_LoadLevel.c:15: generate_level();
+;src/State_LoadLevel.c:16: generate_level();
 	call	_generate_level
-;src/State_LoadLevel.c:16: level_load_level();
+;src/State_LoadLevel.c:17: level_load_level();
 	call	_level_load_level
-;src/State_LoadLevel.c:18: render_draw_to_buffer();
+;src/State_LoadLevel.c:19: render_draw_to_buffer();
 	call	_render_draw_to_buffer
-;src/State_LoadLevel.c:19: draw_minimap_to_buffer();
+;src/State_LoadLevel.c:20: draw_minimap_to_buffer();
 	call	_draw_minimap_to_buffer
 	ret
 ___str_0:
 	.ascii "LOADING"
 	.db 0x00
-;src/State_LoadLevel.c:23: void state_loadlevel_return(){
+;src/State_LoadLevel.c:24: void state_loadlevel_return(){
 ;	---------------------------------
 ; Function state_loadlevel_return
 ; ---------------------------------
 _state_loadlevel_return::
-;src/State_LoadLevel.c:25: }
+;src/State_LoadLevel.c:26: }
 	ret
-;src/State_LoadLevel.c:28: void state_loadlevel_input(){
+;src/State_LoadLevel.c:29: void state_loadlevel_input() {
 ;	---------------------------------
 ; Function state_loadlevel_input
 ; ---------------------------------
 _state_loadlevel_input::
-;src/State_LoadLevel.c:29: statemanager_input_accepted();
+;src/State_LoadLevel.c:30: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
-;src/State_LoadLevel.c:32: void state_loadlevel_update(){
+;src/State_LoadLevel.c:33: void state_loadlevel_update(){
 ;	---------------------------------
 ; Function state_loadlevel_update
 ; ---------------------------------
 _state_loadlevel_update::
 ;src/State_LoadLevel.c:34: statemanager_set_state(STATE_INGAME);
-	ld	a,#0x01
-	push	af
-	inc	sp
-	call	_statemanager_set_state
-	inc	sp
-	ret
+	ld	l,#0x01
+	jp  _statemanager_set_state
 ;src/State_LoadLevel.c:37: void state_loadlevel_render(){
 ;	---------------------------------
 ; Function state_loadlevel_render

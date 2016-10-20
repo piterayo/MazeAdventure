@@ -4,7 +4,7 @@
 
 #include <cpctelera.h>
 
-extern void level_set_level(u8 l);
+extern void level_set_level(u8 l) __z88dk_fastcall;
 
 extern u8 level_get_level();
 

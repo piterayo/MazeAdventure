@@ -66,7 +66,7 @@
                              66 ; Function state_mainmenu_enter
                              67 ; ---------------------------------
    0000                      68 _state_mainmenu_enter::
-                             69 ;src/State_MainMenu.c:17: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+                             69 ;src/State_MainMenu.c:18: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
    0000 21r01r00      [10]   70 	ld	hl,#_g_colors+1
    0003 46            [ 7]   71 	ld	b,(hl)
    0004 21 00 40      [10]   72 	ld	hl,#0x4000
@@ -76,7 +76,7 @@
    000A 26 C0         [ 7]   76 	ld	h, #0xC0
    000C E5            [11]   77 	push	hl
    000D CDr00r00      [17]   78 	call	_cpct_memset
-                             79 ;src/State_MainMenu.c:18: print_transparent_text("MAIN MENU", CPCT_VMEM_START, 3);
+                             79 ;src/State_MainMenu.c:19: print_transparent_text("MAIN MENU", CPCT_VMEM_START, 3);
    0010 3E 03         [ 7]   80 	ld	a,#0x03
    0012 F5            [11]   81 	push	af
    0013 33            [ 6]   82 	inc	sp
@@ -97,63 +97,63 @@
    0029 4D 41 49 4E 20 4D    97 	.ascii "MAIN MENU"
         45 4E 55
    0032 00                   98 	.db 0x00
-                             99 ;src/State_MainMenu.c:26: void state_mainmenu_return(){
+                             99 ;src/State_MainMenu.c:26: void state_mainmenu_return() {
                             100 ;	---------------------------------
                             101 ; Function state_mainmenu_return
                             102 ; ---------------------------------
    0033                     103 _state_mainmenu_return::
                             104 ;src/State_MainMenu.c:27: ui_mainmenu_render_all();
    0033 C3r00r00      [10]  105 	jp  _ui_mainmenu_render_all
-                            106 ;src/State_MainMenu.c:31: void state_mainmenu_input(){
+                            106 ;src/State_MainMenu.c:30: void state_mainmenu_input(){
                             107 ;	---------------------------------
                             108 ; Function state_mainmenu_input
                             109 ; ---------------------------------
    0036                     110 _state_mainmenu_input::
-                            111 ;src/State_MainMenu.c:32: if(cpct_isKeyPressed(Key_CursorUp)){
+                            111 ;src/State_MainMenu.c:31: if(cpct_isKeyPressed(Key_CursorUp)){
    0036 21 00 01      [10]  112 	ld	hl,#0x0100
    0039 CDr00r00      [17]  113 	call	_cpct_isKeyPressed
    003C 7D            [ 4]  114 	ld	a,l
    003D B7            [ 4]  115 	or	a, a
    003E 28 06         [12]  116 	jr	Z,00107$
-                            117 ;src/State_MainMenu.c:33: ui_mainmenu_previous_entry();
+                            117 ;src/State_MainMenu.c:32: ui_mainmenu_previous_entry();
    0040 CDr00r00      [17]  118 	call	_ui_mainmenu_previous_entry
-                            119 ;src/State_MainMenu.c:34: statemanager_input_accepted();
+                            119 ;src/State_MainMenu.c:33: statemanager_input_accepted();
    0043 C3r00r00      [10]  120 	jp  _statemanager_input_accepted
    0046                     121 00107$:
-                            122 ;src/State_MainMenu.c:36: else if(cpct_isKeyPressed(Key_CursorDown)){
+                            122 ;src/State_MainMenu.c:35: else if(cpct_isKeyPressed(Key_CursorDown)){
    0046 21 00 04      [10]  123 	ld	hl,#0x0400
    0049 CDr00r00      [17]  124 	call	_cpct_isKeyPressed
    004C 7D            [ 4]  125 	ld	a,l
    004D B7            [ 4]  126 	or	a, a
    004E 28 06         [12]  127 	jr	Z,00104$
-                            128 ;src/State_MainMenu.c:37: ui_mainmenu_next_entry();
+                            128 ;src/State_MainMenu.c:36: ui_mainmenu_next_entry();
    0050 CDr00r00      [17]  129 	call	_ui_mainmenu_next_entry
-                            130 ;src/State_MainMenu.c:38: statemanager_input_accepted();
+                            130 ;src/State_MainMenu.c:37: statemanager_input_accepted();
    0053 C3r00r00      [10]  131 	jp  _statemanager_input_accepted
    0056                     132 00104$:
-                            133 ;src/State_MainMenu.c:40: else if(cpct_isKeyPressed(Key_Return)){
+                            133 ;src/State_MainMenu.c:39: else if(cpct_isKeyPressed(Key_Return)){
    0056 21 02 04      [10]  134 	ld	hl,#0x0402
    0059 CDr00r00      [17]  135 	call	_cpct_isKeyPressed
    005C 7D            [ 4]  136 	ld	a,l
    005D B7            [ 4]  137 	or	a, a
    005E C8            [11]  138 	ret	Z
-                            139 ;src/State_MainMenu.c:41: ui_mainmenu_select_entry();
+                            139 ;src/State_MainMenu.c:40: ui_mainmenu_select_entry();
    005F CDr00r00      [17]  140 	call	_ui_mainmenu_select_entry
-                            141 ;src/State_MainMenu.c:42: statemanager_input_accepted();
+                            141 ;src/State_MainMenu.c:41: statemanager_input_accepted();
    0062 C3r00r00      [10]  142 	jp  _statemanager_input_accepted
-                            143 ;src/State_MainMenu.c:46: void state_mainmenu_update(){
+                            143 ;src/State_MainMenu.c:45: void state_mainmenu_update(){
                             144 ;	---------------------------------
                             145 ; Function state_mainmenu_update
                             146 ; ---------------------------------
    0065                     147 _state_mainmenu_update::
-                            148 ;src/State_MainMenu.c:47: if(ui_mainmenu_is_selected()){
+                            148 ;src/State_MainMenu.c:46: if(ui_mainmenu_is_selected()){
    0065 CDr00r00      [17]  149 	call	_ui_mainmenu_is_selected
    0068 7D            [ 4]  150 	ld	a,l
    0069 B7            [ 4]  151 	or	a, a
    006A C8            [11]  152 	ret	Z
-                            153 ;src/State_MainMenu.c:48: ui_mainmenu_render_refresh();
+                            153 ;src/State_MainMenu.c:47: ui_mainmenu_render_refresh();
    006B CDr00r00      [17]  154 	call	_ui_mainmenu_render_refresh
-                            155 ;src/State_MainMenu.c:49: switch(ui_mainmenu_get_entry()){
+                            155 ;src/State_MainMenu.c:48: switch(ui_mainmenu_get_entry()){
    006E CDr00r00      [17]  156 	call	_ui_mainmenu_get_entry
    0071 5D            [ 4]  157 	ld	e,l
    0072 3E 04         [ 7]  158 	ld	a,#0x04
@@ -163,60 +163,54 @@
    007A 21r80r00      [10]  162 	ld	hl,#00119$
    007D 19            [11]  163 	add	hl,de
    007E 19            [11]  164 	add	hl,de
-                            165 ;src/State_MainMenu.c:50: case 0:{
+                            165 ;src/State_MainMenu.c:49: case 0:{
    007F E9            [ 4]  166 	jp	(hl)
    0080                     167 00119$:
    0080 18 08         [12]  168 	jr	00101$
-   0082 18 24         [12]  169 	jr	00106$
-   0084 18 22         [12]  170 	jr	00106$
-   0086 18 20         [12]  171 	jr	00106$
-   0088 18 1B         [12]  172 	jr	00105$
+   0082 18 1F         [12]  169 	jr	00106$
+   0084 18 1D         [12]  170 	jr	00106$
+   0086 18 1B         [12]  171 	jr	00106$
+   0088 18 16         [12]  172 	jr	00105$
    008A                     173 00101$:
-                            174 ;src/State_MainMenu.c:51: level_set_level(0);
-   008A AF            [ 4]  175 	xor	a, a
-   008B F5            [11]  176 	push	af
-   008C 33            [ 6]  177 	inc	sp
-   008D CDr00r00      [17]  178 	call	_level_set_level
-   0090 33            [ 6]  179 	inc	sp
-                            180 ;src/State_MainMenu.c:52: statemanager_set_state(STATE_LOADLEVEL);
-   0091 3E 03         [ 7]  181 	ld	a,#0x03
-   0093 F5            [11]  182 	push	af
-   0094 33            [ 6]  183 	inc	sp
-   0095 CDr00r00      [17]  184 	call	_statemanager_set_state
-   0098 33            [ 6]  185 	inc	sp
-                            186 ;src/State_MainMenu.c:53: break;
-   0099 C3r00r00      [10]  187 	jp	_ui_mainmenu_unselect_entry
-                            188 ;src/State_MainMenu.c:55: case 1:{
-                            189 ;src/State_MainMenu.c:57: break;
-   009C C3r00r00      [10]  190 	jp	_ui_mainmenu_unselect_entry
-                            191 ;src/State_MainMenu.c:59: case 2:{
-                            192 ;src/State_MainMenu.c:61: break;
-   009F C3r00r00      [10]  193 	jp	_ui_mainmenu_unselect_entry
-                            194 ;src/State_MainMenu.c:63: case 3:{
-                            195 ;src/State_MainMenu.c:65: break;
-   00A2 C3r00r00      [10]  196 	jp	_ui_mainmenu_unselect_entry
-                            197 ;src/State_MainMenu.c:67: case 4:{
-   00A5                     198 00105$:
-                            199 ;src/State_MainMenu.c:68: statemanager_exit_game();
-   00A5 CDr00r00      [17]  200 	call	_statemanager_exit_game
-                            201 ;src/State_MainMenu.c:71: }
-   00A8                     202 00106$:
-                            203 ;src/State_MainMenu.c:72: ui_mainmenu_unselect_entry();
-   00A8 C3r00r00      [10]  204 	jp  _ui_mainmenu_unselect_entry
-                            205 ;src/State_MainMenu.c:76: void state_mainmenu_render(){
-                            206 ;	---------------------------------
-                            207 ; Function state_mainmenu_render
-                            208 ; ---------------------------------
-   00AB                     209 _state_mainmenu_render::
-                            210 ;src/State_MainMenu.c:77: ui_mainmenu_render_refresh();
-   00AB C3r00r00      [10]  211 	jp  _ui_mainmenu_render_refresh
-                            212 ;src/State_MainMenu.c:80: void state_mainmenu_exit(){
-                            213 ;	---------------------------------
-                            214 ; Function state_mainmenu_exit
-                            215 ; ---------------------------------
-   00AE                     216 _state_mainmenu_exit::
-                            217 ;src/State_MainMenu.c:82: }
-   00AE C9            [10]  218 	ret
-                            219 	.area _CODE
-                            220 	.area _INITIALIZER
-                            221 	.area _CABS (ABS)
+                            174 ;src/State_MainMenu.c:50: level_set_level(0);
+   008A 2E 00         [ 7]  175 	ld	l,#0x00
+   008C CDr00r00      [17]  176 	call	_level_set_level
+                            177 ;src/State_MainMenu.c:51: statemanager_set_state(STATE_LOADLEVEL);
+   008F 2E 03         [ 7]  178 	ld	l,#0x03
+   0091 CDr00r00      [17]  179 	call	_statemanager_set_state
+                            180 ;src/State_MainMenu.c:52: break;
+   0094 C3r00r00      [10]  181 	jp	_ui_mainmenu_unselect_entry
+                            182 ;src/State_MainMenu.c:54: case 1:{
+                            183 ;src/State_MainMenu.c:56: break;
+   0097 C3r00r00      [10]  184 	jp	_ui_mainmenu_unselect_entry
+                            185 ;src/State_MainMenu.c:58: case 2:{
+                            186 ;src/State_MainMenu.c:60: break;
+   009A C3r00r00      [10]  187 	jp	_ui_mainmenu_unselect_entry
+                            188 ;src/State_MainMenu.c:62: case 3:{
+                            189 ;src/State_MainMenu.c:64: break;
+   009D C3r00r00      [10]  190 	jp	_ui_mainmenu_unselect_entry
+                            191 ;src/State_MainMenu.c:66: case 4:{
+   00A0                     192 00105$:
+                            193 ;src/State_MainMenu.c:67: statemanager_exit_game();
+   00A0 CDr00r00      [17]  194 	call	_statemanager_exit_game
+                            195 ;src/State_MainMenu.c:70: }
+   00A3                     196 00106$:
+                            197 ;src/State_MainMenu.c:71: ui_mainmenu_unselect_entry();
+   00A3 C3r00r00      [10]  198 	jp  _ui_mainmenu_unselect_entry
+                            199 ;src/State_MainMenu.c:75: void state_mainmenu_render() {
+                            200 ;	---------------------------------
+                            201 ; Function state_mainmenu_render
+                            202 ; ---------------------------------
+   00A6                     203 _state_mainmenu_render::
+                            204 ;src/State_MainMenu.c:76: ui_mainmenu_render_refresh();
+   00A6 C3r00r00      [10]  205 	jp  _ui_mainmenu_render_refresh
+                            206 ;src/State_MainMenu.c:79: void state_mainmenu_exit(){
+                            207 ;	---------------------------------
+                            208 ; Function state_mainmenu_exit
+                            209 ; ---------------------------------
+   00A9                     210 _state_mainmenu_exit::
+                            211 ;src/State_MainMenu.c:81: }
+   00A9 C9            [10]  212 	ret
+                            213 	.area _CODE
+                            214 	.area _INITIALIZER
+                            215 	.area _CABS (ABS)

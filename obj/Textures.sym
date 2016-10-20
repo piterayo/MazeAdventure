@@ -7,24 +7,30 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 _enemy_textures                                                00B6 GR
-    _g_pixelMask                                                   **** GX
-    _level0_enemies_tileset                                        **** GX
-    _level0_walls_tileset                                          **** GX
-    _level1_walls_tileset                                          **** GX
-  0 _theme_textures                                                00AE GR
-  0 _uncompress_enemy_textures                                     0169 GR
-  0 _uncompress_item_textures                                      01F4 GR
-  0 _uncompress_texture                                            0000 GR
-  0 _uncompress_theme_textures                                     00BE GR
-
+  0 _enemy_textures                                                0074 GR
+  0 _enemy_textures_length                                         007C GR
+    _g_colors                                                      **** GX
+    _level0_enemies                                                **** GX
+    _level0_walls                                                  **** GX
+    _level1_enemies                                                **** GX
+    _level1_walls                                                  **** GX
+    _level2_enemies                                                **** GX
+    _level2_walls                                                  **** GX
+    _level3_enemies                                                **** GX
+    _level3_walls                                                  **** GX
+  0 _theme_textures                                                0064 GR
+  0 _theme_textures_length                                         006C GR
+  0 _uncompress_enemy_textures                                     00A7 GR
+  0 _uncompress_item_textures                                      00CA GR
+  0 _uncompress_texture_rle                                        0000 GR
+  0 _uncompress_theme_textures                                     0084 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  1F5   flags    0
+   0 _CODE                                      size   CB   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

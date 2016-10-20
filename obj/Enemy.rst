@@ -19,8 +19,8 @@
                              19 ; ram data
                              20 ;--------------------------------------------------------
                              21 	.area _DATA
-   49F4                      22 _enemyArray::
-   49F4                      23 	.ds 180
+   4EED                      22 _enemyArray::
+   4EED                      23 	.ds 180
                              24 ;--------------------------------------------------------
                              25 ; ram data
                              26 ;--------------------------------------------------------
@@ -70,7 +70,7 @@
    0055 57            [ 4]   70 	ld	d,a
    0056 0D            [ 4]   71 	dec	c
                              72 ;src/Enemy.c:18: if(enemyArray[i].hitPoints==0){
-   0057 FD 21 F4 49   [14]   73 	ld	iy,#_enemyArray+0
+   0057 FD 21 ED 4E   [14]   73 	ld	iy,#_enemyArray+0
    005B FD 19         [15]   74 	add	iy,de
    005D FD E5         [15]   75 	push	iy
    005F E1            [10]   76 	pop	hl

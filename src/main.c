@@ -23,7 +23,9 @@
 
 #include "StateManager.h"
 
+
 void main(void) {
+    
    game_init();
    
    statemanager_set_state(STATE_MAINMENU);

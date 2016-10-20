@@ -9,7 +9,7 @@
 
 extern u8 map_get_seed();
 
-extern void generate_level_with_seed(u8 seed);
+extern void generate_level_with_seed(u8 seed) __z88dk_fastcall;
 
 extern void generate_level();
 

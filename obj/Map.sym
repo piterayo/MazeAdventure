@@ -9,12 +9,13 @@ Symbol Table
     .__.H$L.                                                    =  0000 L
     __moduchar                                                     **** GX
   7 __xinit__rand_seed                                             0000 R
-    _cpct_getRandom_lcg_u8                                         **** GX
+    _cpct_getRandom_mxor_u8                                        **** GX
     _cpct_memset                                                   **** GX
-    _cpct_setSeed_lcg_u8                                           **** GX
+    _cpct_restoreState_mxor_u8                                     **** GX
+    _cpct_setSeed_mxor                                             **** GX
   0 _generate_exit_door                                            04DA GR
-  0 _generate_level                                                068E GR
-  0 _generate_level_with_seed                                      0698 GR
+  0 _generate_level                                                0686 GR
+  0 _generate_level_with_seed                                      0690 GR
   0 _generate_map                                                  0025 GR
   0 _get_random_wall                                               0008 GR
     _level_get_level                                               **** GX
@@ -24,13 +25,12 @@ Symbol Table
     _r_counter                                                     **** GX
   2 _rand_seed                                                     0000 GR
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  6BD   flags    0
+   0 _CODE                                      size  6C3   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    1   flags    0
    3 _DABS                                      size    0   flags    8

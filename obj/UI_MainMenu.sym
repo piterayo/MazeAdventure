@@ -23,15 +23,15 @@ Symbol Table
   0 _ui_mainmenu_entriesTextPosition                               001A GR
   2 _ui_mainmenu_entryIndex                                        0001 GR
   2 _ui_mainmenu_entrySelected                                     0002 GR
-  0 _ui_mainmenu_get_entry                                         0118 GR
+  0 _ui_mainmenu_get_entry                                         011B GR
   0 _ui_mainmenu_init                                              0000 GR
-  0 _ui_mainmenu_is_selected                                       0120 GR
+  0 _ui_mainmenu_is_selected                                       0123 GR
   2 _ui_mainmenu_lastEntry                                         0000 GR
   0 _ui_mainmenu_next_entry                                        0056 GR
   0 _ui_mainmenu_previous_entry                                    0064 GR
-  0 _ui_mainmenu_render_all                                        0100 GR
+  0 _ui_mainmenu_render_all                                        0103 GR
   0 _ui_mainmenu_render_button                                     0080 GR
-  0 _ui_mainmenu_render_refresh                                    00E7 GR
+  0 _ui_mainmenu_render_refresh                                    00EA GR
   0 _ui_mainmenu_select_entry                                      007A GR
   0 _ui_mainmenu_unselect_entry                                    0074 GR
 
@@ -41,7 +41,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  128   flags    0
+   0 _CODE                                      size  12B   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    3   flags    0
    3 _DABS                                      size    0   flags    8

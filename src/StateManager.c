@@ -6,6 +6,7 @@
 #include "State_InGame.h"
 #include "State_PauseMenu.h"
 #include "State_LoadLevel.h"
+#include "State_Options.h"
 
 typedef struct State{
     
@@ -67,6 +68,17 @@ const State stateArray[4]={
         state_loadlevel_render,
         state_loadlevel_exit
     },
+    //Options
+    {
+        4,
+        0,
+        state_options_enter,
+        state_options_return,
+        state_options_input,
+        state_options_update,
+        state_options_render,
+        state_options_exit
+    },
 };
 
 const u8 closeState=0;
@@ -103,7 +115,7 @@ void statemanager_input_accepted(){
     *(u8*)&inputReceived=1;
 }
 
-void statemanager_set_state(u8 state){
+void statemanager_set_state(u8 state) __z88dk_fastcall{
     *(u8*)&changeToState = state+1;
 }
 

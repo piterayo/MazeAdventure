@@ -18,7 +18,7 @@ Symbol Table
   0 _inputReceived                                                 0091 GR
   0 _last_keyboardStatusBuffer                                     0093 GR
     _r_counter                                                     **** GX
-  0 _scan_input                                                    00F7 GR
+  0 _scan_input                                                    00F3 GR
   0 _stateArray                                                    0056 GR
     _state_ingame_enter                                            **** GX
     _state_ingame_exit                                             **** GX
@@ -45,22 +45,22 @@ Symbol Table
     _state_pausemenu_return                                        **** GX
     _state_pausemenu_update                                        **** GX
   0 _statemanager_change_state                                     009D GR
-  0 _statemanager_close_state                                      019A GR
+  0 _statemanager_close_state                                      019C GR
   0 _statemanager_drop_state                                       0000 GR
-  0 _statemanager_exit_game                                        01BC GR
+  0 _statemanager_exit_game                                        01BE GR
   0 _statemanager_input_accepted                                   00E6 GR
-  0 _statemanager_main_loop                                        01C2 GR
-  0 _statemanager_manage_input                                     014E GR
-  0 _statemanager_render_state                                     017B GR
+  0 _statemanager_main_loop                                        01C4 GR
+  0 _statemanager_manage_input                                     0150 GR
+  0 _statemanager_render_state                                     017D GR
   0 _statemanager_set_state                                        00EC GR
-  0 _statemanager_update_state                                     01A0 GR
+  0 _statemanager_update_state                                     01A2 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  1D8   flags    0
+   0 _CODE                                      size  1DA   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -7,32 +7,34 @@
 #include "StringUtils.h"
 #include "Renderer.h"
 
-#define UI_GAMEMENU_BUTTON_ROTATE_LEFT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,0,176))
-#define UI_GAMEMENU_BUTTON_ROTATE_RIGHT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,22,176))
+#define UI_GAMEMENU_BUTTON_ROTATE_LEFT_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,0,176)
+#define UI_GAMEMENU_BUTTON_ROTATE_RIGHT_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,22,176)
 
-#define UI_GAMEMENU_BUTTON_MOVEMENT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,7,176))
+#define UI_GAMEMENU_BUTTON_MOVEMENT_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,7,176)
 
-#define UI_GAMEMENU_BUTTON_ACTION_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,0,136))
+#define UI_GAMEMENU_BUTTON_ACTION_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,0,136)
 
-#define UI_GAMEMENU_BUTTON_INVENTORY_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,52,136))
+#define UI_GAMEMENU_BUTTON_INVENTORY_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,52,136)
 
-#define UI_GAMEMENU_BUTTON_WAIT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,52,176))
+#define UI_GAMEMENU_BUTTON_WAIT_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,52,176)
 
-#define UI_GAMEMENU_BUTTON_PAUSE_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,67,176))
+#define UI_GAMEMENU_BUTTON_PAUSE_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,67,176)
 
 
-#define UI_GAMEMENU_BUTTON_ROTATE_LEFT_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,0+2,176+9))
-#define UI_GAMEMENU_BUTTON_ROTATE_RIGHT_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,22+2,176+9))
+#define UI_GAMEMENU_BUTTON_ROTATE_LEFT_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START,0+2,176+9))
 
-#define UI_GAMEMENU_BUTTON_MOVEMENT_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,7+3,176+9))
+#define UI_GAMEMENU_BUTTON_ROTATE_RIGHT_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START,22+2,176+9))
 
-#define UI_GAMEMENU_BUTTON_ACTION_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,0+4,136+9))
+#define UI_GAMEMENU_BUTTON_MOVEMENT_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START,7+3,176+9))
 
-#define UI_GAMEMENU_BUTTON_INVENTORY_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,52+5,136+9))
+#define UI_GAMEMENU_BUTTON_ACTION_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START,0+4,136+9))
 
-#define UI_GAMEMENU_BUTTON_WAIT_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,52+3,176+9))
+#define UI_GAMEMENU_BUTTON_INVENTORY_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START,52+5,136+9))
 
-#define UI_GAMEMENU_BUTTON_PAUSE_TEXT_POSITION (SCREEN_PTR_AT(CPCT_VMEM_START,67+2,176+9))
+#define UI_GAMEMENU_BUTTON_WAIT_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START,52+3,176+9))
+
+#define UI_GAMEMENU_BUTTON_PAUSE_TEXT_POSITION (cpctm_screenPtr((u16)CPCT_VMEM_START,67+2,176+9))
+
 
 #define UI_GAMEMENU_ENTRIES 7
 
@@ -45,19 +47,19 @@ u8 ui_gamemenu_entrySelected=0;
 u8 ui_gamemenu_can_move=0;
 u8 ui_gamemenu_action=0;
 
-const u8* const ui_gamemenu_entriesPosition[UI_GAMEMENU_ENTRIES]={
+const void* const ui_gamemenu_entriesPosition[UI_GAMEMENU_ENTRIES]={
     UI_GAMEMENU_BUTTON_ACTION_POSITION,UI_GAMEMENU_BUTTON_INVENTORY_POSITION,
     UI_GAMEMENU_BUTTON_ROTATE_LEFT_POSITION,UI_GAMEMENU_BUTTON_MOVEMENT_POSITION,UI_GAMEMENU_BUTTON_ROTATE_RIGHT_POSITION,
     UI_GAMEMENU_BUTTON_WAIT_POSITION,UI_GAMEMENU_BUTTON_PAUSE_POSITION
 };
 
-const u8* const ui_gamemenu_entriesTextPosition[UI_GAMEMENU_ENTRIES]={
+const void* const ui_gamemenu_entriesTextPosition[UI_GAMEMENU_ENTRIES]={
     UI_GAMEMENU_BUTTON_ACTION_TEXT_POSITION,UI_GAMEMENU_BUTTON_INVENTORY_TEXT_POSITION,
     UI_GAMEMENU_BUTTON_ROTATE_LEFT_TEXT_POSITION,UI_GAMEMENU_BUTTON_MOVEMENT_TEXT_POSITION,UI_GAMEMENU_BUTTON_ROTATE_RIGHT_TEXT_POSITION,
     UI_GAMEMENU_BUTTON_WAIT_TEXT_POSITION,UI_GAMEMENU_BUTTON_PAUSE_TEXT_POSITION
 };
 
-const char* const ui_gamemenu_action_buttonText[4]={
+const char* const ui_gamemenu_action_buttonText[3]={
     "NEXT LEVEL","  ATTACK","   PICK UP",
 };
 
@@ -116,17 +118,18 @@ void ui_gamemenu_select_entry(){
 
 void ui_gamemenu_render_button(u8 n){
     u8 color;
-    color = (n==ui_gamemenu_entryIndex)?((ui_gamemenu_entrySelected)? g_colors[4]: g_colors[5]): g_colors[2];
+    color = (n==ui_gamemenu_entryIndex)?((ui_gamemenu_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
     cpct_drawSolidBox(ui_gamemenu_entriesPosition[n],color, ui_gamemenu_buttonWidths[n], UI_GAMEMENU_BUTTON_HEIGHT);
-    if(n==0 && ui_gamemenu_action){
-        print_transparent_text(ui_gamemenu_action_buttonText[ui_gamemenu_action-1], ui_gamemenu_entriesTextPosition[n], 3);
-    }
-    else if(n==3 && ui_gamemenu_can_move){
-        print_transparent_text("MOVE", ui_gamemenu_entriesTextPosition[n], 3);
-    }
-    else{
-        print_transparent_text(ui_gamemenu_buttonText[n], ui_gamemenu_entriesTextPosition[n], 3);
-    }
+    print_transparent_text(ui_gamemenu_buttonText[n], ui_gamemenu_entriesTextPosition[n], 3);
+    // if(n==0 && ui_gamemenu_action){
+        // print_transparent_text(ui_gamemenu_action_buttonText[ui_gamemenu_action-1], ui_gamemenu_entriesTextPosition[n], 3);
+    // }
+    // else if(n==3 && ui_gamemenu_can_move){
+        // print_transparent_text("MOVE", ui_gamemenu_entriesTextPosition[n], 3);
+    // }
+    // else{
+        // print_transparent_text(ui_gamemenu_buttonText[n], ui_gamemenu_entriesTextPosition[n], 3);
+    // }
 }
 
 void ui_gamemenu_render_refresh(){
@@ -162,18 +165,30 @@ u8 ui_gamemenu_is_selected(){
 void ui_gamemenu_update_action(){
     u8 forward = *(u8*)(MAP_MEM + (player_position.x+player_direction.x) + (player_position.y+player_direction.y) * MAP_WIDTH);
     
+    
     ui_gamemenu_can_move=0;
+    *((char**)(ui_gamemenu_buttonText)+3)="";
+    
     ui_gamemenu_action=0;
+    *((char**)ui_gamemenu_buttonText)="";
     
     if(forward&CELL_WALL_MASK){
         if(forward==CELLTYPE_DOOR){
             ui_gamemenu_action=1;
+            *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[0];
         }
     } 
-    else if(forward&CELL_ENEMY_MASK) ui_gamemenu_action=2;
-    else if(forward&CELL_ITEM_MASK) ui_gamemenu_action=3;
+    else if(forward&CELL_ENEMY_MASK){
+        ui_gamemenu_action=2;
+        *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[1];
+    } 
+    else if(forward&CELL_ITEM_MASK){
+        ui_gamemenu_action=3;
+        *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[2];
+    } 
     else{
         ui_gamemenu_can_move=1;
+        *(char**)(ui_gamemenu_buttonText+3)="MOVE";
     }
     ui_gamemenu_render_button(0);
     ui_gamemenu_render_button(3);

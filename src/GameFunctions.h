@@ -4,7 +4,7 @@
 
 #include <cpctelera.h>
 
-extern u8 r_counter;
+extern u16 r_counter;
 
 extern void game_init();
 

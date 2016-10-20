@@ -66,23 +66,30 @@ _level_palettes:
 	.db #0x00	; 0
 	.db #0x09	; 9
 	.db #0x03	; 3
-	.db #0x12	; 18
+	.db #0x05	; 5
 	.db #0x0A	; 10
-	.db #0x14	; 20
-	.db #0x00	; 0
-	.db #0x04	; 4
-	.db #0x11	; 17
 	.db #0x0E	; 14
+	.db #0x11	; 17
+	.db #0x12	; 18
+	.db #0x14	; 20
 	.db #0x0B	; 11
 	.db #0x15	; 21
-	.db #0x03	; 3
-	.db #0x09	; 9
-	.db #0x19	; 25
-	.db #0x0F	; 15
 	.db #0x01	; 1
 	.db #0x02	; 2
-	.db #0x11	; 17
-	.db #0x0E	; 14
+	.db #0x03	; 3
+	.db #0x10	; 16
+	.db #0x18	; 24
+	.db #0x1A	; 26
+	.db #0x00	; 0
+	.db #0x01	; 1
+	.db #0x0D	; 13
+	.db #0x02	; 2
+	.db #0x03	; 3
+	.db #0x0B	; 11
+	.db #0x10	; 16
+	.db #0x12	; 18
+	.db #0x18	; 24
+	.db #0x19	; 25
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -92,27 +99,14 @@ _level_palettes:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-;src/Level.c:23: void level_set_level(u8 l){
+;src/Level.c:23: void level_set_level(u8 l) __z88dk_fastcall{
 ;	---------------------------------
 ; Function level_set_level
 ; ---------------------------------
 _level_set_level::
+	ld	iy,#_current_level
+	ld	0 (iy),l
 ;src/Level.c:24: current_level=l;
-	ld	hl, #2+0
-	add	hl, sp
-	ld	a, (hl)
-	ld	(#_current_level + 0),a
 	ret
 ;src/Level.c:27: void level_init_palettes(){
 ;	---------------------------------
@@ -120,27 +114,27 @@ _level_set_level::
 ; ---------------------------------
 _level_init_palettes::
 ;src/Level.c:28: cpct_fw2hw(level_palettes[0],VARIABLE_COLORS);
-	ld	hl,#0x000A
+	ld	hl,#0x0009
 	push	hl
 	ld	hl,#_level_palettes
 	push	hl
 	call	_cpct_fw2hw
 ;src/Level.c:29: cpct_fw2hw(level_palettes[1],VARIABLE_COLORS);
-	ld	hl,#0x000A
+	ld	hl,#0x0009
 	push	hl
-	ld	hl,#(_level_palettes + 0x000a)
+	ld	hl,#(_level_palettes + 0x0009)
 	push	hl
 	call	_cpct_fw2hw
 ;src/Level.c:30: cpct_fw2hw(level_palettes[2],VARIABLE_COLORS);
-	ld	hl,#0x000A
+	ld	hl,#0x0009
 	push	hl
-	ld	hl,#(_level_palettes + 0x0014)
+	ld	hl,#(_level_palettes + 0x0012)
 	push	hl
 	call	_cpct_fw2hw
 ;src/Level.c:31: cpct_fw2hw(level_palettes[3],VARIABLE_COLORS);
-	ld	hl,#0x000A
+	ld	hl,#0x0009
 	push	hl
-	ld	hl,#(_level_palettes + 0x001e)
+	ld	hl,#(_level_palettes + 0x001b)
 	push	hl
 	call	_cpct_fw2hw
 	ret
@@ -160,15 +154,15 @@ _setLevelPalette::
 	ld	h, d
 	add	hl, hl
 	add	hl, hl
-	add	hl, de
 	add	hl, hl
+	add	hl, de
 	add	hl,bc
 	ld	c,l
 	ld	b,h
-	ld	hl,#0x000A
+	ld	hl,#0x0009
 	push	hl
 	push	bc
-	ld	hl,#(_g_palette + 0x0006)
+	ld	hl,#(_g_palette + 0x0007)
 	push	hl
 	call	_cpct_memcpy
 ;src/Level.c:36: cpct_setPalette(g_palette,16);
@@ -205,11 +199,11 @@ _level_load_level::
 	ld	b,#0x02
 	jr	00108$
 00107$:
-;src/Level.c:45: (current_level<120)?4:0
+;src/Level.c:45: (current_level<120)?3:0
 	ld	a,(#_current_level + 0)
 	sub	a, #0x78
 	jr	NC,00109$
-	ld	b,#0x04
+	ld	b,#0x03
 	jr	00110$
 00109$:
 	ld	b,#0x00
@@ -219,17 +213,13 @@ _level_load_level::
 00104$:
 ;src/Level.c:48: uncompress_theme_textures(index);
 	push	bc
-	push	bc
-	inc	sp
+	ld	l,b
 	call	_uncompress_theme_textures
-	inc	sp
 	pop	bc
 ;src/Level.c:49: uncompress_enemy_textures(index);
 	push	bc
-	push	bc
-	inc	sp
+	ld	l,b
 	call	_uncompress_enemy_textures
-	inc	sp
 	inc	sp
 	call	_setLevelPalette
 	inc	sp

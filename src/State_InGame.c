@@ -18,7 +18,14 @@
 
 const u8 updateRenderBuffer = 0;
 
+typedef enum{
+    NONE,MOVE,ATTACK,USE_OBJECT,
+}ACTION;
+
+const ACTION action = NONE;
+
 void state_ingame_enter(){
+    
     cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
     
     ui_gamemenu_init();
@@ -58,10 +65,17 @@ void state_ingame_input(){
             *(u8*)&g_texturedWalls = !g_texturedWalls;
             statemanager_input_accepted();
         }
+        else if(cpct_isKeyPressed(Key_Tab)){
+            level_set_level(level_get_level()+1);
+            statemanager_close_state();
+            statemanager_set_state(STATE_LOADLEVEL);
+            statemanager_input_accepted();
+        }
 }
 
 void state_ingame_update(){
     
+    *(u8*)&action=NONE;
     
     if(ui_gamemenu_is_selected()){
         ui_gamemenu_render_refresh();
@@ -101,11 +115,11 @@ void state_ingame_update(){
                 break;
             }
             case 3:{//MOVE
-                if(ui_gamemenu_get_movement()){//BYPASS IF FOR NOCLIP
+                // if(ui_gamemenu_get_movement()){//BYPASS IF FOR NOCLIP
                     player_move_forward();
                     ui_gamemenu_update_action();
                     *(u8*)&updateRenderBuffer = 1;
-                }
+                // }
                 break;
             }
             case 4:{//TURN RIGHT

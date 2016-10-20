@@ -43,12 +43,12 @@
                              43 ; code
                              44 ;--------------------------------------------------------
                              45 	.area _CODE
-                             46 ;src/UI_PlayerStats.c:16: void ui_playerstats_render(){
+                             46 ;src/UI_PlayerStats.c:20: void ui_playerstats_render(){
                              47 ;	---------------------------------
                              48 ; Function ui_playerstats_render
                              49 ; ---------------------------------
    0000                      50 _ui_playerstats_render::
-                             51 ;src/UI_PlayerStats.c:17: print_transparent_text("STATS", UI_PLAYERSTATS_POSITION+1, UI_PLAYERSTATS_TEXT_COLOR);
+                             51 ;src/UI_PlayerStats.c:21: print_transparent_text("STATS", UI_PLAYERSTATS_POSITION+1, UI_PLAYERSTATS_TEXT_COLOR);
    0000 3E 03         [ 7]   52 	ld	a,#0x03
    0002 F5            [11]   53 	push	af
    0003 33            [ 6]   54 	inc	sp
@@ -60,7 +60,7 @@
    000F F1            [10]   60 	pop	af
    0010 F1            [10]   61 	pop	af
    0011 33            [ 6]   62 	inc	sp
-                             63 ;src/UI_PlayerStats.c:19: print_transparent_text("HP", UI_PLAYERSTATS_POSITION+160, UI_PLAYERSTATS_TEXT_COLOR);
+                             63 ;src/UI_PlayerStats.c:23: print_transparent_text("HP", UI_PLAYERSTATS_POSITION+160, UI_PLAYERSTATS_TEXT_COLOR);
    0012 3E 03         [ 7]   64 	ld	a,#0x03
    0014 F5            [11]   65 	push	af
    0015 33            [ 6]   66 	inc	sp
@@ -72,8 +72,8 @@
    0021 F1            [10]   72 	pop	af
    0022 F1            [10]   73 	pop	af
    0023 33            [ 6]   74 	inc	sp
-                             75 ;src/UI_PlayerStats.c:20: cpct_drawSolidBox(UI_PLAYERSTATS_POSITION+164+2048, g_colors[7], 10,4);
-   0024 21r07r00      [10]   76 	ld	hl,#_g_colors+7
+                             75 ;src/UI_PlayerStats.c:24: cpct_drawSolidBox(UI_PLAYERSTATS_POSITION+164+2048, g_colors[UI_PLAYERSTATS_HEALTHBAR_FG_COLOR], 10,4);
+   0024 21r05r00      [10]   76 	ld	hl,#_g_colors+5
    0027 46            [ 7]   77 	ld	b,(hl)
    0028 21 0A 04      [10]   78 	ld	hl,#0x040A
    002B E5            [11]   79 	push	hl
@@ -85,7 +85,7 @@
    0035 F1            [10]   85 	pop	af
    0036 F1            [10]   86 	pop	af
    0037 33            [ 6]   87 	inc	sp
-                             88 ;src/UI_PlayerStats.c:21: print_transparent_text(strings[0], UI_PLAYERSTATS_POSITION+240, UI_PLAYERSTATS_TEXT_COLOR);
+                             88 ;src/UI_PlayerStats.c:25: print_transparent_text(strings[0], UI_PLAYERSTATS_POSITION+240, UI_PLAYERSTATS_TEXT_COLOR);
    0038 ED 4Br98r00   [20]   89 	ld	bc, (#_strings + 0)
    003C 3E 03         [ 7]   90 	ld	a,#0x03
    003E F5            [11]   91 	push	af
@@ -97,7 +97,7 @@
    0048 F1            [10]   97 	pop	af
    0049 F1            [10]   98 	pop	af
    004A 33            [ 6]   99 	inc	sp
-                            100 ;src/UI_PlayerStats.c:22: print_transparent_text(strings[1], UI_PLAYERSTATS_POSITION+320, UI_PLAYERSTATS_TEXT_COLOR);
+                            100 ;src/UI_PlayerStats.c:26: print_transparent_text(strings[1], UI_PLAYERSTATS_POSITION+320, UI_PLAYERSTATS_TEXT_COLOR);
    004B ED 4Br9Ar00   [20]  101 	ld	bc, (#_strings + 2)
    004F 3E 03         [ 7]  102 	ld	a,#0x03
    0051 F5            [11]  103 	push	af
@@ -109,7 +109,7 @@
    005B F1            [10]  109 	pop	af
    005C F1            [10]  110 	pop	af
    005D 33            [ 6]  111 	inc	sp
-                            112 ;src/UI_PlayerStats.c:23: print_transparent_text(strings[2], UI_PLAYERSTATS_POSITION+400, UI_PLAYERSTATS_TEXT_COLOR);
+                            112 ;src/UI_PlayerStats.c:27: print_transparent_text(strings[2], UI_PLAYERSTATS_POSITION+400, UI_PLAYERSTATS_TEXT_COLOR);
    005E ED 4Br9Cr00   [20]  113 	ld	bc, (#_strings + 4)
    0062 3E 03         [ 7]  114 	ld	a,#0x03
    0064 F5            [11]  115 	push	af
@@ -121,7 +121,7 @@
    006E F1            [10]  121 	pop	af
    006F F1            [10]  122 	pop	af
    0070 33            [ 6]  123 	inc	sp
-                            124 ;src/UI_PlayerStats.c:24: print_transparent_text(strings[3], UI_PLAYERSTATS_POSITION+480, UI_PLAYERSTATS_TEXT_COLOR);
+                            124 ;src/UI_PlayerStats.c:28: print_transparent_text(strings[3], UI_PLAYERSTATS_POSITION+480, UI_PLAYERSTATS_TEXT_COLOR);
    0071 ED 4Br9Er00   [20]  125 	ld	bc, (#_strings + 6)
    0075 3E 03         [ 7]  126 	ld	a,#0x03
    0077 F5            [11]  127 	push	af
@@ -133,7 +133,7 @@
    0081 F1            [10]  133 	pop	af
    0082 F1            [10]  134 	pop	af
    0083 33            [ 6]  135 	inc	sp
-                            136 ;src/UI_PlayerStats.c:25: print_transparent_text(strings[4], UI_PLAYERSTATS_POSITION+560, UI_PLAYERSTATS_TEXT_COLOR);
+                            136 ;src/UI_PlayerStats.c:29: print_transparent_text(strings[4], UI_PLAYERSTATS_POSITION+560, UI_PLAYERSTATS_TEXT_COLOR);
    0084 ED 4BrA0r00   [20]  137 	ld	bc, (#_strings + 8)
    0088 3E 03         [ 7]  138 	ld	a,#0x03
    008A F5            [11]  139 	push	af

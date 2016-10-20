@@ -28,9 +28,9 @@ Symbol Table
   2 _ui_pausemenu_lastEntry                                        0000 GR
   0 _ui_pausemenu_next_entry                                       005C GR
   0 _ui_pausemenu_previous_entry                                   006A GR
-  0 _ui_pausemenu_render_all                                       0106 GR
+  0 _ui_pausemenu_render_all                                       0109 GR
   0 _ui_pausemenu_render_button                                    0086 GR
-  0 _ui_pausemenu_render_refresh                                   00ED GR
+  0 _ui_pausemenu_render_refresh                                   00F0 GR
   0 _ui_pausemenu_select_entry                                     007A GR
   0 _ui_pausemenu_unselect_entry                                   0080 GR
 
@@ -39,7 +39,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  11E   flags    0
+   0 _CODE                                      size  121   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    3   flags    0
    3 _DABS                                      size    0   flags    8

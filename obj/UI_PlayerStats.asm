@@ -43,12 +43,12 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/UI_PlayerStats.c:16: void ui_playerstats_render(){
+;src/UI_PlayerStats.c:20: void ui_playerstats_render(){
 ;	---------------------------------
 ; Function ui_playerstats_render
 ; ---------------------------------
 _ui_playerstats_render::
-;src/UI_PlayerStats.c:17: print_transparent_text("STATS", UI_PLAYERSTATS_POSITION+1, UI_PLAYERSTATS_TEXT_COLOR);
+;src/UI_PlayerStats.c:21: print_transparent_text("STATS", UI_PLAYERSTATS_POSITION+1, UI_PLAYERSTATS_TEXT_COLOR);
 	ld	a,#0x03
 	push	af
 	inc	sp
@@ -60,7 +60,7 @@ _ui_playerstats_render::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_PlayerStats.c:19: print_transparent_text("HP", UI_PLAYERSTATS_POSITION+160, UI_PLAYERSTATS_TEXT_COLOR);
+;src/UI_PlayerStats.c:23: print_transparent_text("HP", UI_PLAYERSTATS_POSITION+160, UI_PLAYERSTATS_TEXT_COLOR);
 	ld	a,#0x03
 	push	af
 	inc	sp
@@ -72,8 +72,8 @@ _ui_playerstats_render::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_PlayerStats.c:20: cpct_drawSolidBox(UI_PLAYERSTATS_POSITION+164+2048, g_colors[7], 10,4);
-	ld	hl,#_g_colors+7
+;src/UI_PlayerStats.c:24: cpct_drawSolidBox(UI_PLAYERSTATS_POSITION+164+2048, g_colors[UI_PLAYERSTATS_HEALTHBAR_FG_COLOR], 10,4);
+	ld	hl,#_g_colors+5
 	ld	b,(hl)
 	ld	hl,#0x040A
 	push	hl
@@ -85,7 +85,7 @@ _ui_playerstats_render::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_PlayerStats.c:21: print_transparent_text(strings[0], UI_PLAYERSTATS_POSITION+240, UI_PLAYERSTATS_TEXT_COLOR);
+;src/UI_PlayerStats.c:25: print_transparent_text(strings[0], UI_PLAYERSTATS_POSITION+240, UI_PLAYERSTATS_TEXT_COLOR);
 	ld	bc, (#_strings + 0)
 	ld	a,#0x03
 	push	af
@@ -97,7 +97,7 @@ _ui_playerstats_render::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_PlayerStats.c:22: print_transparent_text(strings[1], UI_PLAYERSTATS_POSITION+320, UI_PLAYERSTATS_TEXT_COLOR);
+;src/UI_PlayerStats.c:26: print_transparent_text(strings[1], UI_PLAYERSTATS_POSITION+320, UI_PLAYERSTATS_TEXT_COLOR);
 	ld	bc, (#_strings + 2)
 	ld	a,#0x03
 	push	af
@@ -109,7 +109,7 @@ _ui_playerstats_render::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_PlayerStats.c:23: print_transparent_text(strings[2], UI_PLAYERSTATS_POSITION+400, UI_PLAYERSTATS_TEXT_COLOR);
+;src/UI_PlayerStats.c:27: print_transparent_text(strings[2], UI_PLAYERSTATS_POSITION+400, UI_PLAYERSTATS_TEXT_COLOR);
 	ld	bc, (#_strings + 4)
 	ld	a,#0x03
 	push	af
@@ -121,7 +121,7 @@ _ui_playerstats_render::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_PlayerStats.c:24: print_transparent_text(strings[3], UI_PLAYERSTATS_POSITION+480, UI_PLAYERSTATS_TEXT_COLOR);
+;src/UI_PlayerStats.c:28: print_transparent_text(strings[3], UI_PLAYERSTATS_POSITION+480, UI_PLAYERSTATS_TEXT_COLOR);
 	ld	bc, (#_strings + 6)
 	ld	a,#0x03
 	push	af
@@ -133,7 +133,7 @@ _ui_playerstats_render::
 	pop	af
 	pop	af
 	inc	sp
-;src/UI_PlayerStats.c:25: print_transparent_text(strings[4], UI_PLAYERSTATS_POSITION+560, UI_PLAYERSTATS_TEXT_COLOR);
+;src/UI_PlayerStats.c:29: print_transparent_text(strings[4], UI_PLAYERSTATS_POSITION+560, UI_PLAYERSTATS_TEXT_COLOR);
 	ld	bc, (#_strings + 8)
 	ld	a,#0x03
 	push	af

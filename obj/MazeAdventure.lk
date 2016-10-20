@@ -33,8 +33,13 @@ obj/UI_PauseMenu.rel
 obj/UI_PlayerStats.rel
 obj/textures/compass.rel
 obj/textures/enemies/level0_enemies.rel
+obj/textures/enemies/level1_enemies.rel
+obj/textures/enemies/level2_enemies.rel
+obj/textures/enemies/level3_enemies.rel
 obj/textures/typography/typography_4x6_monospaced.rel
 obj/textures/walls/level0_walls.rel
 obj/textures/walls/level1_walls.rel
+obj/textures/walls/level2_walls.rel
+obj/textures/walls/level3_walls.rel
 
 -e

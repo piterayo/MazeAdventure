@@ -2,6 +2,7 @@
 #ifndef STATE_LOADLEVEL_H
 #define STATE_LOADLEVEL_H
 
+#include <cpctelera.h>
 
 extern void state_loadlevel_enter();
 

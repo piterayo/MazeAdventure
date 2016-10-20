@@ -7,7 +7,6 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  7 __xinit__r_counter                                             0000 R
     _cpct_disableFirmware                                          **** GX
     _cpct_fw2hw                                                    **** GX
     _cpct_setInterruptHandler                                      **** GX
@@ -15,24 +14,23 @@ Symbol Table
     _cpct_setPalette                                               **** GX
     _cpct_setVideoMode                                             **** GX
     _g_palette                                                     **** GX
-  0 _game_init                                                     0005 GR
+  0 _game_init                                                     000A GR
   0 _game_interrupt_handler                                        0000 GR
     _level_init_palettes                                           **** GX
-  2 _r_counter                                                     0000 GR
-
+  1 _r_counter                                                     0000 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   3A   flags    0
-   1 _DATA                                      size    0   flags    0
-   2 _INITIALIZED                               size    1   flags    0
+   0 _CODE                                      size   3F   flags    0
+   1 _DATA                                      size    2   flags    0
+   2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0
    5 _GSINIT                                    size    0   flags    0
    6 _GSFINAL                                   size    0   flags    0
-   7 _INITIALIZER                               size    1   flags    0
+   7 _INITIALIZER                               size    0   flags    0
    8 _CABS                                      size    0   flags    8
 

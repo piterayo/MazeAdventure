@@ -12,13 +12,13 @@
 #include <cpctelera.h>
 
 void state_pausemenu_enter(){
-    cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 23, 28), g_colors[4], 34, 144);
-    cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 24, 32), g_colors[1], 32, 136);
+    cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[4], 34, 144);
+    cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 24, 32), g_colors[1], 32, 136);
     ui_pausemenu_init();
     ui_pausemenu_render_all();
 }
 
-void state_pausemenu_return(){
+void state_pausemenu_return() {
     ui_pausemenu_render_all();
 }
 
@@ -64,10 +64,10 @@ void state_pausemenu_update(){
     ui_pausemenu_unselect_entry();
 }
 
-void state_pausemenu_render(){
+void state_pausemenu_render() {
     ui_pausemenu_render_refresh();
 }
 
 void state_pausemenu_exit(){
-    cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 23, 28), g_colors[1], 34, 144);
+    cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[1], 34, 144);
 }

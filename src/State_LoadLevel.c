@@ -8,6 +8,7 @@
 #include <cpctelera.h>
 
 void state_loadlevel_enter(){
+    
     cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
     
     print_transparent_text("LOADING", 0xe391, 3);
@@ -25,12 +26,11 @@ void state_loadlevel_return(){
 }
 
 
-void state_loadlevel_input(){
+void state_loadlevel_input() {
     statemanager_input_accepted();
 }
 
 void state_loadlevel_update(){
-    // statemanager_close_state();
     statemanager_set_state(STATE_INGAME);
 }
 

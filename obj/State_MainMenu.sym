@@ -14,9 +14,9 @@ Symbol Table
     _level_set_level                                               **** GX
     _print_transparent_text                                        **** GX
   0 _state_mainmenu_enter                                          0000 GR
-  0 _state_mainmenu_exit                                           00AE GR
+  0 _state_mainmenu_exit                                           00A9 GR
   0 _state_mainmenu_input                                          0036 GR
-  0 _state_mainmenu_render                                         00AB GR
+  0 _state_mainmenu_render                                         00A6 GR
   0 _state_mainmenu_return                                         0033 GR
   0 _state_mainmenu_update                                         0065 GR
     _statemanager_exit_game                                        **** GX
@@ -38,7 +38,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   AF   flags    0
+   0 _CODE                                      size   AA   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

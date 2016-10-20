@@ -6,7 +6,7 @@
 #include "Level.h"
 
 
-u8 r_counter = 0;
+u16 r_counter;
 
 void game_interrupt_handler(){
     ++r_counter;
@@ -15,7 +15,9 @@ void game_interrupt_handler(){
 void game_init(){
     cpct_disableFirmware();
     cpct_setVideoMode(0);
+    
     cpct_fw2hw(g_palette,16);
+    
     cpct_setInterruptHandler(game_interrupt_handler);
     level_init_palettes();
     cpct_setPalette(g_palette,16);

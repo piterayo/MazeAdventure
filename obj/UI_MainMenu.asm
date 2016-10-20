@@ -168,7 +168,8 @@ _ui_mainmenu_render_button::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;src/UI_MainMenu.c:85: color = (n==ui_mainmenu_entryIndex)?((ui_mainmenu_entrySelected)? g_colors[4]: g_colors[5]): g_colors[2];
+	dec	sp
+;src/UI_MainMenu.c:85: color = (n==ui_mainmenu_entryIndex)?((ui_mainmenu_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
 	ld	a,4 (ix)
 	ld	iy,#_ui_mainmenu_entryIndex
 	sub	a, 0 (iy)
@@ -179,55 +180,55 @@ _ui_mainmenu_render_button::
 	ld	a, (#(_g_colors + 0x0004) + 0)
 	jr	00104$
 00105$:
-	ld	a, (#(_g_colors + 0x0005) + 0)
+	ld	a, (#(_g_colors + 0x0006) + 0)
 	jr	00104$
 00103$:
 	ld	a, (#(_g_colors + 0x0002) + 0)
 00104$:
-	ld	b,a
+	ld	-1 (ix),a
 ;src/UI_MainMenu.c:86: cpct_drawSolidBox(ui_mainmenu_entriesPosition[n],color, UI_MAINMENU_BUTTON_WIDTH, UI_MAINMENU_BUTTON_HEIGHT);
 	ld	l,4 (ix)
 	ld	h,#0x00
 	add	hl, hl
-	ex	de,hl
+	ld	c, l
+	ld	b, h
 	ld	hl,#_ui_mainmenu_entriesPosition
-	add	hl,de
-	ld	a, (hl)
+	add	hl,bc
+	ld	e,(hl)
 	inc	hl
-	ld	h,(hl)
-	ld	l,a
-	push	hl
-	pop	iy
-	push	de
+	ld	d,(hl)
+	push	bc
 	ld	hl,#0x1014
 	push	hl
-	push	bc
+	ld	a,-1 (ix)
+	push	af
 	inc	sp
-	push	iy
+	push	de
 	call	_cpct_drawSolidBox
 	pop	af
 	pop	af
 	inc	sp
-	pop	de
+	pop	bc
 ;src/UI_MainMenu.c:87: print_transparent_text(ui_mainmenu_buttonText[n], ui_mainmenu_entriesTextPosition[n], 3);
 	ld	hl,#_ui_mainmenu_entriesTextPosition
-	add	hl,de
-	ld	c,(hl)
-	inc	hl
-	ld	b,(hl)
-	ld	hl,#_ui_mainmenu_buttonText
-	add	hl,de
+	add	hl,bc
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
+	ld	hl,#_ui_mainmenu_buttonText
+	add	hl,bc
+	ld	c,(hl)
+	inc	hl
+	ld	b,(hl)
 	ld	a,#0x03
 	push	af
 	inc	sp
-	push	bc
 	push	de
+	push	bc
 	call	_print_transparent_text
 	pop	af
 	pop	af
+	inc	sp
 	inc	sp
 	pop	ix
 	ret

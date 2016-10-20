@@ -9,17 +9,14 @@
 
 #define CELLS_IN_VIEW_DEPTH 6
 
-const u8 g_palette[16]={
+const u8 const g_palette[16]={
     8,//Transparent color, common for all scenes
-    0,13,26, //UI black, gray, white
-    6,15,//Common for all scenes, minimap
+    0, 13, 26, 6, 9, 15, //UI
     
-    1,//Sky color
-    9,//Ground color
-    25,3,18,5,14,15,17,19,//Scene colors
+    00,00,00,00,00,00,00,00,00, //Available colors for levels
 };
 
-const u8 g_colors[16]={
+const u8 const g_colors[16]={
   0b00000000,//0
   0b11000000,//1
   0b00001100,//2
@@ -38,7 +35,7 @@ const u8 g_colors[16]={
   0b11111111 //15
 };
 
-const u8 g_pixelMask[2]={
+const u8 const g_pixelMask[2]={
     0b10101010, 0b01010101
 };
 
@@ -146,9 +143,10 @@ void draw_column_to_buffer_untextured(const u8 column, u8 lineHeight, u8 wall_co
     }
 }
 
-void draw_column_to_buffer_object(const u8 column, u8 lineHeight, u8 index, u8 texture_column){
+void draw_column_to_buffer_object(u8 column, u8 lineHeight, u8 index, u8 texture_column){
     
 }
+
 
 void draw_column_to_buffer_enemy(const u8 column, u8 lineHeight, u8 index, u8 texture_column){
     u8* pvmem;
@@ -171,7 +169,7 @@ void draw_column_to_buffer_enemy(const u8 column, u8 lineHeight, u8 index, u8 te
     
     if(texture_column>=4 && texture_column<28){
     
-        //                START POSITION          TEXTURE INDEX OFFSET           X POSITION OFFSET
+                       // START POSITION          TEXTURE INDEX OFFSET           X POSITION OFFSET
         texture = (u8*)(UNCOMPRESSED_ENEMY_TEXTURES + (576*(index-1)) + ((texture_column-4)*ENEMY_SPRITE_WIDTH));
         
         pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
@@ -210,6 +208,92 @@ void draw_column_to_buffer_enemy(const u8 column, u8 lineHeight, u8 index, u8 te
         
     }
 }
+
+
+// void draw_column_to_buffer_enemy(u8 column, u8 lineHeight, u8 index/*, u8 texture_column*/){
+    // u8* pvmem;
+    // u8* pvmemY;
+    
+    // u8 color;
+    // u8 pixMask;
+    
+    // u8 val;
+    
+    // u8* texture;
+    // u8* textureY;
+    
+    // u8 j, i;
+    
+    // u8 enemy_top_height;
+    // u8 ground_height;
+    
+    
+        
+    // u16 texture_line_add;// = (256*TEXTURE_HEIGHT)/lineHeight;
+    // u16 texture_line=0;
+    // u16 texture_column=0;
+    
+    // //                START POSITION          TEXTURE INDEX OFFSET           X POSITION OFFSET
+    // texture = (u8*)(UNCOMPRESSED_ENEMY_TEXTURES + (576*(index-1)));
+    
+    
+    // // pixMask = g_pixelMask[column&1];
+    
+    // ground_height  = (SCREEN_TEXTURE_HEIGHT>>1) + (lineHeight>>1);
+    // lineHeight = (lineHeight*3)/4;
+    // enemy_top_height = ground_height - lineHeight;
+    
+    // texture_line_add = (256*ENEMY_SPRITE_HEIGHT)/lineHeight;
+    // j=lineHeight;
+    // i=lineHeight;
+    
+    // if(column>100){
+        // i=lineHeight/2;
+        // texture+=(576/2);
+        // column=0;
+    // }
+    
+    
+    // pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
+    
+    // if(lineHeight>SCREEN_TEXTURE_HEIGHT){
+        // j=80;//SCREEN_TEXTURE_HEIGHT-((SCREEN_TEXTURE_HEIGHT/2+lineHeight/2)-(lineHeight*3/4))
+    // }
+        
+    // pvmem += SCREEN_TEXTURE_WIDTH_BYTES * enemy_top_height;
+    
+    // for(i;i;--i){
+        // pixMask = g_pixelMask[column&1];
+        
+        // textureY = (texture + ((texture_column/256)*ENEMY_SPRITE_WIDTH));
+        // pvmemY=pvmem;
+        // if(pvmem<(END_OF_TEXTURE_BUFFER)){
+            // for(j=lineHeight;j;--j){
+                
+                // color= *(textureY+(texture_line/256));
+                
+                // if(color){
+                    // val =  ((*pvmemY)&(~pixMask));
+                    
+                    // color = (color&pixMask);
+                                
+                    // *pvmemY = val|color;
+                // }
+                
+                // texture_line += texture_line_add;
+                    
+                // pvmemY+=SCREEN_TEXTURE_WIDTH_BYTES;
+            // }
+        // }
+        // else break;
+        // texture_column+=texture_line_add;
+        // if(column&1){
+            // ++pvmem;
+        // }
+        // ++column;
+    // }
+        
+// }
 
 void draw_column_to_buffer(const u8 column, u8 lineHeight, u8 wall_texture, const u8 wall_texture_column) {
     u8* pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
@@ -267,6 +351,8 @@ void render_draw_to_buffer(){//TODO Optimize
     
     u8 xHeight = 2;
     
+    // u8* currentXPosEntity;
+    
     u8 x;
     i8 z=6;
     
@@ -274,6 +360,10 @@ void render_draw_to_buffer(){//TODO Optimize
     u8 xCellCount = 0;
     
     u8 zHeight = 5;
+    
+    
+    // u16 entityHeight;
+    // u16 entityXpos;
     
     u8 lateralWallCounter = 0;
     u8 lateralWallSlope = 0;
@@ -316,6 +406,7 @@ void render_draw_to_buffer(){//TODO Optimize
             lateralWallSlope=0;
             lateralWallSlopeCounter=0;
             xHeight=0;
+            
             xCell = 0;
             lateralWallCounter = 0;
             
@@ -537,6 +628,30 @@ void render_draw_to_buffer(){//TODO Optimize
                 ++xCellCount;
                 
             }
+            
+            //DRAW ENTITIES
+            // currentXPosEntity=cells_in_view_array+lineStart;
+            
+            // entityHeight = (3*zHeight);
+            // entityXpos = -(entityHeight/2);
+            
+            // for(x=((offsetDiff * 2) + 3);x;--x){
+                // currentCellID=*currentXPosEntity;
+                // if((entityXpos)<(SCREEN_TEXTURE_WIDTH*4)){
+                    // cpct_setBorder(g_palette[0]);
+                    // if(!(currentCellID&CELL_WALL_MASK)){
+                        // if(currentCellID&CELL_ENEMY_MASK){
+                            // draw_column_to_buffer_enemy((entityXpos/4), entityHeight/4, currentCellID);
+                        // }
+                        // else if(currentCellID&CELL_ITEM_MASK){
+                            
+                        // }
+                    // }
+                // }
+                // ++currentXPosEntity;
+                // entityXpos+=entityHeight;
+            // }
+            
             
             
             
@@ -768,7 +883,29 @@ void render_draw_to_buffer(){//TODO Optimize
                 
             }
             
+            //DRAW ENTITIES
+            // currentXPosEntity=cells_in_view_array+lineStart+1;
             
+            
+            // x=((offsetDiff * 2) + 1);
+            // entityHeight = (3*zHeight);
+            // entityXpos = ((zHeight*4 - entityHeight)*x)/(2*4);
+            
+            // for(x;x;--x){
+                // currentCellID=*currentXPosEntity;
+                // if(entityXpos<(SCREEN_TEXTURE_WIDTH_BYTES*4)){
+                    // if(!(currentCellID&CELL_WALL_MASK)){
+                        // if(currentCellID&CELL_ENEMY_MASK){
+                            // draw_column_to_buffer_enemy((entityXpos/4), entityHeight/4, currentCellID);
+                        // }
+                        // else if(currentCellID&CELL_ITEM_MASK){
+                            
+                        // }
+                    // }
+                // }
+                // ++currentXPosEntity;
+                // entityXpos+=entityHeight;
+            // }
             
             
             lineStart = lineStart + (offsetDiff * 2) + 3;

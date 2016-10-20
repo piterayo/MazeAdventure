@@ -63,159 +63,156 @@
                              63 ;	---------------------------------
                              64 ; Function state_pausemenu_enter
                              65 ; ---------------------------------
-   1E71                      66 _state_pausemenu_enter::
-                             67 ;src/State_PauseMenu.c:15: cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 23, 28), g_colors[4], 34, 144);
-   1E71 21 A7 0A      [10]   68 	ld	hl, #_g_colors + 4
-   1E74 46            [ 7]   69 	ld	b,(hl)
-   1E75 21 22 90      [10]   70 	ld	hl,#0x9022
-   1E78 E5            [11]   71 	push	hl
-   1E79 C5            [11]   72 	push	bc
-   1E7A 33            [ 6]   73 	inc	sp
-   1E7B 21 07 E1      [10]   74 	ld	hl,#0xE107
-   1E7E E5            [11]   75 	push	hl
-   1E7F CD CB 48      [17]   76 	call	_cpct_drawSolidBox
-   1E82 F1            [10]   77 	pop	af
-   1E83 F1            [10]   78 	pop	af
-   1E84 33            [ 6]   79 	inc	sp
-                             80 ;src/State_PauseMenu.c:16: cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 24, 32), g_colors[1], 32, 136);
-   1E85 21 A4 0A      [10]   81 	ld	hl, #_g_colors + 1
-   1E88 46            [ 7]   82 	ld	b,(hl)
-   1E89 21 20 88      [10]   83 	ld	hl,#0x8820
-   1E8C E5            [11]   84 	push	hl
-   1E8D C5            [11]   85 	push	bc
-   1E8E 33            [ 6]   86 	inc	sp
-   1E8F 21 58 C1      [10]   87 	ld	hl,#0xC158
-   1E92 E5            [11]   88 	push	hl
-   1E93 CD CB 48      [17]   89 	call	_cpct_drawSolidBox
-   1E96 F1            [10]   90 	pop	af
-   1E97 F1            [10]   91 	pop	af
-   1E98 33            [ 6]   92 	inc	sp
+   1E7C                      66 _state_pausemenu_enter::
+                             67 ;src/State_PauseMenu.c:15: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[4], 34, 144);
+   1E7C 21 A7 0A      [10]   68 	ld	hl, #_g_colors + 4
+   1E7F 46            [ 7]   69 	ld	b,(hl)
+   1E80 21 22 90      [10]   70 	ld	hl,#0x9022
+   1E83 E5            [11]   71 	push	hl
+   1E84 C5            [11]   72 	push	bc
+   1E85 33            [ 6]   73 	inc	sp
+   1E86 21 07 E1      [10]   74 	ld	hl,#0xE107
+   1E89 E5            [11]   75 	push	hl
+   1E8A CD C0 4D      [17]   76 	call	_cpct_drawSolidBox
+   1E8D F1            [10]   77 	pop	af
+   1E8E F1            [10]   78 	pop	af
+   1E8F 33            [ 6]   79 	inc	sp
+                             80 ;src/State_PauseMenu.c:16: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 24, 32), g_colors[1], 32, 136);
+   1E90 21 A4 0A      [10]   81 	ld	hl, #_g_colors + 1
+   1E93 46            [ 7]   82 	ld	b,(hl)
+   1E94 21 20 88      [10]   83 	ld	hl,#0x8820
+   1E97 E5            [11]   84 	push	hl
+   1E98 C5            [11]   85 	push	bc
+   1E99 33            [ 6]   86 	inc	sp
+   1E9A 21 58 C1      [10]   87 	ld	hl,#0xC158
+   1E9D E5            [11]   88 	push	hl
+   1E9E CD C0 4D      [17]   89 	call	_cpct_drawSolidBox
+   1EA1 F1            [10]   90 	pop	af
+   1EA2 F1            [10]   91 	pop	af
+   1EA3 33            [ 6]   92 	inc	sp
                              93 ;src/State_PauseMenu.c:17: ui_pausemenu_init();
-   1E99 CD 68 29      [17]   94 	call	_ui_pausemenu_init
+   1EA4 CD 24 28      [17]   94 	call	_ui_pausemenu_init
                              95 ;src/State_PauseMenu.c:18: ui_pausemenu_render_all();
-   1E9C C3 6E 2A      [10]   96 	jp  _ui_pausemenu_render_all
-                             97 ;src/State_PauseMenu.c:21: void state_pausemenu_return(){
+   1EA7 C3 2D 29      [10]   96 	jp  _ui_pausemenu_render_all
+                             97 ;src/State_PauseMenu.c:21: void state_pausemenu_return() {
                              98 ;	---------------------------------
                              99 ; Function state_pausemenu_return
                             100 ; ---------------------------------
-   1E9F                     101 _state_pausemenu_return::
+   1EAA                     101 _state_pausemenu_return::
                             102 ;src/State_PauseMenu.c:22: ui_pausemenu_render_all();
-   1E9F C3 6E 2A      [10]  103 	jp  _ui_pausemenu_render_all
+   1EAA C3 2D 29      [10]  103 	jp  _ui_pausemenu_render_all
                             104 ;src/State_PauseMenu.c:25: void state_pausemenu_input(){
                             105 ;	---------------------------------
                             106 ; Function state_pausemenu_input
                             107 ; ---------------------------------
-   1EA2                     108 _state_pausemenu_input::
+   1EAD                     108 _state_pausemenu_input::
                             109 ;src/State_PauseMenu.c:27: if(cpct_isKeyPressed(Key_CursorUp)){
-   1EA2 21 00 01      [10]  110 	ld	hl,#0x0100
-   1EA5 CD F8 46      [17]  111 	call	_cpct_isKeyPressed
-   1EA8 7D            [ 4]  112 	ld	a,l
-   1EA9 B7            [ 4]  113 	or	a, a
-   1EAA 28 06         [12]  114 	jr	Z,00107$
+   1EAD 21 00 01      [10]  110 	ld	hl,#0x0100
+   1EB0 CD AD 4B      [17]  111 	call	_cpct_isKeyPressed
+   1EB3 7D            [ 4]  112 	ld	a,l
+   1EB4 B7            [ 4]  113 	or	a, a
+   1EB5 28 06         [12]  114 	jr	Z,00107$
                             115 ;src/State_PauseMenu.c:28: ui_pausemenu_previous_entry();
-   1EAC CD D2 29      [17]  116 	call	_ui_pausemenu_previous_entry
+   1EB7 CD 8E 28      [17]  116 	call	_ui_pausemenu_previous_entry
                             117 ;src/State_PauseMenu.c:29: statemanager_input_accepted();
-   1EAF C3 7F 1D      [10]  118 	jp  _statemanager_input_accepted
-   1EB2                     119 00107$:
+   1EBA C3 82 1D      [10]  118 	jp  _statemanager_input_accepted
+   1EBD                     119 00107$:
                             120 ;src/State_PauseMenu.c:31: else if(cpct_isKeyPressed(Key_CursorDown)){
-   1EB2 21 00 04      [10]  121 	ld	hl,#0x0400
-   1EB5 CD F8 46      [17]  122 	call	_cpct_isKeyPressed
-   1EB8 7D            [ 4]  123 	ld	a,l
-   1EB9 B7            [ 4]  124 	or	a, a
-   1EBA 28 06         [12]  125 	jr	Z,00104$
+   1EBD 21 00 04      [10]  121 	ld	hl,#0x0400
+   1EC0 CD AD 4B      [17]  122 	call	_cpct_isKeyPressed
+   1EC3 7D            [ 4]  123 	ld	a,l
+   1EC4 B7            [ 4]  124 	or	a, a
+   1EC5 28 06         [12]  125 	jr	Z,00104$
                             126 ;src/State_PauseMenu.c:32: ui_pausemenu_next_entry();
-   1EBC CD C4 29      [17]  127 	call	_ui_pausemenu_next_entry
+   1EC7 CD 80 28      [17]  127 	call	_ui_pausemenu_next_entry
                             128 ;src/State_PauseMenu.c:33: statemanager_input_accepted();
-   1EBF C3 7F 1D      [10]  129 	jp  _statemanager_input_accepted
-   1EC2                     130 00104$:
+   1ECA C3 82 1D      [10]  129 	jp  _statemanager_input_accepted
+   1ECD                     130 00104$:
                             131 ;src/State_PauseMenu.c:35: else if(cpct_isKeyPressed(Key_Return)){
-   1EC2 21 02 04      [10]  132 	ld	hl,#0x0402
-   1EC5 CD F8 46      [17]  133 	call	_cpct_isKeyPressed
-   1EC8 7D            [ 4]  134 	ld	a,l
-   1EC9 B7            [ 4]  135 	or	a, a
-   1ECA C8            [11]  136 	ret	Z
+   1ECD 21 02 04      [10]  132 	ld	hl,#0x0402
+   1ED0 CD AD 4B      [17]  133 	call	_cpct_isKeyPressed
+   1ED3 7D            [ 4]  134 	ld	a,l
+   1ED4 B7            [ 4]  135 	or	a, a
+   1ED5 C8            [11]  136 	ret	Z
                             137 ;src/State_PauseMenu.c:36: ui_pausemenu_select_entry();
-   1ECB CD E2 29      [17]  138 	call	_ui_pausemenu_select_entry
+   1ED6 CD 9E 28      [17]  138 	call	_ui_pausemenu_select_entry
                             139 ;src/State_PauseMenu.c:37: statemanager_input_accepted();
-   1ECE C3 7F 1D      [10]  140 	jp  _statemanager_input_accepted
+   1ED9 C3 82 1D      [10]  140 	jp  _statemanager_input_accepted
                             141 ;src/State_PauseMenu.c:42: void state_pausemenu_update(){
                             142 ;	---------------------------------
                             143 ; Function state_pausemenu_update
                             144 ; ---------------------------------
-   1ED1                     145 _state_pausemenu_update::
+   1EDC                     145 _state_pausemenu_update::
                             146 ;src/State_PauseMenu.c:43: if(ui_pausemenu_is_selected()){
-   1ED1 CD BC 29      [17]  147 	call	_ui_pausemenu_is_selected
-   1ED4 7D            [ 4]  148 	ld	a,l
-   1ED5 B7            [ 4]  149 	or	a, a
-   1ED6 CA E8 29      [10]  150 	jp	Z,_ui_pausemenu_unselect_entry
+   1EDC CD 78 28      [17]  147 	call	_ui_pausemenu_is_selected
+   1EDF 7D            [ 4]  148 	ld	a,l
+   1EE0 B7            [ 4]  149 	or	a, a
+   1EE1 CA A4 28      [10]  150 	jp	Z,_ui_pausemenu_unselect_entry
                             151 ;src/State_PauseMenu.c:44: ui_pausemenu_render_refresh();
-   1ED9 CD 55 2A      [17]  152 	call	_ui_pausemenu_render_refresh
+   1EE4 CD 14 29      [17]  152 	call	_ui_pausemenu_render_refresh
                             153 ;src/State_PauseMenu.c:45: switch(ui_pausemenu_get_entry()){
-   1EDC CD B4 29      [17]  154 	call	_ui_pausemenu_get_entry
-   1EDF 5D            [ 4]  155 	ld	e,l
-   1EE0 3E 03         [ 7]  156 	ld	a,#0x03
-   1EE2 93            [ 4]  157 	sub	a, e
-   1EE3 DA E8 29      [10]  158 	jp	C,_ui_pausemenu_unselect_entry
-   1EE6 16 00         [ 7]  159 	ld	d,#0x00
-   1EE8 21 EF 1E      [10]  160 	ld	hl,#00118$
-   1EEB 19            [11]  161 	add	hl,de
-   1EEC 19            [11]  162 	add	hl,de
-   1EED 19            [11]  163 	add	hl,de
-   1EEE E9            [ 4]  164 	jp	(hl)
-   1EEF                     165 00118$:
-   1EEF C3 FB 1E      [10]  166 	jp	00101$
-   1EF2 C3 E8 29      [10]  167 	jp	_ui_pausemenu_unselect_entry
-   1EF5 C3 E8 29      [10]  168 	jp	_ui_pausemenu_unselect_entry
-   1EF8 C3 07 1F      [10]  169 	jp	00104$
+   1EE7 CD 70 28      [17]  154 	call	_ui_pausemenu_get_entry
+   1EEA 5D            [ 4]  155 	ld	e,l
+   1EEB 3E 03         [ 7]  156 	ld	a,#0x03
+   1EED 93            [ 4]  157 	sub	a, e
+   1EEE DA A4 28      [10]  158 	jp	C,_ui_pausemenu_unselect_entry
+   1EF1 16 00         [ 7]  159 	ld	d,#0x00
+   1EF3 21 FA 1E      [10]  160 	ld	hl,#00118$
+   1EF6 19            [11]  161 	add	hl,de
+   1EF7 19            [11]  162 	add	hl,de
+   1EF8 19            [11]  163 	add	hl,de
+   1EF9 E9            [ 4]  164 	jp	(hl)
+   1EFA                     165 00118$:
+   1EFA C3 06 1F      [10]  166 	jp	00101$
+   1EFD C3 A4 28      [10]  167 	jp	_ui_pausemenu_unselect_entry
+   1F00 C3 A4 28      [10]  168 	jp	_ui_pausemenu_unselect_entry
+   1F03 C3 12 1F      [10]  169 	jp	00104$
                             170 ;src/State_PauseMenu.c:46: case 0:{
-   1EFB                     171 00101$:
+   1F06                     171 00101$:
                             172 ;src/State_PauseMenu.c:47: statemanager_close_state();
-   1EFB CD 33 1E      [17]  173 	call	_statemanager_close_state
+   1F06 CD 38 1E      [17]  173 	call	_statemanager_close_state
                             174 ;src/State_PauseMenu.c:48: break;
-   1EFE C3 E8 29      [10]  175 	jp	_ui_pausemenu_unselect_entry
+   1F09 C3 A4 28      [10]  175 	jp	_ui_pausemenu_unselect_entry
                             176 ;src/State_PauseMenu.c:50: case 1:{
                             177 ;src/State_PauseMenu.c:52: break;
-   1F01 C3 E8 29      [10]  178 	jp	_ui_pausemenu_unselect_entry
+   1F0C C3 A4 28      [10]  178 	jp	_ui_pausemenu_unselect_entry
                             179 ;src/State_PauseMenu.c:54: case 2:{
                             180 ;src/State_PauseMenu.c:56: break;
-   1F04 C3 E8 29      [10]  181 	jp	_ui_pausemenu_unselect_entry
+   1F0F C3 A4 28      [10]  181 	jp	_ui_pausemenu_unselect_entry
                             182 ;src/State_PauseMenu.c:58: case 3:{
-   1F07                     183 00104$:
+   1F12                     183 00104$:
                             184 ;src/State_PauseMenu.c:59: statemanager_set_state(STATE_MAINMENU);
-   1F07 AF            [ 4]  185 	xor	a, a
-   1F08 F5            [11]  186 	push	af
-   1F09 33            [ 6]  187 	inc	sp
-   1F0A CD 85 1D      [17]  188 	call	_statemanager_set_state
-   1F0D 33            [ 6]  189 	inc	sp
-                            190 ;src/State_PauseMenu.c:62: }
-                            191 ;src/State_PauseMenu.c:64: ui_pausemenu_unselect_entry();
-   1F0E C3 E8 29      [10]  192 	jp  _ui_pausemenu_unselect_entry
-                            193 ;src/State_PauseMenu.c:67: void state_pausemenu_render(){
-                            194 ;	---------------------------------
-                            195 ; Function state_pausemenu_render
-                            196 ; ---------------------------------
-   1F11                     197 _state_pausemenu_render::
-                            198 ;src/State_PauseMenu.c:68: ui_pausemenu_render_refresh();
-   1F11 C3 55 2A      [10]  199 	jp  _ui_pausemenu_render_refresh
-                            200 ;src/State_PauseMenu.c:71: void state_pausemenu_exit(){
-                            201 ;	---------------------------------
-                            202 ; Function state_pausemenu_exit
-                            203 ; ---------------------------------
-   1F14                     204 _state_pausemenu_exit::
-                            205 ;src/State_PauseMenu.c:72: cpct_drawSolidBox (SCREEN_PTR_AT(CPCT_VMEM_START, 23, 28), g_colors[1], 34, 144);
-   1F14 21 A4 0A      [10]  206 	ld	hl, #(_g_colors + 0x0001) + 0
-   1F17 46            [ 7]  207 	ld	b,(hl)
-   1F18 21 22 90      [10]  208 	ld	hl,#0x9022
-   1F1B E5            [11]  209 	push	hl
-   1F1C C5            [11]  210 	push	bc
-   1F1D 33            [ 6]  211 	inc	sp
-   1F1E 21 07 E1      [10]  212 	ld	hl,#0xE107
-   1F21 E5            [11]  213 	push	hl
-   1F22 CD CB 48      [17]  214 	call	_cpct_drawSolidBox
-   1F25 F1            [10]  215 	pop	af
-   1F26 F1            [10]  216 	pop	af
-   1F27 33            [ 6]  217 	inc	sp
-   1F28 C9            [10]  218 	ret
-                            219 	.area _CODE
-                            220 	.area _INITIALIZER
-                            221 	.area _CABS (ABS)
+   1F12 2E 00         [ 7]  185 	ld	l,#0x00
+   1F14 CD 88 1D      [17]  186 	call	_statemanager_set_state
+                            187 ;src/State_PauseMenu.c:62: }
+                            188 ;src/State_PauseMenu.c:64: ui_pausemenu_unselect_entry();
+   1F17 C3 A4 28      [10]  189 	jp  _ui_pausemenu_unselect_entry
+                            190 ;src/State_PauseMenu.c:67: void state_pausemenu_render() {
+                            191 ;	---------------------------------
+                            192 ; Function state_pausemenu_render
+                            193 ; ---------------------------------
+   1F1A                     194 _state_pausemenu_render::
+                            195 ;src/State_PauseMenu.c:68: ui_pausemenu_render_refresh();
+   1F1A C3 14 29      [10]  196 	jp  _ui_pausemenu_render_refresh
+                            197 ;src/State_PauseMenu.c:71: void state_pausemenu_exit(){
+                            198 ;	---------------------------------
+                            199 ; Function state_pausemenu_exit
+                            200 ; ---------------------------------
+   1F1D                     201 _state_pausemenu_exit::
+                            202 ;src/State_PauseMenu.c:72: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[1], 34, 144);
+   1F1D 21 A4 0A      [10]  203 	ld	hl, #(_g_colors + 0x0001) + 0
+   1F20 46            [ 7]  204 	ld	b,(hl)
+   1F21 21 22 90      [10]  205 	ld	hl,#0x9022
+   1F24 E5            [11]  206 	push	hl
+   1F25 C5            [11]  207 	push	bc
+   1F26 33            [ 6]  208 	inc	sp
+   1F27 21 07 E1      [10]  209 	ld	hl,#0xE107
+   1F2A E5            [11]  210 	push	hl
+   1F2B CD C0 4D      [17]  211 	call	_cpct_drawSolidBox
+   1F2E F1            [10]  212 	pop	af
+   1F2F F1            [10]  213 	pop	af
+   1F30 33            [ 6]  214 	inc	sp
+   1F31 C9            [10]  215 	ret
+                            216 	.area _CODE
+                            217 	.area _INITIALIZER
+                            218 	.area _CABS (ABS)

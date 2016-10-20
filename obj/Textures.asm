@@ -9,8 +9,10 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _uncompress_item_textures
-	.globl _uncompress_texture
+	.globl _uncompress_texture_rle
+	.globl _enemy_textures_length
 	.globl _enemy_textures
+	.globl _theme_textures_length
 	.globl _theme_textures
 	.globl _uncompress_theme_textures
 	.globl _uncompress_enemy_textures
@@ -45,354 +47,167 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/Textures.c:19: void uncompress_texture(u8* texture, u8* position, u8 sizeX, u8 sizeY){
+;src/Textures.c:33: void uncompress_texture_rle(u8* position, u8* texture_set, u16 length){
 ;	---------------------------------
-; Function uncompress_texture
+; Function uncompress_texture_rle
 ; ---------------------------------
-_uncompress_texture::
+_uncompress_texture_rle::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-	ld	hl,#-8
-	add	hl,sp
-	ld	sp,hl
-;src/Textures.c:20: u8 p1, p2, tex_height=sizeY, tex_width = sizeX;
-	ld	a,9 (ix)
-	ld	-6 (ix),a
-	ld	c,8 (ix)
-;src/Textures.c:26: while(sizeX){
-	ld	-1 (ix),c
-	ld	e,6 (ix)
-	ld	d,7 (ix)
+	dec	sp
+;src/Textures.c:36: while(length){
+	ld	c,6 (ix)
+	ld	b,7 (ix)
+	ld	e,8 (ix)
+	ld	d,9 (ix)
 00104$:
-	ld	a,-1 (ix)
-	or	a, a
-	jp	Z,00107$
-;src/Textures.c:28: currPos = position;
-	ld	-5 (ix),e
-	ld	-4 (ix),d
-;src/Textures.c:29: while(sizeY){
-	ld	b,9 (ix)
-	ld	a,4 (ix)
-	ld	-3 (ix),a
-	ld	a,5 (ix)
-	ld	-2 (ix),a
-00101$:
-	ld	a,b
-	or	a, a
-	jr	Z,00113$
-;src/Textures.c:30: p1 = (*texture) & g_pixelMask[0];
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
-	ld	a,(hl)
-	ld	hl, #_g_pixelMask + 0
-	ld	l,(hl)
-	and	a, l
-;src/Textures.c:31: p1= p1 | (p1>>1);
+	ld	a,d
+	or	a,e
+	jr	Z,00107$
+;src/Textures.c:37: value = (*texture_set)&0x0F;
+	ld	a,(bc)
+	ld	h,a
+	and	a, #0x0F
 	ld	l,a
-	srl	a
-	or	a, l
-;src/Textures.c:32: *currPos = p1;
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
-	ld	(hl),a
-;src/Textures.c:33: currPos+=tex_width;
-	ld	a,-5 (ix)
-	add	a, c
+;src/Textures.c:38: counter = ((*texture_set)>>4)+1;
+	ld	a,h
+	rlca
+	rlca
+	rlca
+	rlca
+	and	a,#0x0F
+	inc	a
+	ld	-1 (ix),a
+;src/Textures.c:39: while(counter){
+	ld	a,#<(_g_colors)
+	add	a, l
 	ld	l,a
-	ld	a,-4 (ix)
+	ld	a,#>(_g_colors)
 	adc	a, #0x00
 	ld	h,a
-	inc	sp
-	inc	sp
 	push	hl
-;src/Textures.c:35: p2 = (*texture) & g_pixelMask[1];
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
-	ld	a,(hl)
-	ld	hl, #_g_pixelMask + 1
-	ld	l,(hl)
-	and	a, l
-;src/Textures.c:36: p2 = p2 | (p2<<1);
-	ld	l,a
-	add	a, a
-	or	a, l
-;src/Textures.c:37: *currPos = p2;
+	ld	l,4 (ix)
+	ld	h,5 (ix)
+	push	hl
+	pop	iy
 	pop	hl
-	push	hl
-	ld	(hl),a
-;src/Textures.c:38: currPos+=tex_width;
-	ld	a,-8 (ix)
-	add	a, c
-	ld	-5 (ix),a
-	ld	a,-7 (ix)
-	adc	a, #0x00
-	ld	-4 (ix),a
-;src/Textures.c:39: --sizeY;
-	dec	b
-;src/Textures.c:40: ++texture;
-	inc	-3 (ix)
-	jr	NZ,00101$
-	inc	-2 (ix)
+00101$:
+	ld	a,-1 (ix)
+	or	a, a
+	jr	Z,00113$
+;src/Textures.c:40: *position=g_colors[value];
+	ld	a,(hl)
+	ld	0 (iy), a
+;src/Textures.c:41: ++position;
+	inc	iy
+;src/Textures.c:42: --counter;
+	dec	-1 (ix)
 	jr	00101$
 00113$:
-	ld	a,-3 (ix)
-	ld	4 (ix),a
-	ld	a,-2 (ix)
+	push	iy
+	pop	af
 	ld	5 (ix),a
-;src/Textures.c:42: --sizeX;
-	dec	-1 (ix)
-;src/Textures.c:43: sizeY=tex_height;
-	ld	a,-6 (ix)
-	ld	9 (ix),a
-;src/Textures.c:44: ++position;
-	inc	de
-	jp	00104$
+	push	iy
+	dec	sp
+	pop	af
+	inc	sp
+	ld	4 (ix),a
+;src/Textures.c:44: ++texture_set;
+	inc	bc
+;src/Textures.c:45: --length;
+	dec	de
+	jr	00104$
 00107$:
-	ld	sp, ix
+	inc	sp
 	pop	ix
 	ret
 _theme_textures:
-	.dw _level0_walls_tileset
-	.dw _level1_walls_tileset
-	.dw _level1_walls_tileset
-	.dw _level1_walls_tileset
+	.dw _level0_walls
+	.dw _level1_walls
+	.dw _level2_walls
+	.dw _level3_walls
+_theme_textures_length:
+	.dw #0x05BD
+	.dw #0x083C
+	.dw #0x082E
+	.dw #0x0202
 _enemy_textures:
-	.dw _level0_enemies_tileset
-	.dw _level0_enemies_tileset
-	.dw _level0_enemies_tileset
-	.dw _level0_enemies_tileset
-;src/Textures.c:49: void uncompress_theme_textures(u8 level){//TODO implement
+	.dw _level0_enemies
+	.dw _level1_enemies
+	.dw _level2_enemies
+	.dw _level3_enemies
+_enemy_textures_length:
+	.dw #0x0288
+	.dw #0x014B
+	.dw #0x014B
+	.dw #0x014B
+;src/Textures.c:49: void uncompress_theme_textures(u8 level) __z88dk_fastcall{//TODO implement
 ;	---------------------------------
 ; Function uncompress_theme_textures
 ; ---------------------------------
 _uncompress_theme_textures::
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-;src/Textures.c:50: uncompress_texture(theme_textures[level][0],(u8*)UNCOMPRESSED_TEXTURES,TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
-	ld	bc,#_theme_textures+0
-	ld	l,4 (ix)
+;src/Textures.c:50: uncompress_texture_rle((u8*)UNCOMPRESSED_TEXTURES, theme_textures[level], theme_textures_length[level]);    
+	ld	de,#_theme_textures_length+0
 	ld	h,#0x00
 	add	hl, hl
+	ld	c, l
+	ld	b, h
+	ex	de,hl
 	add	hl,bc
-	ld	c,l
-	ld	b,h
-	ld	e,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, e
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-	push	bc
-	ld	hl,#0x1020
-	push	hl
-	ld	hl,#0x6400
-	push	hl
-	push	de
-	call	_uncompress_texture
-	ld	hl,#6
-	add	hl,sp
-	ld	sp,hl
-	pop	bc
-;src/Textures.c:51: uncompress_texture(theme_textures[level][1],(u8*)(UNCOMPRESSED_TEXTURES+1024),TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
-	ld	l, c
-	ld	h, b
-	ld	e,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, e
-	inc	hl
-	inc	hl
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	bc
-	ld	hl,#0x1020
-	push	hl
-	ld	hl,#0x6800
-	push	hl
-	push	de
-	call	_uncompress_texture
-	ld	hl,#6
-	add	hl,sp
-	ld	sp,hl
-	pop	bc
-;src/Textures.c:52: uncompress_texture(theme_textures[level][2],(u8*)(UNCOMPRESSED_TEXTURES+2048),TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
-	ld	l, c
-	ld	h, b
-	ld	e,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, e
-	ld	de, #0x0004
-	add	hl, de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	bc
-	ld	hl,#0x1020
-	push	hl
-	ld	hl,#0x6C00
-	push	hl
-	push	de
-	call	_uncompress_texture
-	ld	hl,#6
-	add	hl,sp
-	ld	sp,hl
-	pop	bc
-;src/Textures.c:53: uncompress_texture(theme_textures[level][3],(u8*)(UNCOMPRESSED_TEXTURES+3072),TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
-	ld	l, c
-	ld	h, b
-	ld	e,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, e
-	ld	de, #0x0006
-	add	hl, de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	bc
-	ld	hl,#0x1020
-	push	hl
-	ld	hl,#0x7000
-	push	hl
-	push	de
-	call	_uncompress_texture
-	ld	hl,#6
-	add	hl,sp
-	ld	sp,hl
-;src/Textures.c:54: uncompress_texture(theme_textures[level][4],(u8*)(UNCOMPRESSED_TEXTURES+4096),TEXTURE_WIDTH,TEXTURE_HEIGHT_HALF);
-	pop	hl
-	ld	c,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, c
-	ld	de, #0x0008
-	add	hl, de
+	ld	hl,#_theme_textures+0
+	add	hl,bc
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
-	ld	hl,#0x1020
-	push	hl
+	push	de
+	push	bc
 	ld	hl,#0x7400
 	push	hl
-	push	bc
-	call	_uncompress_texture
+	call	_uncompress_texture_rle
 	ld	hl,#6
 	add	hl,sp
 	ld	sp,hl
-	pop	ix
 	ret
-;src/Textures.c:57: void uncompress_enemy_textures(u8 level){
+;src/Textures.c:54: void uncompress_enemy_textures(u8 level) __z88dk_fastcall{
 ;	---------------------------------
 ; Function uncompress_enemy_textures
 ; ---------------------------------
 _uncompress_enemy_textures::
-	push	ix
-	ld	ix,#0
-	add	ix,sp
-;src/Textures.c:58: uncompress_texture(enemy_textures[level][0],(u8*)UNCOMPRESSED_ENEMY_TEXTURES,ENEMY_SPRITE_WIDTH,ENEMY_SPRITE_HEIGHT_HALF);
-	ld	bc,#_enemy_textures+0
-	ld	l,4 (ix)
+;src/Textures.c:55: uncompress_texture_rle((u8*)UNCOMPRESSED_ENEMY_TEXTURES,enemy_textures[level],enemy_textures_length[level]);
+	ld	de,#_enemy_textures_length+0
 	ld	h,#0x00
 	add	hl, hl
+	ld	c, l
+	ld	b, h
+	ex	de,hl
 	add	hl,bc
-	ld	c,l
-	ld	b,h
-	ld	e,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, e
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
-	push	bc
-	ld	hl,#0x0C18
-	push	hl
-	ld	hl,#0x7800
-	push	hl
-	push	de
-	call	_uncompress_texture
-	ld	hl,#6
-	add	hl,sp
-	ld	sp,hl
-	pop	bc
-;src/Textures.c:59: uncompress_texture(enemy_textures[level][1],(u8*)(UNCOMPRESSED_ENEMY_TEXTURES+576),ENEMY_SPRITE_WIDTH,ENEMY_SPRITE_HEIGHT_HALF);
-	ld	l, c
-	ld	h, b
-	ld	e,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, e
-	inc	hl
-	inc	hl
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	bc
-	ld	hl,#0x0C18
-	push	hl
-	ld	hl,#0x7A40
-	push	hl
-	push	de
-	call	_uncompress_texture
-	ld	hl,#6
-	add	hl,sp
-	ld	sp,hl
-	pop	bc
-;src/Textures.c:60: uncompress_texture(enemy_textures[level][2],(u8*)(UNCOMPRESSED_ENEMY_TEXTURES+1152),ENEMY_SPRITE_WIDTH,ENEMY_SPRITE_HEIGHT_HALF);
-	ld	l, c
-	ld	h, b
-	ld	e,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, e
-	ld	de, #0x0004
-	add	hl, de
-	ld	e,(hl)
-	inc	hl
-	ld	d,(hl)
-	push	bc
-	ld	hl,#0x0C18
-	push	hl
-	ld	hl,#0x7C80
-	push	hl
-	push	de
-	call	_uncompress_texture
-	ld	hl,#6
-	add	hl,sp
-	ld	sp,hl
-;src/Textures.c:61: uncompress_texture(enemy_textures[level][3],(u8*)(UNCOMPRESSED_ENEMY_TEXTURES+1728),ENEMY_SPRITE_WIDTH,ENEMY_SPRITE_HEIGHT_HALF);
-	pop	hl
-	ld	c,(hl)
-	inc	hl
-	ld	h,(hl)
-	ld	l, c
-	ld	de, #0x0006
-	add	hl, de
+	ld	hl,#_enemy_textures+0
+	add	hl,bc
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
-	ld	hl,#0x0C18
-	push	hl
-	ld	hl,#0x7EC0
-	push	hl
+	push	de
 	push	bc
-	call	_uncompress_texture
+	ld	hl,#0x8800
+	push	hl
+	call	_uncompress_texture_rle
 	ld	hl,#6
 	add	hl,sp
 	ld	sp,hl
-	pop	ix
 	ret
-;src/Textures.c:64: void uncompress_item_textures(){
+;src/Textures.c:58: void uncompress_item_textures(){
 ;	---------------------------------
 ; Function uncompress_item_textures
 ; ---------------------------------
 _uncompress_item_textures::
-;src/Textures.c:66: }
+;src/Textures.c:60: }
 	ret
 	.area _CODE
 	.area _INITIALIZER
