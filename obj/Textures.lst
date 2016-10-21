@@ -131,7 +131,7 @@
    006C BD 05               131 	.dw #0x05BD
    006E 3C 08               132 	.dw #0x083C
    0070 2E 08               133 	.dw #0x082E
-   0072 02 02               134 	.dw #0x0202
+   0072 F7 06               134 	.dw #0x06F7
    0074                     135 _enemy_textures:
    0074r00r00               136 	.dw _level0_enemies
    0076r00r00               137 	.dw _level1_enemies

@@ -12,6 +12,11 @@ void game_interrupt_handler(){
     ++r_counter;
 }
 
+
+const i8 movement_directionArray[8]={
+    1,0,0,-1,-1,0,0,1
+};
+
 void game_init(){
     cpct_disableFirmware();
     cpct_setVideoMode(0);

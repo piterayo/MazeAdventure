@@ -12,21 +12,26 @@
 #include "Renderer.h"
 #include "Level.h"
 
+#include "Enemy.h"
+
 #include "UI_Compass.h"
 #include "UI_GameMenu.h"
 #include "UI_PlayerStats.h"
+#include "UI_Log.h"
 
-const u8 updateRenderBuffer = 0;
+u8 updateRenderBuffer;
 
 typedef enum{
-    NONE,MOVE,ATTACK,USE_OBJECT,
+    NONE,MOVE,ATTACK,USE_OBJECT,PICK_OBJECT,WAIT
 }ACTION;
 
-const ACTION action = NONE;
+ACTION action;
 
 void state_ingame_enter(){
     
     cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+    
+    ui_log_init();
     
     ui_gamemenu_init();
     ui_gamemenu_render_all();
@@ -75,7 +80,8 @@ void state_ingame_input(){
 
 void state_ingame_update(){
     
-    *(u8*)&action=NONE;
+    action=NONE;
+    updateRenderBuffer=0;
     
     if(ui_gamemenu_is_selected()){
         ui_gamemenu_render_refresh();
@@ -91,11 +97,11 @@ void state_ingame_update(){
                         break;
                     }
                     case 2:{
-                        
+                        // action=ATTACK;
                         break;
                     }
                     case 3:{
-                        
+                        // action=PICK_OBJECT;
                         break;
                     }
                 }
@@ -111,14 +117,17 @@ void state_ingame_update(){
                 player_turn_left();
                 ui_gamemenu_update_action();
                 
-                *(u8*)&updateRenderBuffer = 1;
+                updateRenderBuffer = 1;
                 break;
             }
             case 3:{//MOVE
                 // if(ui_gamemenu_get_movement()){//BYPASS IF FOR NOCLIP
+                
                     player_move_forward();
                     ui_gamemenu_update_action();
-                    *(u8*)&updateRenderBuffer = 1;
+                    // action=MOVE;
+                    
+                    updateRenderBuffer = 1;
                 // }
                 break;
             }
@@ -126,12 +135,13 @@ void state_ingame_update(){
                 player_turn_right();
                 ui_gamemenu_update_action();
                 
-                *(u8*)&updateRenderBuffer = 1;
+                updateRenderBuffer = 1;
                 
                 break;
             }
             case 5:{//WAIT
-            
+                action=WAIT;
+                updateRenderBuffer = 1;
                 break;
             }
             case 6:{//PAUSE
@@ -142,10 +152,13 @@ void state_ingame_update(){
         ui_gamemenu_unselect_entry();
     }
     
+    if(action!=NONE){
+        enemy_update();
+    }
+    
     if(updateRenderBuffer){
          render_draw_to_buffer();
          draw_minimap_to_buffer();
-        *(u8*)&updateRenderBuffer = 0;
     }
     
 }
@@ -156,6 +169,7 @@ void state_ingame_render(){
     cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
     cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
     ui_playerstats_render();
+    ui_log_render();
 }
 
 void state_ingame_exit(){

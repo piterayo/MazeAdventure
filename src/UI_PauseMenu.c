@@ -30,9 +30,9 @@
 
 #define UI_PAUSEMENU_BUTTON_WIDTH 28
 
-u8 ui_pausemenu_lastEntry=0;
-u8 ui_pausemenu_entryIndex=0;
-u8 ui_pausemenu_entrySelected=0;
+u8 ui_pausemenu_lastEntry;
+u8 ui_pausemenu_entryIndex;
+u8 ui_pausemenu_entrySelected;
 
 const void* const ui_pausemenu_entriesPosition[UI_PAUSEMENU_ENTRIES]={
     UI_PAUSEMENU_BUTTON_CONTINUE_POSITION,

@@ -37,7 +37,7 @@
 
 //Minimap
 
-#define MINIMAP_POSITION            (cpctm_screenPtr(CPCT_VMEM_START, 34, 128)) //PRECALCULAR VMEM_POS
+#define MINIMAP_POSITION            (cpctm_screenPtr(CPCT_VMEM_START, 32, 128)) //PRECALCULAR VMEM_POS
 
 
 #define MINIMAP_HEIGHT              16

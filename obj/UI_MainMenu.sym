@@ -12,21 +12,18 @@ Symbol Table
   0 __str_2                                                        0041 R
   0 __str_3                                                        0049 R
   0 __str_4                                                        0051 R
-  7 __xinit__ui_mainmenu_entryIndex                                0001 R
-  7 __xinit__ui_mainmenu_entrySelected                             0002 R
-  7 __xinit__ui_mainmenu_lastEntry                                 0000 R
     _cpct_drawSolidBox                                             **** GX
     _g_colors                                                      **** GX
     _print_transparent_text                                        **** GX
   0 _ui_mainmenu_buttonText                                        0024 GR
   0 _ui_mainmenu_entriesPosition                                   0010 GR
   0 _ui_mainmenu_entriesTextPosition                               001A GR
-  2 _ui_mainmenu_entryIndex                                        0001 GR
-  2 _ui_mainmenu_entrySelected                                     0002 GR
+  1 _ui_mainmenu_entryIndex                                        0001 GR
+  1 _ui_mainmenu_entrySelected                                     0002 GR
   0 _ui_mainmenu_get_entry                                         011B GR
   0 _ui_mainmenu_init                                              0000 GR
   0 _ui_mainmenu_is_selected                                       0123 GR
-  2 _ui_mainmenu_lastEntry                                         0000 GR
+  1 _ui_mainmenu_lastEntry                                         0000 GR
   0 _ui_mainmenu_next_entry                                        0056 GR
   0 _ui_mainmenu_previous_entry                                    0064 GR
   0 _ui_mainmenu_render_all                                        0103 GR
@@ -42,12 +39,12 @@ Hexadecimal [16-Bits]
 Area Table
 
    0 _CODE                                      size  12B   flags    0
-   1 _DATA                                      size    0   flags    0
-   2 _INITIALIZED                               size    3   flags    0
+   1 _DATA                                      size    3   flags    0
+   2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0
    5 _GSINIT                                    size    0   flags    0
    6 _GSFINAL                                   size    0   flags    0
-   7 _INITIALIZER                               size    3   flags    0
+   7 _INITIALIZER                               size    0   flags    0
    8 _CABS                                      size    0   flags    8
 

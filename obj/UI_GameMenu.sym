@@ -18,33 +18,28 @@ Symbol Table
   0 __str_6                                                        0075 R
   0 __str_7                                                        0077 R
   0 __str_8                                                        007C R
-  7 __xinit__ui_gamemenu_action                                    0004 R
-  7 __xinit__ui_gamemenu_can_move                                  0003 R
-  7 __xinit__ui_gamemenu_entryIndex                                0001 R
-  7 __xinit__ui_gamemenu_entrySelected                             0002 R
-  7 __xinit__ui_gamemenu_lastEntry                                 0000 R
     _cpct_drawSolidBox                                             **** GX
     _g_colors                                                      **** GX
     _player_direction                                              **** GX
     _player_position                                               **** GX
     _print_transparent_text                                        **** GX
   0 _ui_gamemenu_above_entry                                       0082 GR
-  2 _ui_gamemenu_action                                            0004 GR
+  1 _ui_gamemenu_action                                            0004 GR
   0 _ui_gamemenu_action_buttonText                                 002E GR
   0 _ui_gamemenu_below_entry                                       00A3 GR
   0 _ui_gamemenu_buttonText                                        0034 GR
   0 _ui_gamemenu_buttonWidths                                      0042 GR
-  2 _ui_gamemenu_can_move                                          0003 GR
+  1 _ui_gamemenu_can_move                                          0003 GR
   0 _ui_gamemenu_entriesPosition                                   0012 GR
   0 _ui_gamemenu_entriesTextPosition                               0020 GR
-  2 _ui_gamemenu_entryIndex                                        0001 GR
-  2 _ui_gamemenu_entrySelected                                     0002 GR
+  1 _ui_gamemenu_entryIndex                                        0001 GR
+  1 _ui_gamemenu_entrySelected                                     0002 GR
   0 _ui_gamemenu_get_action                                        0243 GR
   0 _ui_gamemenu_get_entry                                         018B GR
   0 _ui_gamemenu_get_movement                                      023B GR
   0 _ui_gamemenu_init                                              0000 GR
   0 _ui_gamemenu_is_selected                                       0193 GR
-  2 _ui_gamemenu_lastEntry                                         0000 GR
+  1 _ui_gamemenu_lastEntry                                         0000 GR
   0 _ui_gamemenu_next_entry                                        00BA GR
   0 _ui_gamemenu_previous_entry                                    00C7 GR
   0 _ui_gamemenu_render_all                                        0173 GR
@@ -54,19 +49,18 @@ Symbol Table
   0 _ui_gamemenu_unselect_entry                                    00D7 GR
   0 _ui_gamemenu_update_action                                     019B GR
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
    0 _CODE                                      size  24B   flags    0
-   1 _DATA                                      size    0   flags    0
-   2 _INITIALIZED                               size    5   flags    0
+   1 _DATA                                      size    5   flags    0
+   2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0
    5 _GSINIT                                    size    0   flags    0
    6 _GSFINAL                                   size    0   flags    0
-   7 _INITIALIZER                               size    5   flags    0
+   7 _INITIALIZER                               size    0   flags    0
    8 _CABS                                      size    0   flags    8
 

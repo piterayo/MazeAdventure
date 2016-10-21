@@ -6,25 +6,29 @@
 #include "Structures.h"
 
 typedef struct Enemy{
-    u8 textureId;
+    u8 id;
     
+    u8 type;
+    
+    
+    
+    u8 direction;
     Vec2u position;
     
-    u16 hitPoints;
-    u16 maxHitPoints;
+    u8 hitPoints;
     
     u16 attackValue;
     
     u16 defenseValue;
     
-    u8 objectCarried;
-    
 }Enemy;
 
-extern Enemy enemyArray[15];
-extern const u8 activeEnemies;
 
-extern void Enemy_spawn_new();
-extern void Enemy_update_logic();
+extern Enemy* const enemy_get_at(u8 index) __z88dk_fastcall;
+
+extern void enemy_init_enemies();
+
+extern u8 enemy_try_new_spawn();
+extern void enemy_update();
 
 #endif

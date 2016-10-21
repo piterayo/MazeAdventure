@@ -28,12 +28,12 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _DATA
+_rand_seed::
+	.ds 1
 ;--------------------------------------------------------
 ; ram data
 ;--------------------------------------------------------
 	.area _INITIALIZED
-_rand_seed::
-	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -923,7 +923,7 @@ _generate_exit_door::
 	and	a, #0x1F
 	ld	e,a
 ;src/Map.c:225: u8 door_not_positioned=1;
-	ld	-10 (ix),#0x01
+	ld	-14 (ix),#0x01
 ;src/Map.c:232: u8* position = (u8*)(MAP_MEM + x + MAP_WIDTH*y);
 	ld	b,#0x00
 	ld	hl,#0x7000
@@ -947,21 +947,21 @@ _generate_exit_door::
 ;src/Map.c:238: nextVal = (position+1);
 	ld	hl,#0x0001
 	add	hl,bc
-	ld	-12 (ix),l
-	ld	-11 (ix),h
+	ld	-11 (ix),l
+	ld	-10 (ix),h
 ;src/Map.c:239: topVal = (position-MAP_WIDTH);
 	ld	a,c
 	add	a,#0xE0
-	ld	-14 (ix),a
+	ld	-13 (ix),a
 	ld	a,b
 	adc	a,#0xFF
-	ld	-13 (ix),a
+	ld	-12 (ix),a
 ;src/Map.c:240: bottomVal = (position+MAP_WIDTH);
 	ld	iy,#0x0020
 	add	iy, bc
 ;src/Map.c:242: while(door_not_positioned){
 00138$:
-	ld	a,-10 (ix)
+	ld	a,-14 (ix)
 	or	a, a
 	jp	Z,00141$
 ;src/Map.c:243: if((*position)!=CELLTYPE_FLOOR){
@@ -970,68 +970,68 @@ _generate_exit_door::
 	jp	Z,00135$
 ;src/Map.c:244: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
 	ld	a,(de)
-	ld	-6 (ix),a
-	ld	-9 (ix),e
-	ld	-8 (ix),d
-	ld	a,-12 (ix)
-	ld	-2 (ix),a
+	ld	-9 (ix),a
+	ld	-2 (ix),e
+	ld	-1 (ix),d
 	ld	a,-11 (ix)
-	ld	-1 (ix),a
-;src/Map.c:245: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
-	pop	hl
-	push	hl
-	ld	a,(hl)
-	ld	-3 (ix),a
-	ld	a,-14 (ix)
+	ld	-6 (ix),a
+	ld	a,-10 (ix)
 	ld	-5 (ix),a
+;src/Map.c:245: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
+	ld	l,-13 (ix)
+	ld	h,-12 (ix)
+	ld	a,(hl)
+	ld	-8 (ix),a
 	ld	a,-13 (ix)
 	ld	-4 (ix),a
+	ld	a,-12 (ix)
+	ld	-3 (ix),a
 	push	iy
 	pop	hl
 ;src/Map.c:244: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-	ld	a,-8 (ix)
-	sub	a, #0x70
-	ld	a,#0x00
-	rla
-	ld	-9 (ix),a
 	ld	a,-1 (ix)
-	sub	a, #0x74
+	sub	a, #0x70
 	ld	a,#0x00
 	rla
 	ld	-2 (ix),a
+	ld	a,-5 (ix)
+	sub	a, #0x74
+	ld	a,#0x00
+	rla
+	ld	-6 (ix),a
 ;src/Map.c:245: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
-	ld	a,-4 (ix)
+	ld	a,-3 (ix)
 	sub	a, #0x70
 	ld	a,#0x00
 	rla
-	ld	-5 (ix),a
+	ld	-4 (ix),a
 	ld	a,h
 	sub	a, #0x74
 	ld	a,#0x00
 	rla
 	ld	-7 (ix),a
 ;src/Map.c:244: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-	ld	a,-6 (ix)
+	ld	a,-9 (ix)
 	or	a, a
 	jr	NZ,00133$
-	ld	a,-9 (ix)
+	ld	a,-2 (ix)
 	or	a, a
 	jr	Z,00129$
 00133$:
-	ld	l,-12 (ix)
-	ld	h,-11 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	a,(hl)
 	or	a, a
 	jr	NZ,00128$
-	bit	0,-2 (ix)
+	bit	0,-6 (ix)
 	jr	NZ,00129$
 00128$:
 ;src/Map.c:245: if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)==CELLTYPE_FLOOR)&&(bottomVal<END_OF_MAP_MEM))){
 	ld	l, 0 (iy)
-	ld	a,-3 (ix)
+	ld	a,-8 (ix)
 	or	a, a
 	jr	NZ,00111$
-	ld	a,-5 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	Z,00107$
 00111$:
@@ -1042,7 +1042,7 @@ _generate_exit_door::
 	or	a, a
 	jr	Z,00107$
 ;src/Map.c:246: door_not_positioned=0;
-	ld	-10 (ix),#0x00
+	ld	-14 (ix),#0x00
 ;src/Map.c:247: *position=CELLTYPE_DOOR;
 	ld	a,#0x80
 	ld	(bc),a
@@ -1056,24 +1056,24 @@ _generate_exit_door::
 	or	a, a
 	jr	NZ,00135$
 00105$:
-	ld	a,-3 (ix)
+	ld	a,-8 (ix)
 	or	a, a
 	jr	NZ,00135$
-	ld	a,-5 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	NZ,00135$
 ;src/Map.c:250: door_not_positioned=0;
-	ld	-10 (ix),#0x00
+	ld	-14 (ix),#0x00
 ;src/Map.c:251: *position=CELLTYPE_DOOR;
 	ld	a,#0x80
 	ld	(bc),a
 	jr	00135$
 00129$:
 ;src/Map.c:254: else if((((*topVal)!=CELLTYPE_FLOOR)||(topVal<MAP_MEM)) && (((*bottomVal)!=CELLTYPE_FLOOR)||(bottomVal>=END_OF_MAP_MEM))){
-	ld	a,-3 (ix)
+	ld	a,-8 (ix)
 	or	a, a
 	jr	NZ,00127$
-	ld	a,-5 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	Z,00135$
 00127$:
@@ -1085,24 +1085,24 @@ _generate_exit_door::
 	jr	NZ,00135$
 00123$:
 ;src/Map.c:244: if((((*lastVal)!=CELLTYPE_FLOOR) || (lastVal<MAP_MEM) )&& (((*nextVal)!=CELLTYPE_FLOOR)||(nextVal>=END_OF_MAP_MEM))){
-	ld	l,-12 (ix)
-	ld	h,-11 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	l,(hl)
 ;src/Map.c:255: if((((*lastVal)!=CELLTYPE_FLOOR)|| (lastVal<MAP_MEM) ) && (((*nextVal)==CELLTYPE_FLOOR)&&(nextVal<END_OF_MAP_MEM))){
-	ld	a,-6 (ix)
+	ld	a,-9 (ix)
 	or	a, a
 	jr	NZ,00122$
-	ld	a,-9 (ix)
+	ld	a,-2 (ix)
 	or	a, a
 	jr	Z,00118$
 00122$:
 	ld	a,l
 	or	a, a
 	jr	NZ,00118$
-	bit	0,-2 (ix)
+	bit	0,-6 (ix)
 	jr	Z,00118$
 ;src/Map.c:256: door_not_positioned=0;
-	ld	-10 (ix),#0x00
+	ld	-14 (ix),#0x00
 ;src/Map.c:257: *position=CELLTYPE_DOOR;
 	ld	a,#0x80
 	ld	(bc),a
@@ -1112,17 +1112,17 @@ _generate_exit_door::
 	ld	a,l
 	or	a, a
 	jr	NZ,00116$
-	bit	0,-2 (ix)
+	bit	0,-6 (ix)
 	jr	NZ,00135$
 00116$:
-	ld	a,-6 (ix)
-	or	a, a
-	jr	NZ,00135$
 	ld	a,-9 (ix)
 	or	a, a
 	jr	NZ,00135$
+	ld	a,-2 (ix)
+	or	a, a
+	jr	NZ,00135$
 ;src/Map.c:260: door_not_positioned=0;
-	ld	-10 (ix),#0x00
+	ld	-14 (ix),#0x00
 ;src/Map.c:261: *position=CELLTYPE_DOOR;
 	ld	a,#0x80
 	ld	(bc),a
@@ -1132,14 +1132,14 @@ _generate_exit_door::
 ;src/Map.c:266: ++lastVal;
 	inc	de
 ;src/Map.c:267: ++nextVal;
-	inc	-12 (ix)
-	jr	NZ,00223$
 	inc	-11 (ix)
+	jr	NZ,00223$
+	inc	-10 (ix)
 00223$:
 ;src/Map.c:268: ++topVal;
-	inc	-14 (ix)
-	jr	NZ,00224$
 	inc	-13 (ix)
+	jr	NZ,00224$
+	inc	-12 (ix)
 00224$:
 ;src/Map.c:269: ++bottomVal;
 	inc	iy
@@ -1157,11 +1157,11 @@ _generate_exit_door::
 ;src/Map.c:272: lastVal = (position-1);
 	ld	de,#0x6FFF
 ;src/Map.c:273: nextVal = (position+1);
-	ld	-12 (ix),#0x01
-	ld	-11 (ix),#0x70
+	ld	-11 (ix),#0x01
+	ld	-10 (ix),#0x70
 ;src/Map.c:274: topVal = (position-MAP_WIDTH);
-	ld	hl,#0x6FE0
-	ex	(sp), hl
+	ld	-13 (ix),#0xE0
+	ld	-12 (ix),#0x6F
 ;src/Map.c:275: bottomVal = (position+MAP_WIDTH);
 	ld	iy,#0x7020
 	jp	00138$
@@ -1203,22 +1203,7 @@ _generate_level_with_seed::
 ;src/Map.c:294: generate_map();
 	call	_generate_map
 ;src/Map.c:295: generate_exit_door();
-	call	_generate_exit_door
-;src/Map.c:298: *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
-	ld	hl,#0x70A6
-	ld	(hl),#0x01
-;src/Map.c:299: *(u8*)(MAP_MEM + 7 + MAP_WIDTH*5)=0b00000010;
-	ld	l, #0xA7
-	ld	(hl),#0x02
-;src/Map.c:300: *(u8*)(MAP_MEM + 8 + MAP_WIDTH*5)=0b00000011;
-	ld	l, #0xA8
-	ld	(hl),#0x03
-;src/Map.c:301: *(u8*)(MAP_MEM + 9 + MAP_WIDTH*5)=0b00000100;
-	ld	l, #0xA9
-	ld	(hl),#0x04
-	ret
+	jp  _generate_exit_door
 	.area _CODE
 	.area _INITIALIZER
-__xinit__rand_seed:
-	.db #0x00	; 0
 	.area _CABS (ABS)

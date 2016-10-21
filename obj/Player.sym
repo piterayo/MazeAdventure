@@ -7,22 +7,22 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 _player_direction                                              0030 GR
-  0 _player_directionArray                                         0033 GR
-  0 _player_directionIndex                                         0032 GR
-  0 _player_get_direction_index                                    0084 GR
-  0 _player_move_forward                                           0069 GR
-  0 _player_position                                               002E GR
+    _movement_directionArray                                       **** GX
+  0 _player_direction                                              002B GR
+  1 _player_directionIndex                                         0000 GR
+  0 _player_get_direction_index                                    0071 GR
+  0 _player_move_forward                                           0056 GR
+  0 _player_position                                               0029 GR
   0 _player_turn_left                                              0000 GR
-  0 _player_turn_right                                             003B GR
+  0 _player_turn_right                                             002D GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   8C   flags    0
-   1 _DATA                                      size    0   flags    0
+   0 _CODE                                      size   79   flags    0
+   1 _DATA                                      size    1   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

@@ -5,6 +5,7 @@
 #include "StringUtils.h"
 #include "Map.h"
 #include "Level.h"
+#include "Enemy.h"
 #include <cpctelera.h>
 
 void state_loadlevel_enter(){
@@ -15,6 +16,8 @@ void state_loadlevel_enter(){
     
     generate_level();
     level_load_level();
+    
+    enemy_init_enemies();
     
     render_draw_to_buffer();
     draw_minimap_to_buffer();

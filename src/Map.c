@@ -9,7 +9,7 @@
 
 #include "Renderer.h"
 
-u8 rand_seed=0;
+u8 rand_seed;
 
 u8 map_get_seed(){
     return rand_seed;
@@ -295,8 +295,8 @@ void generate_level_with_seed(u8 seed) __z88dk_fastcall{
     generate_exit_door();
     
     //DEBUG
-    *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
-    *(u8*)(MAP_MEM + 7 + MAP_WIDTH*5)=0b00000010;
-    *(u8*)(MAP_MEM + 8 + MAP_WIDTH*5)=0b00000011;
-    *(u8*)(MAP_MEM + 9 + MAP_WIDTH*5)=0b00000100;
+    // *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
+    // *(u8*)(MAP_MEM + 7 + MAP_WIDTH*5)=0b00000010;
+    // *(u8*)(MAP_MEM + 8 + MAP_WIDTH*5)=0b00000011;
+    // *(u8*)(MAP_MEM + 9 + MAP_WIDTH*5)=0b00000100;
 }

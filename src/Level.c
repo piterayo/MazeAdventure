@@ -11,9 +11,9 @@ u8 current_level;
 
 const u8 level_palettes[4][VARIABLE_COLORS]={
     { 0, 9, 3, 5,10,14,17,18,20},
-    {11,21, 1, 2, 3,16,24,26, 0},
+    {11, 21, 1, 2, 3, 16, 24, 25, 26},
     { 1,13, 2, 3,11,16,18,24,25},
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    { 13, 3, 24, 25, 0, 0, 0, 0, 0},
 };
 
 u8 level_get_level(){
@@ -37,13 +37,7 @@ void setLevelPalette(u8 i){
 }
 
 void level_load_level(){
-    u8 index;
-    
-    index =((current_level<8)?0:(
-            (current_level<24)?1:(
-            (current_level<56)?2:(
-            (current_level<120)?3:0
-            ))));
+    u8 index=current_level>>3;
     
     uncompress_theme_textures(index);
     uncompress_enemy_textures(index);

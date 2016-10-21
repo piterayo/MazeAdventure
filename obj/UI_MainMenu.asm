@@ -33,16 +33,16 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _DATA
-;--------------------------------------------------------
-; ram data
-;--------------------------------------------------------
-	.area _INITIALIZED
 _ui_mainmenu_lastEntry::
 	.ds 1
 _ui_mainmenu_entryIndex::
 	.ds 1
 _ui_mainmenu_entrySelected::
 	.ds 1
+;--------------------------------------------------------
+; ram data
+;--------------------------------------------------------
+	.area _INITIALIZED
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -299,10 +299,4 @@ _ui_mainmenu_is_selected::
 	ret
 	.area _CODE
 	.area _INITIALIZER
-__xinit__ui_mainmenu_lastEntry:
-	.db #0x00	; 0
-__xinit__ui_mainmenu_entryIndex:
-	.db #0x00	; 0
-__xinit__ui_mainmenu_entrySelected:
-	.db #0x00	; 0
 	.area _CABS (ABS)

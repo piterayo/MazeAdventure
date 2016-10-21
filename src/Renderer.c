@@ -4,6 +4,7 @@
 #include "Structures.h"
 #include "Player.h"
 #include "Textures.h"
+#include "Enemy.h"
 
 
 
@@ -170,7 +171,7 @@ void draw_column_to_buffer_enemy(const u8 column, u8 lineHeight, u8 index, u8 te
     if(texture_column>=4 && texture_column<28){
     
                        // START POSITION          TEXTURE INDEX OFFSET           X POSITION OFFSET
-        texture = (u8*)(UNCOMPRESSED_ENEMY_TEXTURES + (576*(index-1)) + ((texture_column-4)*ENEMY_SPRITE_WIDTH));
+        texture = (u8*)(UNCOMPRESSED_ENEMY_TEXTURES + (576*(enemy_get_at(index-1)->type)) + ((texture_column-4)*ENEMY_SPRITE_WIDTH));
         
         pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
         

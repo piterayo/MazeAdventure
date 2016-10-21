@@ -17,6 +17,7 @@
 	.globl _cpct_setInterruptHandler
 	.globl _cpct_disableFirmware
 	.globl _r_counter
+	.globl _movement_directionArray
 	.globl _game_init
 ;--------------------------------------------------------
 ; special function registers
@@ -63,34 +64,34 @@ _game_interrupt_handler::
 	ld	hl, #_r_counter+1
 	inc	(hl)
 	ret
-;src/GameFunctions.c:15: void game_init(){
+;src/GameFunctions.c:20: void game_init(){
 ;	---------------------------------
 ; Function game_init
 ; ---------------------------------
 _game_init::
-;src/GameFunctions.c:16: cpct_disableFirmware();
+;src/GameFunctions.c:21: cpct_disableFirmware();
 	call	_cpct_disableFirmware
-;src/GameFunctions.c:17: cpct_setVideoMode(0);
+;src/GameFunctions.c:22: cpct_setVideoMode(0);
 	ld	l,#0x00
 	call	_cpct_setVideoMode
-;src/GameFunctions.c:19: cpct_fw2hw(g_palette,16);
+;src/GameFunctions.c:24: cpct_fw2hw(g_palette,16);
 	ld	hl,#0x0010
 	push	hl
 	ld	hl,#_g_palette
 	push	hl
 	call	_cpct_fw2hw
-;src/GameFunctions.c:21: cpct_setInterruptHandler(game_interrupt_handler);
+;src/GameFunctions.c:26: cpct_setInterruptHandler(game_interrupt_handler);
 	ld	hl,#_game_interrupt_handler
 	call	_cpct_setInterruptHandler
-;src/GameFunctions.c:22: level_init_palettes();
+;src/GameFunctions.c:27: level_init_palettes();
 	call	_level_init_palettes
-;src/GameFunctions.c:23: cpct_setPalette(g_palette,16);
+;src/GameFunctions.c:28: cpct_setPalette(g_palette,16);
 	ld	hl,#0x0010
 	push	hl
 	ld	hl,#_g_palette
 	push	hl
 	call	_cpct_setPalette
-;src/GameFunctions.c:24: cpct_setBorder(g_palette[1]);
+;src/GameFunctions.c:29: cpct_setBorder(g_palette[1]);
 	ld	hl, #_g_palette + 1
 	ld	b,(hl)
 	push	bc
@@ -100,6 +101,15 @@ _game_init::
 	inc	sp
 	call	_cpct_setPALColour
 	ret
+_movement_directionArray:
+	.db #0x01	;  1
+	.db #0x00	;  0
+	.db #0x00	;  0
+	.db #0xFF	; -1
+	.db #0xFF	; -1
+	.db #0x00	;  0
+	.db #0x00	;  0
+	.db #0x01	;  1
 	.area _CODE
 	.area _INITIALIZER
 	.area _CABS (ABS)

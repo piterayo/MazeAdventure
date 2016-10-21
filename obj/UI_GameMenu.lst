@@ -42,20 +42,20 @@
                              42 ; ram data
                              43 ;--------------------------------------------------------
                              44 	.area _DATA
-                             45 ;--------------------------------------------------------
-                             46 ; ram data
-                             47 ;--------------------------------------------------------
-                             48 	.area _INITIALIZED
-   0000                      49 _ui_gamemenu_lastEntry::
-   0000                      50 	.ds 1
-   0001                      51 _ui_gamemenu_entryIndex::
-   0001                      52 	.ds 1
-   0002                      53 _ui_gamemenu_entrySelected::
-   0002                      54 	.ds 1
-   0003                      55 _ui_gamemenu_can_move::
-   0003                      56 	.ds 1
-   0004                      57 _ui_gamemenu_action::
-   0004                      58 	.ds 1
+   0000                      45 _ui_gamemenu_lastEntry::
+   0000                      46 	.ds 1
+   0001                      47 _ui_gamemenu_entryIndex::
+   0001                      48 	.ds 1
+   0002                      49 _ui_gamemenu_entrySelected::
+   0002                      50 	.ds 1
+   0003                      51 _ui_gamemenu_can_move::
+   0003                      52 	.ds 1
+   0004                      53 _ui_gamemenu_action::
+   0004                      54 	.ds 1
+                             55 ;--------------------------------------------------------
+                             56 ; ram data
+                             57 ;--------------------------------------------------------
+                             58 	.area _INITIALIZED
                              59 ;--------------------------------------------------------
                              60 ; absolute external ram data
                              61 ;--------------------------------------------------------
@@ -527,14 +527,4 @@
    024A C9            [10]  523 	ret
                             524 	.area _CODE
                             525 	.area _INITIALIZER
-   0000                     526 __xinit__ui_gamemenu_lastEntry:
-   0000 00                  527 	.db #0x00	; 0
-   0001                     528 __xinit__ui_gamemenu_entryIndex:
-   0001 00                  529 	.db #0x00	; 0
-   0002                     530 __xinit__ui_gamemenu_entrySelected:
-   0002 00                  531 	.db #0x00	; 0
-   0003                     532 __xinit__ui_gamemenu_can_move:
-   0003 00                  533 	.db #0x00	; 0
-   0004                     534 __xinit__ui_gamemenu_action:
-   0004 00                  535 	.db #0x00	; 0
-                            536 	.area _CABS (ABS)
+                            526 	.area _CABS (ABS)

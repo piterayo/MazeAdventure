@@ -28,6 +28,7 @@ obj/Textures.rel
 obj/UI_Compass.rel
 obj/UI_EnemyStats.rel
 obj/UI_GameMenu.rel
+obj/UI_Log.rel
 obj/UI_MainMenu.rel
 obj/UI_PauseMenu.rel
 obj/UI_PlayerStats.rel

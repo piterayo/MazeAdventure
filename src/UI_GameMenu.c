@@ -40,12 +40,12 @@
 
 #define UI_GAMEMENU_BUTTON_HEIGHT 24
 
-u8 ui_gamemenu_lastEntry=0;
-u8 ui_gamemenu_entryIndex=0;
-u8 ui_gamemenu_entrySelected=0;
+u8 ui_gamemenu_lastEntry;
+u8 ui_gamemenu_entryIndex;
+u8 ui_gamemenu_entrySelected;
 
-u8 ui_gamemenu_can_move=0;
-u8 ui_gamemenu_action=0;
+u8 ui_gamemenu_can_move;
+u8 ui_gamemenu_action;
 
 const void* const ui_gamemenu_entriesPosition[UI_GAMEMENU_ENTRIES]={
     UI_GAMEMENU_BUTTON_ACTION_POSITION,UI_GAMEMENU_BUTTON_INVENTORY_POSITION,

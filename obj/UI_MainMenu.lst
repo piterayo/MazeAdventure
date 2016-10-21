@@ -33,16 +33,16 @@
                              33 ; ram data
                              34 ;--------------------------------------------------------
                              35 	.area _DATA
-                             36 ;--------------------------------------------------------
-                             37 ; ram data
-                             38 ;--------------------------------------------------------
-                             39 	.area _INITIALIZED
-   0000                      40 _ui_mainmenu_lastEntry::
-   0000                      41 	.ds 1
-   0001                      42 _ui_mainmenu_entryIndex::
-   0001                      43 	.ds 1
-   0002                      44 _ui_mainmenu_entrySelected::
-   0002                      45 	.ds 1
+   0000                      36 _ui_mainmenu_lastEntry::
+   0000                      37 	.ds 1
+   0001                      38 _ui_mainmenu_entryIndex::
+   0001                      39 	.ds 1
+   0002                      40 _ui_mainmenu_entrySelected::
+   0002                      41 	.ds 1
+                             42 ;--------------------------------------------------------
+                             43 ; ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area _INITIALIZED
                              46 ;--------------------------------------------------------
                              47 ; absolute external ram data
                              48 ;--------------------------------------------------------
@@ -303,10 +303,4 @@
    012A C9            [10]  299 	ret
                             300 	.area _CODE
                             301 	.area _INITIALIZER
-   0000                     302 __xinit__ui_mainmenu_lastEntry:
-   0000 00                  303 	.db #0x00	; 0
-   0001                     304 __xinit__ui_mainmenu_entryIndex:
-   0001 00                  305 	.db #0x00	; 0
-   0002                     306 __xinit__ui_mainmenu_entrySelected:
-   0002 00                  307 	.db #0x00	; 0
-                            308 	.area _CABS (ABS)
+                            302 	.area _CABS (ABS)

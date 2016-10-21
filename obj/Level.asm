@@ -79,8 +79,8 @@ _level_palettes:
 	.db #0x03	; 3
 	.db #0x10	; 16
 	.db #0x18	; 24
+	.db #0x19	; 25
 	.db #0x1A	; 26
-	.db #0x00	; 0
 	.db #0x01	; 1
 	.db #0x0D	; 13
 	.db #0x02	; 2
@@ -90,10 +90,10 @@ _level_palettes:
 	.db #0x12	; 18
 	.db #0x18	; 24
 	.db #0x19	; 25
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
+	.db #0x0D	; 13
+	.db #0x03	; 3
+	.db #0x18	; 24
+	.db #0x19	; 25
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -178,45 +178,18 @@ _setLevelPalette::
 ; Function level_load_level
 ; ---------------------------------
 _level_load_level::
-;src/Level.c:42: index =((current_level<8)?0:(
-	ld	a,(#_current_level + 0)
-	sub	a, #0x08
-	jr	NC,00103$
-	ld	b,#0x00
-	jr	00104$
-00103$:
-;src/Level.c:43: (current_level<24)?1:(
-	ld	a,(#_current_level + 0)
-	sub	a, #0x18
-	jr	NC,00105$
-	ld	b,#0x01
-	jr	00106$
-00105$:
-;src/Level.c:44: (current_level<56)?2:(
-	ld	a,(#_current_level + 0)
-	sub	a, #0x38
-	jr	NC,00107$
-	ld	b,#0x02
-	jr	00108$
-00107$:
-;src/Level.c:45: (current_level<120)?3:0
-	ld	a,(#_current_level + 0)
-	sub	a, #0x78
-	jr	NC,00109$
-	ld	b,#0x03
-	jr	00110$
-00109$:
-	ld	b,#0x00
-00110$:
-00108$:
-00106$:
-00104$:
-;src/Level.c:48: uncompress_theme_textures(index);
+;src/Level.c:40: u8 index=current_level>>3;
+	ld	hl,#_current_level + 0
+	ld	b, (hl)
+	srl	b
+	srl	b
+	srl	b
+;src/Level.c:42: uncompress_theme_textures(index);
 	push	bc
 	ld	l,b
 	call	_uncompress_theme_textures
 	pop	bc
-;src/Level.c:49: uncompress_enemy_textures(index);
+;src/Level.c:43: uncompress_enemy_textures(index);
 	push	bc
 	ld	l,b
 	call	_uncompress_enemy_textures

@@ -79,8 +79,8 @@
    0015 03                   79 	.db #0x03	; 3
    0016 10                   80 	.db #0x10	; 16
    0017 18                   81 	.db #0x18	; 24
-   0018 1A                   82 	.db #0x1A	; 26
-   0019 00                   83 	.db #0x00	; 0
+   0018 19                   82 	.db #0x19	; 25
+   0019 1A                   83 	.db #0x1A	; 26
    001A 01                   84 	.db #0x01	; 1
    001B 0D                   85 	.db #0x0D	; 13
    001C 02                   86 	.db #0x02	; 2
@@ -90,10 +90,10 @@
    0020 12                   90 	.db #0x12	; 18
    0021 18                   91 	.db #0x18	; 24
    0022 19                   92 	.db #0x19	; 25
-   0023 00                   93 	.db #0x00	; 0
-   0024 00                   94 	.db #0x00	; 0
-   0025 00                   95 	.db #0x00	; 0
-   0026 00                   96 	.db #0x00	; 0
+   0023 0D                   93 	.db #0x0D	; 13
+   0024 03                   94 	.db #0x03	; 3
+   0025 18                   95 	.db #0x18	; 24
+   0026 19                   96 	.db #0x19	; 25
    0027 00                   97 	.db #0x00	; 0
    0028 00                   98 	.db #0x00	; 0
    0029 00                   99 	.db #0x00	; 0
@@ -178,52 +178,25 @@
                             178 ; Function level_load_level
                             179 ; ---------------------------------
    0094                     180 _level_load_level::
-                            181 ;src/Level.c:42: index =((current_level<8)?0:(
-   0094 3Ar00r00      [13]  182 	ld	a,(#_current_level + 0)
-   0097 D6 08         [ 7]  183 	sub	a, #0x08
-   0099 30 04         [12]  184 	jr	NC,00103$
-   009B 06 00         [ 7]  185 	ld	b,#0x00
-   009D 18 23         [12]  186 	jr	00104$
-   009F                     187 00103$:
-                            188 ;src/Level.c:43: (current_level<24)?1:(
-   009F 3Ar00r00      [13]  189 	ld	a,(#_current_level + 0)
-   00A2 D6 18         [ 7]  190 	sub	a, #0x18
-   00A4 30 04         [12]  191 	jr	NC,00105$
-   00A6 06 01         [ 7]  192 	ld	b,#0x01
-   00A8 18 18         [12]  193 	jr	00106$
-   00AA                     194 00105$:
-                            195 ;src/Level.c:44: (current_level<56)?2:(
-   00AA 3Ar00r00      [13]  196 	ld	a,(#_current_level + 0)
-   00AD D6 38         [ 7]  197 	sub	a, #0x38
-   00AF 30 04         [12]  198 	jr	NC,00107$
-   00B1 06 02         [ 7]  199 	ld	b,#0x02
-   00B3 18 0D         [12]  200 	jr	00108$
-   00B5                     201 00107$:
-                            202 ;src/Level.c:45: (current_level<120)?3:0
-   00B5 3Ar00r00      [13]  203 	ld	a,(#_current_level + 0)
-   00B8 D6 78         [ 7]  204 	sub	a, #0x78
-   00BA 30 04         [12]  205 	jr	NC,00109$
-   00BC 06 03         [ 7]  206 	ld	b,#0x03
-   00BE 18 02         [12]  207 	jr	00110$
-   00C0                     208 00109$:
-   00C0 06 00         [ 7]  209 	ld	b,#0x00
-   00C2                     210 00110$:
-   00C2                     211 00108$:
-   00C2                     212 00106$:
-   00C2                     213 00104$:
-                            214 ;src/Level.c:48: uncompress_theme_textures(index);
-   00C2 C5            [11]  215 	push	bc
-   00C3 68            [ 4]  216 	ld	l,b
-   00C4 CDr00r00      [17]  217 	call	_uncompress_theme_textures
-   00C7 C1            [10]  218 	pop	bc
-                            219 ;src/Level.c:49: uncompress_enemy_textures(index);
-   00C8 C5            [11]  220 	push	bc
-   00C9 68            [ 4]  221 	ld	l,b
-   00CA CDr00r00      [17]  222 	call	_uncompress_enemy_textures
-   00CD 33            [ 6]  223 	inc	sp
-   00CE CDr61r00      [17]  224 	call	_setLevelPalette
-   00D1 33            [ 6]  225 	inc	sp
-   00D2 C9            [10]  226 	ret
-                            227 	.area _CODE
-                            228 	.area _INITIALIZER
-                            229 	.area _CABS (ABS)
+                            181 ;src/Level.c:40: u8 index=current_level>>3;
+   0094 21r00r00      [10]  182 	ld	hl,#_current_level + 0
+   0097 46            [ 7]  183 	ld	b, (hl)
+   0098 CB 38         [ 8]  184 	srl	b
+   009A CB 38         [ 8]  185 	srl	b
+   009C CB 38         [ 8]  186 	srl	b
+                            187 ;src/Level.c:42: uncompress_theme_textures(index);
+   009E C5            [11]  188 	push	bc
+   009F 68            [ 4]  189 	ld	l,b
+   00A0 CDr00r00      [17]  190 	call	_uncompress_theme_textures
+   00A3 C1            [10]  191 	pop	bc
+                            192 ;src/Level.c:43: uncompress_enemy_textures(index);
+   00A4 C5            [11]  193 	push	bc
+   00A5 68            [ 4]  194 	ld	l,b
+   00A6 CDr00r00      [17]  195 	call	_uncompress_enemy_textures
+   00A9 33            [ 6]  196 	inc	sp
+   00AA CDr61r00      [17]  197 	call	_setLevelPalette
+   00AD 33            [ 6]  198 	inc	sp
+   00AE C9            [10]  199 	ret
+                            200 	.area _CODE
+                            201 	.area _INITIALIZER
+                            202 	.area _CABS (ABS)

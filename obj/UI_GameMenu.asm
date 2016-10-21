@@ -42,10 +42,6 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _DATA
-;--------------------------------------------------------
-; ram data
-;--------------------------------------------------------
-	.area _INITIALIZED
 _ui_gamemenu_lastEntry::
 	.ds 1
 _ui_gamemenu_entryIndex::
@@ -56,6 +52,10 @@ _ui_gamemenu_can_move::
 	.ds 1
 _ui_gamemenu_action::
 	.ds 1
+;--------------------------------------------------------
+; ram data
+;--------------------------------------------------------
+	.area _INITIALIZED
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -523,14 +523,4 @@ _ui_gamemenu_get_action::
 	ret
 	.area _CODE
 	.area _INITIALIZER
-__xinit__ui_gamemenu_lastEntry:
-	.db #0x00	; 0
-__xinit__ui_gamemenu_entryIndex:
-	.db #0x00	; 0
-__xinit__ui_gamemenu_entrySelected:
-	.db #0x00	; 0
-__xinit__ui_gamemenu_can_move:
-	.db #0x00	; 0
-__xinit__ui_gamemenu_action:
-	.db #0x00	; 0
 	.area _CABS (ABS)

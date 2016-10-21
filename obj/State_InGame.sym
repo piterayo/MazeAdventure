@@ -7,11 +7,12 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 _action                                                        001B GR
+  1 _action                                                        0001 GR
     _cpct_drawSprite                                               **** GX
     _cpct_isKeyPressed                                             **** GX
     _cpct_memset                                                   **** GX
     _draw_minimap_to_buffer                                        **** GX
+    _enemy_update                                                  **** GX
     _g_colors                                                      **** GX
     _g_texturedWalls                                               **** GX
     _level_get_level                                               **** GX
@@ -22,11 +23,11 @@ Symbol Table
     _renderCompass                                                 **** GX
     _render_draw_to_buffer                                         **** GX
   0 _state_ingame_enter                                            0000 GR
-  0 _state_ingame_exit                                             0172 GR
-  0 _state_ingame_input                                            0022 GR
-  0 _state_ingame_render                                           014A GR
-  0 _state_ingame_return                                           001C GR
-  0 _state_ingame_update                                           00A7 GR
+  0 _state_ingame_exit                                             0193 GR
+  0 _state_ingame_input                                            0023 GR
+  0 _state_ingame_render                                           0168 GR
+  0 _state_ingame_return                                           001D GR
+  0 _state_ingame_update                                           00A8 GR
     _statemanager_close_state                                      **** GX
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
@@ -43,16 +44,18 @@ Symbol Table
     _ui_gamemenu_select_entry                                      **** GX
     _ui_gamemenu_unselect_entry                                    **** GX
     _ui_gamemenu_update_action                                     **** GX
+    _ui_log_init                                                   **** GX
+    _ui_log_render                                                 **** GX
     _ui_playerstats_render                                         **** GX
-  0 _updateRenderBuffer                                            001A GR
+  1 _updateRenderBuffer                                            0000 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  173   flags    0
-   1 _DATA                                      size    0   flags    0
+   0 _CODE                                      size  194   flags    0
+   1 _DATA                                      size    2   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

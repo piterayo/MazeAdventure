@@ -33,16 +33,16 @@
                              33 ; ram data
                              34 ;--------------------------------------------------------
                              35 	.area _DATA
-                             36 ;--------------------------------------------------------
-                             37 ; ram data
-                             38 ;--------------------------------------------------------
-                             39 	.area _INITIALIZED
-   0000                      40 _ui_pausemenu_lastEntry::
-   0000                      41 	.ds 1
-   0001                      42 _ui_pausemenu_entryIndex::
-   0001                      43 	.ds 1
-   0002                      44 _ui_pausemenu_entrySelected::
-   0002                      45 	.ds 1
+   0000                      36 _ui_pausemenu_lastEntry::
+   0000                      37 	.ds 1
+   0001                      38 _ui_pausemenu_entryIndex::
+   0001                      39 	.ds 1
+   0002                      40 _ui_pausemenu_entrySelected::
+   0002                      41 	.ds 1
+                             42 ;--------------------------------------------------------
+                             43 ; ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area _INITIALIZED
                              46 ;--------------------------------------------------------
                              47 ; absolute external ram data
                              48 ;--------------------------------------------------------
@@ -297,10 +297,4 @@
    0120 C9            [10]  293 	ret
                             294 	.area _CODE
                             295 	.area _INITIALIZER
-   0000                     296 __xinit__ui_pausemenu_lastEntry:
-   0000 00                  297 	.db #0x00	; 0
-   0001                     298 __xinit__ui_pausemenu_entryIndex:
-   0001 00                  299 	.db #0x00	; 0
-   0002                     300 __xinit__ui_pausemenu_entrySelected:
-   0002 00                  301 	.db #0x00	; 0
-                            302 	.area _CABS (ABS)
+                            296 	.area _CABS (ABS)

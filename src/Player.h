@@ -5,6 +5,10 @@
 #include <cpctelera.h>
 #include "Structures.h"
 
+extern u16 player_health_points;
+
+extern u16 player_attack_value;
+
 extern const Vec2u player_position;
 extern const Vec2i player_direction;
 

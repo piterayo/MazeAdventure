@@ -7,10 +7,27 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 _Enemy_spawn_new                                               0000 GR
-  0 _Enemy_update_logic                                            003A GR
-  0 _activeEnemies                                                 0039 GR
-  1 _enemyArray                                                    0000 GR
+  0 _abs                                                           002C GR
+  1 _activeEnemies                                                 0000 GR
+    _cpct_getRandom_mxor_u8                                        **** GX
+    _cpct_memset                                                   **** GX
+  0 _dist                                                          0033 GR
+  1 _enemyArray                                                    0001 GR
+  0 _enemy_AI_aggressive                                           05F6 GR
+  0 _enemy_AI_passive                                              05E3 GR
+  0 _enemy_AI_shy                                                  05F8 GR
+  0 _enemy_AI_tactical                                             05F7 GR
+  0 _enemy_can_view                                                00A4 GR
+  0 _enemy_get_at                                                  0000 GR
+  0 _enemy_init_enemies                                            000E GR
+  0 _enemy_new_enemy                                               021B GR
+  0 _enemy_roam                                                    0318 GR
+  0 _enemy_try_new_spawn                                           028B GR
+  0 _enemy_update                                                  05F9 GR
+    _integer_to_string                                             **** GX
+    _movement_directionArray                                       **** GX
+    _player_position                                               **** GX
+    _ui_log_add_log                                                **** GX
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -18,8 +35,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   3B   flags    0
-   1 _DATA                                      size   B4   flags    0
+   0 _CODE                                      size  637   flags    0
+   1 _DATA                                      size   97   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

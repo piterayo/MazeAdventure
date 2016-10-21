@@ -131,7 +131,7 @@ _theme_textures_length:
 	.dw #0x05BD
 	.dw #0x083C
 	.dw #0x082E
-	.dw #0x0202
+	.dw #0x06F7
 _enemy_textures:
 	.dw _level0_enemies
 	.dw _level1_enemies

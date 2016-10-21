@@ -34,9 +34,9 @@
 
 #define UI_MAINMENU_BUTTON_WIDTH 20
 
-u8 ui_mainmenu_lastEntry=0;
-u8 ui_mainmenu_entryIndex=0;
-u8 ui_mainmenu_entrySelected=0;
+u8 ui_mainmenu_lastEntry;
+u8 ui_mainmenu_entryIndex;
+u8 ui_mainmenu_entrySelected;
 
 const void* const ui_mainmenu_entriesPosition[UI_MAINMENU_ENTRIES]={
     UI_MAINMENU_BUTTON_NEWGAME_POSITION,UI_MAINMENU_BUTTON_LOADGAME_POSITION,UI_MAINMENU_BUTTON_OPTIONS_POSITION,
