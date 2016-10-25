@@ -34,8 +34,8 @@
                              34 ; ram data
                              35 ;--------------------------------------------------------
                              36 	.area _DATA
-   7E6A                      37 _level_seed::
-   7E6A                      38 	.ds 2
+   7D8C                      37 _level_seed::
+   7D8C                      38 	.ds 2
                              39 ;--------------------------------------------------------
                              40 ; ram data
                              41 ;--------------------------------------------------------
@@ -79,7 +79,7 @@
    351E 33            [ 6]   79 	inc	sp
    351F 26 C0         [ 7]   80 	ld	h, #0xC0
    3521 E5            [11]   81 	push	hl
-   3522 CD 52 7C      [17]   82 	call	_cpct_memset
+   3522 CD 74 7B      [17]   82 	call	_cpct_memset
                              83 ;src/State_LoadLevel.c:21: print_transparent_text("LOADING", 0xe391, 3);
    3525 3E 03         [ 7]   84 	ld	a,#0x03
    3527 F5            [11]   85 	push	af
@@ -93,11 +93,11 @@
    3535 F1            [10]   93 	pop	af
    3536 33            [ 6]   94 	inc	sp
                              95 ;src/State_LoadLevel.c:23: if(level_seed) generate_level_with_seed(level_seed);
-   3537 3A 6B 7E      [13]   96 	ld	a,(#_level_seed + 1)
-   353A 21 6A 7E      [10]   97 	ld	hl,#_level_seed + 0
+   3537 3A 8D 7D      [13]   96 	ld	a,(#_level_seed + 1)
+   353A 21 8C 7D      [10]   97 	ld	hl,#_level_seed + 0
    353D B6            [ 7]   98 	or	a,(hl)
    353E 28 0A         [12]   99 	jr	Z,00102$
-   3540 2A 6A 7E      [16]  100 	ld	hl,(_level_seed)
+   3540 2A 8C 7D      [16]  100 	ld	hl,(_level_seed)
    3543 E5            [11]  101 	push	hl
    3544 CD CC 17      [17]  102 	call	_generate_level_with_seed
    3547 F1            [10]  103 	pop	af
@@ -120,7 +120,7 @@
    355C CD 2F 2A      [17]  120 	call	_draw_minimap_to_buffer
                             121 ;src/State_LoadLevel.c:34: level_seed=0;
    355F 21 00 00      [10]  122 	ld	hl,#0x0000
-   3562 22 6A 7E      [16]  123 	ld	(_level_seed),hl
+   3562 22 8C 7D      [16]  123 	ld	(_level_seed),hl
    3565 C9            [10]  124 	ret
    3566                     125 ___str_0:
    3566 4C 4F 41 44 49 4E   126 	.ascii "LOADING"

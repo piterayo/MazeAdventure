@@ -30,22 +30,22 @@
                              30 ; ram data
                              31 ;--------------------------------------------------------
                              32 	.area _DATA
-   7E43                      33 _player_defense_value::
-   7E43                      34 	.ds 1
-   7E44                      35 _player_attack_value::
-   7E44                      36 	.ds 1
-   7E45                      37 _player_health_points::
-   7E45                      38 	.ds 1
-   7E46                      39 _player_is_dead::
-   7E46                      40 	.ds 1
-   7E47                      41 _player_has_key::
-   7E47                      42 	.ds 1
-   7E48                      43 _player_potion_count::
-   7E48                      44 	.ds 1
-   7E49                      45 _player_scroll_count::
-   7E49                      46 	.ds 1
-   7E4A                      47 _player_directionIndex::
-   7E4A                      48 	.ds 1
+   7D65                      33 _player_defense_value::
+   7D65                      34 	.ds 1
+   7D66                      35 _player_attack_value::
+   7D66                      36 	.ds 1
+   7D67                      37 _player_health_points::
+   7D67                      38 	.ds 1
+   7D68                      39 _player_is_dead::
+   7D68                      40 	.ds 1
+   7D69                      41 _player_has_key::
+   7D69                      42 	.ds 1
+   7D6A                      43 _player_potion_count::
+   7D6A                      44 	.ds 1
+   7D6B                      45 _player_scroll_count::
+   7D6B                      46 	.ds 1
+   7D6C                      47 _player_directionIndex::
+   7D6C                      48 	.ds 1
                              49 ;--------------------------------------------------------
                              50 ; ram data
                              51 ;--------------------------------------------------------
@@ -76,25 +76,25 @@
                              76 ; ---------------------------------
    1808                      77 _player_init::
                              78 ;src/Player.c:31: player_attack_value = 52;
-   1808 21 44 7E      [10]   79 	ld	hl,#_player_attack_value + 0
+   1808 21 66 7D      [10]   79 	ld	hl,#_player_attack_value + 0
    180B 36 34         [10]   80 	ld	(hl), #0x34
                              81 ;src/Player.c:32: player_defense_value = 8;
-   180D 21 43 7E      [10]   82 	ld	hl,#_player_defense_value + 0
+   180D 21 65 7D      [10]   82 	ld	hl,#_player_defense_value + 0
    1810 36 08         [10]   83 	ld	(hl), #0x08
                              84 ;src/Player.c:33: player_is_dead=0;
-   1812 21 46 7E      [10]   85 	ld	hl,#_player_is_dead + 0
+   1812 21 68 7D      [10]   85 	ld	hl,#_player_is_dead + 0
    1815 36 00         [10]   86 	ld	(hl), #0x00
                              87 ;src/Player.c:35: player_health_points = PLAYER_MAX_HP;
-   1817 21 45 7E      [10]   88 	ld	hl,#_player_health_points + 0
+   1817 21 67 7D      [10]   88 	ld	hl,#_player_health_points + 0
    181A 36 FF         [10]   89 	ld	(hl), #0xFF
                              90 ;src/Player.c:36: player_has_key=0;
-   181C 21 47 7E      [10]   91 	ld	hl,#_player_has_key + 0
+   181C 21 69 7D      [10]   91 	ld	hl,#_player_has_key + 0
    181F 36 00         [10]   92 	ld	(hl), #0x00
                              93 ;src/Player.c:37: player_potion_count=0;
-   1821 21 48 7E      [10]   94 	ld	hl,#_player_potion_count + 0
+   1821 21 6A 7D      [10]   94 	ld	hl,#_player_potion_count + 0
    1824 36 00         [10]   95 	ld	(hl), #0x00
                              96 ;src/Player.c:38: player_scroll_count=0;
-   1826 21 49 7E      [10]   97 	ld	hl,#_player_scroll_count + 0
+   1826 21 6B 7D      [10]   97 	ld	hl,#_player_scroll_count + 0
    1829 36 00         [10]   98 	ld	(hl), #0x00
    182B C9            [10]   99 	ret
    182C                     100 _player_position:
@@ -109,13 +109,13 @@
                             109 ; ---------------------------------
    1830                     110 _player_turn_left::
                             111 ;src/Player.c:43: (player_directionIndex)=(player_directionIndex+2)&7;
-   1830 3A 4A 7E      [13]  112 	ld	a,(#_player_directionIndex + 0)
+   1830 3A 6C 7D      [13]  112 	ld	a,(#_player_directionIndex + 0)
    1833 C6 02         [ 7]  113 	add	a, #0x02
    1835 E6 07         [ 7]  114 	and	a, #0x07
-   1837 32 4A 7E      [13]  115 	ld	(#_player_directionIndex + 0),a
+   1837 32 6C 7D      [13]  115 	ld	(#_player_directionIndex + 0),a
                             116 ;src/Player.c:44: *(i8*)&(player_direction.x) = movement_directionArray[(player_directionIndex)];
    183A 11 F8 0B      [10]  117 	ld	de,#_movement_directionArray+0
-   183D 2A 4A 7E      [16]  118 	ld	hl,(_player_directionIndex)
+   183D 2A 6C 7D      [16]  118 	ld	hl,(_player_directionIndex)
    1840 26 00         [ 7]  119 	ld	h,#0x00
    1842 19            [11]  120 	add	hl,de
    1843 4E            [ 7]  121 	ld	c,(hl)
@@ -123,7 +123,7 @@
    1847 71            [ 7]  123 	ld	(hl),c
                             124 ;src/Player.c:45: *(i8*)&(player_direction.y) = movement_directionArray[((player_directionIndex)+1)];
    1848 01 2F 18      [10]  125 	ld	bc,#_player_direction+1
-   184B FD 21 4A 7E   [14]  126 	ld	iy,#_player_directionIndex
+   184B FD 21 6C 7D   [14]  126 	ld	iy,#_player_directionIndex
    184F FD 6E 00      [19]  127 	ld	l,0 (iy)
    1852 2C            [ 4]  128 	inc	l
    1853 26 00         [ 7]  129 	ld	h,#0x00
@@ -137,13 +137,13 @@
                             137 ; ---------------------------------
    1859                     138 _player_turn_right::
                             139 ;src/Player.c:50: (player_directionIndex)=(player_directionIndex-2)&7;
-   1859 3A 4A 7E      [13]  140 	ld	a,(#_player_directionIndex + 0)
+   1859 3A 6C 7D      [13]  140 	ld	a,(#_player_directionIndex + 0)
    185C C6 FE         [ 7]  141 	add	a,#0xFE
    185E E6 07         [ 7]  142 	and	a, #0x07
-   1860 32 4A 7E      [13]  143 	ld	(#_player_directionIndex + 0),a
+   1860 32 6C 7D      [13]  143 	ld	(#_player_directionIndex + 0),a
                             144 ;src/Player.c:51: *(i8*)&(player_direction.x) = movement_directionArray[(player_directionIndex)];
    1863 11 F8 0B      [10]  145 	ld	de,#_movement_directionArray+0
-   1866 2A 4A 7E      [16]  146 	ld	hl,(_player_directionIndex)
+   1866 2A 6C 7D      [16]  146 	ld	hl,(_player_directionIndex)
    1869 26 00         [ 7]  147 	ld	h,#0x00
    186B 19            [11]  148 	add	hl,de
    186C 4E            [ 7]  149 	ld	c,(hl)
@@ -151,7 +151,7 @@
    1870 71            [ 7]  151 	ld	(hl),c
                             152 ;src/Player.c:52: *(i8*)&(player_direction.y) = movement_directionArray[((player_directionIndex)+1)];
    1871 01 2F 18      [10]  153 	ld	bc,#_player_direction+1
-   1874 FD 21 4A 7E   [14]  154 	ld	iy,#_player_directionIndex
+   1874 FD 21 6C 7D   [14]  154 	ld	iy,#_player_directionIndex
    1878 FD 6E 00      [19]  155 	ld	l,0 (iy)
    187B 2C            [ 4]  156 	inc	l
    187C 26 00         [ 7]  157 	ld	h,#0x00
@@ -191,7 +191,7 @@
                             191 ; ---------------------------------
    189D                     192 _player_get_direction_index::
                             193 ;src/Player.c:61: return player_directionIndex;
-   189D FD 21 4A 7E   [14]  194 	ld	iy,#_player_directionIndex
+   189D FD 21 6C 7D   [14]  194 	ld	iy,#_player_directionIndex
    18A1 FD 6E 00      [19]  195 	ld	l,0 (iy)
    18A4 C9            [10]  196 	ret
                             197 	.area _CODE

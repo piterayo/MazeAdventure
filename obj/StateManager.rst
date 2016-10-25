@@ -89,7 +89,7 @@
    3764 66            [ 7]   89 	ld	h,(hl)
    3765 C5            [11]   90 	push	bc
    3766 6B            [ 4]   91 	ld	l, e
-   3767 CD 97 7B      [17]   92 	call	___sdcc_call_hl
+   3767 CD B9 7A      [17]   92 	call	___sdcc_call_hl
    376A C1            [10]   93 	pop	bc
                              94 ;src/StateManager.c:171: *(u8*)&currentState = stateArray[currentState].lastStateid;
    376B 21 39 38      [10]   95 	ld	hl,#_currentState + 0
@@ -125,7 +125,7 @@
    3792 23            [ 6]  125 	inc	hl
    3793 66            [ 7]  126 	ld	h,(hl)
    3794 6F            [ 4]  127 	ld	l,a
-   3795 CD 97 7B      [17]  128 	call	___sdcc_call_hl
+   3795 CD B9 7A      [17]  128 	call	___sdcc_call_hl
                             129 ;src/StateManager.c:173: *(u8*)&closeState=0;
    3798 21 38 38      [10]  130 	ld	hl,#_closeState
    379B 36 00         [10]  131 	ld	(hl),#0x00
@@ -291,7 +291,7 @@
    3884 23            [ 6]  291 	inc	hl
    3885 66            [ 7]  292 	ld	h,(hl)
    3886 69            [ 4]  293 	ld	l, c
-   3887 CD 97 7B      [17]  294 	call	___sdcc_call_hl
+   3887 CD B9 7A      [17]  294 	call	___sdcc_call_hl
                             295 ;src/StateManager.c:182: *(u8*)&changeToState = 0;
    388A 21 3A 38      [10]  296 	ld	hl,#_changeToState
    388D 36 00         [10]  297 	ld	(hl),#0x00
@@ -330,10 +330,10 @@
                             330 ;src/StateManager.c:196: u8* currentStatus=(cpct_keyboardStatusBuffer+n);
                             331 ;src/StateManager.c:197: u8* lastStatus=(((u8*)last_keyboardStatusBuffer)+n);
                             332 ;src/StateManager.c:199: cpct_scanKeyboard_f();
-   38AA CD B3 79      [17]  333 	call	_cpct_scanKeyboard_f
+   38AA CD D5 78      [17]  333 	call	_cpct_scanKeyboard_f
                             334 ;src/StateManager.c:200: while(n){
    38AD 1E 0A         [ 7]  335 	ld	e,#0x0A
-   38AF 01 25 7B      [10]  336 	ld	bc,#(_cpct_keyboardStatusBuffer + 0x000a)
+   38AF 01 47 7A      [10]  336 	ld	bc,#(_cpct_keyboardStatusBuffer + 0x000a)
    38B2 FD 21 47 38   [14]  337 	ld	iy,#(_last_keyboardStatusBuffer + 0x000a)
    38B6                     338 00101$:
    38B6 7B            [ 4]  339 	ld	a,e
@@ -362,14 +362,14 @@
    38D5 18 DF         [12]  362 	jr	00101$
    38D7                     363 00103$:
                             364 ;src/StateManager.c:211: if(cpct_isAnyKeyPressed_f()) ++r_counter;
-   38D7 CD 21 7C      [17]  365 	call	_cpct_isAnyKeyPressed_f
+   38D7 CD 43 7B      [17]  365 	call	_cpct_isAnyKeyPressed_f
    38DA 7D            [ 4]  366 	ld	a,l
    38DB B7            [ 4]  367 	or	a, a
    38DC 28 0A         [12]  368 	jr	Z,00106$
-   38DE 21 16 7E      [10]  369 	ld	hl, #_r_counter+0
+   38DE 21 38 7D      [10]  369 	ld	hl, #_r_counter+0
    38E1 34            [11]  370 	inc	(hl)
    38E2 20 04         [12]  371 	jr	NZ,00121$
-   38E4 21 17 7E      [10]  372 	ld	hl, #_r_counter+1
+   38E4 21 39 7D      [10]  372 	ld	hl, #_r_counter+1
    38E7 34            [11]  373 	inc	(hl)
    38E8                     374 00121$:
    38E8                     375 00106$:
@@ -407,7 +407,7 @@
    390C 23            [ 6]  407 	inc	hl
    390D 66            [ 7]  408 	ld	h,(hl)
    390E 69            [ 4]  409 	ld	l, c
-   390F CD 97 7B      [17]  410 	call	___sdcc_call_hl
+   390F CD B9 7A      [17]  410 	call	___sdcc_call_hl
    3912 18 D9         [12]  411 	jr	00101$
    3914                     412 00103$:
                             413 ;src/StateManager.c:219: *(u8*)&inputReceived=0;
@@ -420,7 +420,7 @@
                             420 ; ---------------------------------
    391A                     421 _statemanager_render_state::
                             422 ;src/StateManager.c:223: cpct_waitVSYNC();
-   391A CD 19 7C      [17]  423 	call	_cpct_waitVSYNC
+   391A CD 3B 7B      [17]  423 	call	_cpct_waitVSYNC
                             424 ;src/StateManager.c:224: stateArray[currentState].renderState();
    391D 01 9E 37      [10]  425 	ld	bc,#_stateArray+0
    3920 21 39 38      [10]  426 	ld	hl,#_currentState + 0
@@ -440,7 +440,7 @@
    3933 23            [ 6]  440 	inc	hl
    3934 66            [ 7]  441 	ld	h,(hl)
    3935 69            [ 4]  442 	ld	l, c
-   3936 C3 97 7B      [10]  443 	jp  ___sdcc_call_hl
+   3936 C3 B9 7A      [10]  443 	jp  ___sdcc_call_hl
                             444 ;src/StateManager.c:227: void statemanager_close_state(){
                             445 ;	---------------------------------
                             446 ; Function statemanager_close_state
@@ -474,7 +474,7 @@
    3955 23            [ 6]  474 	inc	hl
    3956 66            [ 7]  475 	ld	h,(hl)
    3957 69            [ 4]  476 	ld	l, c
-   3958 C3 97 7B      [10]  477 	jp  ___sdcc_call_hl
+   3958 C3 B9 7A      [10]  477 	jp  ___sdcc_call_hl
                             478 ;src/StateManager.c:235: void statemanager_exit_game(){
                             479 ;	---------------------------------
                             480 ; Function statemanager_exit_game

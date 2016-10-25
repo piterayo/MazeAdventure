@@ -66,7 +66,7 @@
    2ED7 33            [ 6]   66 	inc	sp
    2ED8 26 C0         [ 7]   67 	ld	h, #0xC0
    2EDA E5            [11]   68 	push	hl
-   2EDB CD 52 7C      [17]   69 	call	_cpct_memset
+   2EDB CD 74 7B      [17]   69 	call	_cpct_memset
                              70 ;src/State_GameOver.c:17: print_transparent_text("GAME OVER", cpctm_screenPtr((u16)CPCT_VMEM_START,32,92), 3);
    2EDE 3E 03         [ 7]   71 	ld	a,#0x03
    2EE0 F5            [11]   72 	push	af
@@ -135,7 +135,7 @@
                             133 ; ---------------------------------
    2F35                     134 _state_gameover_input::
                             135 ;src/State_GameOver.c:27: if(cpct_isAnyKeyPressed_f ()){
-   2F35 CD 21 7C      [17]  136 	call	_cpct_isAnyKeyPressed_f
+   2F35 CD 43 7B      [17]  136 	call	_cpct_isAnyKeyPressed_f
    2F38 7D            [ 4]  137 	ld	a,l
    2F39 B7            [ 4]  138 	or	a, a
    2F3A C8            [11]  139 	ret	Z

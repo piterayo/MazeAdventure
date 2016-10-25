@@ -35,12 +35,12 @@
                              35 ; ram data
                              36 ;--------------------------------------------------------
                              37 	.area _DATA
-   7EDF                      38 _ui_options_lastEntry::
-   7EDF                      39 	.ds 1
-   7EE0                      40 _ui_options_entryIndex::
-   7EE0                      41 	.ds 1
-   7EE1                      42 _ui_options_entrySelected::
-   7EE1                      43 	.ds 1
+   7E01                      38 _ui_options_lastEntry::
+   7E01                      39 	.ds 1
+   7E02                      40 _ui_options_entryIndex::
+   7E02                      41 	.ds 1
+   7E03                      42 _ui_options_entrySelected::
+   7E03                      43 	.ds 1
                              44 ;--------------------------------------------------------
                              45 ; ram data
                              46 ;--------------------------------------------------------
@@ -72,7 +72,7 @@
    4939                      72 _ui_options_set_strings::
                              73 ;src/UI_Options.c:59: *(char**)(ui_options_buttonText)=ui_options_on_off[textures_on];
    4939 01 6D 49      [10]   74 	ld	bc,#_ui_options_on_off+0
-   493C FD 21 19 7E   [14]   75 	ld	iy,#_textures_on
+   493C FD 21 3B 7D   [14]   75 	ld	iy,#_textures_on
    4940 FD 6E 00      [19]   76 	ld	l,0 (iy)
    4943 26 00         [ 7]   77 	ld	h,#0x00
    4945 29            [11]   78 	add	hl, hl
@@ -82,7 +82,7 @@
    4949 56            [ 7]   82 	ld	d,(hl)
    494A ED 53 71 49   [20]   83 	ld	(_ui_options_buttonText), de
                              84 ;src/UI_Options.c:60: *(char**)(ui_options_buttonText+1)=ui_options_on_off[music_on];
-   494E FD 21 18 7E   [14]   85 	ld	iy,#_music_on
+   494E FD 21 3A 7D   [14]   85 	ld	iy,#_music_on
    4952 FD 6E 00      [19]   86 	ld	l,0 (iy)
    4955 26 00         [ 7]   87 	ld	h,#0x00
    4957 29            [11]   88 	add	hl, hl
@@ -124,13 +124,13 @@
                             124 ; ---------------------------------
    4984                     125 _ui_options_init::
                             126 ;src/UI_Options.c:65: ui_options_lastEntry=0;
-   4984 21 DF 7E      [10]  127 	ld	hl,#_ui_options_lastEntry + 0
+   4984 21 01 7E      [10]  127 	ld	hl,#_ui_options_lastEntry + 0
    4987 36 00         [10]  128 	ld	(hl), #0x00
                             129 ;src/UI_Options.c:66: ui_options_entryIndex=0;
-   4989 21 E0 7E      [10]  130 	ld	hl,#_ui_options_entryIndex + 0
+   4989 21 02 7E      [10]  130 	ld	hl,#_ui_options_entryIndex + 0
    498C 36 00         [10]  131 	ld	(hl), #0x00
                             132 ;src/UI_Options.c:67: ui_options_entrySelected=0;
-   498E 21 E1 7E      [10]  133 	ld	hl,#_ui_options_entrySelected + 0
+   498E 21 03 7E      [10]  133 	ld	hl,#_ui_options_entrySelected + 0
    4991 36 00         [10]  134 	ld	(hl), #0x00
                             135 ;src/UI_Options.c:68: ui_options_set_strings();
    4993 C3 39 49      [10]  136 	jp  _ui_options_set_strings
@@ -140,7 +140,7 @@
                             140 ; ---------------------------------
    4996                     141 _ui_options_get_entry::
                             142 ;src/UI_Options.c:73: return ui_options_entryIndex;
-   4996 FD 21 E0 7E   [14]  143 	ld	iy,#_ui_options_entryIndex
+   4996 FD 21 02 7E   [14]  143 	ld	iy,#_ui_options_entryIndex
    499A FD 6E 00      [19]  144 	ld	l,0 (iy)
    499D C9            [10]  145 	ret
                             146 ;src/UI_Options.c:76: u8 ui_options_is_selected(){
@@ -149,7 +149,7 @@
                             149 ; ---------------------------------
    499E                     150 _ui_options_is_selected::
                             151 ;src/UI_Options.c:77: return ui_options_entrySelected;
-   499E FD 21 E1 7E   [14]  152 	ld	iy,#_ui_options_entrySelected
+   499E FD 21 03 7E   [14]  152 	ld	iy,#_ui_options_entrySelected
    49A2 FD 6E 00      [19]  153 	ld	l,0 (iy)
    49A5 C9            [10]  154 	ret
                             155 ;src/UI_Options.c:80: void ui_options_next_entry(){
@@ -159,12 +159,12 @@
    49A6                     159 _ui_options_next_entry::
                             160 ;src/UI_Options.c:81: if(ui_options_entryIndex<(UI_OPTIONS_ENTRIES-1)){
                             161 ;src/UI_Options.c:82: ui_options_lastEntry=ui_options_entryIndex;
-   49A6 3A E0 7E      [13]  162 	ld	a,(#_ui_options_entryIndex + 0)
+   49A6 3A 02 7E      [13]  162 	ld	a,(#_ui_options_entryIndex + 0)
    49A9 FE 02         [ 7]  163 	cp	a,#0x02
    49AB D0            [11]  164 	ret	NC
-   49AC 32 DF 7E      [13]  165 	ld	(#_ui_options_lastEntry + 0),a
+   49AC 32 01 7E      [13]  165 	ld	(#_ui_options_lastEntry + 0),a
                             166 ;src/UI_Options.c:83: ++ui_options_entryIndex;
-   49AF 21 E0 7E      [10]  167 	ld	hl, #_ui_options_entryIndex+0
+   49AF 21 02 7E      [10]  167 	ld	hl, #_ui_options_entryIndex+0
    49B2 34            [11]  168 	inc	(hl)
    49B3 C9            [10]  169 	ret
                             170 ;src/UI_Options.c:87: void ui_options_previous_entry(){
@@ -173,14 +173,14 @@
                             173 ; ---------------------------------
    49B4                     174 _ui_options_previous_entry::
                             175 ;src/UI_Options.c:88: if(ui_options_entryIndex>0){
-   49B4 3A E0 7E      [13]  176 	ld	a,(#_ui_options_entryIndex + 0)
+   49B4 3A 02 7E      [13]  176 	ld	a,(#_ui_options_entryIndex + 0)
    49B7 B7            [ 4]  177 	or	a, a
    49B8 C8            [11]  178 	ret	Z
                             179 ;src/UI_Options.c:89: ui_options_lastEntry=ui_options_entryIndex;
-   49B9 3A E0 7E      [13]  180 	ld	a,(#_ui_options_entryIndex + 0)
-   49BC 32 DF 7E      [13]  181 	ld	(#_ui_options_lastEntry + 0),a
+   49B9 3A 02 7E      [13]  180 	ld	a,(#_ui_options_entryIndex + 0)
+   49BC 32 01 7E      [13]  181 	ld	(#_ui_options_lastEntry + 0),a
                             182 ;src/UI_Options.c:90: --ui_options_entryIndex;
-   49BF 21 E0 7E      [10]  183 	ld	hl, #_ui_options_entryIndex+0
+   49BF 21 02 7E      [10]  183 	ld	hl, #_ui_options_entryIndex+0
    49C2 35            [11]  184 	dec	(hl)
    49C3 C9            [10]  185 	ret
                             186 ;src/UI_Options.c:95: void ui_options_select_entry(){
@@ -189,7 +189,7 @@
                             189 ; ---------------------------------
    49C4                     190 _ui_options_select_entry::
                             191 ;src/UI_Options.c:96: ui_options_entrySelected=1;
-   49C4 21 E1 7E      [10]  192 	ld	hl,#_ui_options_entrySelected + 0
+   49C4 21 03 7E      [10]  192 	ld	hl,#_ui_options_entrySelected + 0
    49C7 36 01         [10]  193 	ld	(hl), #0x01
    49C9 C9            [10]  194 	ret
                             195 ;src/UI_Options.c:99: void ui_options_unselect_entry(){
@@ -198,7 +198,7 @@
                             198 ; ---------------------------------
    49CA                     199 _ui_options_unselect_entry::
                             200 ;src/UI_Options.c:100: ui_options_entrySelected=0;
-   49CA 21 E1 7E      [10]  201 	ld	hl,#_ui_options_entrySelected + 0
+   49CA 21 03 7E      [10]  201 	ld	hl,#_ui_options_entrySelected + 0
    49CD 36 00         [10]  202 	ld	(hl), #0x00
    49CF C9            [10]  203 	ret
                             204 ;src/UI_Options.c:103: void ui_options_render_button(u8 n){
@@ -212,10 +212,10 @@
    49D8 3B            [ 6]  212 	dec	sp
                             213 ;src/UI_Options.c:105: color = (n==ui_options_entryIndex)?((ui_options_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
    49D9 DD 7E 04      [19]  214 	ld	a,4 (ix)
-   49DC FD 21 E0 7E   [14]  215 	ld	iy,#_ui_options_entryIndex
+   49DC FD 21 02 7E   [14]  215 	ld	iy,#_ui_options_entryIndex
    49E0 FD 96 00      [19]  216 	sub	a, 0 (iy)
    49E3 20 10         [12]  217 	jr	NZ,00103$
-   49E5 3A E1 7E      [13]  218 	ld	a,(#_ui_options_entrySelected + 0)
+   49E5 3A 03 7E      [13]  218 	ld	a,(#_ui_options_entrySelected + 0)
    49E8 B7            [ 4]  219 	or	a, a
    49E9 28 05         [12]  220 	jr	Z,00105$
    49EB 3A 6A 1A      [13]  221 	ld	a, (#(_g_colors + 0x0004) + 0)
@@ -245,7 +245,7 @@
    4A12 F5            [11]  245 	push	af
    4A13 33            [ 6]  246 	inc	sp
    4A14 D5            [11]  247 	push	de
-   4A15 CD 70 7C      [17]  248 	call	_cpct_drawSolidBox
+   4A15 CD 92 7B      [17]  248 	call	_cpct_drawSolidBox
    4A18 F1            [10]  249 	pop	af
    4A19 F1            [10]  250 	pop	af
    4A1A 33            [ 6]  251 	inc	sp
@@ -279,20 +279,20 @@
                             279 ; ---------------------------------
    4A3A                     280 _ui_options_render_refresh::
                             281 ;src/UI_Options.c:113: ui_options_render_button(ui_options_entryIndex);
-   4A3A 3A E0 7E      [13]  282 	ld	a,(_ui_options_entryIndex)
+   4A3A 3A 02 7E      [13]  282 	ld	a,(_ui_options_entryIndex)
    4A3D F5            [11]  283 	push	af
    4A3E 33            [ 6]  284 	inc	sp
    4A3F CD D0 49      [17]  285 	call	_ui_options_render_button
    4A42 33            [ 6]  286 	inc	sp
                             287 ;src/UI_Options.c:114: ui_options_render_button(ui_options_lastEntry);
-   4A43 3A DF 7E      [13]  288 	ld	a,(_ui_options_lastEntry)
+   4A43 3A 01 7E      [13]  288 	ld	a,(_ui_options_lastEntry)
    4A46 F5            [11]  289 	push	af
    4A47 33            [ 6]  290 	inc	sp
    4A48 CD D0 49      [17]  291 	call	_ui_options_render_button
    4A4B 33            [ 6]  292 	inc	sp
                             293 ;src/UI_Options.c:116: ui_options_lastEntry=ui_options_entryIndex;
-   4A4C 3A E0 7E      [13]  294 	ld	a,(#_ui_options_entryIndex + 0)
-   4A4F 32 DF 7E      [13]  295 	ld	(#_ui_options_lastEntry + 0),a
+   4A4C 3A 02 7E      [13]  294 	ld	a,(#_ui_options_entryIndex + 0)
+   4A4F 32 01 7E      [13]  295 	ld	(#_ui_options_lastEntry + 0),a
    4A52 C9            [10]  296 	ret
                             297 ;src/UI_Options.c:119: void ui_options_render_all(){
                             298 ;	---------------------------------
@@ -341,8 +341,8 @@
    4A86 18 F1         [12]  341 	jr	00101$
    4A88                     342 00103$:
                             343 ;src/UI_Options.c:130: ui_options_lastEntry=ui_options_entryIndex;
-   4A88 3A E0 7E      [13]  344 	ld	a,(#_ui_options_entryIndex + 0)
-   4A8B 32 DF 7E      [13]  345 	ld	(#_ui_options_lastEntry + 0),a
+   4A88 3A 02 7E      [13]  344 	ld	a,(#_ui_options_entryIndex + 0)
+   4A8B 32 01 7E      [13]  345 	ld	(#_ui_options_lastEntry + 0),a
    4A8E C9            [10]  346 	ret
    4A8F                     347 ___str_4:
    4A8F 54 45 58 54 55 52   348 	.ascii "TEXTURES"

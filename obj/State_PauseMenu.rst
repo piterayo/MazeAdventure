@@ -73,7 +73,7 @@
    3A45 33            [ 6]   73 	inc	sp
    3A46 21 07 E1      [10]   74 	ld	hl,#0xE107
    3A49 E5            [11]   75 	push	hl
-   3A4A CD 70 7C      [17]   76 	call	_cpct_drawSolidBox
+   3A4A CD 92 7B      [17]   76 	call	_cpct_drawSolidBox
    3A4D F1            [10]   77 	pop	af
    3A4E F1            [10]   78 	pop	af
    3A4F 33            [ 6]   79 	inc	sp
@@ -86,7 +86,7 @@
    3A59 33            [ 6]   86 	inc	sp
    3A5A 21 58 C1      [10]   87 	ld	hl,#0xC158
    3A5D E5            [11]   88 	push	hl
-   3A5E CD 70 7C      [17]   89 	call	_cpct_drawSolidBox
+   3A5E CD 92 7B      [17]   89 	call	_cpct_drawSolidBox
    3A61 F1            [10]   90 	pop	af
    3A62 F1            [10]   91 	pop	af
    3A63 33            [ 6]   92 	inc	sp
@@ -108,7 +108,7 @@
    3A73 33            [ 6]  108 	inc	sp
    3A74 21 07 E1      [10]  109 	ld	hl,#0xE107
    3A77 E5            [11]  110 	push	hl
-   3A78 CD 70 7C      [17]  111 	call	_cpct_drawSolidBox
+   3A78 CD 92 7B      [17]  111 	call	_cpct_drawSolidBox
    3A7B F1            [10]  112 	pop	af
    3A7C F1            [10]  113 	pop	af
    3A7D 33            [ 6]  114 	inc	sp
@@ -121,7 +121,7 @@
    3A87 33            [ 6]  121 	inc	sp
    3A88 21 58 C1      [10]  122 	ld	hl,#0xC158
    3A8B E5            [11]  123 	push	hl
-   3A8C CD 70 7C      [17]  124 	call	_cpct_drawSolidBox
+   3A8C CD 92 7B      [17]  124 	call	_cpct_drawSolidBox
    3A8F F1            [10]  125 	pop	af
    3A90 F1            [10]  126 	pop	af
    3A91 33            [ 6]  127 	inc	sp
@@ -134,7 +134,7 @@
    3A95                     134 _state_pausemenu_input::
                             135 ;src/State_PauseMenu.c:29: if(cpct_isKeyPressed(Key_CursorUp)){
    3A95 21 00 01      [10]  136 	ld	hl,#0x0100
-   3A98 CD 1D 7A      [17]  137 	call	_cpct_isKeyPressed
+   3A98 CD 3F 79      [17]  137 	call	_cpct_isKeyPressed
    3A9B 7D            [ 4]  138 	ld	a,l
    3A9C B7            [ 4]  139 	or	a, a
    3A9D 28 06         [12]  140 	jr	Z,00107$
@@ -145,7 +145,7 @@
    3AA5                     145 00107$:
                             146 ;src/State_PauseMenu.c:33: else if(cpct_isKeyPressed(Key_CursorDown)){
    3AA5 21 00 04      [10]  147 	ld	hl,#0x0400
-   3AA8 CD 1D 7A      [17]  148 	call	_cpct_isKeyPressed
+   3AA8 CD 3F 79      [17]  148 	call	_cpct_isKeyPressed
    3AAB 7D            [ 4]  149 	ld	a,l
    3AAC B7            [ 4]  150 	or	a, a
    3AAD 28 06         [12]  151 	jr	Z,00104$
@@ -156,7 +156,7 @@
    3AB5                     156 00104$:
                             157 ;src/State_PauseMenu.c:37: else if(cpct_isKeyPressed(Key_Return)){
    3AB5 21 02 04      [10]  158 	ld	hl,#0x0402
-   3AB8 CD 1D 7A      [17]  159 	call	_cpct_isKeyPressed
+   3AB8 CD 3F 79      [17]  159 	call	_cpct_isKeyPressed
    3ABB 7D            [ 4]  160 	ld	a,l
    3ABC B7            [ 4]  161 	or	a, a
    3ABD C8            [11]  162 	ret	Z
@@ -250,7 +250,7 @@
    3B1B 33            [ 6]  250 	inc	sp
    3B1C 21 07 E1      [10]  251 	ld	hl,#0xE107
    3B1F E5            [11]  252 	push	hl
-   3B20 CD 70 7C      [17]  253 	call	_cpct_drawSolidBox
+   3B20 CD 92 7B      [17]  253 	call	_cpct_drawSolidBox
    3B23 F1            [10]  254 	pop	af
    3B24 F1            [10]  255 	pop	af
    3B25 33            [ 6]  256 	inc	sp

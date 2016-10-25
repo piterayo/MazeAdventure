@@ -49,13 +49,13 @@ void dec_main_bg(){
         --length;
     }
     
-    cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+4000),MANUALLY_ALLOCATED_MEMORY_START,4000);
-    cpct_hflipSpriteM0 (40, 100, (MANUALLY_ALLOCATED_MEMORY_START+4000));
+    cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+(40*83)),MANUALLY_ALLOCATED_MEMORY_START,(40*83));
+    cpct_hflipSpriteM0 (40, 83, (MANUALLY_ALLOCATED_MEMORY_START+(40*83)));
 }
 
 void draw_main_bg(){
-    cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 100),40,100);
-    cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+4000), cpctm_screenPtr(CPCT_VMEM_START, 40, 100), 40, 100);
+    cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 200-83),40,83);
+    cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+(40*83)), cpctm_screenPtr(CPCT_VMEM_START, 40, 200-83), 40, 83);
 }
 
 void state_mainmenu_enter(){

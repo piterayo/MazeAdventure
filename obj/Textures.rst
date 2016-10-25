@@ -123,21 +123,21 @@
    4158 DD E1         [14]  123 	pop	ix
    415A C9            [10]  124 	ret
    415B                     125 _theme_textures:
-   415B 3B 5C               126 	.dw _level0_walls
-   415D F8 61               127 	.dw _level1_walls
-   415F 4D 6A               128 	.dw _level2_walls
-   4161 7B 72               129 	.dw _level3_walls
+   415B 5D 5B               126 	.dw _level0_walls
+   415D 1A 61               127 	.dw _level1_walls
+   415F 6F 69               128 	.dw _level2_walls
+   4161 9D 71               129 	.dw _level3_walls
    4163                     130 _theme_textures_length:
    4163 BD 05               131 	.dw #0x05BD
    4165 55 08               132 	.dw #0x0855
    4167 2E 08               133 	.dw #0x082E
    4169 F7 06               134 	.dw #0x06F7
    416B                     135 _enemy_textures:
-   416B D8 58               136 	.dw _level0_enemies
-   416D 5C 59               137 	.dw _level1_enemies
-   416F 07 5A               138 	.dw _level2_enemies
-   4171 82 5A               139 	.dw _level3_enemies
-   4173 20 58               140 	.dw _king_enemy
+   416B FA 57               136 	.dw _level0_enemies
+   416D 7E 58               137 	.dw _level1_enemies
+   416F 29 59               138 	.dw _level2_enemies
+   4171 A4 59               139 	.dw _level3_enemies
+   4173 42 57               140 	.dw _king_enemy
    4175                     141 _enemy_textures_length:
    4175 84 00               142 	.dw #0x0084
    4177 AB 00               143 	.dw #0x00AB
@@ -187,13 +187,13 @@
    41B0 DD 21 00 00   [14]  187 	ld	ix,#0
    41B4 DD 39         [15]  188 	add	ix,sp
                             189 ;src/Textures.c:62: if(camelot_warriors_mode){
-   41B6 3A 1A 7E      [13]  190 	ld	a,(#_camelot_warriors_mode + 0)
+   41B6 3A 3C 7D      [13]  190 	ld	a,(#_camelot_warriors_mode + 0)
    41B9 B7            [ 4]  191 	or	a, a
    41BA 28 2A         [12]  192 	jr	Z,00102$
                             193 ;src/Textures.c:63: uncompress_texture_rle((u8*)UNCOMPRESSED_RAT_TEXTURE,camelot_enemy,camelot_enemy_LENGTH);
    41BC 21 7B 00      [10]  194 	ld	hl,#0x007B
    41BF E5            [11]  195 	push	hl
-   41C0 21 A5 57      [10]  196 	ld	hl,#_camelot_enemy
+   41C0 21 C7 56      [10]  196 	ld	hl,#_camelot_enemy
    41C3 E5            [11]  197 	push	hl
    41C4 21 D0 A0      [10]  198 	ld	hl,#0xA0D0
    41C7 E5            [11]  199 	push	hl
@@ -204,7 +204,7 @@
                             204 ;src/Textures.c:64: uncompress_texture_rle((u8*)UNCOMPRESSED_ENEMY_TEXTURE,camelot_enemy,camelot_enemy_LENGTH);
    41D0 21 7B 00      [10]  205 	ld	hl,#0x007B
    41D3 E5            [11]  206 	push	hl
-   41D4 21 A5 57      [10]  207 	ld	hl,#_camelot_enemy
+   41D4 21 C7 56      [10]  207 	ld	hl,#_camelot_enemy
    41D7 E5            [11]  208 	push	hl
    41D8 21 10 A3      [10]  209 	ld	hl,#0xA310
    41DB E5            [11]  210 	push	hl
@@ -217,7 +217,7 @@
                             217 ;src/Textures.c:67: uncompress_texture_rle((u8*)UNCOMPRESSED_RAT_TEXTURE,rat_enemy,rat_enemy_LENGTH);
    41E6 21 6C 00      [10]  218 	ld	hl,#0x006C
    41E9 E5            [11]  219 	push	hl
-   41EA 21 39 5B      [10]  220 	ld	hl,#_rat_enemy
+   41EA 21 5B 5A      [10]  220 	ld	hl,#_rat_enemy
    41ED E5            [11]  221 	push	hl
    41EE 21 D0 A0      [10]  222 	ld	hl,#0xA0D0
    41F1 E5            [11]  223 	push	hl

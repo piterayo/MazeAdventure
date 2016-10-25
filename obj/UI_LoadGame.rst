@@ -34,12 +34,12 @@
                              34 ; ram data
                              35 ;--------------------------------------------------------
                              36 	.area _DATA
-   7E88                      37 _ui_loadgame_lastEntry::
-   7E88                      38 	.ds 1
-   7E89                      39 _ui_loadgame_entryIndex::
-   7E89                      40 	.ds 1
-   7E8A                      41 _ui_loadgame_entrySelected::
-   7E8A                      42 	.ds 1
+   7DAA                      37 _ui_loadgame_lastEntry::
+   7DAA                      38 	.ds 1
+   7DAB                      39 _ui_loadgame_entryIndex::
+   7DAB                      40 	.ds 1
+   7DAC                      41 _ui_loadgame_entrySelected::
+   7DAC                      42 	.ds 1
                              43 ;--------------------------------------------------------
                              44 ; ram data
                              45 ;--------------------------------------------------------
@@ -70,13 +70,13 @@
                              70 ; ---------------------------------
    4606                      71 _ui_loadgame_init::
                              72 ;src/UI_LoadGame.c:49: ui_loadgame_lastEntry=0;
-   4606 21 88 7E      [10]   73 	ld	hl,#_ui_loadgame_lastEntry + 0
+   4606 21 AA 7D      [10]   73 	ld	hl,#_ui_loadgame_lastEntry + 0
    4609 36 00         [10]   74 	ld	(hl), #0x00
                              75 ;src/UI_LoadGame.c:50: ui_loadgame_entryIndex=0;
-   460B 21 89 7E      [10]   76 	ld	hl,#_ui_loadgame_entryIndex + 0
+   460B 21 AB 7D      [10]   76 	ld	hl,#_ui_loadgame_entryIndex + 0
    460E 36 00         [10]   77 	ld	(hl), #0x00
                              78 ;src/UI_LoadGame.c:51: ui_loadgame_entrySelected=0;
-   4610 21 8A 7E      [10]   79 	ld	hl,#_ui_loadgame_entrySelected + 0
+   4610 21 AC 7D      [10]   79 	ld	hl,#_ui_loadgame_entrySelected + 0
    4613 36 00         [10]   80 	ld	(hl), #0x00
    4615 C9            [10]   81 	ret
    4616                      82 _ui_loadgame_entriesPosition:
@@ -100,7 +100,7 @@
                             100 ; ---------------------------------
    462C                     101 _ui_loadgame_get_entry::
                             102 ;src/UI_LoadGame.c:56: return ui_loadgame_entryIndex;
-   462C FD 21 89 7E   [14]  103 	ld	iy,#_ui_loadgame_entryIndex
+   462C FD 21 AB 7D   [14]  103 	ld	iy,#_ui_loadgame_entryIndex
    4630 FD 6E 00      [19]  104 	ld	l,0 (iy)
    4633 C9            [10]  105 	ret
                             106 ;src/UI_LoadGame.c:59: u8 ui_loadgame_is_selected(){
@@ -109,7 +109,7 @@
                             109 ; ---------------------------------
    4634                     110 _ui_loadgame_is_selected::
                             111 ;src/UI_LoadGame.c:60: return ui_loadgame_entrySelected;
-   4634 FD 21 8A 7E   [14]  112 	ld	iy,#_ui_loadgame_entrySelected
+   4634 FD 21 AC 7D   [14]  112 	ld	iy,#_ui_loadgame_entrySelected
    4638 FD 6E 00      [19]  113 	ld	l,0 (iy)
    463B C9            [10]  114 	ret
                             115 ;src/UI_LoadGame.c:63: void ui_loadgame_next_entry(){
@@ -118,16 +118,16 @@
                             118 ; ---------------------------------
    463C                     119 _ui_loadgame_next_entry::
                             120 ;src/UI_LoadGame.c:64: if(ui_loadgame_entryIndex<(UI_LOADGAME_ENTRIES-1)){
-   463C 3A 89 7E      [13]  121 	ld	a,(#_ui_loadgame_entryIndex + 0)
+   463C 3A AB 7D      [13]  121 	ld	a,(#_ui_loadgame_entryIndex + 0)
    463F EE 80         [ 7]  122 	xor	a, #0x80
    4641 D6 81         [ 7]  123 	sub	a, #0x81
    4643 D0            [11]  124 	ret	NC
                             125 ;src/UI_LoadGame.c:65: ui_loadgame_lastEntry=ui_loadgame_entryIndex;
-   4644 3A 89 7E      [13]  126 	ld	a,(#_ui_loadgame_entryIndex + 0)
-   4647 21 88 7E      [10]  127 	ld	hl,#_ui_loadgame_lastEntry + 0
+   4644 3A AB 7D      [13]  126 	ld	a,(#_ui_loadgame_entryIndex + 0)
+   4647 21 AA 7D      [10]  127 	ld	hl,#_ui_loadgame_lastEntry + 0
    464A 77            [ 7]  128 	ld	(hl), a
                             129 ;src/UI_LoadGame.c:66: ++ui_loadgame_entryIndex;
-   464B 21 89 7E      [10]  130 	ld	hl, #_ui_loadgame_entryIndex+0
+   464B 21 AB 7D      [10]  130 	ld	hl, #_ui_loadgame_entryIndex+0
    464E 34            [11]  131 	inc	(hl)
    464F C9            [10]  132 	ret
                             133 ;src/UI_LoadGame.c:70: void ui_loadgame_previous_entry(){
@@ -136,15 +136,15 @@
                             136 ; ---------------------------------
    4650                     137 _ui_loadgame_previous_entry::
                             138 ;src/UI_LoadGame.c:71: if(ui_loadgame_entryIndex>0){
-   4650 3A 89 7E      [13]  139 	ld	a,(#_ui_loadgame_entryIndex + 0)
+   4650 3A AB 7D      [13]  139 	ld	a,(#_ui_loadgame_entryIndex + 0)
    4653 B7            [ 4]  140 	or	a, a
    4654 C8            [11]  141 	ret	Z
                             142 ;src/UI_LoadGame.c:72: ui_loadgame_lastEntry=ui_loadgame_entryIndex;
-   4655 3A 89 7E      [13]  143 	ld	a,(#_ui_loadgame_entryIndex + 0)
-   4658 21 88 7E      [10]  144 	ld	hl,#_ui_loadgame_lastEntry + 0
+   4655 3A AB 7D      [13]  143 	ld	a,(#_ui_loadgame_entryIndex + 0)
+   4658 21 AA 7D      [10]  144 	ld	hl,#_ui_loadgame_lastEntry + 0
    465B 77            [ 7]  145 	ld	(hl), a
                             146 ;src/UI_LoadGame.c:73: --ui_loadgame_entryIndex;
-   465C 21 89 7E      [10]  147 	ld	hl, #_ui_loadgame_entryIndex+0
+   465C 21 AB 7D      [10]  147 	ld	hl, #_ui_loadgame_entryIndex+0
    465F 35            [11]  148 	dec	(hl)
    4660 C9            [10]  149 	ret
                             150 ;src/UI_LoadGame.c:78: void ui_loadgame_select_entry(){
@@ -153,7 +153,7 @@
                             153 ; ---------------------------------
    4661                     154 _ui_loadgame_select_entry::
                             155 ;src/UI_LoadGame.c:79: ui_loadgame_entrySelected=1;
-   4661 21 8A 7E      [10]  156 	ld	hl,#_ui_loadgame_entrySelected + 0
+   4661 21 AC 7D      [10]  156 	ld	hl,#_ui_loadgame_entrySelected + 0
    4664 36 01         [10]  157 	ld	(hl), #0x01
    4666 C9            [10]  158 	ret
                             159 ;src/UI_LoadGame.c:82: void ui_loadgame_unselect_entry(){
@@ -162,7 +162,7 @@
                             162 ; ---------------------------------
    4667                     163 _ui_loadgame_unselect_entry::
                             164 ;src/UI_LoadGame.c:83: ui_loadgame_entrySelected=0;
-   4667 21 8A 7E      [10]  165 	ld	hl,#_ui_loadgame_entrySelected + 0
+   4667 21 AC 7D      [10]  165 	ld	hl,#_ui_loadgame_entrySelected + 0
    466A 36 00         [10]  166 	ld	(hl), #0x00
    466C C9            [10]  167 	ret
                             168 ;src/UI_LoadGame.c:86: void ui_loadgame_render_button(u8 n){
@@ -176,10 +176,10 @@
    4675 3B            [ 6]  176 	dec	sp
                             177 ;src/UI_LoadGame.c:88: color = (n==ui_loadgame_entryIndex)?((ui_loadgame_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
    4676 DD 7E 04      [19]  178 	ld	a,4 (ix)
-   4679 FD 21 89 7E   [14]  179 	ld	iy,#_ui_loadgame_entryIndex
+   4679 FD 21 AB 7D   [14]  179 	ld	iy,#_ui_loadgame_entryIndex
    467D FD 96 00      [19]  180 	sub	a, 0 (iy)
    4680 20 10         [12]  181 	jr	NZ,00103$
-   4682 3A 8A 7E      [13]  182 	ld	a,(#_ui_loadgame_entrySelected + 0)
+   4682 3A AC 7D      [13]  182 	ld	a,(#_ui_loadgame_entrySelected + 0)
    4685 B7            [ 4]  183 	or	a, a
    4686 28 05         [12]  184 	jr	Z,00105$
    4688 3A 6A 1A      [13]  185 	ld	a, (#(_g_colors + 0x0004) + 0)
@@ -209,7 +209,7 @@
    46AF F5            [11]  209 	push	af
    46B0 33            [ 6]  210 	inc	sp
    46B1 D5            [11]  211 	push	de
-   46B2 CD 70 7C      [17]  212 	call	_cpct_drawSolidBox
+   46B2 CD 92 7B      [17]  212 	call	_cpct_drawSolidBox
    46B5 F1            [10]  213 	pop	af
    46B6 F1            [10]  214 	pop	af
    46B7 33            [ 6]  215 	inc	sp
@@ -251,7 +251,7 @@
    46E0 33            [ 6]  251 	inc	sp
    46E1 21 86 DB      [10]  252 	ld	hl,#0xDB86
    46E4 E5            [11]  253 	push	hl
-   46E5 CD 70 7C      [17]  254 	call	_cpct_drawSolidBox
+   46E5 CD 92 7B      [17]  254 	call	_cpct_drawSolidBox
    46E8 F1            [10]  255 	pop	af
    46E9 F1            [10]  256 	pop	af
    46EA 33            [ 6]  257 	inc	sp
@@ -286,8 +286,8 @@
    4710 18 F1         [12]  286 	jr	00101$
    4712                     287 00103$:
                             288 ;src/UI_LoadGame.c:105: ui_loadgame_lastEntry=ui_loadgame_entryIndex;
-   4712 3A 89 7E      [13]  289 	ld	a,(#_ui_loadgame_entryIndex + 0)
-   4715 32 88 7E      [13]  290 	ld	(#_ui_loadgame_lastEntry + 0),a
+   4712 3A AB 7D      [13]  289 	ld	a,(#_ui_loadgame_entryIndex + 0)
+   4715 32 AA 7D      [13]  290 	ld	(#_ui_loadgame_lastEntry + 0),a
    4718 C9            [10]  291 	ret
                             292 	.area _CODE
                             293 	.area _INITIALIZER

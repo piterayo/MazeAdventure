@@ -80,22 +80,22 @@ _dec_main_bg::
 ;src/State_MainMenu.c:29: newPos=0;
 	ld	-9 (ix),#0x00
 ;src/State_MainMenu.c:30: texture_set = menu_bg;
-	ld	-8 (ix),#<(_menu_bg)
-	ld	-7 (ix),#>(_menu_bg)
+	ld	-2 (ix),#<(_menu_bg)
+	ld	-1 (ix),#>(_menu_bg)
 ;src/State_MainMenu.c:32: position=MANUALLY_ALLOCATED_MEMORY_START;
 	ld	bc,#0x88D0
 ;src/State_MainMenu.c:33: *position=0;
 	ld	hl,#0x88D0
 	ld	(hl),#0x00
 ;src/State_MainMenu.c:36: while(length){
-	ld	de,#0x06CF
+	ld	de,#0x05F1
 00106$:
 	ld	a,d
 	or	a,e
 	jp	Z,00108$
 ;src/State_MainMenu.c:37: value = g_colors[(*texture_set)&0x0F];
-	ld	l,-8 (ix)
-	ld	h,-7 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	a,(hl)
 	ld	-5 (ix), a
 	and	a, #0x0F
@@ -120,7 +120,7 @@ _dec_main_bg::
 	ld	-4 (ix),a
 	ld	a,l
 	and	a, #0x55
-	ld	-2 (ix),a
+	ld	-3 (ix),a
 	ld	a,-9 (ix)
 	ld	-6 (ix),a
 00103$:
@@ -131,21 +131,21 @@ _dec_main_bg::
 	push	bc
 	pop	iy
 	ld	a,(bc)
-	ld	-3 (ix),a
+	ld	-8 (ix),a
 	ld	a,-6 (ix)
 	and	a, #0x01
-	ld	-1 (ix), a
+	ld	-7 (ix), a
 	or	a, a
 	jr	Z,00111$
-	ld	a,-2 (ix)
+	ld	a,-3 (ix)
 	jr	00112$
 00111$:
 	ld	a,-4 (ix)
 00112$:
-	or	a, -3 (ix)
+	or	a, -8 (ix)
 	ld	0 (iy), a
 ;src/State_MainMenu.c:41: if(newPos&1){
-	ld	a,-1 (ix)
+	ld	a,-7 (ix)
 	or	a, a
 	jr	Z,00102$
 ;src/State_MainMenu.c:42: ++position;
@@ -163,26 +163,26 @@ _dec_main_bg::
 	ld	a,-6 (ix)
 	ld	-9 (ix),a
 ;src/State_MainMenu.c:48: ++texture_set;
-	inc	-8 (ix)
+	inc	-2 (ix)
 	jr	NZ,00139$
-	inc	-7 (ix)
+	inc	-1 (ix)
 00139$:
 ;src/State_MainMenu.c:49: --length;
 	dec	de
 	jp	00106$
 00108$:
-;src/State_MainMenu.c:52: cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+4000),MANUALLY_ALLOCATED_MEMORY_START,4000);
-	ld	hl,#0x0FA0
+;src/State_MainMenu.c:52: cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+(40*83)),MANUALLY_ALLOCATED_MEMORY_START,(40*83));
+	ld	hl,#0x0CF8
 	push	hl
 	ld	hl,#0x88D0
 	push	hl
-	ld	hl,#0x9870
+	ld	hl,#0x95C8
 	push	hl
 	call	_cpct_memcpy
-;src/State_MainMenu.c:53: cpct_hflipSpriteM0 (40, 100, (MANUALLY_ALLOCATED_MEMORY_START+4000));
-	ld	hl,#0x9870
+;src/State_MainMenu.c:53: cpct_hflipSpriteM0 (40, 83, (MANUALLY_ALLOCATED_MEMORY_START+(40*83)));
+	ld	hl,#0x95C8
 	push	hl
-	ld	hl,#0x6428
+	ld	hl,#0x5328
 	push	hl
 	call	_cpct_hflipSpriteM0
 	ld	sp, ix
@@ -193,20 +193,20 @@ _dec_main_bg::
 ; Function draw_main_bg
 ; ---------------------------------
 _draw_main_bg::
-;src/State_MainMenu.c:57: cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 100),40,100);
-	ld	hl,#0x6428
+;src/State_MainMenu.c:57: cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 200-83),40,83);
+	ld	hl,#0x5328
 	push	hl
-	ld	hl,#0xE3C0
+	ld	hl,#0xEC60
 	push	hl
 	ld	hl,#0x88D0
 	push	hl
 	call	_cpct_drawSprite
-;src/State_MainMenu.c:58: cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+4000), cpctm_screenPtr(CPCT_VMEM_START, 40, 100), 40, 100);
-	ld	hl,#0x6428
+;src/State_MainMenu.c:58: cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+(40*83)), cpctm_screenPtr(CPCT_VMEM_START, 40, 200-83), 40, 83);
+	ld	hl,#0x5328
 	push	hl
-	ld	hl,#0xE3E8
+	ld	hl,#0xEC88
 	push	hl
-	ld	hl,#0x9870
+	ld	hl,#0x95C8
 	push	hl
 	call	_cpct_drawSprite
 	ret

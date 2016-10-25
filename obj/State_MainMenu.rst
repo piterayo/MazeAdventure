@@ -80,22 +80,22 @@
                              80 ;src/State_MainMenu.c:29: newPos=0;
    359B DD 36 F7 00   [19]   81 	ld	-9 (ix),#0x00
                              82 ;src/State_MainMenu.c:30: texture_set = menu_bg;
-   359F DD 36 F8 D6   [19]   83 	ld	-8 (ix),#<(_menu_bg)
-   35A3 DD 36 F9 50   [19]   84 	ld	-7 (ix),#>(_menu_bg)
+   359F DD 36 FE D6   [19]   83 	ld	-2 (ix),#<(_menu_bg)
+   35A3 DD 36 FF 50   [19]   84 	ld	-1 (ix),#>(_menu_bg)
                              85 ;src/State_MainMenu.c:32: position=MANUALLY_ALLOCATED_MEMORY_START;
    35A7 01 D0 88      [10]   86 	ld	bc,#0x88D0
                              87 ;src/State_MainMenu.c:33: *position=0;
    35AA 21 D0 88      [10]   88 	ld	hl,#0x88D0
    35AD 36 00         [10]   89 	ld	(hl),#0x00
                              90 ;src/State_MainMenu.c:36: while(length){
-   35AF 11 CF 06      [10]   91 	ld	de,#0x06CF
+   35AF 11 F1 05      [10]   91 	ld	de,#0x05F1
    35B2                      92 00106$:
    35B2 7A            [ 4]   93 	ld	a,d
    35B3 B3            [ 4]   94 	or	a,e
    35B4 CA 34 36      [10]   95 	jp	Z,00108$
                              96 ;src/State_MainMenu.c:37: value = g_colors[(*texture_set)&0x0F];
-   35B7 DD 6E F8      [19]   97 	ld	l,-8 (ix)
-   35BA DD 66 F9      [19]   98 	ld	h,-7 (ix)
+   35B7 DD 6E FE      [19]   97 	ld	l,-2 (ix)
+   35BA DD 66 FF      [19]   98 	ld	h,-1 (ix)
    35BD 7E            [ 7]   99 	ld	a,(hl)
    35BE DD 77 FB      [19]  100 	ld	-5 (ix), a
    35C1 E6 0F         [ 7]  101 	and	a, #0x0F
@@ -120,7 +120,7 @@
    35DC DD 77 FC      [19]  120 	ld	-4 (ix),a
    35DF 7D            [ 4]  121 	ld	a,l
    35E0 E6 55         [ 7]  122 	and	a, #0x55
-   35E2 DD 77 FE      [19]  123 	ld	-2 (ix),a
+   35E2 DD 77 FD      [19]  123 	ld	-3 (ix),a
    35E5 DD 7E F7      [19]  124 	ld	a,-9 (ix)
    35E8 DD 77 FA      [19]  125 	ld	-6 (ix),a
    35EB                     126 00103$:
@@ -131,21 +131,21 @@
    35F1 C5            [11]  131 	push	bc
    35F2 FD E1         [14]  132 	pop	iy
    35F4 0A            [ 7]  133 	ld	a,(bc)
-   35F5 DD 77 FD      [19]  134 	ld	-3 (ix),a
+   35F5 DD 77 F8      [19]  134 	ld	-8 (ix),a
    35F8 DD 7E FA      [19]  135 	ld	a,-6 (ix)
    35FB E6 01         [ 7]  136 	and	a, #0x01
-   35FD DD 77 FF      [19]  137 	ld	-1 (ix), a
+   35FD DD 77 F9      [19]  137 	ld	-7 (ix), a
    3600 B7            [ 4]  138 	or	a, a
    3601 28 05         [12]  139 	jr	Z,00111$
-   3603 DD 7E FE      [19]  140 	ld	a,-2 (ix)
+   3603 DD 7E FD      [19]  140 	ld	a,-3 (ix)
    3606 18 03         [12]  141 	jr	00112$
    3608                     142 00111$:
    3608 DD 7E FC      [19]  143 	ld	a,-4 (ix)
    360B                     144 00112$:
-   360B DD B6 FD      [19]  145 	or	a, -3 (ix)
+   360B DD B6 F8      [19]  145 	or	a, -8 (ix)
    360E FD 77 00      [19]  146 	ld	0 (iy), a
                             147 ;src/State_MainMenu.c:41: if(newPos&1){
-   3611 DD 7E FF      [19]  148 	ld	a,-1 (ix)
+   3611 DD 7E F9      [19]  148 	ld	a,-7 (ix)
    3614 B7            [ 4]  149 	or	a, a
    3615 28 03         [12]  150 	jr	Z,00102$
                             151 ;src/State_MainMenu.c:42: ++position;
@@ -163,28 +163,28 @@
    3622 DD 7E FA      [19]  163 	ld	a,-6 (ix)
    3625 DD 77 F7      [19]  164 	ld	-9 (ix),a
                             165 ;src/State_MainMenu.c:48: ++texture_set;
-   3628 DD 34 F8      [23]  166 	inc	-8 (ix)
+   3628 DD 34 FE      [23]  166 	inc	-2 (ix)
    362B 20 03         [12]  167 	jr	NZ,00139$
-   362D DD 34 F9      [23]  168 	inc	-7 (ix)
+   362D DD 34 FF      [23]  168 	inc	-1 (ix)
    3630                     169 00139$:
                             170 ;src/State_MainMenu.c:49: --length;
    3630 1B            [ 6]  171 	dec	de
    3631 C3 B2 35      [10]  172 	jp	00106$
    3634                     173 00108$:
-                            174 ;src/State_MainMenu.c:52: cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+4000),MANUALLY_ALLOCATED_MEMORY_START,4000);
-   3634 21 A0 0F      [10]  175 	ld	hl,#0x0FA0
+                            174 ;src/State_MainMenu.c:52: cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+(40*83)),MANUALLY_ALLOCATED_MEMORY_START,(40*83));
+   3634 21 F8 0C      [10]  175 	ld	hl,#0x0CF8
    3637 E5            [11]  176 	push	hl
    3638 21 D0 88      [10]  177 	ld	hl,#0x88D0
    363B E5            [11]  178 	push	hl
-   363C 21 70 98      [10]  179 	ld	hl,#0x9870
+   363C 21 C8 95      [10]  179 	ld	hl,#0x95C8
    363F E5            [11]  180 	push	hl
-   3640 CD 4A 7C      [17]  181 	call	_cpct_memcpy
-                            182 ;src/State_MainMenu.c:53: cpct_hflipSpriteM0 (40, 100, (MANUALLY_ALLOCATED_MEMORY_START+4000));
-   3643 21 70 98      [10]  183 	ld	hl,#0x9870
+   3640 CD 6C 7B      [17]  181 	call	_cpct_memcpy
+                            182 ;src/State_MainMenu.c:53: cpct_hflipSpriteM0 (40, 83, (MANUALLY_ALLOCATED_MEMORY_START+(40*83)));
+   3643 21 C8 95      [10]  183 	ld	hl,#0x95C8
    3646 E5            [11]  184 	push	hl
-   3647 21 28 64      [10]  185 	ld	hl,#0x6428
+   3647 21 28 53      [10]  185 	ld	hl,#0x5328
    364A E5            [11]  186 	push	hl
-   364B CD D5 7B      [17]  187 	call	_cpct_hflipSpriteM0
+   364B CD F7 7A      [17]  187 	call	_cpct_hflipSpriteM0
    364E DD F9         [10]  188 	ld	sp, ix
    3650 DD E1         [14]  189 	pop	ix
    3652 C9            [10]  190 	ret
@@ -193,22 +193,22 @@
                             193 ; Function draw_main_bg
                             194 ; ---------------------------------
    3653                     195 _draw_main_bg::
-                            196 ;src/State_MainMenu.c:57: cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 100),40,100);
-   3653 21 28 64      [10]  197 	ld	hl,#0x6428
+                            196 ;src/State_MainMenu.c:57: cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 200-83),40,83);
+   3653 21 28 53      [10]  197 	ld	hl,#0x5328
    3656 E5            [11]  198 	push	hl
-   3657 21 C0 E3      [10]  199 	ld	hl,#0xE3C0
+   3657 21 60 EC      [10]  199 	ld	hl,#0xEC60
    365A E5            [11]  200 	push	hl
    365B 21 D0 88      [10]  201 	ld	hl,#0x88D0
    365E E5            [11]  202 	push	hl
-   365F CD 4C 7A      [17]  203 	call	_cpct_drawSprite
-                            204 ;src/State_MainMenu.c:58: cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+4000), cpctm_screenPtr(CPCT_VMEM_START, 40, 100), 40, 100);
-   3662 21 28 64      [10]  205 	ld	hl,#0x6428
+   365F CD 6E 79      [17]  203 	call	_cpct_drawSprite
+                            204 ;src/State_MainMenu.c:58: cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+(40*83)), cpctm_screenPtr(CPCT_VMEM_START, 40, 200-83), 40, 83);
+   3662 21 28 53      [10]  205 	ld	hl,#0x5328
    3665 E5            [11]  206 	push	hl
-   3666 21 E8 E3      [10]  207 	ld	hl,#0xE3E8
+   3666 21 88 EC      [10]  207 	ld	hl,#0xEC88
    3669 E5            [11]  208 	push	hl
-   366A 21 70 98      [10]  209 	ld	hl,#0x9870
+   366A 21 C8 95      [10]  209 	ld	hl,#0x95C8
    366D E5            [11]  210 	push	hl
-   366E CD 4C 7A      [17]  211 	call	_cpct_drawSprite
+   366E CD 6E 79      [17]  211 	call	_cpct_drawSprite
    3671 C9            [10]  212 	ret
                             213 ;src/State_MainMenu.c:61: void state_mainmenu_enter(){
                             214 ;	---------------------------------
@@ -224,7 +224,7 @@
    367B 33            [ 6]  224 	inc	sp
    367C 26 C0         [ 7]  225 	ld	h, #0xC0
    367E E5            [11]  226 	push	hl
-   367F CD 52 7C      [17]  227 	call	_cpct_memset
+   367F CD 74 7B      [17]  227 	call	_cpct_memset
                             228 ;src/State_MainMenu.c:64: setMenuPalette();
    3682 CD 1D 10      [17]  229 	call	_setMenuPalette
                             230 ;src/State_MainMenu.c:65: dec_main_bg();
@@ -232,7 +232,7 @@
                             232 ;src/State_MainMenu.c:66: draw_main_bg();
    3688 CD 53 36      [17]  233 	call	_draw_main_bg
                             234 ;src/State_MainMenu.c:67: camelot_warriors_mode=0;
-   368B 21 1A 7E      [10]  235 	ld	hl,#_camelot_warriors_mode + 0
+   368B 21 3C 7D      [10]  235 	ld	hl,#_camelot_warriors_mode + 0
    368E 36 00         [10]  236 	ld	(hl), #0x00
                             237 ;src/State_MainMenu.c:68: ui_mainmenu_init();
    3690 CD 19 48      [17]  238 	call	_ui_mainmenu_init
@@ -253,7 +253,7 @@
    36A0 33            [ 6]  253 	inc	sp
    36A1 26 C0         [ 7]  254 	ld	h, #0xC0
    36A3 E5            [11]  255 	push	hl
-   36A4 CD 52 7C      [17]  256 	call	_cpct_memset
+   36A4 CD 74 7B      [17]  256 	call	_cpct_memset
                             257 ;src/State_MainMenu.c:75: draw_main_bg();
    36A7 CD 53 36      [17]  258 	call	_draw_main_bg
                             259 ;src/State_MainMenu.c:76: ui_mainmenu_render_all();
@@ -266,7 +266,7 @@
    36AE                     266 _state_mainmenu_input::
                             267 ;src/State_MainMenu.c:80: if(cpct_isKeyPressed(Key_CursorUp)){
    36AE 21 00 01      [10]  268 	ld	hl,#0x0100
-   36B1 CD 1D 7A      [17]  269 	call	_cpct_isKeyPressed
+   36B1 CD 3F 79      [17]  269 	call	_cpct_isKeyPressed
    36B4 7D            [ 4]  270 	ld	a,l
    36B5 B7            [ 4]  271 	or	a, a
    36B6 28 06         [12]  272 	jr	Z,00107$
@@ -277,7 +277,7 @@
    36BE                     277 00107$:
                             278 ;src/State_MainMenu.c:84: else if(cpct_isKeyPressed(Key_CursorDown)){
    36BE 21 00 04      [10]  279 	ld	hl,#0x0400
-   36C1 CD 1D 7A      [17]  280 	call	_cpct_isKeyPressed
+   36C1 CD 3F 79      [17]  280 	call	_cpct_isKeyPressed
    36C4 7D            [ 4]  281 	ld	a,l
    36C5 B7            [ 4]  282 	or	a, a
    36C6 28 06         [12]  283 	jr	Z,00104$
@@ -288,7 +288,7 @@
    36CE                     288 00104$:
                             289 ;src/State_MainMenu.c:88: else if(cpct_isKeyPressed(Key_Return)){
    36CE 21 02 04      [10]  290 	ld	hl,#0x0402
-   36D1 CD 1D 7A      [17]  291 	call	_cpct_isKeyPressed
+   36D1 CD 3F 79      [17]  291 	call	_cpct_isKeyPressed
    36D4 7D            [ 4]  292 	ld	a,l
    36D5 B7            [ 4]  293 	or	a, a
    36D6 C8            [11]  294 	ret	Z
@@ -335,7 +335,7 @@
    3708 33            [ 6]  335 	inc	sp
                             336 ;src/State_MainMenu.c:100: level_seed=0;
    3709 21 00 00      [10]  337 	ld	hl,#0x0000
-   370C 22 6A 7E      [16]  338 	ld	(_level_seed),hl
+   370C 22 8C 7D      [16]  338 	ld	(_level_seed),hl
                             339 ;src/State_MainMenu.c:101: player_init();
    370F CD 08 18      [17]  340 	call	_player_init
                             341 ;src/State_MainMenu.c:102: statemanager_set_state(STATE_LOADLEVEL);

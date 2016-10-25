@@ -33,12 +33,12 @@
                              33 ; ram data
                              34 ;--------------------------------------------------------
                              35 	.area _DATA
-   7EE2                      36 _ui_pausemenu_lastEntry::
-   7EE2                      37 	.ds 1
-   7EE3                      38 _ui_pausemenu_entryIndex::
-   7EE3                      39 	.ds 1
-   7EE4                      40 _ui_pausemenu_entrySelected::
-   7EE4                      41 	.ds 1
+   7E04                      36 _ui_pausemenu_lastEntry::
+   7E04                      37 	.ds 1
+   7E05                      38 _ui_pausemenu_entryIndex::
+   7E05                      39 	.ds 1
+   7E06                      40 _ui_pausemenu_entrySelected::
+   7E06                      41 	.ds 1
                              42 ;--------------------------------------------------------
                              43 ; ram data
                              44 ;--------------------------------------------------------
@@ -69,13 +69,13 @@
                              69 ; ---------------------------------
    4A9E                      70 _ui_pausemenu_init::
                              71 ;src/UI_PauseMenu.c:56: ui_pausemenu_lastEntry=0;
-   4A9E 21 E2 7E      [10]   72 	ld	hl,#_ui_pausemenu_lastEntry + 0
+   4A9E 21 04 7E      [10]   72 	ld	hl,#_ui_pausemenu_lastEntry + 0
    4AA1 36 00         [10]   73 	ld	(hl), #0x00
                              74 ;src/UI_PauseMenu.c:57: ui_pausemenu_entryIndex=0;
-   4AA3 21 E3 7E      [10]   75 	ld	hl,#_ui_pausemenu_entryIndex + 0
+   4AA3 21 05 7E      [10]   75 	ld	hl,#_ui_pausemenu_entryIndex + 0
    4AA6 36 00         [10]   76 	ld	(hl), #0x00
                              77 ;src/UI_PauseMenu.c:58: ui_pausemenu_entrySelected=0;
-   4AA8 21 E4 7E      [10]   78 	ld	hl,#_ui_pausemenu_entrySelected + 0
+   4AA8 21 06 7E      [10]   78 	ld	hl,#_ui_pausemenu_entrySelected + 0
    4AAB 36 00         [10]   79 	ld	(hl), #0x00
    4AAD C9            [10]   80 	ret
    4AAE                      81 _ui_pausemenu_entriesPosition:
@@ -115,7 +115,7 @@
                             111 ; ---------------------------------
    4AEA                     112 _ui_pausemenu_get_entry::
                             113 ;src/UI_PauseMenu.c:62: return ui_pausemenu_entryIndex;
-   4AEA FD 21 E3 7E   [14]  114 	ld	iy,#_ui_pausemenu_entryIndex
+   4AEA FD 21 05 7E   [14]  114 	ld	iy,#_ui_pausemenu_entryIndex
    4AEE FD 6E 00      [19]  115 	ld	l,0 (iy)
    4AF1 C9            [10]  116 	ret
                             117 ;src/UI_PauseMenu.c:65: u8 ui_pausemenu_is_selected(){
@@ -124,7 +124,7 @@
                             120 ; ---------------------------------
    4AF2                     121 _ui_pausemenu_is_selected::
                             122 ;src/UI_PauseMenu.c:66: return ui_pausemenu_entrySelected;
-   4AF2 FD 21 E4 7E   [14]  123 	ld	iy,#_ui_pausemenu_entrySelected
+   4AF2 FD 21 06 7E   [14]  123 	ld	iy,#_ui_pausemenu_entrySelected
    4AF6 FD 6E 00      [19]  124 	ld	l,0 (iy)
    4AF9 C9            [10]  125 	ret
                             126 ;src/UI_PauseMenu.c:69: void ui_pausemenu_next_entry(){
@@ -134,12 +134,12 @@
    4AFA                     130 _ui_pausemenu_next_entry::
                             131 ;src/UI_PauseMenu.c:70: if(ui_pausemenu_entryIndex<(UI_PAUSEMENU_ENTRIES-1)){
                             132 ;src/UI_PauseMenu.c:71: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
-   4AFA 3A E3 7E      [13]  133 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   4AFA 3A 05 7E      [13]  133 	ld	a,(#_ui_pausemenu_entryIndex + 0)
    4AFD FE 03         [ 7]  134 	cp	a,#0x03
    4AFF D0            [11]  135 	ret	NC
-   4B00 32 E2 7E      [13]  136 	ld	(#_ui_pausemenu_lastEntry + 0),a
+   4B00 32 04 7E      [13]  136 	ld	(#_ui_pausemenu_lastEntry + 0),a
                             137 ;src/UI_PauseMenu.c:72: ++ui_pausemenu_entryIndex;
-   4B03 21 E3 7E      [10]  138 	ld	hl, #_ui_pausemenu_entryIndex+0
+   4B03 21 05 7E      [10]  138 	ld	hl, #_ui_pausemenu_entryIndex+0
    4B06 34            [11]  139 	inc	(hl)
    4B07 C9            [10]  140 	ret
                             141 ;src/UI_PauseMenu.c:76: void ui_pausemenu_previous_entry(){
@@ -148,14 +148,14 @@
                             144 ; ---------------------------------
    4B08                     145 _ui_pausemenu_previous_entry::
                             146 ;src/UI_PauseMenu.c:77: if(ui_pausemenu_entryIndex>0){
-   4B08 3A E3 7E      [13]  147 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   4B08 3A 05 7E      [13]  147 	ld	a,(#_ui_pausemenu_entryIndex + 0)
    4B0B B7            [ 4]  148 	or	a, a
    4B0C C8            [11]  149 	ret	Z
                             150 ;src/UI_PauseMenu.c:78: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
-   4B0D 3A E3 7E      [13]  151 	ld	a,(#_ui_pausemenu_entryIndex + 0)
-   4B10 32 E2 7E      [13]  152 	ld	(#_ui_pausemenu_lastEntry + 0),a
+   4B0D 3A 05 7E      [13]  151 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   4B10 32 04 7E      [13]  152 	ld	(#_ui_pausemenu_lastEntry + 0),a
                             153 ;src/UI_PauseMenu.c:79: --ui_pausemenu_entryIndex;
-   4B13 21 E3 7E      [10]  154 	ld	hl, #_ui_pausemenu_entryIndex+0
+   4B13 21 05 7E      [10]  154 	ld	hl, #_ui_pausemenu_entryIndex+0
    4B16 35            [11]  155 	dec	(hl)
    4B17 C9            [10]  156 	ret
                             157 ;src/UI_PauseMenu.c:83: void ui_pausemenu_select_entry(){
@@ -164,7 +164,7 @@
                             160 ; ---------------------------------
    4B18                     161 _ui_pausemenu_select_entry::
                             162 ;src/UI_PauseMenu.c:84: ui_pausemenu_entrySelected=1;
-   4B18 21 E4 7E      [10]  163 	ld	hl,#_ui_pausemenu_entrySelected + 0
+   4B18 21 06 7E      [10]  163 	ld	hl,#_ui_pausemenu_entrySelected + 0
    4B1B 36 01         [10]  164 	ld	(hl), #0x01
    4B1D C9            [10]  165 	ret
                             166 ;src/UI_PauseMenu.c:87: void ui_pausemenu_unselect_entry(){
@@ -173,7 +173,7 @@
                             169 ; ---------------------------------
    4B1E                     170 _ui_pausemenu_unselect_entry::
                             171 ;src/UI_PauseMenu.c:88: ui_pausemenu_entrySelected=0;
-   4B1E 21 E4 7E      [10]  172 	ld	hl,#_ui_pausemenu_entrySelected + 0
+   4B1E 21 06 7E      [10]  172 	ld	hl,#_ui_pausemenu_entrySelected + 0
    4B21 36 00         [10]  173 	ld	(hl), #0x00
    4B23 C9            [10]  174 	ret
                             175 ;src/UI_PauseMenu.c:91: void ui_pausemenu_render_button(u8 n){
@@ -187,10 +187,10 @@
    4B2C 3B            [ 6]  183 	dec	sp
                             184 ;src/UI_PauseMenu.c:93: color = (n==ui_pausemenu_entryIndex)?((ui_pausemenu_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
    4B2D DD 7E 04      [19]  185 	ld	a,4 (ix)
-   4B30 FD 21 E3 7E   [14]  186 	ld	iy,#_ui_pausemenu_entryIndex
+   4B30 FD 21 05 7E   [14]  186 	ld	iy,#_ui_pausemenu_entryIndex
    4B34 FD 96 00      [19]  187 	sub	a, 0 (iy)
    4B37 20 10         [12]  188 	jr	NZ,00103$
-   4B39 3A E4 7E      [13]  189 	ld	a,(#_ui_pausemenu_entrySelected + 0)
+   4B39 3A 06 7E      [13]  189 	ld	a,(#_ui_pausemenu_entrySelected + 0)
    4B3C B7            [ 4]  190 	or	a, a
    4B3D 28 05         [12]  191 	jr	Z,00105$
    4B3F 3A 6A 1A      [13]  192 	ld	a, (#(_g_colors + 0x0004) + 0)
@@ -220,7 +220,7 @@
    4B66 F5            [11]  216 	push	af
    4B67 33            [ 6]  217 	inc	sp
    4B68 D5            [11]  218 	push	de
-   4B69 CD 70 7C      [17]  219 	call	_cpct_drawSolidBox
+   4B69 CD 92 7B      [17]  219 	call	_cpct_drawSolidBox
    4B6C F1            [10]  220 	pop	af
    4B6D F1            [10]  221 	pop	af
    4B6E 33            [ 6]  222 	inc	sp
@@ -254,20 +254,20 @@
                             250 ; ---------------------------------
    4B8E                     251 _ui_pausemenu_render_refresh::
                             252 ;src/UI_PauseMenu.c:100: ui_pausemenu_render_button(ui_pausemenu_entryIndex);
-   4B8E 3A E3 7E      [13]  253 	ld	a,(_ui_pausemenu_entryIndex)
+   4B8E 3A 05 7E      [13]  253 	ld	a,(_ui_pausemenu_entryIndex)
    4B91 F5            [11]  254 	push	af
    4B92 33            [ 6]  255 	inc	sp
    4B93 CD 24 4B      [17]  256 	call	_ui_pausemenu_render_button
    4B96 33            [ 6]  257 	inc	sp
                             258 ;src/UI_PauseMenu.c:101: ui_pausemenu_render_button(ui_pausemenu_lastEntry);
-   4B97 3A E2 7E      [13]  259 	ld	a,(_ui_pausemenu_lastEntry)
+   4B97 3A 04 7E      [13]  259 	ld	a,(_ui_pausemenu_lastEntry)
    4B9A F5            [11]  260 	push	af
    4B9B 33            [ 6]  261 	inc	sp
    4B9C CD 24 4B      [17]  262 	call	_ui_pausemenu_render_button
    4B9F 33            [ 6]  263 	inc	sp
                             264 ;src/UI_PauseMenu.c:103: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
-   4BA0 3A E3 7E      [13]  265 	ld	a,(#_ui_pausemenu_entryIndex + 0)
-   4BA3 32 E2 7E      [13]  266 	ld	(#_ui_pausemenu_lastEntry + 0),a
+   4BA0 3A 05 7E      [13]  265 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   4BA3 32 04 7E      [13]  266 	ld	(#_ui_pausemenu_lastEntry + 0),a
    4BA6 C9            [10]  267 	ret
                             268 ;src/UI_PauseMenu.c:106: void ui_pausemenu_render_all(){
                             269 ;	---------------------------------
@@ -292,8 +292,8 @@
    4BB6 18 F1         [12]  288 	jr	00101$
    4BB8                     289 00103$:
                             290 ;src/UI_PauseMenu.c:115: ui_pausemenu_lastEntry=ui_pausemenu_entryIndex;
-   4BB8 3A E3 7E      [13]  291 	ld	a,(#_ui_pausemenu_entryIndex + 0)
-   4BBB 32 E2 7E      [13]  292 	ld	(#_ui_pausemenu_lastEntry + 0),a
+   4BB8 3A 05 7E      [13]  291 	ld	a,(#_ui_pausemenu_entryIndex + 0)
+   4BBB 32 04 7E      [13]  292 	ld	(#_ui_pausemenu_lastEntry + 0),a
    4BBE C9            [10]  293 	ret
                             294 	.area _CODE
                             295 	.area _INITIALIZER

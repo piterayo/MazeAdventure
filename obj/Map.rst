@@ -30,8 +30,8 @@
                              30 ; ram data
                              31 ;--------------------------------------------------------
                              32 	.area _DATA
-   7E41                      33 _rand_seed::
-   7E41                      34 	.ds 2
+   7D63                      33 _rand_seed::
+   7D63                      34 	.ds 2
                              35 ;--------------------------------------------------------
                              36 ; ram data
                              37 ;--------------------------------------------------------
@@ -62,7 +62,7 @@
                              62 ; ---------------------------------
    10A5                      63 _map_get_seed::
                              64 ;src/Map.c:15: return rand_seed;
-   10A5 2A 41 7E      [16]   65 	ld	hl,(_rand_seed)
+   10A5 2A 63 7D      [16]   65 	ld	hl,(_rand_seed)
    10A8 C9            [10]   66 	ret
                              67 ;src/Map.c:18: u8 get_random_wall(){
                              68 ;	---------------------------------
@@ -70,7 +70,7 @@
                              70 ; ---------------------------------
    10A9                      71 _get_random_wall::
                              72 ;src/Map.c:19: u8 cellType = cpct_getRandom_mxor_u8 ();
-   10A9 CD 4F 7B      [17]   73 	call	_cpct_getRandom_mxor_u8
+   10A9 CD 71 7A      [17]   73 	call	_cpct_getRandom_mxor_u8
                              74 ;src/Map.c:20: if(cellType&1){ //1,3,5,7
    10AC CB 45         [ 8]   75 	bit	0, l
    10AE 28 03         [12]   76 	jr	Z,00108$
@@ -166,7 +166,7 @@
    110A E5            [11]  166 	push	hl
    110B C5            [11]  167 	push	bc
    110C D5            [11]  168 	push	de
-   110D CD 4F 7B      [17]  169 	call	_cpct_getRandom_mxor_u8
+   110D CD 71 7A      [17]  169 	call	_cpct_getRandom_mxor_u8
    1110 7D            [ 4]  170 	ld	a,l
    1111 D1            [10]  171 	pop	de
    1112 C1            [10]  172 	pop	bc
@@ -184,7 +184,7 @@
    1121 19            [11]  184 	add	hl,de
    1122 E5            [11]  185 	push	hl
    1123 C5            [11]  186 	push	bc
-   1124 CD 4F 7B      [17]  187 	call	_cpct_getRandom_mxor_u8
+   1124 CD 71 7A      [17]  187 	call	_cpct_getRandom_mxor_u8
    1127 7D            [ 4]  188 	ld	a,l
    1128 C1            [10]  189 	pop	bc
    1129 E1            [10]  190 	pop	hl
@@ -250,37 +250,37 @@
    117F 33            [ 6]  250 	inc	sp
    1180 21 D0 8C      [10]  251 	ld	hl,#0x8CD0
    1183 E5            [11]  252 	push	hl
-   1184 CD 52 7C      [17]  253 	call	_cpct_memset
+   1184 CD 74 7B      [17]  253 	call	_cpct_memset
                             254 ;src/Map.c:85: (*cellStack).x = (cpct_getRandom_mxor_u8 ()%(MAP_WIDTH-2))+1; //RANDOM
-   1187 CD 4F 7B      [17]  255 	call	_cpct_getRandom_mxor_u8
+   1187 CD 71 7A      [17]  255 	call	_cpct_getRandom_mxor_u8
    118A 45            [ 4]  256 	ld	b,l
    118B 3E 1E         [ 7]  257 	ld	a,#0x1E
    118D F5            [11]  258 	push	af
    118E 33            [ 6]  259 	inc	sp
    118F C5            [11]  260 	push	bc
    1190 33            [ 6]  261 	inc	sp
-   1191 CD F1 7A      [17]  262 	call	__moduchar
+   1191 CD 13 7A      [17]  262 	call	__moduchar
    1194 F1            [10]  263 	pop	af
    1195 4D            [ 4]  264 	ld	c,l
    1196 0C            [ 4]  265 	inc	c
    1197 21 D0 8C      [10]  266 	ld	hl,#0x8CD0
    119A 71            [ 7]  267 	ld	(hl),c
                             268 ;src/Map.c:86: (*cellStack).y = (cpct_getRandom_mxor_u8 ()%(MAP_HEIGHT-2))+1; //RANDOM
-   119B CD 4F 7B      [17]  269 	call	_cpct_getRandom_mxor_u8
+   119B CD 71 7A      [17]  269 	call	_cpct_getRandom_mxor_u8
    119E 45            [ 4]  270 	ld	b,l
    119F 3E 1E         [ 7]  271 	ld	a,#0x1E
    11A1 F5            [11]  272 	push	af
    11A2 33            [ 6]  273 	inc	sp
    11A3 C5            [11]  274 	push	bc
    11A4 33            [ 6]  275 	inc	sp
-   11A5 CD F1 7A      [17]  276 	call	__moduchar
+   11A5 CD 13 7A      [17]  276 	call	__moduchar
    11A8 F1            [10]  277 	pop	af
    11A9 4D            [ 4]  278 	ld	c,l
    11AA 0C            [ 4]  279 	inc	c
    11AB 21 D1 8C      [10]  280 	ld	hl,#0x8CD1
    11AE 71            [ 7]  281 	ld	(hl),c
                             282 ;src/Map.c:88: rotatePlayer = cpct_getRandom_mxor_u8 ()%4;
-   11AF CD 4F 7B      [17]  283 	call	_cpct_getRandom_mxor_u8
+   11AF CD 71 7A      [17]  283 	call	_cpct_getRandom_mxor_u8
    11B2 7D            [ 4]  284 	ld	a,l
    11B3 E6 03         [ 7]  285 	and	a, #0x03
    11B5 4F            [ 4]  286 	ld	c,a
@@ -313,7 +313,7 @@
    11D7 33            [ 6]  313 	inc	sp
    11D8 21 D0 88      [10]  314 	ld	hl,#0x88D0
    11DB E5            [11]  315 	push	hl
-   11DC CD 52 7C      [17]  316 	call	_cpct_memset
+   11DC CD 74 7B      [17]  316 	call	_cpct_memset
                             317 ;src/Map.c:100: map[(*cellStack).x][(*cellStack).y] = CELLTYPE_FLOOR;
    11DF 21 D0 8C      [10]  318 	ld	hl,#0x8CD0
    11E2 6E            [ 7]  319 	ld	l,(hl)
@@ -740,7 +740,7 @@
    1466 D6 87         [ 7]  740 	sub	a, #0x87
    1468 20 47         [12]  741 	jr	NZ,00144$
                             742 ;src/Map.c:188: if(cpct_getRandom_mxor_u8 ()&1){//WALL
-   146A CD 4F 7B      [17]  743 	call	_cpct_getRandom_mxor_u8
+   146A CD 71 7A      [17]  743 	call	_cpct_getRandom_mxor_u8
    146D CB 45         [ 8]  744 	bit	0, l
    146F 28 06         [12]  745 	jr	Z,00141$
                             746 ;src/Map.c:189: cellType = get_random_wall();
@@ -1037,13 +1037,13 @@
    161B 39            [11] 1037 	add	hl,sp
    161C F9            [ 6] 1038 	ld	sp,hl
                            1039 ;src/Map.c:256: u8 x=(cpct_getRandom_mxor_u8 ()%32);
-   161D CD 4F 7B      [17] 1040 	call	_cpct_getRandom_mxor_u8
+   161D CD 71 7A      [17] 1040 	call	_cpct_getRandom_mxor_u8
    1620 7D            [ 4] 1041 	ld	a,l
    1621 E6 1F         [ 7] 1042 	and	a, #0x1F
    1623 4F            [ 4] 1043 	ld	c,a
                            1044 ;src/Map.c:257: u8 y=(cpct_getRandom_mxor_u8 ()%32);
    1624 C5            [11] 1045 	push	bc
-   1625 CD 4F 7B      [17] 1046 	call	_cpct_getRandom_mxor_u8
+   1625 CD 71 7A      [17] 1046 	call	_cpct_getRandom_mxor_u8
    1628 C1            [10] 1047 	pop	bc
    1629 7D            [ 4] 1048 	ld	a,l
    162A E6 1F         [ 7] 1049 	and	a, #0x1F
@@ -1303,7 +1303,7 @@
                            1303 ; ---------------------------------
    17C3                    1304 _generate_level::
                            1305 ;src/Map.c:315: generate_level_with_seed(r_counter);
-   17C3 2A 16 7E      [16] 1306 	ld	hl,(_r_counter)
+   17C3 2A 38 7D      [16] 1306 	ld	hl,(_r_counter)
    17C6 E5            [11] 1307 	push	hl
    17C7 CD CC 17      [17] 1308 	call	_generate_level_with_seed
    17CA F1            [10] 1309 	pop	af
@@ -1319,7 +1319,7 @@
                            1319 ;src/Map.c:320: rand_seed=seed;
    17D4 DD 4E 04      [19] 1320 	ld	c,4 (ix)
    17D7 DD 46 05      [19] 1321 	ld	b,5 (ix)
-   17DA ED 43 41 7E   [20] 1322 	ld	(_rand_seed),bc
+   17DA ED 43 63 7D   [20] 1322 	ld	(_rand_seed),bc
                            1323 ;src/Map.c:323: cpct_setSeed_mxor(((seed+level_get_level())&0xFFFE) + 1);
    17DE C5            [11] 1324 	push	bc
    17DF CD A7 0F      [17] 1325 	call	_level_get_level
@@ -1329,9 +1329,9 @@
    17E6 CB 85         [ 8] 1329 	res	0, l
    17E8 23            [ 6] 1330 	inc	hl
    17E9 11 00 00      [10] 1331 	ld	de,#0x0000
-   17EC CD 41 7B      [17] 1332 	call	_cpct_setSeed_mxor
+   17EC CD 63 7A      [17] 1332 	call	_cpct_setSeed_mxor
                            1333 ;src/Map.c:324: cpct_restoreState_mxor_u8();
-   17EF CD 49 7B      [17] 1334 	call	_cpct_restoreState_mxor_u8
+   17EF CD 6B 7A      [17] 1334 	call	_cpct_restoreState_mxor_u8
                            1335 ;src/Map.c:326: if(level_get_level()<KING_LEVEL){
    17F2 CD A7 0F      [17] 1336 	call	_level_get_level
    17F5 7D            [ 4] 1337 	ld	a,l

@@ -62,7 +62,7 @@
    4249 21 24 C0      [10]   62 	ld	hl,#0xC024
    424C E5            [11]   63 	push	hl
    424D C5            [11]   64 	push	bc
-   424E CD 4C 7A      [17]   65 	call	_cpct_drawSprite
+   424E CD 6E 79      [17]   65 	call	_cpct_drawSprite
    4251 C9            [10]   66 	ret
                              67 	.area _CODE
                              68 	.area _INITIALIZER

@@ -553,7 +553,7 @@
    1B82 E5            [11]  553 	push	hl
    1B83 21 00 10      [10]  554 	ld	hl,#0x1000
    1B86 E5            [11]  555 	push	hl
-   1B87 CD 29 7D      [17]  556 	call	__divsint
+   1B87 CD 4B 7C      [17]  556 	call	__divsint
    1B8A F1            [10]  557 	pop	af
    1B8B F1            [10]  558 	pop	af
    1B8C D1            [10]  559 	pop	de
@@ -751,7 +751,7 @@
    1CC1 D5            [11]  751 	push	de
    1CC2 21 00 18      [10]  752 	ld	hl,#0x1800
    1CC5 E5            [11]  753 	push	hl
-   1CC6 CD 29 7D      [17]  754 	call	__divsint
+   1CC6 CD 4B 7C      [17]  754 	call	__divsint
    1CC9 F1            [10]  755 	pop	af
    1CCA F1            [10]  756 	pop	af
    1CCB C1            [10]  757 	pop	bc
@@ -893,7 +893,7 @@
    1D98 E5            [11]  893 	push	hl
    1D99 21 00 20      [10]  894 	ld	hl,#0x2000
    1D9C E5            [11]  895 	push	hl
-   1D9D CD 29 7D      [17]  896 	call	__divsint
+   1D9D CD 4B 7C      [17]  896 	call	__divsint
    1DA0 F1            [10]  897 	pop	af
    1DA1 F1            [10]  898 	pop	af
    1DA2 DD 75 F8      [19]  899 	ld	-8 (ix),l
@@ -939,7 +939,7 @@
    1DF5 DD 66 F9      [19]  939 	ld	h,-7 (ix)
    1DF8 E5            [11]  940 	push	hl
    1DF9 C5            [11]  941 	push	bc
-   1DFA CD 25 7B      [17]  942 	call	__mulint
+   1DFA CD 47 7A      [17]  942 	call	__mulint
    1DFD F1            [10]  943 	pop	af
    1DFE F1            [10]  944 	pop	af
    1DFF 33            [ 6]  945 	inc	sp
@@ -1045,7 +1045,7 @@
    1E8F 33            [ 6] 1045 	inc	sp
    1E90 21 50 AA      [10] 1046 	ld	hl,#0xAA50
    1E93 E5            [11] 1047 	push	hl
-   1E94 CD 52 7C      [17] 1048 	call	_cpct_memset
+   1E94 CD 74 7B      [17] 1048 	call	_cpct_memset
                            1049 ;src/Renderer.c:453: cpct_memset(SCREEN_TEXTURE_HORIZON_WALL_START, g_colors[HORIZON_COLOR], SCREEN_TEXTURE_HORIZON_WALL_SIZE);
    1E97 21 67 1A      [10] 1050 	ld	hl, #_g_colors + 1
    1E9A 46            [ 7] 1051 	ld	b,(hl)
@@ -1055,7 +1055,7 @@
    1EA0 33            [ 6] 1055 	inc	sp
    1EA1 21 F8 B1      [10] 1056 	ld	hl,#0xB1F8
    1EA4 E5            [11] 1057 	push	hl
-   1EA5 CD 52 7C      [17] 1058 	call	_cpct_memset
+   1EA5 CD 74 7B      [17] 1058 	call	_cpct_memset
                            1059 ;src/Renderer.c:454: cpct_memset(SCREEN_TEXTURE_GROUND_START, g_colors[GROUND_COLOR], SCREEN_TEXTURE_GROUND_SKY_SIZE);
    1EA8 21 6E 1A      [10] 1060 	ld	hl, #_g_colors + 8
    1EAB 46            [ 7] 1061 	ld	b,(hl)
@@ -1065,7 +1065,7 @@
    1EB1 33            [ 6] 1065 	inc	sp
    1EB2 21 48 B2      [10] 1066 	ld	hl,#0xB248
    1EB5 E5            [11] 1067 	push	hl
-   1EB6 CD 52 7C      [17] 1068 	call	_cpct_memset
+   1EB6 CD 74 7B      [17] 1068 	call	_cpct_memset
                            1069 ;src/Renderer.c:456: calculate_cells_in_view();
    1EB9 CD A5 18      [17] 1070 	call	_calculate_cells_in_view
                            1071 ;src/Renderer.c:475: currentCellID = cells_in_view_array[lineStart + 1];
@@ -1073,7 +1073,7 @@
    1EBF DD 75 E7      [19] 1073 	ld	-25 (ix),l
    1EC2 DD 74 E8      [19] 1074 	ld	-24 (ix),h
                            1075 ;src/Renderer.c:458: if(textures_on){
-   1EC5 3A 19 7E      [13] 1076 	ld	a,(#_textures_on + 0)
+   1EC5 3A 3B 7D      [13] 1076 	ld	a,(#_textures_on + 0)
    1EC8 B7            [ 4] 1077 	or	a, a
    1EC9 CA 47 24      [10] 1078 	jp	Z,00370$
                            1079 ;src/Renderer.c:460: do{
@@ -1274,7 +1274,7 @@
    2042 06 00         [ 7] 1274 	ld	b,#0x00
    2044 C5            [11] 1275 	push	bc
    2045 E5            [11] 1276 	push	hl
-   2046 CD 29 7D      [17] 1277 	call	__divsint
+   2046 CD 4B 7C      [17] 1277 	call	__divsint
    2049 F1            [10] 1278 	pop	af
    204A F1            [10] 1279 	pop	af
    204B DD 7E E9      [19] 1280 	ld	a,-23 (ix)
@@ -1346,7 +1346,7 @@
    20B9 DD 56 ED      [19] 1346 	ld	d,-19 (ix)
    20BC D5            [11] 1347 	push	de
    20BD E5            [11] 1348 	push	hl
-   20BE CD 29 7D      [17] 1349 	call	__divsint
+   20BE CD 4B 7C      [17] 1349 	call	__divsint
    20C1 F1            [10] 1350 	pop	af
    20C2 F1            [10] 1351 	pop	af
    20C3 C1            [10] 1352 	pop	bc
@@ -1378,7 +1378,7 @@
    20E6 C5            [11] 1378 	push	bc
    20E7 D5            [11] 1379 	push	de
    20E8 E5            [11] 1380 	push	hl
-   20E9 CD 29 7D      [17] 1381 	call	__divsint
+   20E9 CD 4B 7C      [17] 1381 	call	__divsint
    20EC F1            [10] 1382 	pop	af
    20ED F1            [10] 1383 	pop	af
    20EE 55            [ 4] 1384 	ld	d,l
@@ -1672,7 +1672,7 @@
    22E1 06 00         [ 7] 1672 	ld	b,#0x00
    22E3 C5            [11] 1673 	push	bc
    22E4 E5            [11] 1674 	push	hl
-   22E5 CD 29 7D      [17] 1675 	call	__divsint
+   22E5 CD 4B 7C      [17] 1675 	call	__divsint
    22E8 F1            [10] 1676 	pop	af
    22E9 F1            [10] 1677 	pop	af
    22EA DD 7E E9      [19] 1678 	ld	a,-23 (ix)
@@ -1749,7 +1749,7 @@
    236A DD 6E F7      [19] 1749 	ld	l,-9 (ix)
    236D DD 66 F8      [19] 1750 	ld	h,-8 (ix)
    2370 E5            [11] 1751 	push	hl
-   2371 CD 29 7D      [17] 1752 	call	__divsint
+   2371 CD 4B 7C      [17] 1752 	call	__divsint
    2374 F1            [10] 1753 	pop	af
    2375 F1            [10] 1754 	pop	af
    2376 DD 74 F8      [19] 1755 	ld	-8 (ix),h
@@ -1784,7 +1784,7 @@
    23B5 DD 6E FA      [19] 1784 	ld	l,-6 (ix)
    23B8 DD 66 FB      [19] 1785 	ld	h,-5 (ix)
    23BB E5            [11] 1786 	push	hl
-   23BC CD 29 7D      [17] 1787 	call	__divsint
+   23BC CD 4B 7C      [17] 1787 	call	__divsint
    23BF F1            [10] 1788 	pop	af
    23C0 F1            [10] 1789 	pop	af
    23C1 45            [ 4] 1790 	ld	b,l
@@ -2083,7 +2083,7 @@
    25EC DD 6E F5      [19] 2083 	ld	l,-11 (ix)
    25EF DD 66 F6      [19] 2084 	ld	h,-10 (ix)
    25F2 E5            [11] 2085 	push	hl
-   25F3 CD 29 7D      [17] 2086 	call	__divsint
+   25F3 CD 4B 7C      [17] 2086 	call	__divsint
    25F6 F1            [10] 2087 	pop	af
    25F7 F1            [10] 2088 	pop	af
    25F8 DD 74 F6      [19] 2089 	ld	-10 (ix),h
@@ -2190,7 +2190,7 @@
    26AC DD 6E EC      [19] 2190 	ld	l,-20 (ix)
    26AF DD 66 ED      [19] 2191 	ld	h,-19 (ix)
    26B2 E5            [11] 2192 	push	hl
-   26B3 CD 29 7D      [17] 2193 	call	__divsint
+   26B3 CD 4B 7C      [17] 2193 	call	__divsint
    26B6 F1            [10] 2194 	pop	af
    26B7 F1            [10] 2195 	pop	af
    26B8 DD 74 ED      [19] 2196 	ld	-19 (ix),h
@@ -2496,7 +2496,7 @@
    2928 06 00         [ 7] 2496 	ld	b,#0x00
    292A C5            [11] 2497 	push	bc
    292B E5            [11] 2498 	push	hl
-   292C CD 29 7D      [17] 2499 	call	__divsint
+   292C CD 4B 7C      [17] 2499 	call	__divsint
    292F F1            [10] 2500 	pop	af
    2930 F1            [10] 2501 	pop	af
    2931 DD 7E EA      [19] 2502 	ld	a,-22 (ix)
@@ -2594,7 +2594,7 @@
    29C0 DD 56 F6      [19] 2594 	ld	d,-10 (ix)
    29C3 D5            [11] 2595 	push	de
    29C4 E5            [11] 2596 	push	hl
-   29C5 CD 29 7D      [17] 2597 	call	__divsint
+   29C5 CD 4B 7C      [17] 2597 	call	__divsint
    29C8 F1            [10] 2598 	pop	af
    29C9 F1            [10] 2599 	pop	af
    29CA 55            [ 4] 2600 	ld	d,l

@@ -31,10 +31,10 @@
                              31 ; ram data
                              32 ;--------------------------------------------------------
                              33 	.area _DATA
-   7E4B                      34 _save::
-   7E4B                      35 	.ds 9
-   7E54                      36 _saveString::
-   7E54                      37 	.ds 19
+   7D6D                      34 _save::
+   7D6D                      35 	.ds 9
+   7D76                      36 _saveString::
+   7D76                      37 	.ds 19
                              38 ;--------------------------------------------------------
                              39 ; ram data
                              40 ;--------------------------------------------------------
@@ -107,7 +107,7 @@
    2B9B 69            [ 4]  107 	ld	l,c
    2B9C C9            [10]  108 	ret
    2B9D                     109 _saveArray:
-   2B9D 4B 7E               110 	.dw _save
+   2B9D 6D 7D               110 	.dw _save
                             111 ;src/SaveGame.c:46: void savegame_string_to_save(char* in){
                             112 ;	---------------------------------
                             113 ; Function savegame_string_to_save
@@ -214,7 +214,7 @@
    2C13 EE 71         [ 7]  214 	xor	a, #0x71
    2C15 4F            [ 4]  215 	ld	c,a
                             216 ;src/SaveGame.c:81: return (checksum==save.checksum);
-   2C16 21 53 7E      [10]  217 	ld	hl, #(_save + 0x0008) + 0
+   2C16 21 75 7D      [10]  217 	ld	hl, #(_save + 0x0008) + 0
    2C19 46            [ 7]  218 	ld	b,(hl)
    2C1A 79            [ 4]  219 	ld	a,c
    2C1B 90            [ 4]  220 	sub	a, b
@@ -232,9 +232,9 @@
                             232 ; ---------------------------------
    2C25                     233 _savegame_to_string::
                             234 ;src/SaveGame.c:89: char* string = saveString;
-   2C25 11 54 7E      [10]  235 	ld	de,#_saveString
+   2C25 11 76 7D      [10]  235 	ld	de,#_saveString
                             236 ;src/SaveGame.c:90: saveString[SAVESTRING_SIZE-1]=0;
-   2C28 21 66 7E      [10]  237 	ld	hl,#(_saveString + 0x0012)
+   2C28 21 88 7D      [10]  237 	ld	hl,#(_saveString + 0x0012)
    2C2B 36 00         [10]  238 	ld	(hl),#0x00
                             239 ;src/SaveGame.c:93: while(i<SAVEDATA_SIZE){
    2C2D 0E 00         [ 7]  240 	ld	c,#0x00
@@ -302,34 +302,34 @@
    2C6C CD A5 10      [17]  302 	call	_map_get_seed
    2C6F 4D            [ 4]  303 	ld	c,l
    2C70 44            [ 4]  304 	ld	b,h
-   2C71 ED 43 4B 7E   [20]  305 	ld	(_save), bc
+   2C71 ED 43 6D 7D   [20]  305 	ld	(_save), bc
                             306 ;src/SaveGame.c:114: save.potions = player_potion_count;
-   2C75 21 4D 7E      [10]  307 	ld	hl,#(_save + 0x0002)
-   2C78 3A 48 7E      [13]  308 	ld	a,(#_player_potion_count + 0)
+   2C75 21 6F 7D      [10]  307 	ld	hl,#(_save + 0x0002)
+   2C78 3A 6A 7D      [13]  308 	ld	a,(#_player_potion_count + 0)
    2C7B 77            [ 7]  309 	ld	(hl),a
                             310 ;src/SaveGame.c:115: save.scrolls = player_scroll_count;
-   2C7C 21 4E 7E      [10]  311 	ld	hl,#(_save + 0x0003)
-   2C7F 3A 49 7E      [13]  312 	ld	a,(#_player_scroll_count + 0)
+   2C7C 21 70 7D      [10]  311 	ld	hl,#(_save + 0x0003)
+   2C7F 3A 6B 7D      [13]  312 	ld	a,(#_player_scroll_count + 0)
    2C82 77            [ 7]  313 	ld	(hl),a
                             314 ;src/SaveGame.c:117: save.player_hp = player_health_points;
-   2C83 21 4F 7E      [10]  315 	ld	hl,#(_save + 0x0004)
-   2C86 3A 45 7E      [13]  316 	ld	a,(#_player_health_points + 0)
+   2C83 21 71 7D      [10]  315 	ld	hl,#(_save + 0x0004)
+   2C86 3A 67 7D      [13]  316 	ld	a,(#_player_health_points + 0)
    2C89 77            [ 7]  317 	ld	(hl),a
                             318 ;src/SaveGame.c:118: save.player_attack = player_attack_value;
-   2C8A 21 50 7E      [10]  319 	ld	hl,#(_save + 0x0005)
-   2C8D 3A 44 7E      [13]  320 	ld	a,(#_player_attack_value + 0)
+   2C8A 21 72 7D      [10]  319 	ld	hl,#(_save + 0x0005)
+   2C8D 3A 66 7D      [13]  320 	ld	a,(#_player_attack_value + 0)
    2C90 77            [ 7]  321 	ld	(hl),a
                             322 ;src/SaveGame.c:119: save.player_defense = player_defense_value;
-   2C91 21 51 7E      [10]  323 	ld	hl,#(_save + 0x0006)
-   2C94 3A 43 7E      [13]  324 	ld	a,(#_player_defense_value + 0)
+   2C91 21 73 7D      [10]  323 	ld	hl,#(_save + 0x0006)
+   2C94 3A 65 7D      [13]  324 	ld	a,(#_player_defense_value + 0)
    2C97 77            [ 7]  325 	ld	(hl),a
                             326 ;src/SaveGame.c:121: save.level = level_get_level();
    2C98 CD A7 0F      [17]  327 	call	_level_get_level
    2C9B 4D            [ 4]  328 	ld	c,l
-   2C9C 21 52 7E      [10]  329 	ld	hl,#(_save + 0x0007)
+   2C9C 21 74 7D      [10]  329 	ld	hl,#(_save + 0x0007)
    2C9F 71            [ 7]  330 	ld	(hl),c
                             331 ;src/SaveGame.c:123: save.checksum=0;
-   2CA0 01 53 7E      [10]  332 	ld	bc,#_save + 8
+   2CA0 01 75 7D      [10]  332 	ld	bc,#_save + 8
    2CA3 AF            [ 4]  333 	xor	a, a
    2CA4 02            [ 7]  334 	ld	(bc),a
                             335 ;src/SaveGame.c:124: while(i){
@@ -428,7 +428,7 @@
    2D03 CD DC 0F      [17]  428 	call	_level_set_level
    2D06 33            [ 6]  429 	inc	sp
                             430 ;src/SaveGame.c:154: camelot_warriors_mode=1;
-   2D07 21 1A 7E      [10]  431 	ld	hl,#_camelot_warriors_mode + 0
+   2D07 21 3C 7D      [10]  431 	ld	hl,#_camelot_warriors_mode + 0
    2D0A 36 01         [10]  432 	ld	(hl), #0x01
                             433 ;src/SaveGame.c:155: player_init();
    2D0C CD 08 18      [17]  434 	call	_player_init
@@ -458,35 +458,35 @@
                             458 ;src/SaveGame.c:163: savegame_decrypt_save();
    2D2A CD D8 2C      [17]  459 	call	_savegame_decrypt_save
                             460 ;src/SaveGame.c:164: level_set_level(save.level);
-   2D2D 21 52 7E      [10]  461 	ld	hl, #_save + 7
+   2D2D 21 74 7D      [10]  461 	ld	hl, #_save + 7
    2D30 46            [ 7]  462 	ld	b,(hl)
    2D31 C5            [11]  463 	push	bc
    2D32 33            [ 6]  464 	inc	sp
    2D33 CD DC 0F      [17]  465 	call	_level_set_level
    2D36 33            [ 6]  466 	inc	sp
                             467 ;src/SaveGame.c:166: player_health_points=save.player_hp;
-   2D37 3A 4F 7E      [13]  468 	ld	a,(#_save + 4)
-   2D3A 32 45 7E      [13]  469 	ld	(#_player_health_points + 0),a
+   2D37 3A 71 7D      [13]  468 	ld	a,(#_save + 4)
+   2D3A 32 67 7D      [13]  469 	ld	(#_player_health_points + 0),a
                             470 ;src/SaveGame.c:167: player_attack_value=save.player_attack;
-   2D3D 3A 50 7E      [13]  471 	ld	a,(#_save + 5)
-   2D40 32 44 7E      [13]  472 	ld	(#_player_attack_value + 0),a
+   2D3D 3A 72 7D      [13]  471 	ld	a,(#_save + 5)
+   2D40 32 66 7D      [13]  472 	ld	(#_player_attack_value + 0),a
                             473 ;src/SaveGame.c:168: player_defense_value=save.player_defense;
-   2D43 3A 51 7E      [13]  474 	ld	a,(#_save + 6)
-   2D46 32 43 7E      [13]  475 	ld	(#_player_defense_value + 0),a
+   2D43 3A 73 7D      [13]  474 	ld	a,(#_save + 6)
+   2D46 32 65 7D      [13]  475 	ld	(#_player_defense_value + 0),a
                             476 ;src/SaveGame.c:170: player_potion_count = save.potions;
-   2D49 3A 4D 7E      [13]  477 	ld	a,(#_save + 2)
-   2D4C 32 48 7E      [13]  478 	ld	(#_player_potion_count + 0),a
+   2D49 3A 6F 7D      [13]  477 	ld	a,(#_save + 2)
+   2D4C 32 6A 7D      [13]  478 	ld	(#_player_potion_count + 0),a
                             479 ;src/SaveGame.c:171: player_scroll_count = save.scrolls;
-   2D4F 3A 4E 7E      [13]  480 	ld	a,(#_save + 3)
-   2D52 32 49 7E      [13]  481 	ld	(#_player_scroll_count + 0),a
+   2D4F 3A 70 7D      [13]  480 	ld	a,(#_save + 3)
+   2D52 32 6B 7D      [13]  481 	ld	(#_player_scroll_count + 0),a
                             482 ;src/SaveGame.c:173: level_seed=save.seed;
-   2D55 21 4B 7E      [10]  483 	ld	hl, #_save + 0
+   2D55 21 6D 7D      [10]  483 	ld	hl, #_save + 0
    2D58 7E            [ 7]  484 	ld	a,(hl)
-   2D59 FD 21 6A 7E   [14]  485 	ld	iy,#_level_seed
+   2D59 FD 21 8C 7D   [14]  485 	ld	iy,#_level_seed
    2D5D FD 77 00      [19]  486 	ld	0 (iy),a
    2D60 23            [ 6]  487 	inc	hl
    2D61 7E            [ 7]  488 	ld	a,(hl)
-   2D62 32 6B 7E      [13]  489 	ld	(#_level_seed + 1),a
+   2D62 32 8D 7D      [13]  489 	ld	(#_level_seed + 1),a
                             490 ;src/SaveGame.c:175: statemanager_set_state(STATE_LOADLEVEL);
    2D65 3E 03         [ 7]  491 	ld	a,#0x03
    2D67 F5            [11]  492 	push	af
@@ -511,7 +511,7 @@
                             509 ; ---------------------------------
    2D84                     510 _savegame_get_saveString::
                             511 ;src/SaveGame.c:184: return saveString;
-   2D84 21 54 7E      [10]  512 	ld	hl,#_saveString
+   2D84 21 76 7D      [10]  512 	ld	hl,#_saveString
    2D87 C9            [10]  513 	ret
                             514 	.area _CODE
                             515 	.area _INITIALIZER

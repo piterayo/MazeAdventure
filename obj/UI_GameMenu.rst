@@ -43,16 +43,16 @@
                              43 ; ram data
                              44 ;--------------------------------------------------------
                              45 	.area _DATA
-   7E80                      46 _ui_gamemenu_lastEntry::
-   7E80                      47 	.ds 1
-   7E81                      48 _ui_gamemenu_entryIndex::
-   7E81                      49 	.ds 1
-   7E82                      50 _ui_gamemenu_entrySelected::
-   7E82                      51 	.ds 1
-   7E83                      52 _ui_gamemenu_can_move::
-   7E83                      53 	.ds 1
-   7E84                      54 _ui_gamemenu_action::
-   7E84                      55 	.ds 1
+   7DA2                      46 _ui_gamemenu_lastEntry::
+   7DA2                      47 	.ds 1
+   7DA3                      48 _ui_gamemenu_entryIndex::
+   7DA3                      49 	.ds 1
+   7DA4                      50 _ui_gamemenu_entrySelected::
+   7DA4                      51 	.ds 1
+   7DA5                      52 _ui_gamemenu_can_move::
+   7DA5                      53 	.ds 1
+   7DA6                      54 _ui_gamemenu_action::
+   7DA6                      55 	.ds 1
                              56 ;--------------------------------------------------------
                              57 ; ram data
                              58 ;--------------------------------------------------------
@@ -83,13 +83,13 @@
                              83 ; ---------------------------------
    4252                      84 _ui_gamemenu_init::
                              85 ;src/UI_GameMenu.c:78: ui_gamemenu_lastEntry=0;
-   4252 21 80 7E      [10]   86 	ld	hl,#_ui_gamemenu_lastEntry + 0
+   4252 21 A2 7D      [10]   86 	ld	hl,#_ui_gamemenu_lastEntry + 0
    4255 36 00         [10]   87 	ld	(hl), #0x00
                              88 ;src/UI_GameMenu.c:79: ui_gamemenu_entryIndex=0;
-   4257 21 81 7E      [10]   89 	ld	hl,#_ui_gamemenu_entryIndex + 0
+   4257 21 A3 7D      [10]   89 	ld	hl,#_ui_gamemenu_entryIndex + 0
    425A 36 00         [10]   90 	ld	(hl), #0x00
                              91 ;src/UI_GameMenu.c:80: ui_gamemenu_entrySelected=0;
-   425C 21 82 7E      [10]   92 	ld	hl,#_ui_gamemenu_entrySelected + 0
+   425C 21 A4 7D      [10]   92 	ld	hl,#_ui_gamemenu_entrySelected + 0
    425F 36 00         [10]   93 	ld	(hl), #0x00
                              94 ;src/UI_GameMenu.c:81: ui_gamemenu_update_action();
    4261 C3 33 44      [10]   95 	jp  _ui_gamemenu_update_action
@@ -165,25 +165,25 @@
                             161 ; ---------------------------------
    42D3                     162 _ui_gamemenu_above_entry::
                             163 ;src/UI_GameMenu.c:85: if(ui_gamemenu_entryIndex>=2 && ui_gamemenu_entryIndex<5){
-   42D3 3A 81 7E      [13]  164 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   42D3 3A A3 7D      [13]  164 	ld	a,(#_ui_gamemenu_entryIndex + 0)
    42D6 FE 02         [ 7]  165 	cp	a,#0x02
    42D8 38 0A         [12]  166 	jr	C,00105$
    42DA D6 05         [ 7]  167 	sub	a, #0x05
    42DC 30 06         [12]  168 	jr	NC,00105$
                             169 ;src/UI_GameMenu.c:86: ui_gamemenu_entryIndex=0;
-   42DE 21 81 7E      [10]  170 	ld	hl,#_ui_gamemenu_entryIndex + 0
+   42DE 21 A3 7D      [10]  170 	ld	hl,#_ui_gamemenu_entryIndex + 0
    42E1 36 00         [10]  171 	ld	(hl), #0x00
    42E3 C9            [10]  172 	ret
    42E4                     173 00105$:
                             174 ;src/UI_GameMenu.c:88: else if(ui_gamemenu_entryIndex==5 || ui_gamemenu_entryIndex == 6){
-   42E4 3A 81 7E      [13]  175 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   42E4 3A A3 7D      [13]  175 	ld	a,(#_ui_gamemenu_entryIndex + 0)
    42E7 FE 05         [ 7]  176 	cp	a,#0x05
    42E9 28 03         [12]  177 	jr	Z,00101$
    42EB D6 06         [ 7]  178 	sub	a, #0x06
    42ED C0            [11]  179 	ret	NZ
    42EE                     180 00101$:
                             181 ;src/UI_GameMenu.c:89: ui_gamemenu_entryIndex=1;
-   42EE 21 81 7E      [10]  182 	ld	hl,#_ui_gamemenu_entryIndex + 0
+   42EE 21 A3 7D      [10]  182 	ld	hl,#_ui_gamemenu_entryIndex + 0
    42F1 36 01         [10]  183 	ld	(hl), #0x01
    42F3 C9            [10]  184 	ret
                             185 ;src/UI_GameMenu.c:93: void ui_gamemenu_below_entry(){
@@ -192,20 +192,20 @@
                             188 ; ---------------------------------
    42F4                     189 _ui_gamemenu_below_entry::
                             190 ;src/UI_GameMenu.c:94: if(ui_gamemenu_entryIndex==0){
-   42F4 3A 81 7E      [13]  191 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   42F4 3A A3 7D      [13]  191 	ld	a,(#_ui_gamemenu_entryIndex + 0)
    42F7 B7            [ 4]  192 	or	a, a
    42F8 20 06         [12]  193 	jr	NZ,00104$
                             194 ;src/UI_GameMenu.c:95: ui_gamemenu_entryIndex=3;
-   42FA 21 81 7E      [10]  195 	ld	hl,#_ui_gamemenu_entryIndex + 0
+   42FA 21 A3 7D      [10]  195 	ld	hl,#_ui_gamemenu_entryIndex + 0
    42FD 36 03         [10]  196 	ld	(hl), #0x03
    42FF C9            [10]  197 	ret
    4300                     198 00104$:
                             199 ;src/UI_GameMenu.c:97: else if(ui_gamemenu_entryIndex==1){
-   4300 3A 81 7E      [13]  200 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   4300 3A A3 7D      [13]  200 	ld	a,(#_ui_gamemenu_entryIndex + 0)
    4303 3D            [ 4]  201 	dec	a
    4304 C0            [11]  202 	ret	NZ
                             203 ;src/UI_GameMenu.c:98: ui_gamemenu_entryIndex=5;
-   4305 21 81 7E      [10]  204 	ld	hl,#_ui_gamemenu_entryIndex + 0
+   4305 21 A3 7D      [10]  204 	ld	hl,#_ui_gamemenu_entryIndex + 0
    4308 36 05         [10]  205 	ld	(hl), #0x05
    430A C9            [10]  206 	ret
                             207 ;src/UI_GameMenu.c:102: void ui_gamemenu_next_entry(){
@@ -214,13 +214,13 @@
                             210 ; ---------------------------------
    430B                     211 _ui_gamemenu_next_entry::
                             212 ;src/UI_GameMenu.c:103: if(ui_gamemenu_entryIndex<(UI_GAMEMENU_ENTRIES-1) && ui_gamemenu_entryIndex!=1){
-   430B 3A 81 7E      [13]  213 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   430B 3A A3 7D      [13]  213 	ld	a,(#_ui_gamemenu_entryIndex + 0)
    430E FE 06         [ 7]  214 	cp	a,#0x06
    4310 D0            [11]  215 	ret	NC
    4311 3D            [ 4]  216 	dec	a
    4312 C8            [11]  217 	ret	Z
                             218 ;src/UI_GameMenu.c:104: ++ui_gamemenu_entryIndex;
-   4313 21 81 7E      [10]  219 	ld	hl, #_ui_gamemenu_entryIndex+0
+   4313 21 A3 7D      [10]  219 	ld	hl, #_ui_gamemenu_entryIndex+0
    4316 34            [11]  220 	inc	(hl)
    4317 C9            [10]  221 	ret
                             222 ;src/UI_GameMenu.c:108: void ui_gamemenu_previous_entry(){
@@ -229,14 +229,14 @@
                             225 ; ---------------------------------
    4318                     226 _ui_gamemenu_previous_entry::
                             227 ;src/UI_GameMenu.c:109: if(ui_gamemenu_entryIndex>0 && ui_gamemenu_entryIndex!=2){
-   4318 3A 81 7E      [13]  228 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   4318 3A A3 7D      [13]  228 	ld	a,(#_ui_gamemenu_entryIndex + 0)
    431B B7            [ 4]  229 	or	a, a
    431C C8            [11]  230 	ret	Z
-   431D 3A 81 7E      [13]  231 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   431D 3A A3 7D      [13]  231 	ld	a,(#_ui_gamemenu_entryIndex + 0)
    4320 D6 02         [ 7]  232 	sub	a, #0x02
    4322 C8            [11]  233 	ret	Z
                             234 ;src/UI_GameMenu.c:110: --ui_gamemenu_entryIndex;
-   4323 21 81 7E      [10]  235 	ld	hl, #_ui_gamemenu_entryIndex+0
+   4323 21 A3 7D      [10]  235 	ld	hl, #_ui_gamemenu_entryIndex+0
    4326 35            [11]  236 	dec	(hl)
    4327 C9            [10]  237 	ret
                             238 ;src/UI_GameMenu.c:114: void ui_gamemenu_unselect_entry(){
@@ -245,7 +245,7 @@
                             241 ; ---------------------------------
    4328                     242 _ui_gamemenu_unselect_entry::
                             243 ;src/UI_GameMenu.c:115: ui_gamemenu_entrySelected=0;
-   4328 21 82 7E      [10]  244 	ld	hl,#_ui_gamemenu_entrySelected + 0
+   4328 21 A4 7D      [10]  244 	ld	hl,#_ui_gamemenu_entrySelected + 0
    432B 36 00         [10]  245 	ld	(hl), #0x00
    432D C9            [10]  246 	ret
                             247 ;src/UI_GameMenu.c:118: void ui_gamemenu_select_entry(){
@@ -254,7 +254,7 @@
                             250 ; ---------------------------------
    432E                     251 _ui_gamemenu_select_entry::
                             252 ;src/UI_GameMenu.c:119: ui_gamemenu_entrySelected=1;
-   432E 21 82 7E      [10]  253 	ld	hl,#_ui_gamemenu_entrySelected + 0
+   432E 21 A4 7D      [10]  253 	ld	hl,#_ui_gamemenu_entrySelected + 0
    4331 36 01         [10]  254 	ld	(hl), #0x01
    4333 C9            [10]  255 	ret
                             256 ;src/UI_GameMenu.c:122: void ui_gamemenu_render_button(u8 n){
@@ -268,10 +268,10 @@
    433C F5            [11]  264 	push	af
                             265 ;src/UI_GameMenu.c:124: color = (n==ui_gamemenu_entryIndex)?((ui_gamemenu_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
    433D DD 7E 04      [19]  266 	ld	a,4 (ix)
-   4340 FD 21 81 7E   [14]  267 	ld	iy,#_ui_gamemenu_entryIndex
+   4340 FD 21 A3 7D   [14]  267 	ld	iy,#_ui_gamemenu_entryIndex
    4344 FD 96 00      [19]  268 	sub	a, 0 (iy)
    4347 20 10         [12]  269 	jr	NZ,00103$
-   4349 3A 82 7E      [13]  270 	ld	a,(#_ui_gamemenu_entrySelected + 0)
+   4349 3A A4 7D      [13]  270 	ld	a,(#_ui_gamemenu_entrySelected + 0)
    434C B7            [ 4]  271 	or	a, a
    434D 28 05         [12]  272 	jr	Z,00105$
    434F 3A 6A 1A      [13]  273 	ld	a, (#(_g_colors + 0x0004) + 0)
@@ -308,7 +308,7 @@
    4381 DD 6E FE      [19]  304 	ld	l,-2 (ix)
    4384 DD 66 FF      [19]  305 	ld	h,-1 (ix)
    4387 E5            [11]  306 	push	hl
-   4388 CD 70 7C      [17]  307 	call	_cpct_drawSolidBox
+   4388 CD 92 7B      [17]  307 	call	_cpct_drawSolidBox
    438B F1            [10]  308 	pop	af
    438C F1            [10]  309 	pop	af
    438D 33            [ 6]  310 	inc	sp
@@ -339,13 +339,13 @@
                             335 ; ---------------------------------
    43AB                     336 _ui_gamemenu_render_refresh::
                             337 ;src/UI_GameMenu.c:140: ui_gamemenu_render_button(ui_gamemenu_entryIndex);
-   43AB 3A 81 7E      [13]  338 	ld	a,(_ui_gamemenu_entryIndex)
+   43AB 3A A3 7D      [13]  338 	ld	a,(_ui_gamemenu_entryIndex)
    43AE F5            [11]  339 	push	af
    43AF 33            [ 6]  340 	inc	sp
    43B0 CD 34 43      [17]  341 	call	_ui_gamemenu_render_button
    43B3 33            [ 6]  342 	inc	sp
                             343 ;src/UI_GameMenu.c:141: ui_gamemenu_render_button(ui_gamemenu_lastEntry);
-   43B4 3A 80 7E      [13]  344 	ld	a,(_ui_gamemenu_lastEntry)
+   43B4 3A A2 7D      [13]  344 	ld	a,(_ui_gamemenu_lastEntry)
    43B7 F5            [11]  345 	push	af
    43B8 33            [ 6]  346 	inc	sp
    43B9 CD 34 43      [17]  347 	call	_ui_gamemenu_render_button
@@ -363,8 +363,8 @@
    43C8 CD 34 43      [17]  359 	call	_ui_gamemenu_render_button
    43CB 33            [ 6]  360 	inc	sp
                             361 ;src/UI_GameMenu.c:147: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
-   43CC 3A 81 7E      [13]  362 	ld	a,(#_ui_gamemenu_entryIndex + 0)
-   43CF 32 80 7E      [13]  363 	ld	(#_ui_gamemenu_lastEntry + 0),a
+   43CC 3A A3 7D      [13]  362 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   43CF 32 A2 7D      [13]  363 	ld	(#_ui_gamemenu_lastEntry + 0),a
    43D2 C9            [10]  364 	ret
                             365 ;src/UI_GameMenu.c:151: void ui_gamemenu_render_all(){
                             366 ;	---------------------------------
@@ -423,8 +423,8 @@
    4413 18 F1         [12]  419 	jr	00101$
    4415                     420 00103$:
                             421 ;src/UI_GameMenu.c:162: ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
-   4415 3A 81 7E      [13]  422 	ld	a,(#_ui_gamemenu_entryIndex + 0)
-   4418 32 80 7E      [13]  423 	ld	(#_ui_gamemenu_lastEntry + 0),a
+   4415 3A A3 7D      [13]  422 	ld	a,(#_ui_gamemenu_entryIndex + 0)
+   4418 32 A2 7D      [13]  423 	ld	(#_ui_gamemenu_lastEntry + 0),a
    441B C9            [10]  424 	ret
    441C                     425 ___str_9:
    441C 4C 45 56 45 4C 20   426 	.ascii "LEVEL "
@@ -435,7 +435,7 @@
                             431 ; ---------------------------------
    4423                     432 _ui_gamemenu_get_entry::
                             433 ;src/UI_GameMenu.c:166: return ui_gamemenu_entryIndex;
-   4423 FD 21 81 7E   [14]  434 	ld	iy,#_ui_gamemenu_entryIndex
+   4423 FD 21 A3 7D   [14]  434 	ld	iy,#_ui_gamemenu_entryIndex
    4427 FD 6E 00      [19]  435 	ld	l,0 (iy)
    442A C9            [10]  436 	ret
                             437 ;src/UI_GameMenu.c:169: u8 ui_gamemenu_is_selected(){
@@ -444,7 +444,7 @@
                             440 ; ---------------------------------
    442B                     441 _ui_gamemenu_is_selected::
                             442 ;src/UI_GameMenu.c:170: return ui_gamemenu_entrySelected;
-   442B FD 21 82 7E   [14]  443 	ld	iy,#_ui_gamemenu_entrySelected
+   442B FD 21 A4 7D   [14]  443 	ld	iy,#_ui_gamemenu_entrySelected
    442F FD 6E 00      [19]  444 	ld	l,0 (iy)
    4432 C9            [10]  445 	ret
                             446 ;src/UI_GameMenu.c:173: void ui_gamemenu_update_action(){
@@ -483,13 +483,13 @@
    445A 09            [11]  479 	add	hl,bc
    445B 4E            [ 7]  480 	ld	c,(hl)
                             481 ;src/UI_GameMenu.c:177: ui_gamemenu_can_move=0;
-   445C 21 83 7E      [10]  482 	ld	hl,#_ui_gamemenu_can_move + 0
+   445C 21 A5 7D      [10]  482 	ld	hl,#_ui_gamemenu_can_move + 0
    445F 36 00         [10]  483 	ld	(hl), #0x00
                             484 ;src/UI_GameMenu.c:178: *((char**)(ui_gamemenu_buttonText)+3)="";
    4461 21 BE 44      [10]  485 	ld	hl,#___str_10
    4464 22 8C 42      [16]  486 	ld	((_ui_gamemenu_buttonText + 0x0006)), hl
                             487 ;src/UI_GameMenu.c:180: ui_gamemenu_action=0;
-   4467 FD 21 84 7E   [14]  488 	ld	iy,#_ui_gamemenu_action
+   4467 FD 21 A6 7D   [14]  488 	ld	iy,#_ui_gamemenu_action
    446B FD 36 00 00   [19]  489 	ld	0 (iy),#0x00
                             490 ;src/UI_GameMenu.c:181: *((char**)ui_gamemenu_buttonText)="";
    446F 22 86 42      [16]  491 	ld	(_ui_gamemenu_buttonText), hl
@@ -498,7 +498,7 @@
    4473 E6 70         [ 7]  494 	and	a, #0x70
    4475 28 0D         [12]  495 	jr	Z,00102$
                             496 ;src/UI_GameMenu.c:184: ui_gamemenu_action=3;
-   4477 21 84 7E      [10]  497 	ld	hl,#_ui_gamemenu_action + 0
+   4477 21 A6 7D      [10]  497 	ld	hl,#_ui_gamemenu_action + 0
    447A 36 03         [10]  498 	ld	(hl), #0x03
                             499 ;src/UI_GameMenu.c:185: *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[2];
    447C ED 5B 84 42   [20]  500 	ld	de, (#(_ui_gamemenu_action_buttonText + 0x0004) + 0)
@@ -512,11 +512,11 @@
    4489 D6 80         [ 7]  508 	sub	a, #0x80
    448B C0            [11]  509 	ret	NZ
                             510 ;src/UI_GameMenu.c:189: if(player_has_key){
-   448C 3A 47 7E      [13]  511 	ld	a,(#_player_has_key + 0)
+   448C 3A 69 7D      [13]  511 	ld	a,(#_player_has_key + 0)
    448F B7            [ 4]  512 	or	a, a
    4490 C8            [11]  513 	ret	Z
                             514 ;src/UI_GameMenu.c:190: ui_gamemenu_action=1;
-   4491 21 84 7E      [10]  515 	ld	hl,#_ui_gamemenu_action + 0
+   4491 21 A6 7D      [10]  515 	ld	hl,#_ui_gamemenu_action + 0
    4494 36 01         [10]  516 	ld	(hl), #0x01
                             517 ;src/UI_GameMenu.c:191: *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[0];
    4496 ED 4B 80 42   [20]  518 	ld	bc, (#_ui_gamemenu_action_buttonText + 0)
@@ -528,7 +528,7 @@
    44A0 E6 0F         [ 7]  524 	and	a, #0x0F
    44A2 28 0E         [12]  525 	jr	Z,00108$
                             526 ;src/UI_GameMenu.c:196: ui_gamemenu_action=2;
-   44A4 21 84 7E      [10]  527 	ld	hl,#_ui_gamemenu_action + 0
+   44A4 21 A6 7D      [10]  527 	ld	hl,#_ui_gamemenu_action + 0
    44A7 36 02         [10]  528 	ld	(hl), #0x02
                             529 ;src/UI_GameMenu.c:197: *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[1];
    44A9 ED 4B 82 42   [20]  530 	ld	bc, (#(_ui_gamemenu_action_buttonText + 0x0002) + 0)
@@ -536,7 +536,7 @@
    44B1 C9            [10]  532 	ret
    44B2                     533 00108$:
                             534 ;src/UI_GameMenu.c:200: ui_gamemenu_can_move=1;
-   44B2 21 83 7E      [10]  535 	ld	hl,#_ui_gamemenu_can_move + 0
+   44B2 21 A5 7D      [10]  535 	ld	hl,#_ui_gamemenu_can_move + 0
    44B5 36 01         [10]  536 	ld	(hl), #0x01
                             537 ;src/UI_GameMenu.c:201: *(char**)(ui_gamemenu_buttonText+3)="MOVE";
    44B7 21 BF 44      [10]  538 	ld	hl,#___str_11
@@ -553,7 +553,7 @@
                             549 ; ---------------------------------
    44C4                     550 _ui_gamemenu_get_movement::
                             551 ;src/UI_GameMenu.c:206: return ui_gamemenu_can_move;
-   44C4 FD 21 83 7E   [14]  552 	ld	iy,#_ui_gamemenu_can_move
+   44C4 FD 21 A5 7D   [14]  552 	ld	iy,#_ui_gamemenu_can_move
    44C8 FD 6E 00      [19]  553 	ld	l,0 (iy)
    44CB C9            [10]  554 	ret
                             555 ;src/UI_GameMenu.c:209: u8 ui_gamemenu_get_action(){
@@ -562,7 +562,7 @@
                             558 ; ---------------------------------
    44CC                     559 _ui_gamemenu_get_action::
                             560 ;src/UI_GameMenu.c:210: return ui_gamemenu_action;
-   44CC FD 21 84 7E   [14]  561 	ld	iy,#_ui_gamemenu_action
+   44CC FD 21 A6 7D   [14]  561 	ld	iy,#_ui_gamemenu_action
    44D0 FD 6E 00      [19]  562 	ld	l,0 (iy)
    44D3 C9            [10]  563 	ret
                             564 	.area _CODE

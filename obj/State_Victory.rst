@@ -64,7 +64,7 @@
    3BA1 33            [ 6]   64 	inc	sp
    3BA2 26 C0         [ 7]   65 	ld	h, #0xC0
    3BA4 E5            [11]   66 	push	hl
-   3BA5 CD 52 7C      [17]   67 	call	_cpct_memset
+   3BA5 CD 74 7B      [17]   67 	call	_cpct_memset
                              68 ;src/State_Victory.c:17: print_transparent_text("CONGRATULATIONS!", cpctm_screenPtr((u16)CPCT_VMEM_START,24,92), 3);
    3BA8 3E 03         [ 7]   69 	ld	a,#0x03
    3BAA F5            [11]   70 	push	af
@@ -116,7 +116,7 @@
                             109 ; ---------------------------------
    3C00                     110 _state_victory_input::
                             111 ;src/State_Victory.c:26: if(cpct_isAnyKeyPressed_f ()){
-   3C00 CD 21 7C      [17]  112 	call	_cpct_isAnyKeyPressed_f
+   3C00 CD 43 7B      [17]  112 	call	_cpct_isAnyKeyPressed_f
    3C03 7D            [ 4]  113 	ld	a,l
    3C04 B7            [ 4]  114 	or	a, a
    3C05 C8            [11]  115 	ret	Z

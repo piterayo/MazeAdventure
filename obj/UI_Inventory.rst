@@ -33,12 +33,12 @@
                              33 ; ram data
                              34 ;--------------------------------------------------------
                              35 	.area _DATA
-   7E85                      36 _ui_inventory_lastEntry::
-   7E85                      37 	.ds 1
-   7E86                      38 _ui_inventory_entryIndex::
-   7E86                      39 	.ds 1
-   7E87                      40 _ui_inventory_entrySelected::
-   7E87                      41 	.ds 1
+   7DA7                      36 _ui_inventory_lastEntry::
+   7DA7                      37 	.ds 1
+   7DA8                      38 _ui_inventory_entryIndex::
+   7DA8                      39 	.ds 1
+   7DA9                      40 _ui_inventory_entrySelected::
+   7DA9                      41 	.ds 1
                              42 ;--------------------------------------------------------
                              43 ; ram data
                              44 ;--------------------------------------------------------
@@ -69,13 +69,13 @@
                              69 ; ---------------------------------
    44D4                      70 _ui_inventory_init::
                              71 ;src/UI_Inventory.c:55: ui_inventory_lastEntry=0;
-   44D4 21 85 7E      [10]   72 	ld	hl,#_ui_inventory_lastEntry + 0
+   44D4 21 A7 7D      [10]   72 	ld	hl,#_ui_inventory_lastEntry + 0
    44D7 36 00         [10]   73 	ld	(hl), #0x00
                              74 ;src/UI_Inventory.c:56: ui_inventory_entryIndex=0;
-   44D9 21 86 7E      [10]   75 	ld	hl,#_ui_inventory_entryIndex + 0
+   44D9 21 A8 7D      [10]   75 	ld	hl,#_ui_inventory_entryIndex + 0
    44DC 36 00         [10]   76 	ld	(hl), #0x00
                              77 ;src/UI_Inventory.c:57: ui_inventory_entrySelected=0;
-   44DE 21 87 7E      [10]   78 	ld	hl,#_ui_inventory_entrySelected + 0
+   44DE 21 A9 7D      [10]   78 	ld	hl,#_ui_inventory_entrySelected + 0
    44E1 36 00         [10]   79 	ld	(hl), #0x00
    44E3 C9            [10]   80 	ret
    44E4                      81 _ui_inventory_entriesPosition:
@@ -102,7 +102,7 @@
                             102 ; ---------------------------------
    44FF                     103 _ui_inventory_get_entry::
                             104 ;src/UI_Inventory.c:62: return ui_inventory_entryIndex;
-   44FF FD 21 86 7E   [14]  105 	ld	iy,#_ui_inventory_entryIndex
+   44FF FD 21 A8 7D   [14]  105 	ld	iy,#_ui_inventory_entryIndex
    4503 FD 6E 00      [19]  106 	ld	l,0 (iy)
    4506 C9            [10]  107 	ret
                             108 ;src/UI_Inventory.c:65: u8 ui_inventory_is_selected(){
@@ -111,7 +111,7 @@
                             111 ; ---------------------------------
    4507                     112 _ui_inventory_is_selected::
                             113 ;src/UI_Inventory.c:66: return ui_inventory_entrySelected;
-   4507 FD 21 87 7E   [14]  114 	ld	iy,#_ui_inventory_entrySelected
+   4507 FD 21 A9 7D   [14]  114 	ld	iy,#_ui_inventory_entrySelected
    450B FD 6E 00      [19]  115 	ld	l,0 (iy)
    450E C9            [10]  116 	ret
                             117 ;src/UI_Inventory.c:69: void ui_inventory_next_entry(){
@@ -121,12 +121,12 @@
    450F                     121 _ui_inventory_next_entry::
                             122 ;src/UI_Inventory.c:70: if(ui_inventory_entryIndex<(UI_INVENTORY_ENTRIES-1)){
                             123 ;src/UI_Inventory.c:71: ui_inventory_lastEntry=ui_inventory_entryIndex;
-   450F 3A 86 7E      [13]  124 	ld	a,(#_ui_inventory_entryIndex + 0)
+   450F 3A A8 7D      [13]  124 	ld	a,(#_ui_inventory_entryIndex + 0)
    4512 FE 02         [ 7]  125 	cp	a,#0x02
    4514 D0            [11]  126 	ret	NC
-   4515 32 85 7E      [13]  127 	ld	(#_ui_inventory_lastEntry + 0),a
+   4515 32 A7 7D      [13]  127 	ld	(#_ui_inventory_lastEntry + 0),a
                             128 ;src/UI_Inventory.c:72: ++ui_inventory_entryIndex;
-   4518 21 86 7E      [10]  129 	ld	hl, #_ui_inventory_entryIndex+0
+   4518 21 A8 7D      [10]  129 	ld	hl, #_ui_inventory_entryIndex+0
    451B 34            [11]  130 	inc	(hl)
    451C C9            [10]  131 	ret
                             132 ;src/UI_Inventory.c:76: void ui_inventory_previous_entry(){
@@ -135,14 +135,14 @@
                             135 ; ---------------------------------
    451D                     136 _ui_inventory_previous_entry::
                             137 ;src/UI_Inventory.c:77: if(ui_inventory_entryIndex>0){
-   451D 3A 86 7E      [13]  138 	ld	a,(#_ui_inventory_entryIndex + 0)
+   451D 3A A8 7D      [13]  138 	ld	a,(#_ui_inventory_entryIndex + 0)
    4520 B7            [ 4]  139 	or	a, a
    4521 C8            [11]  140 	ret	Z
                             141 ;src/UI_Inventory.c:78: ui_inventory_lastEntry=ui_inventory_entryIndex;
-   4522 3A 86 7E      [13]  142 	ld	a,(#_ui_inventory_entryIndex + 0)
-   4525 32 85 7E      [13]  143 	ld	(#_ui_inventory_lastEntry + 0),a
+   4522 3A A8 7D      [13]  142 	ld	a,(#_ui_inventory_entryIndex + 0)
+   4525 32 A7 7D      [13]  143 	ld	(#_ui_inventory_lastEntry + 0),a
                             144 ;src/UI_Inventory.c:79: --ui_inventory_entryIndex;
-   4528 21 86 7E      [10]  145 	ld	hl, #_ui_inventory_entryIndex+0
+   4528 21 A8 7D      [10]  145 	ld	hl, #_ui_inventory_entryIndex+0
    452B 35            [11]  146 	dec	(hl)
    452C C9            [10]  147 	ret
                             148 ;src/UI_Inventory.c:84: void ui_inventory_select_entry(){
@@ -151,7 +151,7 @@
                             151 ; ---------------------------------
    452D                     152 _ui_inventory_select_entry::
                             153 ;src/UI_Inventory.c:85: ui_inventory_entrySelected=1;
-   452D 21 87 7E      [10]  154 	ld	hl,#_ui_inventory_entrySelected + 0
+   452D 21 A9 7D      [10]  154 	ld	hl,#_ui_inventory_entrySelected + 0
    4530 36 01         [10]  155 	ld	(hl), #0x01
    4532 C9            [10]  156 	ret
                             157 ;src/UI_Inventory.c:88: void ui_inventory_unselect_entry(){
@@ -160,7 +160,7 @@
                             160 ; ---------------------------------
    4533                     161 _ui_inventory_unselect_entry::
                             162 ;src/UI_Inventory.c:89: ui_inventory_entrySelected=0;
-   4533 21 87 7E      [10]  163 	ld	hl,#_ui_inventory_entrySelected + 0
+   4533 21 A9 7D      [10]  163 	ld	hl,#_ui_inventory_entrySelected + 0
    4536 36 00         [10]  164 	ld	(hl), #0x00
    4538 C9            [10]  165 	ret
                             166 ;src/UI_Inventory.c:92: void ui_inventory_render_button(u8 n){
@@ -174,10 +174,10 @@
    4541 3B            [ 6]  174 	dec	sp
                             175 ;src/UI_Inventory.c:94: color = (n==ui_inventory_entryIndex)?((ui_inventory_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
    4542 DD 7E 04      [19]  176 	ld	a,4 (ix)
-   4545 FD 21 86 7E   [14]  177 	ld	iy,#_ui_inventory_entryIndex
+   4545 FD 21 A8 7D   [14]  177 	ld	iy,#_ui_inventory_entryIndex
    4549 FD 96 00      [19]  178 	sub	a, 0 (iy)
    454C 20 10         [12]  179 	jr	NZ,00103$
-   454E 3A 87 7E      [13]  180 	ld	a,(#_ui_inventory_entrySelected + 0)
+   454E 3A A9 7D      [13]  180 	ld	a,(#_ui_inventory_entrySelected + 0)
    4551 B7            [ 4]  181 	or	a, a
    4552 28 05         [12]  182 	jr	Z,00105$
    4554 3A 6A 1A      [13]  183 	ld	a, (#(_g_colors + 0x0004) + 0)
@@ -207,7 +207,7 @@
    457B F5            [11]  207 	push	af
    457C 33            [ 6]  208 	inc	sp
    457D D5            [11]  209 	push	de
-   457E CD 70 7C      [17]  210 	call	_cpct_drawSolidBox
+   457E CD 92 7B      [17]  210 	call	_cpct_drawSolidBox
    4581 F1            [10]  211 	pop	af
    4582 F1            [10]  212 	pop	af
    4583 33            [ 6]  213 	inc	sp
@@ -241,20 +241,20 @@
                             241 ; ---------------------------------
    45A3                     242 _ui_inventory_render_refresh::
                             243 ;src/UI_Inventory.c:102: ui_inventory_render_button(ui_inventory_entryIndex);
-   45A3 3A 86 7E      [13]  244 	ld	a,(_ui_inventory_entryIndex)
+   45A3 3A A8 7D      [13]  244 	ld	a,(_ui_inventory_entryIndex)
    45A6 F5            [11]  245 	push	af
    45A7 33            [ 6]  246 	inc	sp
    45A8 CD 39 45      [17]  247 	call	_ui_inventory_render_button
    45AB 33            [ 6]  248 	inc	sp
                             249 ;src/UI_Inventory.c:103: ui_inventory_render_button(ui_inventory_lastEntry);
-   45AC 3A 85 7E      [13]  250 	ld	a,(_ui_inventory_lastEntry)
+   45AC 3A A7 7D      [13]  250 	ld	a,(_ui_inventory_lastEntry)
    45AF F5            [11]  251 	push	af
    45B0 33            [ 6]  252 	inc	sp
    45B1 CD 39 45      [17]  253 	call	_ui_inventory_render_button
    45B4 33            [ 6]  254 	inc	sp
                             255 ;src/UI_Inventory.c:105: ui_inventory_lastEntry=ui_inventory_entryIndex;
-   45B5 3A 86 7E      [13]  256 	ld	a,(#_ui_inventory_entryIndex + 0)
-   45B8 32 85 7E      [13]  257 	ld	(#_ui_inventory_lastEntry + 0),a
+   45B5 3A A8 7D      [13]  256 	ld	a,(#_ui_inventory_entryIndex + 0)
+   45B8 32 A7 7D      [13]  257 	ld	(#_ui_inventory_lastEntry + 0),a
    45BB C9            [10]  258 	ret
                             259 ;src/UI_Inventory.c:108: void ui_inventory_render_all(){
                             260 ;	---------------------------------
@@ -303,8 +303,8 @@
    45EF 18 F1         [12]  303 	jr	00101$
    45F1                     304 00103$:
                             305 ;src/UI_Inventory.c:119: ui_inventory_lastEntry=ui_inventory_entryIndex;
-   45F1 3A 86 7E      [13]  306 	ld	a,(#_ui_inventory_entryIndex + 0)
-   45F4 32 85 7E      [13]  307 	ld	(#_ui_inventory_lastEntry + 0),a
+   45F1 3A A8 7D      [13]  306 	ld	a,(#_ui_inventory_entryIndex + 0)
+   45F4 32 A7 7D      [13]  307 	ld	(#_ui_inventory_lastEntry + 0),a
    45F7 C9            [10]  308 	ret
    45F8                     309 ___str_2:
    45F8 50 4F 54 49 4F 4E   310 	.ascii "POTION"

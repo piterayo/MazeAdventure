@@ -108,7 +108,7 @@
                             108 ; ---------------------------------
    4BFF                     109 _ui_playerstats_render_hp::
                             110 ;src/UI_PlayerStats.c:36: u8 h = 1+((u16)player_health_points*9)/255;
-   4BFF 21 45 7E      [10]  111 	ld	hl,#_player_health_points + 0
+   4BFF 21 67 7D      [10]  111 	ld	hl,#_player_health_points + 0
    4C02 4E            [ 7]  112 	ld	c, (hl)
    4C03 06 00         [ 7]  113 	ld	b,#0x00
    4C05 69            [ 4]  114 	ld	l, c
@@ -120,7 +120,7 @@
    4C0B 01 FF 00      [10]  120 	ld	bc,#0x00FF
    4C0E C5            [11]  121 	push	bc
    4C0F E5            [11]  122 	push	hl
-   4C10 CD 72 79      [17]  123 	call	__divuint
+   4C10 CD 94 78      [17]  123 	call	__divuint
    4C13 F1            [10]  124 	pop	af
    4C14 F1            [10]  125 	pop	af
    4C15 45            [ 4]  126 	ld	b,l
@@ -148,13 +148,13 @@
    4C37 33            [ 6]  148 	inc	sp
    4C38 21 44 C9      [10]  149 	ld	hl,#0xC944
    4C3B E5            [11]  150 	push	hl
-   4C3C CD 70 7C      [17]  151 	call	_cpct_drawSolidBox
+   4C3C CD 92 7B      [17]  151 	call	_cpct_drawSolidBox
    4C3F F1            [10]  152 	pop	af
    4C40 F1            [10]  153 	pop	af
    4C41 33            [ 6]  154 	inc	sp
    4C42 C1            [10]  155 	pop	bc
                             156 ;src/UI_PlayerStats.c:41: if(!player_is_dead) cpct_drawSolidBox(UI_PLAYERSTATS_POSITION+164+2048, g_colors[UI_PLAYERSTATS_HEALTHBAR_FG_COLOR], h,4);
-   4C43 3A 46 7E      [13]  157 	ld	a,(#_player_is_dead + 0)
+   4C43 3A 68 7D      [13]  157 	ld	a,(#_player_is_dead + 0)
    4C46 B7            [ 4]  158 	or	a, a
    4C47 C0            [11]  159 	ret	NZ
    4C48 21 6B 1A      [10]  160 	ld	hl, #_g_colors + 5
@@ -166,7 +166,7 @@
    4C51 C5            [11]  166 	push	bc
    4C52 21 44 C9      [10]  167 	ld	hl,#0xC944
    4C55 E5            [11]  168 	push	hl
-   4C56 CD 70 7C      [17]  169 	call	_cpct_drawSolidBox
+   4C56 CD 92 7B      [17]  169 	call	_cpct_drawSolidBox
    4C59 F1            [10]  170 	pop	af
    4C5A F1            [10]  171 	pop	af
    4C5B 33            [ 6]  172 	inc	sp
@@ -194,7 +194,7 @@
    4C75 3E 64         [ 7]  194 	ld	a,#0x64
    4C77 F5            [11]  195 	push	af
    4C78 33            [ 6]  196 	inc	sp
-   4C79 3A 44 7E      [13]  197 	ld	a,(_player_attack_value)
+   4C79 3A 66 7D      [13]  197 	ld	a,(_player_attack_value)
    4C7C F5            [11]  198 	push	af
    4C7D 33            [ 6]  199 	inc	sp
    4C7E CD 5E 3C      [17]  200 	call	_integer_to_string
@@ -231,7 +231,7 @@
    4CAB 3E 64         [ 7]  231 	ld	a,#0x64
    4CAD F5            [11]  232 	push	af
    4CAE 33            [ 6]  233 	inc	sp
-   4CAF 3A 43 7E      [13]  234 	ld	a,(_player_defense_value)
+   4CAF 3A 65 7D      [13]  234 	ld	a,(_player_defense_value)
    4CB2 F5            [11]  235 	push	af
    4CB3 33            [ 6]  236 	inc	sp
    4CB4 CD 5E 3C      [17]  237 	call	_integer_to_string
@@ -268,7 +268,7 @@
    4CE1 3E 64         [ 7]  268 	ld	a,#0x64
    4CE3 F5            [11]  269 	push	af
    4CE4 33            [ 6]  270 	inc	sp
-   4CE5 3A 48 7E      [13]  271 	ld	a,(_player_potion_count)
+   4CE5 3A 6A 7D      [13]  271 	ld	a,(_player_potion_count)
    4CE8 F5            [11]  272 	push	af
    4CE9 33            [ 6]  273 	inc	sp
    4CEA CD 5E 3C      [17]  274 	call	_integer_to_string
@@ -305,7 +305,7 @@
    4D17 3E 64         [ 7]  305 	ld	a,#0x64
    4D19 F5            [11]  306 	push	af
    4D1A 33            [ 6]  307 	inc	sp
-   4D1B 3A 49 7E      [13]  308 	ld	a,(_player_scroll_count)
+   4D1B 3A 6B 7D      [13]  308 	ld	a,(_player_scroll_count)
    4D1E F5            [11]  309 	push	af
    4D1F 33            [ 6]  310 	inc	sp
    4D20 CD 5E 3C      [17]  311 	call	_integer_to_string
@@ -339,7 +339,7 @@
    4D4B 39            [11]  339 	add	hl,sp
    4D4C F9            [ 6]  340 	ld	sp,hl
                             341 ;src/UI_PlayerStats.c:67: if(player_has_key){
-   4D4D 3A 47 7E      [13]  342 	ld	a,(#_player_has_key + 0)
+   4D4D 3A 69 7D      [13]  342 	ld	a,(#_player_has_key + 0)
    4D50 B7            [ 4]  343 	or	a, a
    4D51 28 15         [12]  344 	jr	Z,00102$
                             345 ;src/UI_PlayerStats.c:68: print_text("YES", UI_PLAYERSTATS_POSITION+644,UI_PLAYERSTATS_BG_TEXT_COLOR, UI_PLAYERSTATS_TEXT_COLOR);

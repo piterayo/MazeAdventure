@@ -39,12 +39,12 @@
                              39 ; ram data
                              40 ;--------------------------------------------------------
                              41 	.area _DATA
-   7E1B                      42 _activeItems::
-   7E1B                      43 	.ds 1
-   7E1C                      44 _item_spawnedKey::
-   7E1C                      45 	.ds 1
-   7E1D                      46 _itemArray::
-   7E1D                      47 	.ds 35
+   7D3D                      42 _activeItems::
+   7D3D                      43 	.ds 1
+   7D3E                      44 _item_spawnedKey::
+   7D3E                      45 	.ds 1
+   7D3F                      46 _itemArray::
+   7D3F                      47 	.ds 35
                              48 ;--------------------------------------------------------
                              49 ; ram data
                              50 ;--------------------------------------------------------
@@ -78,7 +78,7 @@
    0C02 DD 21 00 00   [14]   78 	ld	ix,#0
    0C06 DD 39         [15]   79 	add	ix,sp
                              80 ;src/Item.c:24: return (itemArray+index);
-   0C08 01 1D 7E      [10]   81 	ld	bc,#_itemArray+0
+   0C08 01 3F 7D      [10]   81 	ld	bc,#_itemArray+0
    0C0B DD 5E 04      [19]   82 	ld	e,4 (ix)
    0C0E 16 00         [ 7]   83 	ld	d,#0x00
    0C10 6B            [ 4]   84 	ld	l, e
@@ -100,14 +100,14 @@
    0C1D AF            [ 4]  100 	xor	a, a
    0C1E F5            [11]  101 	push	af
    0C1F 33            [ 6]  102 	inc	sp
-   0C20 21 1D 7E      [10]  103 	ld	hl,#_itemArray
+   0C20 21 3F 7D      [10]  103 	ld	hl,#_itemArray
    0C23 E5            [11]  104 	push	hl
-   0C24 CD 52 7C      [17]  105 	call	_cpct_memset
+   0C24 CD 74 7B      [17]  105 	call	_cpct_memset
                             106 ;src/Item.c:29: activeItems=0;
-   0C27 21 1B 7E      [10]  107 	ld	hl,#_activeItems + 0
+   0C27 21 3D 7D      [10]  107 	ld	hl,#_activeItems + 0
    0C2A 36 00         [10]  108 	ld	(hl), #0x00
                             109 ;src/Item.c:30: item_spawnedKey=0;
-   0C2C 21 1C 7E      [10]  110 	ld	hl,#_item_spawnedKey + 0
+   0C2C 21 3E 7D      [10]  110 	ld	hl,#_item_spawnedKey + 0
    0C2F 36 00         [10]  111 	ld	(hl), #0x00
    0C31 C9            [10]  112 	ret
                             113 ;src/Item.c:39: u8 item_try_new_spawn(){
@@ -123,7 +123,7 @@
    0C3B 21 00 00      [10]  123 	ld	hl,#0x0000
    0C3E 39            [11]  124 	add	hl,sp
    0C3F E5            [11]  125 	push	hl
-   0C40 CD 4F 7B      [17]  126 	call	_cpct_getRandom_mxor_u8
+   0C40 CD 71 7A      [17]  126 	call	_cpct_getRandom_mxor_u8
    0C43 7D            [ 4]  127 	ld	a,l
    0C44 E1            [10]  128 	pop	hl
    0C45 E6 1F         [ 7]  129 	and	a, #0x1F
@@ -138,7 +138,7 @@
    0C50 13            [ 6]  138 	inc	de
    0C51 C5            [11]  139 	push	bc
    0C52 D5            [11]  140 	push	de
-   0C53 CD 4F 7B      [17]  141 	call	_cpct_getRandom_mxor_u8
+   0C53 CD 71 7A      [17]  141 	call	_cpct_getRandom_mxor_u8
    0C56 D1            [10]  142 	pop	de
    0C57 C1            [10]  143 	pop	bc
    0C58 7D            [ 4]  144 	ld	a,l
@@ -162,8 +162,8 @@
    0C70 39            [11]  162 	add	hl,sp
    0C71 F9            [ 6]  163 	ld	sp,hl
                             164 ;src/Item.c:50: Item* item=(itemArray+ITEM_MAX_ITEMS);
-   0C72 DD 36 FA 40   [19]  165 	ld	-6 (ix),#<((_itemArray + 0x0023))
-   0C76 DD 36 FB 7E   [19]  166 	ld	-5 (ix),#>((_itemArray + 0x0023))
+   0C72 DD 36 FA 62   [19]  165 	ld	-6 (ix),#<((_itemArray + 0x0023))
+   0C76 DD 36 FB 7D   [19]  166 	ld	-5 (ix),#>((_itemArray + 0x0023))
                             167 ;src/Item.c:54: x=pos->x;
    0C7A DD 7E 04      [19]  168 	ld	a,4 (ix)
    0C7D DD 77 F8      [19]  169 	ld	-8 (ix),a
@@ -224,11 +224,11 @@
    0CF2 03            [ 6]  224 	inc	bc
    0CF3 03            [ 6]  225 	inc	bc
                             226 ;src/Item.c:63: if((!item_spawnedKey) && (((cpct_getRandom_mxor_u8()%16)==0)||level_get_level()==KING_LEVEL)){//1/16 is key
-   0CF4 3A 1C 7E      [13]  227 	ld	a,(#_item_spawnedKey + 0)
+   0CF4 3A 3E 7D      [13]  227 	ld	a,(#_item_spawnedKey + 0)
    0CF7 B7            [ 4]  228 	or	a, a
    0CF8 20 1D         [12]  229 	jr	NZ,00102$
    0CFA C5            [11]  230 	push	bc
-   0CFB CD 4F 7B      [17]  231 	call	_cpct_getRandom_mxor_u8
+   0CFB CD 71 7A      [17]  231 	call	_cpct_getRandom_mxor_u8
    0CFE C1            [10]  232 	pop	bc
    0CFF 7D            [ 4]  233 	ld	a,l
    0D00 E6 0F         [ 7]  234 	and	a, #0x0F
@@ -244,13 +244,13 @@
    0D0E AF            [ 4]  244 	xor	a, a
    0D0F 02            [ 7]  245 	ld	(bc),a
                             246 ;src/Item.c:65: item_spawnedKey=1;
-   0D10 21 1C 7E      [10]  247 	ld	hl,#_item_spawnedKey + 0
+   0D10 21 3E 7D      [10]  247 	ld	hl,#_item_spawnedKey + 0
    0D13 36 01         [10]  248 	ld	(hl), #0x01
    0D15 18 0A         [12]  249 	jr	00103$
    0D17                     250 00102$:
                             251 ;src/Item.c:70: item->type = (cpct_getRandom_mxor_u8()&3)+1;
    0D17 C5            [11]  252 	push	bc
-   0D18 CD 4F 7B      [17]  253 	call	_cpct_getRandom_mxor_u8
+   0D18 CD 71 7A      [17]  253 	call	_cpct_getRandom_mxor_u8
    0D1B C1            [10]  254 	pop	bc
    0D1C 7D            [ 4]  255 	ld	a,l
    0D1D E6 03         [ 7]  256 	and	a, #0x03
@@ -268,7 +268,7 @@
    0D2E 7D            [ 4]  268 	ld	a, l
    0D2F C6 30         [ 7]  269 	add	a, #0x30
    0D31 DD 77 FD      [19]  270 	ld	-3 (ix),a
-   0D34 CD 4F 7B      [17]  271 	call	_cpct_getRandom_mxor_u8
+   0D34 CD 71 7A      [17]  271 	call	_cpct_getRandom_mxor_u8
    0D37 DD 75 FC      [19]  272 	ld	-4 (ix), l
    0D3A 7D            [ 4]  273 	ld	a, l
    0D3B E6 07         [ 7]  274 	and	a, #0x07
@@ -291,7 +291,7 @@
    0D5F DD 34 FC      [23]  291 	inc	-4 (ix)
    0D62 DD 34 FC      [23]  292 	inc	-4 (ix)
    0D65 DD 34 FC      [23]  293 	inc	-4 (ix)
-   0D68 CD 4F 7B      [17]  294 	call	_cpct_getRandom_mxor_u8
+   0D68 CD 71 7A      [17]  294 	call	_cpct_getRandom_mxor_u8
    0D6B DD 75 FD      [19]  295 	ld	-3 (ix), l
    0D6E 7D            [ 4]  296 	ld	a, l
    0D6F E6 07         [ 7]  297 	and	a, #0x07
@@ -366,7 +366,7 @@
    0E05 DD 7E FC      [19]  366 	ld	a,-4 (ix)
    0E08 77            [ 7]  367 	ld	(hl),a
                             368 ;src/Item.c:89: ++activeItems;
-   0E09 21 1B 7E      [10]  369 	ld	hl, #_activeItems+0
+   0E09 21 3D 7D      [10]  369 	ld	hl, #_activeItems+0
    0E0C 34            [11]  370 	inc	(hl)
                             371 ;src/Item.c:90: break;
    0E0D                     372 00117$:
@@ -423,7 +423,7 @@
    0E4B 18 5B         [12]  423 	jr	00105$
    0E4D                     424 00101$:
                             425 ;src/Item.c:114: player_has_key=1;
-   0E4D 21 47 7E      [10]  426 	ld	hl,#_player_has_key + 0
+   0E4D 21 69 7D      [10]  426 	ld	hl,#_player_has_key + 0
    0E50 36 01         [10]  427 	ld	(hl), #0x01
                             428 ;src/Item.c:115: ui_playerstats_render_key();
    0E52 C5            [11]  429 	push	bc
@@ -439,13 +439,13 @@
    0E5C DD 6E FE      [19]  439 	ld	l,-2 (ix)
    0E5F DD 66 FF      [19]  440 	ld	h,-1 (ix)
    0E62 5E            [ 7]  441 	ld	e,(hl)
-   0E63 3A 44 7E      [13]  442 	ld	a,(#_player_attack_value)
+   0E63 3A 66 7D      [13]  442 	ld	a,(#_player_attack_value)
    0E66 93            [ 4]  443 	sub	a, e
    0E67 38 04         [12]  444 	jr	C,00110$
-   0E69 21 44 7E      [10]  445 	ld	hl,#_player_attack_value + 0
+   0E69 21 66 7D      [10]  445 	ld	hl,#_player_attack_value + 0
    0E6C 5E            [ 7]  446 	ld	e, (hl)
    0E6D                     447 00110$:
-   0E6D 21 44 7E      [10]  448 	ld	hl,#_player_attack_value + 0
+   0E6D 21 66 7D      [10]  448 	ld	hl,#_player_attack_value + 0
    0E70 73            [ 7]  449 	ld	(hl), e
                             450 ;src/Item.c:121: ui_playerstats_render_attack();
    0E71 C5            [11]  451 	push	bc
@@ -461,13 +461,13 @@
    0E7B DD 6E FE      [19]  461 	ld	l,-2 (ix)
    0E7E DD 66 FF      [19]  462 	ld	h,-1 (ix)
    0E81 5E            [ 7]  463 	ld	e,(hl)
-   0E82 3A 43 7E      [13]  464 	ld	a,(#_player_defense_value)
+   0E82 3A 65 7D      [13]  464 	ld	a,(#_player_defense_value)
    0E85 93            [ 4]  465 	sub	a, e
    0E86 38 04         [12]  466 	jr	C,00112$
-   0E88 21 43 7E      [10]  467 	ld	hl,#_player_defense_value + 0
+   0E88 21 65 7D      [10]  467 	ld	hl,#_player_defense_value + 0
    0E8B 5E            [ 7]  468 	ld	e, (hl)
    0E8C                     469 00112$:
-   0E8C 21 43 7E      [10]  470 	ld	hl,#_player_defense_value + 0
+   0E8C 21 65 7D      [10]  470 	ld	hl,#_player_defense_value + 0
    0E8F 73            [ 7]  471 	ld	(hl), e
                             472 ;src/Item.c:127: ui_playerstats_render_defense();
    0E90 C5            [11]  473 	push	bc
@@ -480,7 +480,7 @@
                             480 ;src/Item.c:131: case 3:{
    0E9A                     481 00104$:
                             482 ;src/Item.c:132: ++player_potion_count;
-   0E9A 21 48 7E      [10]  483 	ld	hl, #_player_potion_count+0
+   0E9A 21 6A 7D      [10]  483 	ld	hl, #_player_potion_count+0
    0E9D 34            [11]  484 	inc	(hl)
                             485 ;src/Item.c:133: ui_playerstats_render_potions();
    0E9E C5            [11]  486 	push	bc
@@ -493,7 +493,7 @@
                             493 ;src/Item.c:137: case 4:{
    0EA8                     494 00105$:
                             495 ;src/Item.c:138: ++player_scroll_count;
-   0EA8 21 49 7E      [10]  496 	ld	hl, #_player_scroll_count+0
+   0EA8 21 6B 7D      [10]  496 	ld	hl, #_player_scroll_count+0
    0EAB 34            [11]  497 	inc	(hl)
                             498 ;src/Item.c:139: ui_playerstats_render_scrolls();
    0EAC C5            [11]  499 	push	bc
@@ -580,7 +580,7 @@
    0F25 4D            [ 4]  580 	ld	c,l
    0F26 44            [ 4]  581 	ld	b,h
                             582 ;src/Item.c:155: --activeItems;
-   0F27 21 1B 7E      [10]  583 	ld	hl, #_activeItems+0
+   0F27 21 3D 7D      [10]  583 	ld	hl, #_activeItems+0
    0F2A 35            [11]  584 	dec	(hl)
                             585 ;src/Item.c:157: i->value=0;
    0F2B 13            [ 6]  586 	inc	de
@@ -601,25 +601,25 @@
                             601 ; ---------------------------------
    0F38                     602 _item_use_potion::
                             603 ;src/Item.c:164: if(player_potion_count){
-   0F38 3A 48 7E      [13]  604 	ld	a,(#_player_potion_count + 0)
+   0F38 3A 6A 7D      [13]  604 	ld	a,(#_player_potion_count + 0)
    0F3B B7            [ 4]  605 	or	a, a
    0F3C 28 1F         [12]  606 	jr	Z,00105$
                             607 ;src/Item.c:165: --player_potion_count;
-   0F3E 21 48 7E      [10]  608 	ld	hl, #_player_potion_count+0
+   0F3E 21 6A 7D      [10]  608 	ld	hl, #_player_potion_count+0
    0F41 35            [11]  609 	dec	(hl)
                             610 ;src/Item.c:166: if(player_health_points<(255-ITEM_POTION_HEAL)){
-   0F42 3A 45 7E      [13]  611 	ld	a,(#_player_health_points + 0)
+   0F42 3A 67 7D      [13]  611 	ld	a,(#_player_health_points + 0)
    0F45 D6 80         [ 7]  612 	sub	a, #0x80
    0F47 30 09         [12]  613 	jr	NC,00102$
                             614 ;src/Item.c:167: player_health_points+=ITEM_POTION_HEAL;
-   0F49 21 45 7E      [10]  615 	ld	hl,#_player_health_points
+   0F49 21 67 7D      [10]  615 	ld	hl,#_player_health_points
    0F4C 7E            [ 7]  616 	ld	a,(hl)
    0F4D C6 7F         [ 7]  617 	add	a, #0x7F
    0F4F 77            [ 7]  618 	ld	(hl),a
    0F50 18 05         [12]  619 	jr	00103$
    0F52                     620 00102$:
                             621 ;src/Item.c:170: player_health_points=255;
-   0F52 21 45 7E      [10]  622 	ld	hl,#_player_health_points + 0
+   0F52 21 67 7D      [10]  622 	ld	hl,#_player_health_points + 0
    0F55 36 FF         [10]  623 	ld	(hl), #0xFF
    0F57                     624 00103$:
                             625 ;src/Item.c:172: ui_playerstats_render_hp();
@@ -637,13 +637,13 @@
                             637 ; ---------------------------------
    0F60                     638 _item_use_scroll::
                             639 ;src/Item.c:179: u16 pos = (cpct_getRandom_mxor_u16()%1024);
-   0F60 CD 98 7B      [17]  640 	call	_cpct_getRandom_mxor_u16
+   0F60 CD BA 7A      [17]  640 	call	_cpct_getRandom_mxor_u16
    0F63 4D            [ 4]  641 	ld	c,l
    0F64 7C            [ 4]  642 	ld	a,h
    0F65 E6 03         [ 7]  643 	and	a, #0x03
    0F67 47            [ 4]  644 	ld	b,a
                             645 ;src/Item.c:180: if(player_scroll_count){
-   0F68 3A 49 7E      [13]  646 	ld	a,(#_player_scroll_count + 0)
+   0F68 3A 6B 7D      [13]  646 	ld	a,(#_player_scroll_count + 0)
    0F6B B7            [ 4]  647 	or	a, a
    0F6C 28 36         [12]  648 	jr	Z,00105$
                             649 ;src/Item.c:181: while(*(u8*)(MAP_MEM+pos)!=CELLTYPE_FLOOR){
@@ -661,7 +661,7 @@
    0F7B 18 F1         [12]  661 	jr	00101$
    0F7D                     662 00103$:
                             663 ;src/Item.c:184: --player_scroll_count;
-   0F7D 21 49 7E      [10]  664 	ld	hl, #_player_scroll_count+0
+   0F7D 21 6B 7D      [10]  664 	ld	hl, #_player_scroll_count+0
    0F80 35            [11]  665 	dec	(hl)
                             666 ;src/Item.c:185: *(u8*)&(player_position.x) = (pos%MAP_WIDTH);
    0F81 79            [ 4]  667 	ld	a,c

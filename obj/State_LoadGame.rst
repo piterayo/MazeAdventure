@@ -76,7 +76,7 @@
    3258 33            [ 6]   76 	inc	sp
    3259 21 E2 FA      [10]   77 	ld	hl,#0xFAE2
    325C E5            [11]   78 	push	hl
-   325D CD 70 7C      [17]   79 	call	_cpct_drawSolidBox
+   325D CD 92 7B      [17]   79 	call	_cpct_drawSolidBox
    3260 F1            [10]   80 	pop	af
    3261 F1            [10]   81 	pop	af
    3262 33            [ 6]   82 	inc	sp
@@ -89,7 +89,7 @@
    326C 33            [ 6]   89 	inc	sp
    326D 21 33 DB      [10]   90 	ld	hl,#0xDB33
    3270 E5            [11]   91 	push	hl
-   3271 CD 70 7C      [17]   92 	call	_cpct_drawSolidBox
+   3271 CD 92 7B      [17]   92 	call	_cpct_drawSolidBox
    3274 F1            [10]   93 	pop	af
    3275 F1            [10]   94 	pop	af
    3276 33            [ 6]   95 	inc	sp
@@ -113,7 +113,7 @@
    3281                     113 _state_loadgame_input::
                             114 ;src/State_LoadGame.c:33: if(cpct_isKeyPressed(Key_CursorLeft)){
    3281 21 01 01      [10]  115 	ld	hl,#0x0101
-   3284 CD 1D 7A      [17]  116 	call	_cpct_isKeyPressed
+   3284 CD 3F 79      [17]  116 	call	_cpct_isKeyPressed
    3287 7D            [ 4]  117 	ld	a,l
    3288 B7            [ 4]  118 	or	a, a
    3289 28 06         [12]  119 	jr	Z,00185$
@@ -124,7 +124,7 @@
    3291                     124 00185$:
                             125 ;src/State_LoadGame.c:37: else if(cpct_isKeyPressed(Key_CursorRight)){
    3291 21 00 02      [10]  126 	ld	hl,#0x0200
-   3294 CD 1D 7A      [17]  127 	call	_cpct_isKeyPressed
+   3294 CD 3F 79      [17]  127 	call	_cpct_isKeyPressed
    3297 7D            [ 4]  128 	ld	a,l
    3298 B7            [ 4]  129 	or	a, a
    3299 28 06         [12]  130 	jr	Z,00182$
@@ -135,7 +135,7 @@
    32A1                     135 00182$:
                             136 ;src/State_LoadGame.c:41: else if(cpct_isKeyPressed(Key_Return)){
    32A1 21 02 04      [10]  137 	ld	hl,#0x0402
-   32A4 CD 1D 7A      [17]  138 	call	_cpct_isKeyPressed
+   32A4 CD 3F 79      [17]  138 	call	_cpct_isKeyPressed
    32A7 7D            [ 4]  139 	ld	a,l
    32A8 B7            [ 4]  140 	or	a, a
    32A9 28 06         [12]  141 	jr	Z,00179$
@@ -146,7 +146,7 @@
    32B1                     146 00179$:
                             147 ;src/State_LoadGame.c:45: else if(cpct_isKeyPressed(Key_0)){
    32B1 21 04 01      [10]  148 	ld	hl,#0x0104
-   32B4 CD 1D 7A      [17]  149 	call	_cpct_isKeyPressed
+   32B4 CD 3F 79      [17]  149 	call	_cpct_isKeyPressed
    32B7 7D            [ 4]  150 	ld	a,l
    32B8 B7            [ 4]  151 	or	a, a
    32B9 28 0B         [12]  152 	jr	Z,00176$
@@ -161,7 +161,7 @@
    32C6                     161 00176$:
                             162 ;src/State_LoadGame.c:49: else if(cpct_isKeyPressed(Key_1)){
    32C6 21 08 01      [10]  163 	ld	hl,#0x0108
-   32C9 CD 1D 7A      [17]  164 	call	_cpct_isKeyPressed
+   32C9 CD 3F 79      [17]  164 	call	_cpct_isKeyPressed
    32CC 7D            [ 4]  165 	ld	a,l
    32CD B7            [ 4]  166 	or	a, a
    32CE 28 0B         [12]  167 	jr	Z,00173$
@@ -176,7 +176,7 @@
    32DB                     176 00173$:
                             177 ;src/State_LoadGame.c:53: else if(cpct_isKeyPressed(Key_2)){
    32DB 21 08 02      [10]  178 	ld	hl,#0x0208
-   32DE CD 1D 7A      [17]  179 	call	_cpct_isKeyPressed
+   32DE CD 3F 79      [17]  179 	call	_cpct_isKeyPressed
    32E1 7D            [ 4]  180 	ld	a,l
    32E2 B7            [ 4]  181 	or	a, a
    32E3 28 0B         [12]  182 	jr	Z,00170$
@@ -191,7 +191,7 @@
    32F0                     191 00170$:
                             192 ;src/State_LoadGame.c:57: else if(cpct_isKeyPressed(Key_3)){
    32F0 21 07 02      [10]  193 	ld	hl,#0x0207
-   32F3 CD 1D 7A      [17]  194 	call	_cpct_isKeyPressed
+   32F3 CD 3F 79      [17]  194 	call	_cpct_isKeyPressed
    32F6 7D            [ 4]  195 	ld	a,l
    32F7 B7            [ 4]  196 	or	a, a
    32F8 28 0B         [12]  197 	jr	Z,00167$
@@ -206,7 +206,7 @@
    3305                     206 00167$:
                             207 ;src/State_LoadGame.c:61: else if(cpct_isKeyPressed(Key_4)){
    3305 21 07 01      [10]  208 	ld	hl,#0x0107
-   3308 CD 1D 7A      [17]  209 	call	_cpct_isKeyPressed
+   3308 CD 3F 79      [17]  209 	call	_cpct_isKeyPressed
    330B 7D            [ 4]  210 	ld	a,l
    330C B7            [ 4]  211 	or	a, a
    330D 28 0B         [12]  212 	jr	Z,00164$
@@ -221,7 +221,7 @@
    331A                     221 00164$:
                             222 ;src/State_LoadGame.c:65: else if(cpct_isKeyPressed(Key_5)){
    331A 21 06 02      [10]  223 	ld	hl,#0x0206
-   331D CD 1D 7A      [17]  224 	call	_cpct_isKeyPressed
+   331D CD 3F 79      [17]  224 	call	_cpct_isKeyPressed
    3320 7D            [ 4]  225 	ld	a,l
    3321 B7            [ 4]  226 	or	a, a
    3322 28 0B         [12]  227 	jr	Z,00161$
@@ -236,7 +236,7 @@
    332F                     236 00161$:
                             237 ;src/State_LoadGame.c:69: else if(cpct_isKeyPressed(Key_6)){
    332F 21 06 01      [10]  238 	ld	hl,#0x0106
-   3332 CD 1D 7A      [17]  239 	call	_cpct_isKeyPressed
+   3332 CD 3F 79      [17]  239 	call	_cpct_isKeyPressed
    3335 7D            [ 4]  240 	ld	a,l
    3336 B7            [ 4]  241 	or	a, a
    3337 28 0B         [12]  242 	jr	Z,00158$
@@ -251,7 +251,7 @@
    3344                     251 00158$:
                             252 ;src/State_LoadGame.c:73: else if(cpct_isKeyPressed(Key_7)){
    3344 21 05 02      [10]  253 	ld	hl,#0x0205
-   3347 CD 1D 7A      [17]  254 	call	_cpct_isKeyPressed
+   3347 CD 3F 79      [17]  254 	call	_cpct_isKeyPressed
    334A 7D            [ 4]  255 	ld	a,l
    334B B7            [ 4]  256 	or	a, a
    334C 28 0B         [12]  257 	jr	Z,00155$
@@ -266,7 +266,7 @@
    3359                     266 00155$:
                             267 ;src/State_LoadGame.c:77: else if(cpct_isKeyPressed(Key_8)){
    3359 21 05 01      [10]  268 	ld	hl,#0x0105
-   335C CD 1D 7A      [17]  269 	call	_cpct_isKeyPressed
+   335C CD 3F 79      [17]  269 	call	_cpct_isKeyPressed
    335F 7D            [ 4]  270 	ld	a,l
    3360 B7            [ 4]  271 	or	a, a
    3361 28 0B         [12]  272 	jr	Z,00152$
@@ -281,7 +281,7 @@
    336E                     281 00152$:
                             282 ;src/State_LoadGame.c:81: else if(cpct_isKeyPressed(Key_9)){
    336E 21 04 02      [10]  283 	ld	hl,#0x0204
-   3371 CD 1D 7A      [17]  284 	call	_cpct_isKeyPressed
+   3371 CD 3F 79      [17]  284 	call	_cpct_isKeyPressed
    3374 7D            [ 4]  285 	ld	a,l
    3375 B7            [ 4]  286 	or	a, a
    3376 28 0B         [12]  287 	jr	Z,00149$
@@ -296,7 +296,7 @@
    3383                     296 00149$:
                             297 ;src/State_LoadGame.c:85: else if(cpct_isKeyPressed(Key_A)){
    3383 21 08 20      [10]  298 	ld	hl,#0x2008
-   3386 CD 1D 7A      [17]  299 	call	_cpct_isKeyPressed
+   3386 CD 3F 79      [17]  299 	call	_cpct_isKeyPressed
    3389 7D            [ 4]  300 	ld	a,l
    338A B7            [ 4]  301 	or	a, a
    338B 28 0B         [12]  302 	jr	Z,00146$
@@ -311,7 +311,7 @@
    3398                     311 00146$:
                             312 ;src/State_LoadGame.c:89: else if(cpct_isKeyPressed(Key_B)){
    3398 21 06 40      [10]  313 	ld	hl,#0x4006
-   339B CD 1D 7A      [17]  314 	call	_cpct_isKeyPressed
+   339B CD 3F 79      [17]  314 	call	_cpct_isKeyPressed
    339E 7D            [ 4]  315 	ld	a,l
    339F B7            [ 4]  316 	or	a, a
    33A0 28 0B         [12]  317 	jr	Z,00143$
@@ -326,7 +326,7 @@
    33AD                     326 00143$:
                             327 ;src/State_LoadGame.c:93: else if(cpct_isKeyPressed(Key_C)){
    33AD 21 07 40      [10]  328 	ld	hl,#0x4007
-   33B0 CD 1D 7A      [17]  329 	call	_cpct_isKeyPressed
+   33B0 CD 3F 79      [17]  329 	call	_cpct_isKeyPressed
    33B3 7D            [ 4]  330 	ld	a,l
    33B4 B7            [ 4]  331 	or	a, a
    33B5 28 0B         [12]  332 	jr	Z,00140$
@@ -341,7 +341,7 @@
    33C2                     341 00140$:
                             342 ;src/State_LoadGame.c:97: else if(cpct_isKeyPressed(Key_D)){
    33C2 21 07 20      [10]  343 	ld	hl,#0x2007
-   33C5 CD 1D 7A      [17]  344 	call	_cpct_isKeyPressed
+   33C5 CD 3F 79      [17]  344 	call	_cpct_isKeyPressed
    33C8 7D            [ 4]  345 	ld	a,l
    33C9 B7            [ 4]  346 	or	a, a
    33CA 28 0B         [12]  347 	jr	Z,00137$
@@ -356,7 +356,7 @@
    33D7                     356 00137$:
                             357 ;src/State_LoadGame.c:101: else if(cpct_isKeyPressed(Key_E)){
    33D7 21 07 04      [10]  358 	ld	hl,#0x0407
-   33DA CD 1D 7A      [17]  359 	call	_cpct_isKeyPressed
+   33DA CD 3F 79      [17]  359 	call	_cpct_isKeyPressed
    33DD 7D            [ 4]  360 	ld	a,l
    33DE B7            [ 4]  361 	or	a, a
    33DF 28 0B         [12]  362 	jr	Z,00134$
@@ -371,7 +371,7 @@
    33EC                     371 00134$:
                             372 ;src/State_LoadGame.c:105: else if(cpct_isKeyPressed(Key_F)){
    33EC 21 06 20      [10]  373 	ld	hl,#0x2006
-   33EF CD 1D 7A      [17]  374 	call	_cpct_isKeyPressed
+   33EF CD 3F 79      [17]  374 	call	_cpct_isKeyPressed
    33F2 7D            [ 4]  375 	ld	a,l
    33F3 B7            [ 4]  376 	or	a, a
    33F4 28 0B         [12]  377 	jr	Z,00131$
@@ -386,7 +386,7 @@
    3401                     386 00131$:
                             387 ;src/State_LoadGame.c:109: else if(cpct_isKeyPressed(Key_M)){
    3401 21 04 40      [10]  388 	ld	hl,#0x4004
-   3404 CD 1D 7A      [17]  389 	call	_cpct_isKeyPressed
+   3404 CD 3F 79      [17]  389 	call	_cpct_isKeyPressed
    3407 7D            [ 4]  390 	ld	a,l
    3408 B7            [ 4]  391 	or	a, a
    3409 28 0B         [12]  392 	jr	Z,00128$
@@ -401,7 +401,7 @@
    3416                     401 00128$:
                             402 ;src/State_LoadGame.c:113: else if(cpct_isKeyPressed(Key_I)){
    3416 21 04 08      [10]  403 	ld	hl,#0x0804
-   3419 CD 1D 7A      [17]  404 	call	_cpct_isKeyPressed
+   3419 CD 3F 79      [17]  404 	call	_cpct_isKeyPressed
    341C 7D            [ 4]  405 	ld	a,l
    341D B7            [ 4]  406 	or	a, a
    341E 28 0B         [12]  407 	jr	Z,00125$
@@ -416,7 +416,7 @@
    342B                     416 00125$:
                             417 ;src/State_LoadGame.c:117: else if(cpct_isKeyPressed(Key_L)){
    342B 21 04 10      [10]  418 	ld	hl,#0x1004
-   342E CD 1D 7A      [17]  419 	call	_cpct_isKeyPressed
+   342E CD 3F 79      [17]  419 	call	_cpct_isKeyPressed
    3431 7D            [ 4]  420 	ld	a,l
    3432 B7            [ 4]  421 	or	a, a
    3433 28 0B         [12]  422 	jr	Z,00122$
@@ -431,7 +431,7 @@
    3440                     431 00122$:
                             432 ;src/State_LoadGame.c:121: else if(cpct_isKeyPressed(Key_O)){
    3440 21 04 04      [10]  433 	ld	hl,#0x0404
-   3443 CD 1D 7A      [17]  434 	call	_cpct_isKeyPressed
+   3443 CD 3F 79      [17]  434 	call	_cpct_isKeyPressed
    3446 7D            [ 4]  435 	ld	a,l
    3447 B7            [ 4]  436 	or	a, a
    3448 28 0B         [12]  437 	jr	Z,00119$
@@ -446,7 +446,7 @@
    3455                     446 00119$:
                             447 ;src/State_LoadGame.c:125: else if(cpct_isKeyPressed(Key_T)){
    3455 21 06 08      [10]  448 	ld	hl,#0x0806
-   3458 CD 1D 7A      [17]  449 	call	_cpct_isKeyPressed
+   3458 CD 3F 79      [17]  449 	call	_cpct_isKeyPressed
    345B 7D            [ 4]  450 	ld	a,l
    345C B7            [ 4]  451 	or	a, a
    345D 28 0B         [12]  452 	jr	Z,00116$
@@ -461,7 +461,7 @@
    346A                     461 00116$:
                             462 ;src/State_LoadGame.c:129: else if(cpct_isKeyPressed(Key_W)){
    346A 21 07 08      [10]  463 	ld	hl,#0x0807
-   346D CD 1D 7A      [17]  464 	call	_cpct_isKeyPressed
+   346D CD 3F 79      [17]  464 	call	_cpct_isKeyPressed
    3470 7D            [ 4]  465 	ld	a,l
    3471 B7            [ 4]  466 	or	a, a
    3472 28 0B         [12]  467 	jr	Z,00113$
@@ -476,7 +476,7 @@
    347F                     476 00113$:
                             477 ;src/State_LoadGame.c:133: else if(cpct_isKeyPressed(Key_R)){
    347F 21 06 04      [10]  478 	ld	hl,#0x0406
-   3482 CD 1D 7A      [17]  479 	call	_cpct_isKeyPressed
+   3482 CD 3F 79      [17]  479 	call	_cpct_isKeyPressed
    3485 7D            [ 4]  480 	ld	a,l
    3486 B7            [ 4]  481 	or	a, a
    3487 28 0B         [12]  482 	jr	Z,00110$
@@ -491,7 +491,7 @@
    3494                     491 00110$:
                             492 ;src/State_LoadGame.c:137: else if(cpct_isKeyPressed(Key_S)){
    3494 21 07 10      [10]  493 	ld	hl,#0x1007
-   3497 CD 1D 7A      [17]  494 	call	_cpct_isKeyPressed
+   3497 CD 3F 79      [17]  494 	call	_cpct_isKeyPressed
    349A 7D            [ 4]  495 	ld	a,l
    349B B7            [ 4]  496 	or	a, a
    349C 28 0B         [12]  497 	jr	Z,00107$
@@ -506,7 +506,7 @@
    34A9                     506 00107$:
                             507 ;src/State_LoadGame.c:141: else if(cpct_isKeyPressed(Key_Space)){
    34A9 21 05 80      [10]  508 	ld	hl,#0x8005
-   34AC CD 1D 7A      [17]  509 	call	_cpct_isKeyPressed
+   34AC CD 3F 79      [17]  509 	call	_cpct_isKeyPressed
    34AF 7D            [ 4]  510 	ld	a,l
    34B0 B7            [ 4]  511 	or	a, a
    34B1 28 0B         [12]  512 	jr	Z,00104$
@@ -521,7 +521,7 @@
    34BE                     521 00104$:
                             522 ;src/State_LoadGame.c:145: else if(cpct_isKeyPressed(Key_Del)){
    34BE 21 09 80      [10]  523 	ld	hl,#0x8009
-   34C1 CD 1D 7A      [17]  524 	call	_cpct_isKeyPressed
+   34C1 CD 3F 79      [17]  524 	call	_cpct_isKeyPressed
    34C4 7D            [ 4]  525 	ld	a,l
    34C5 B7            [ 4]  526 	or	a, a
    34C6 C8            [11]  527 	ret	Z
@@ -586,7 +586,7 @@
    3502 33            [ 6]  586 	inc	sp
    3503 21 E2 FA      [10]  587 	ld	hl,#0xFAE2
    3506 E5            [11]  588 	push	hl
-   3507 CD 70 7C      [17]  589 	call	_cpct_drawSolidBox
+   3507 CD 92 7B      [17]  589 	call	_cpct_drawSolidBox
    350A F1            [10]  590 	pop	af
    350B F1            [10]  591 	pop	af
    350C 33            [ 6]  592 	inc	sp

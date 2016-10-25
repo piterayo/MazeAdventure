@@ -19,20 +19,20 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  s__DABS                         
      00000040  s__CODE                         
      00000148  l__DATA                         
-     00007D5D  l__CODE                         
-     00007D9D  s__DATA                         
-     00007EE5  s__GSFINAL                      
-     00007EE5  s__GSINIT                       
-     00007EE5  s__HOME                         
-     00007EE5  s__INITIALIZED                  
-     00007EE5  s__INITIALIZER                  
+     00007C7F  l__CODE                         
+     00007CBF  s__DATA                         
+     00007E07  s__GSFINAL                      
+     00007E07  s__GSINIT                       
+     00007E07  s__HOME                         
+     00007E07  s__INITIALIZED                  
+     00007E07  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
+_CODE                               00000040    00007C7F =       31871. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -91,7 +91,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
+_CODE                               00000040    00007C7F =       31871. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -151,7 +151,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
+_CODE                               00000040    00007C7F =       31871. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -211,7 +211,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
+_CODE                               00000040    00007C7F =       31871. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -271,7 +271,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
+_CODE                               00000040    00007C7F =       31871. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -331,7 +331,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
+_CODE                               00000040    00007C7F =       31871. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -368,140 +368,140 @@ _CODE                               00000040    00007D5D =       32093. bytes (R
      00004F0C  _compass_compass_3                 compass
      00004F8C  _items_tileset                     items_tileset
      000050D6  _menu_bg                           menu_bg
-     000057A5  _camelot_enemy                     camelot_enemy
-     00005820  _king_enemy                        king_enemy
-     000058D8  _level0_enemies                    level0_enemies
-     0000595C  _level1_enemies                    level1_enemies
-     00005A07  _level2_enemies                    level2_enemies
-     00005A82  _level3_enemies                    level3_enemies
-     00005B39  _rat_enemy                         rat_enemy
-     00005BA5  _typography_4x6_monospaced         typography_4x6_monospaced
-     00005C3B  _level0_walls                      level0_walls
-     000061F8  _level1_walls                      level1_walls
-     00006A4D  _level2_walls                      level2_walls
-     0000727B  _level3_walls                      level3_walls
-     00007972  __divuint                          
-     0000797A  __divuchar                         
-     00007981  __divu8                            
-     00007984  __divu16                           
-     000079B3  _cpct_scanKeyboard_f               cpct_keyboard
-     000079B3  cpct_scanKeyboard_f_asm            cpct_keyboard
+     000056C7  _camelot_enemy                     camelot_enemy
+     00005742  _king_enemy                        king_enemy
+     000057FA  _level0_enemies                    level0_enemies
+     0000587E  _level1_enemies                    level1_enemies
+     00005929  _level2_enemies                    level2_enemies
+     000059A4  _level3_enemies                    level3_enemies
+     00005A5B  _rat_enemy                         rat_enemy
+     00005AC7  _typography_4x6_monospaced         typography_4x6_monospaced
+     00005B5D  _level0_walls                      level0_walls
+     0000611A  _level1_walls                      level1_walls
+     0000696F  _level2_walls                      level2_walls
+     0000719D  _level3_walls                      level3_walls
+     00007894  __divuint                          
+     0000789C  __divuchar                         
+     000078A3  __divu8                            
+     000078A6  __divu16                           
+     000078D5  _cpct_scanKeyboard_f               cpct_keyboard
+     000078D5  cpct_scanKeyboard_f_asm            cpct_keyboard
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
+_CODE                               00000040    00007C7F =       31871. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00007A1D  _cpct_isKeyPressed                 cpct_keyboard
-     00007A1D  cpct_isKeyPressed_asm              cpct_keyboard
-     00007A29  _cpct_setPalette                   cpct_video
-     00007A40  _cpct_setPALColour                 cpct_video
-     00007A4C  _cpct_drawSprite                   cpct_sprites
-     00007AF1  __moduchar                         
-     00007AFD  __moduint                          
-     00007B08  _cpct_fw2hw                        cpct_video
-     00007B1B  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00007B25  __mulint                           
-     00007B2D  __mul16                            
-     00007B41  _cpct_setSeed_mxor                 cpct_random
-     00007B41  cpct_setSeed_mxor_asm              cpct_random
-     00007B49  _cpct_restoreState_mxor_u8         cpct_random
-     00007B49  cpct_restoreState_mxor_u8_asm      cpct_random
-     00007B4F  _cpct_getRandom_mxor_u8            cpct_random
-     00007B4F  cpct_getRandom_mxor_u8             cpct_random
-     00007B50  cpct_randomIdx_mxor_u8             cpct_random
-     00007B74  _cpct_nextRandom_mxor_u32          cpct_random
-     00007B74  cpct_nextRandom_mxor_u32_asm       cpct_random
-     00007B97  ___sdcc_call_hl                    
-     00007B98  _cpct_getRandom_mxor_u16           cpct_random
-     00007B98  cpct_getRandom_mxor_u16            cpct_random
-     00007BBA  cpct_firmware2hw_colour            
-     00007BD5  _cpct_hflipSpriteM0                cpct_sprites
-     00007C19  _cpct_waitVSYNC                    cpct_video
-     00007C19  cpct_waitVSYNC_asm                 cpct_video
-     00007C21  _cpct_isAnyKeyPressed_f            cpct_keyboard
-     00007C21  cpct_isAnyKeyPressed_f_asm         cpct_keyboard
-     00007C3C  _cpct_setVideoMode                 cpct_video
-     00007C4A  _cpct_memcpy                       cpct_memutils
-     00007C52  _cpct_memset                       cpct_memutils
-     00007C60  _cpct_disableFirmware              cpct_firmware
-     00007C60  _cpct_removeInterruptHandler       cpct_firmware
-     00007C60  cpct_disableFirmware_asm           cpct_firmware
-     00007C60  cpct_removeInterruptHandler_asm    cpct_firmware
-     00007C70  _cpct_drawSolidBox                 cpct_sprites
-     00007D28  _cpct_mode_rom_status              cpct_firmware
-     00007D29  __divsint                          
-     00007D32  __divschar                         
-     00007D39  __div8                             
-     00007D3D  __div_signexte                     
-     00007D41  __div16                            
-     00007D67  __get_remainder                    
-     00007D71  _cpct_setInterruptHandler          cpct_firmware
-     00007D71  cpct_setInterruptHandler_asm       cpct_firmware
-     00007D82  cpct_safeInterruptHandlerHook      cpct_firmware
-     00007D99  _cpct_mxor32_seed                  cpct_random
+     0000793F  _cpct_isKeyPressed                 cpct_keyboard
+     0000793F  cpct_isKeyPressed_asm              cpct_keyboard
+     0000794B  _cpct_setPalette                   cpct_video
+     00007962  _cpct_setPALColour                 cpct_video
+     0000796E  _cpct_drawSprite                   cpct_sprites
+     00007A13  __moduchar                         
+     00007A1F  __moduint                          
+     00007A2A  _cpct_fw2hw                        cpct_video
+     00007A3D  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00007A47  __mulint                           
+     00007A4F  __mul16                            
+     00007A63  _cpct_setSeed_mxor                 cpct_random
+     00007A63  cpct_setSeed_mxor_asm              cpct_random
+     00007A6B  _cpct_restoreState_mxor_u8         cpct_random
+     00007A6B  cpct_restoreState_mxor_u8_asm      cpct_random
+     00007A71  _cpct_getRandom_mxor_u8            cpct_random
+     00007A71  cpct_getRandom_mxor_u8             cpct_random
+     00007A72  cpct_randomIdx_mxor_u8             cpct_random
+     00007A96  _cpct_nextRandom_mxor_u32          cpct_random
+     00007A96  cpct_nextRandom_mxor_u32_asm       cpct_random
+     00007AB9  ___sdcc_call_hl                    
+     00007ABA  _cpct_getRandom_mxor_u16           cpct_random
+     00007ABA  cpct_getRandom_mxor_u16            cpct_random
+     00007ADC  cpct_firmware2hw_colour            
+     00007AF7  _cpct_hflipSpriteM0                cpct_sprites
+     00007B3B  _cpct_waitVSYNC                    cpct_video
+     00007B3B  cpct_waitVSYNC_asm                 cpct_video
+     00007B43  _cpct_isAnyKeyPressed_f            cpct_keyboard
+     00007B43  cpct_isAnyKeyPressed_f_asm         cpct_keyboard
+     00007B5E  _cpct_setVideoMode                 cpct_video
+     00007B6C  _cpct_memcpy                       cpct_memutils
+     00007B74  _cpct_memset                       cpct_memutils
+     00007B82  _cpct_disableFirmware              cpct_firmware
+     00007B82  _cpct_removeInterruptHandler       cpct_firmware
+     00007B82  cpct_disableFirmware_asm           cpct_firmware
+     00007B82  cpct_removeInterruptHandler_asm    cpct_firmware
+     00007B92  _cpct_drawSolidBox                 cpct_sprites
+     00007C4A  _cpct_mode_rom_status              cpct_firmware
+     00007C4B  __divsint                          
+     00007C54  __divschar                         
+     00007C5B  __div8                             
+     00007C5F  __div_signexte                     
+     00007C63  __div16                            
+     00007C89  __get_remainder                    
+     00007C93  _cpct_setInterruptHandler          cpct_firmware
+     00007C93  cpct_setInterruptHandler_asm       cpct_firmware
+     00007CA4  cpct_safeInterruptHandlerHook      cpct_firmware
+     00007CBB  _cpct_mxor32_seed                  cpct_random
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               00007D9D    00000148 =         328. bytes (REL,CON)
+_DATA                               00007CBF    00000148 =         328. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00007D9D  _activeEnemies                     Enemy
-     00007D9E  _enemyArray                        Enemy
-     00007E16  _r_counter                         GameFunctions
-     00007E18  _music_on                          GameFunctions
-     00007E19  _textures_on                       GameFunctions
-     00007E1A  _camelot_warriors_mode             GameFunctions
-     00007E1B  _activeItems                       Item
-     00007E1C  _item_spawnedKey                   Item
-     00007E1D  _itemArray                         Item
-     00007E40  _current_level                     Level
-     00007E41  _rand_seed                         Map
-     00007E43  _player_defense_value              Player
-     00007E44  _player_attack_value               Player
-     00007E45  _player_health_points              Player
-     00007E46  _player_is_dead                    Player
-     00007E47  _player_has_key                    Player
-     00007E48  _player_potion_count               Player
-     00007E49  _player_scroll_count               Player
-     00007E4A  _player_directionIndex             Player
-     00007E4B  _save                              SaveGame
-     00007E54  _saveString                        SaveGame
-     00007E67  _updateRenderBuffer                State_InGame
-     00007E68  _action                            State_InGame
-     00007E69  _object_used                       State_Inventory
-     00007E6A  _level_seed                        State_LoadLevel
-     00007E6C  _inputString                       StringInput
-     00007E7F  _currentPos                        StringInput
-     00007E80  _ui_gamemenu_lastEntry             UI_GameMenu
-     00007E81  _ui_gamemenu_entryIndex            UI_GameMenu
-     00007E82  _ui_gamemenu_entrySelected         UI_GameMenu
-     00007E83  _ui_gamemenu_can_move              UI_GameMenu
-     00007E84  _ui_gamemenu_action                UI_GameMenu
-     00007E85  _ui_inventory_lastEntry            UI_Inventory
-     00007E86  _ui_inventory_entryIndex           UI_Inventory
-     00007E87  _ui_inventory_entrySelected        UI_Inventory
-     00007E88  _ui_loadgame_lastEntry             UI_LoadGame
-     00007E89  _ui_loadgame_entryIndex            UI_LoadGame
-     00007E8A  _ui_loadgame_entrySelected         UI_LoadGame
-     00007E8B  _ui_log_currentString              UI_Log
-     00007E8C  _ui_log_textStrings                UI_Log
-     00007EDC  _ui_mainmenu_lastEntry             UI_MainMenu
-     00007EDD  _ui_mainmenu_entryIndex            UI_MainMenu
-     00007EDE  _ui_mainmenu_entrySelected         UI_MainMenu
-     00007EDF  _ui_options_lastEntry              UI_Options
-     00007EE0  _ui_options_entryIndex             UI_Options
-     00007EE1  _ui_options_entrySelected          UI_Options
-     00007EE2  _ui_pausemenu_lastEntry            UI_PauseMenu
-     00007EE3  _ui_pausemenu_entryIndex           UI_PauseMenu
-     00007EE4  _ui_pausemenu_entrySelected        UI_PauseMenu
+     00007CBF  _activeEnemies                     Enemy
+     00007CC0  _enemyArray                        Enemy
+     00007D38  _r_counter                         GameFunctions
+     00007D3A  _music_on                          GameFunctions
+     00007D3B  _textures_on                       GameFunctions
+     00007D3C  _camelot_warriors_mode             GameFunctions
+     00007D3D  _activeItems                       Item
+     00007D3E  _item_spawnedKey                   Item
+     00007D3F  _itemArray                         Item
+     00007D62  _current_level                     Level
+     00007D63  _rand_seed                         Map
+     00007D65  _player_defense_value              Player
+     00007D66  _player_attack_value               Player
+     00007D67  _player_health_points              Player
+     00007D68  _player_is_dead                    Player
+     00007D69  _player_has_key                    Player
+     00007D6A  _player_potion_count               Player
+     00007D6B  _player_scroll_count               Player
+     00007D6C  _player_directionIndex             Player
+     00007D6D  _save                              SaveGame
+     00007D76  _saveString                        SaveGame
+     00007D89  _updateRenderBuffer                State_InGame
+     00007D8A  _action                            State_InGame
+     00007D8B  _object_used                       State_Inventory
+     00007D8C  _level_seed                        State_LoadLevel
+     00007D8E  _inputString                       StringInput
+     00007DA1  _currentPos                        StringInput
+     00007DA2  _ui_gamemenu_lastEntry             UI_GameMenu
+     00007DA3  _ui_gamemenu_entryIndex            UI_GameMenu
+     00007DA4  _ui_gamemenu_entrySelected         UI_GameMenu
+     00007DA5  _ui_gamemenu_can_move              UI_GameMenu
+     00007DA6  _ui_gamemenu_action                UI_GameMenu
+     00007DA7  _ui_inventory_lastEntry            UI_Inventory
+     00007DA8  _ui_inventory_entryIndex           UI_Inventory
+     00007DA9  _ui_inventory_entrySelected        UI_Inventory
+     00007DAA  _ui_loadgame_lastEntry             UI_LoadGame
+     00007DAB  _ui_loadgame_entryIndex            UI_LoadGame
+     00007DAC  _ui_loadgame_entrySelected         UI_LoadGame
+     00007DAD  _ui_log_currentString              UI_Log
+     00007DAE  _ui_log_textStrings                UI_Log
+     00007DFE  _ui_mainmenu_lastEntry             UI_MainMenu
+     00007DFF  _ui_mainmenu_entryIndex            UI_MainMenu
+     00007E00  _ui_mainmenu_entrySelected         UI_MainMenu
+     00007E01  _ui_options_lastEntry              UI_Options
+     00007E02  _ui_options_entryIndex             UI_Options
+     00007E03  _ui_options_entrySelected          UI_Options
+     00007E04  _ui_pausemenu_lastEntry            UI_PauseMenu
+     00007E05  _ui_pausemenu_entryIndex           UI_PauseMenu
+     00007E06  _ui_pausemenu_entrySelected        UI_PauseMenu
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
 

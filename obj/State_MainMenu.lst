@@ -80,22 +80,22 @@
                              80 ;src/State_MainMenu.c:29: newPos=0;
    000D DD 36 F7 00   [19]   81 	ld	-9 (ix),#0x00
                              82 ;src/State_MainMenu.c:30: texture_set = menu_bg;
-   0011 DD 36 F8r00   [19]   83 	ld	-8 (ix),#<(_menu_bg)
-   0015 DD 36 F9s00   [19]   84 	ld	-7 (ix),#>(_menu_bg)
+   0011 DD 36 FEr00   [19]   83 	ld	-2 (ix),#<(_menu_bg)
+   0015 DD 36 FFs00   [19]   84 	ld	-1 (ix),#>(_menu_bg)
                              85 ;src/State_MainMenu.c:32: position=MANUALLY_ALLOCATED_MEMORY_START;
    0019 01 D0 88      [10]   86 	ld	bc,#0x88D0
                              87 ;src/State_MainMenu.c:33: *position=0;
    001C 21 D0 88      [10]   88 	ld	hl,#0x88D0
    001F 36 00         [10]   89 	ld	(hl),#0x00
                              90 ;src/State_MainMenu.c:36: while(length){
-   0021 11 CF 06      [10]   91 	ld	de,#0x06CF
+   0021 11 F1 05      [10]   91 	ld	de,#0x05F1
    0024                      92 00106$:
    0024 7A            [ 4]   93 	ld	a,d
    0025 B3            [ 4]   94 	or	a,e
    0026 CArA6r00      [10]   95 	jp	Z,00108$
                              96 ;src/State_MainMenu.c:37: value = g_colors[(*texture_set)&0x0F];
-   0029 DD 6E F8      [19]   97 	ld	l,-8 (ix)
-   002C DD 66 F9      [19]   98 	ld	h,-7 (ix)
+   0029 DD 6E FE      [19]   97 	ld	l,-2 (ix)
+   002C DD 66 FF      [19]   98 	ld	h,-1 (ix)
    002F 7E            [ 7]   99 	ld	a,(hl)
    0030 DD 77 FB      [19]  100 	ld	-5 (ix), a
    0033 E6 0F         [ 7]  101 	and	a, #0x0F
@@ -120,7 +120,7 @@
    004E DD 77 FC      [19]  120 	ld	-4 (ix),a
    0051 7D            [ 4]  121 	ld	a,l
    0052 E6 55         [ 7]  122 	and	a, #0x55
-   0054 DD 77 FE      [19]  123 	ld	-2 (ix),a
+   0054 DD 77 FD      [19]  123 	ld	-3 (ix),a
    0057 DD 7E F7      [19]  124 	ld	a,-9 (ix)
    005A DD 77 FA      [19]  125 	ld	-6 (ix),a
    005D                     126 00103$:
@@ -131,21 +131,21 @@
    0063 C5            [11]  131 	push	bc
    0064 FD E1         [14]  132 	pop	iy
    0066 0A            [ 7]  133 	ld	a,(bc)
-   0067 DD 77 FD      [19]  134 	ld	-3 (ix),a
+   0067 DD 77 F8      [19]  134 	ld	-8 (ix),a
    006A DD 7E FA      [19]  135 	ld	a,-6 (ix)
    006D E6 01         [ 7]  136 	and	a, #0x01
-   006F DD 77 FF      [19]  137 	ld	-1 (ix), a
+   006F DD 77 F9      [19]  137 	ld	-7 (ix), a
    0072 B7            [ 4]  138 	or	a, a
    0073 28 05         [12]  139 	jr	Z,00111$
-   0075 DD 7E FE      [19]  140 	ld	a,-2 (ix)
+   0075 DD 7E FD      [19]  140 	ld	a,-3 (ix)
    0078 18 03         [12]  141 	jr	00112$
    007A                     142 00111$:
    007A DD 7E FC      [19]  143 	ld	a,-4 (ix)
    007D                     144 00112$:
-   007D DD B6 FD      [19]  145 	or	a, -3 (ix)
+   007D DD B6 F8      [19]  145 	or	a, -8 (ix)
    0080 FD 77 00      [19]  146 	ld	0 (iy), a
                             147 ;src/State_MainMenu.c:41: if(newPos&1){
-   0083 DD 7E FF      [19]  148 	ld	a,-1 (ix)
+   0083 DD 7E F9      [19]  148 	ld	a,-7 (ix)
    0086 B7            [ 4]  149 	or	a, a
    0087 28 03         [12]  150 	jr	Z,00102$
                             151 ;src/State_MainMenu.c:42: ++position;
@@ -163,26 +163,26 @@
    0094 DD 7E FA      [19]  163 	ld	a,-6 (ix)
    0097 DD 77 F7      [19]  164 	ld	-9 (ix),a
                             165 ;src/State_MainMenu.c:48: ++texture_set;
-   009A DD 34 F8      [23]  166 	inc	-8 (ix)
+   009A DD 34 FE      [23]  166 	inc	-2 (ix)
    009D 20 03         [12]  167 	jr	NZ,00139$
-   009F DD 34 F9      [23]  168 	inc	-7 (ix)
+   009F DD 34 FF      [23]  168 	inc	-1 (ix)
    00A2                     169 00139$:
                             170 ;src/State_MainMenu.c:49: --length;
    00A2 1B            [ 6]  171 	dec	de
    00A3 C3r24r00      [10]  172 	jp	00106$
    00A6                     173 00108$:
-                            174 ;src/State_MainMenu.c:52: cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+4000),MANUALLY_ALLOCATED_MEMORY_START,4000);
-   00A6 21 A0 0F      [10]  175 	ld	hl,#0x0FA0
+                            174 ;src/State_MainMenu.c:52: cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+(40*83)),MANUALLY_ALLOCATED_MEMORY_START,(40*83));
+   00A6 21 F8 0C      [10]  175 	ld	hl,#0x0CF8
    00A9 E5            [11]  176 	push	hl
    00AA 21 D0 88      [10]  177 	ld	hl,#0x88D0
    00AD E5            [11]  178 	push	hl
-   00AE 21 70 98      [10]  179 	ld	hl,#0x9870
+   00AE 21 C8 95      [10]  179 	ld	hl,#0x95C8
    00B1 E5            [11]  180 	push	hl
    00B2 CDr00r00      [17]  181 	call	_cpct_memcpy
-                            182 ;src/State_MainMenu.c:53: cpct_hflipSpriteM0 (40, 100, (MANUALLY_ALLOCATED_MEMORY_START+4000));
-   00B5 21 70 98      [10]  183 	ld	hl,#0x9870
+                            182 ;src/State_MainMenu.c:53: cpct_hflipSpriteM0 (40, 83, (MANUALLY_ALLOCATED_MEMORY_START+(40*83)));
+   00B5 21 C8 95      [10]  183 	ld	hl,#0x95C8
    00B8 E5            [11]  184 	push	hl
-   00B9 21 28 64      [10]  185 	ld	hl,#0x6428
+   00B9 21 28 53      [10]  185 	ld	hl,#0x5328
    00BC E5            [11]  186 	push	hl
    00BD CDr00r00      [17]  187 	call	_cpct_hflipSpriteM0
    00C0 DD F9         [10]  188 	ld	sp, ix
@@ -193,20 +193,20 @@
                             193 ; Function draw_main_bg
                             194 ; ---------------------------------
    00C5                     195 _draw_main_bg::
-                            196 ;src/State_MainMenu.c:57: cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 100),40,100);
-   00C5 21 28 64      [10]  197 	ld	hl,#0x6428
+                            196 ;src/State_MainMenu.c:57: cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 200-83),40,83);
+   00C5 21 28 53      [10]  197 	ld	hl,#0x5328
    00C8 E5            [11]  198 	push	hl
-   00C9 21 C0 E3      [10]  199 	ld	hl,#0xE3C0
+   00C9 21 60 EC      [10]  199 	ld	hl,#0xEC60
    00CC E5            [11]  200 	push	hl
    00CD 21 D0 88      [10]  201 	ld	hl,#0x88D0
    00D0 E5            [11]  202 	push	hl
    00D1 CDr00r00      [17]  203 	call	_cpct_drawSprite
-                            204 ;src/State_MainMenu.c:58: cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+4000), cpctm_screenPtr(CPCT_VMEM_START, 40, 100), 40, 100);
-   00D4 21 28 64      [10]  205 	ld	hl,#0x6428
+                            204 ;src/State_MainMenu.c:58: cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+(40*83)), cpctm_screenPtr(CPCT_VMEM_START, 40, 200-83), 40, 83);
+   00D4 21 28 53      [10]  205 	ld	hl,#0x5328
    00D7 E5            [11]  206 	push	hl
-   00D8 21 E8 E3      [10]  207 	ld	hl,#0xE3E8
+   00D8 21 88 EC      [10]  207 	ld	hl,#0xEC88
    00DB E5            [11]  208 	push	hl
-   00DC 21 70 98      [10]  209 	ld	hl,#0x9870
+   00DC 21 C8 95      [10]  209 	ld	hl,#0x95C8
    00DF E5            [11]  210 	push	hl
    00E0 CDr00r00      [17]  211 	call	_cpct_drawSprite
    00E3 C9            [10]  212 	ret

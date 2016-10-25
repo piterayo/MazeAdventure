@@ -65,7 +65,7 @@
    3B30 33            [ 6]   65 	inc	sp
    3B31 21 34 C3      [10]   66 	ld	hl,#0xC334
    3B34 E5            [11]   67 	push	hl
-   3B35 CD 70 7C      [17]   68 	call	_cpct_drawSolidBox
+   3B35 CD 92 7B      [17]   68 	call	_cpct_drawSolidBox
    3B38 F1            [10]   69 	pop	af
    3B39 F1            [10]   70 	pop	af
    3B3A 33            [ 6]   71 	inc	sp
@@ -78,7 +78,7 @@
    3B44 33            [ 6]   78 	inc	sp
    3B45 21 35 E3      [10]   79 	ld	hl,#0xE335
    3B48 E5            [11]   80 	push	hl
-   3B49 CD 70 7C      [17]   81 	call	_cpct_drawSolidBox
+   3B49 CD 92 7B      [17]   81 	call	_cpct_drawSolidBox
    3B4C F1            [10]   82 	pop	af
    3B4D F1            [10]   83 	pop	af
    3B4E 33            [ 6]   84 	inc	sp
@@ -127,7 +127,7 @@
                             125 ; ---------------------------------
    3B85                     126 _state_saveexit_input::
                             127 ;src/State_SaveExit.c:31: if(cpct_isAnyKeyPressed_f()){
-   3B85 CD 21 7C      [17]  128 	call	_cpct_isAnyKeyPressed_f
+   3B85 CD 43 7B      [17]  128 	call	_cpct_isAnyKeyPressed_f
    3B88 7D            [ 4]  129 	ld	a,l
    3B89 B7            [ 4]  130 	or	a, a
    3B8A C8            [11]  131 	ret	Z

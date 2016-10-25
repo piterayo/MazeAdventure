@@ -150,7 +150,7 @@
    3CDA DD 7E 04      [19]  150 	ld	a,4 (ix)
    3CDD F5            [11]  151 	push	af
    3CDE 33            [ 6]  152 	inc	sp
-   3CDF CD F1 7A      [17]  153 	call	__moduchar
+   3CDF CD 13 7A      [17]  153 	call	__moduchar
    3CE2 F1            [10]  154 	pop	af
    3CE3 D1            [10]  155 	pop	de
    3CE4 C1            [10]  156 	pop	bc
@@ -166,7 +166,7 @@
    3CEE DD 7E 04      [19]  166 	ld	a,4 (ix)
    3CF1 F5            [11]  167 	push	af
    3CF2 33            [ 6]  168 	inc	sp
-   3CF3 CD 7A 79      [17]  169 	call	__divuchar
+   3CF3 CD 9C 78      [17]  169 	call	__divuchar
    3CF6 F1            [10]  170 	pop	af
    3CF7 C1            [10]  171 	pop	bc
    3CF8 DD 75 04      [19]  172 	ld	4 (ix),l
@@ -178,7 +178,7 @@
    3D00 DD 7E 04      [19]  178 	ld	a,4 (ix)
    3D03 F5            [11]  179 	push	af
    3D04 33            [ 6]  180 	inc	sp
-   3D05 CD F1 7A      [17]  181 	call	__moduchar
+   3D05 CD 13 7A      [17]  181 	call	__moduchar
    3D08 F1            [10]  182 	pop	af
    3D09 C1            [10]  183 	pop	bc
    3D0A 7D            [ 4]  184 	ld	a,l
@@ -193,7 +193,7 @@
    3D15 DD 7E 04      [19]  193 	ld	a,4 (ix)
    3D18 F5            [11]  194 	push	af
    3D19 33            [ 6]  195 	inc	sp
-   3D1A CD 7A 79      [17]  196 	call	__divuchar
+   3D1A CD 9C 78      [17]  196 	call	__divuchar
    3D1D F1            [10]  197 	pop	af
    3D1E C1            [10]  198 	pop	bc
    3D1F DD 75 04      [19]  199 	ld	4 (ix),l
@@ -205,7 +205,7 @@
    3D27 DD 7E 04      [19]  205 	ld	a,4 (ix)
    3D2A F5            [11]  206 	push	af
    3D2B 33            [ 6]  207 	inc	sp
-   3D2C CD F1 7A      [17]  208 	call	__moduchar
+   3D2C CD 13 7A      [17]  208 	call	__moduchar
    3D2F F1            [10]  209 	pop	af
    3D30 C1            [10]  210 	pop	bc
    3D31 7D            [ 4]  211 	ld	a,l
@@ -463,9 +463,9 @@
    3E9A DD 77 FB      [19]  463 	ld	-5 (ix), a
    3E9D DD 86 F9      [19]  464 	add	a, -7 (ix)
    3EA0 DD 77 FB      [19]  465 	ld	-5 (ix),a
-   3EA3 C6 A5         [ 7]  466 	add	a,#<(_typography_4x6_monospaced)
+   3EA3 C6 C7         [ 7]  466 	add	a,#<(_typography_4x6_monospaced)
    3EA5 DD 77 FB      [19]  467 	ld	-5 (ix),a
-   3EA8 3E 5B         [ 7]  468 	ld	a,#>(_typography_4x6_monospaced)
+   3EA8 3E 5A         [ 7]  468 	ld	a,#>(_typography_4x6_monospaced)
    3EAA CE 00         [ 7]  469 	adc	a, #0x00
    3EAC DD 77 FC      [19]  470 	ld	-4 (ix),a
    3EAF DD 6E FB      [19]  471 	ld	l,-5 (ix)
@@ -687,7 +687,7 @@
    4044 CB 3F         [ 8]  687 	srl	a
    4046 DD 86 F9      [19]  688 	add	a, -7 (ix)
    4049 5F            [ 4]  689 	ld	e,a
-   404A 21 A5 5B      [10]  690 	ld	hl,#_typography_4x6_monospaced
+   404A 21 C7 5A      [10]  690 	ld	hl,#_typography_4x6_monospaced
    404D 16 00         [ 7]  691 	ld	d,#0x00
    404F 19            [11]  692 	add	hl, de
    4050 4E            [ 7]  693 	ld	c,(hl)

@@ -64,7 +64,7 @@
    2D91 33            [ 6]   64 	inc	sp
    2D92 21 9E F1      [10]   65 	ld	hl,#0xF19E
    2D95 E5            [11]   66 	push	hl
-   2D96 CD 70 7C      [17]   67 	call	_cpct_drawSolidBox
+   2D96 CD 92 7B      [17]   67 	call	_cpct_drawSolidBox
    2D99 F1            [10]   68 	pop	af
    2D9A F1            [10]   69 	pop	af
    2D9B 33            [ 6]   70 	inc	sp
@@ -77,7 +77,7 @@
    2DA5 33            [ 6]   77 	inc	sp
    2DA6 21 EF D1      [10]   78 	ld	hl,#0xD1EF
    2DA9 E5            [11]   79 	push	hl
-   2DAA CD 70 7C      [17]   80 	call	_cpct_drawSolidBox
+   2DAA CD 92 7B      [17]   80 	call	_cpct_drawSolidBox
    2DAD F1            [10]   81 	pop	af
    2DAE F1            [10]   82 	pop	af
    2DAF 33            [ 6]   83 	inc	sp
@@ -225,7 +225,7 @@
                             215 ; ---------------------------------
    2EAC                     216 _state_credits_input::
                             217 ;src/State_Credits.c:40: if(cpct_isAnyKeyPressed_f ()){
-   2EAC CD 21 7C      [17]  218 	call	_cpct_isAnyKeyPressed_f
+   2EAC CD 43 7B      [17]  218 	call	_cpct_isAnyKeyPressed_f
    2EAF 7D            [ 4]  219 	ld	a,l
    2EB0 B7            [ 4]  220 	or	a, a
    2EB1 C8            [11]  221 	ret	Z
@@ -259,7 +259,7 @@
    2EC2 33            [ 6]  249 	inc	sp
    2EC3 21 9E F1      [10]  250 	ld	hl,#0xF19E
    2EC6 E5            [11]  251 	push	hl
-   2EC7 CD 70 7C      [17]  252 	call	_cpct_drawSolidBox
+   2EC7 CD 92 7B      [17]  252 	call	_cpct_drawSolidBox
    2ECA F1            [10]  253 	pop	af
    2ECB F1            [10]  254 	pop	af
    2ECC 33            [ 6]  255 	inc	sp

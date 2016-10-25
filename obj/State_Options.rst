@@ -73,7 +73,7 @@
    3980 33            [ 6]   73 	inc	sp
    3981 21 97 C2      [10]   74 	ld	hl,#0xC297
    3984 E5            [11]   75 	push	hl
-   3985 CD 70 7C      [17]   76 	call	_cpct_drawSolidBox
+   3985 CD 92 7B      [17]   76 	call	_cpct_drawSolidBox
    3988 F1            [10]   77 	pop	af
    3989 F1            [10]   78 	pop	af
    398A 33            [ 6]   79 	inc	sp
@@ -86,7 +86,7 @@
    3994 33            [ 6]   86 	inc	sp
    3995 21 98 E2      [10]   87 	ld	hl,#0xE298
    3998 E5            [11]   88 	push	hl
-   3999 CD 70 7C      [17]   89 	call	_cpct_drawSolidBox
+   3999 CD 92 7B      [17]   89 	call	_cpct_drawSolidBox
    399C F1            [10]   90 	pop	af
    399D F1            [10]   91 	pop	af
    399E 33            [ 6]   92 	inc	sp
@@ -108,7 +108,7 @@
    39A6                     108 _state_options_input::
                             109 ;src/State_Options.c:25: if(cpct_isKeyPressed(Key_CursorUp)){
    39A6 21 00 01      [10]  110 	ld	hl,#0x0100
-   39A9 CD 1D 7A      [17]  111 	call	_cpct_isKeyPressed
+   39A9 CD 3F 79      [17]  111 	call	_cpct_isKeyPressed
    39AC 7D            [ 4]  112 	ld	a,l
    39AD B7            [ 4]  113 	or	a, a
    39AE 28 06         [12]  114 	jr	Z,00107$
@@ -119,7 +119,7 @@
    39B6                     119 00107$:
                             120 ;src/State_Options.c:29: else if(cpct_isKeyPressed(Key_CursorDown)){
    39B6 21 00 04      [10]  121 	ld	hl,#0x0400
-   39B9 CD 1D 7A      [17]  122 	call	_cpct_isKeyPressed
+   39B9 CD 3F 79      [17]  122 	call	_cpct_isKeyPressed
    39BC 7D            [ 4]  123 	ld	a,l
    39BD B7            [ 4]  124 	or	a, a
    39BE 28 06         [12]  125 	jr	Z,00104$
@@ -130,7 +130,7 @@
    39C6                     130 00104$:
                             131 ;src/State_Options.c:33: else if(cpct_isKeyPressed(Key_Return)){
    39C6 21 02 04      [10]  132 	ld	hl,#0x0402
-   39C9 CD 1D 7A      [17]  133 	call	_cpct_isKeyPressed
+   39C9 CD 3F 79      [17]  133 	call	_cpct_isKeyPressed
    39CC 7D            [ 4]  134 	ld	a,l
    39CD B7            [ 4]  135 	or	a, a
    39CE C8            [11]  136 	ret	Z
@@ -168,12 +168,12 @@
    39F6 18 26         [12]  168 	jr	00103$
    39F8                     169 00101$:
                             170 ;src/State_Options.c:44: textures_on=!textures_on;
-   39F8 3A 19 7E      [13]  171 	ld	a,(#_textures_on + 0)
+   39F8 3A 3B 7D      [13]  171 	ld	a,(#_textures_on + 0)
    39FB D6 01         [ 7]  172 	sub	a,#0x01
    39FD 3E 00         [ 7]  173 	ld	a,#0x00
    39FF 17            [ 4]  174 	rla
    3A00 4F            [ 4]  175 	ld	c,a
-   3A01 21 19 7E      [10]  176 	ld	hl,#_textures_on + 0
+   3A01 21 3B 7D      [10]  176 	ld	hl,#_textures_on + 0
    3A04 71            [ 7]  177 	ld	(hl), c
                             178 ;src/State_Options.c:45: ui_options_set_strings();
    3A05 CD 39 49      [17]  179 	call	_ui_options_set_strings
@@ -182,12 +182,12 @@
                             182 ;src/State_Options.c:48: case 1:{//Sound
    3A0B                     183 00102$:
                             184 ;src/State_Options.c:49: music_on=!music_on;
-   3A0B 3A 18 7E      [13]  185 	ld	a,(#_music_on + 0)
+   3A0B 3A 3A 7D      [13]  185 	ld	a,(#_music_on + 0)
    3A0E D6 01         [ 7]  186 	sub	a,#0x01
    3A10 3E 00         [ 7]  187 	ld	a,#0x00
    3A12 17            [ 4]  188 	rla
    3A13 4F            [ 4]  189 	ld	c,a
-   3A14 21 18 7E      [10]  190 	ld	hl,#_music_on + 0
+   3A14 21 3A 7D      [10]  190 	ld	hl,#_music_on + 0
    3A17 71            [ 7]  191 	ld	(hl), c
                             192 ;src/State_Options.c:50: ui_options_set_strings();
    3A18 CD 39 49      [17]  193 	call	_ui_options_set_strings
@@ -221,7 +221,7 @@
    3A30 33            [ 6]  221 	inc	sp
    3A31 21 97 C2      [10]  222 	ld	hl,#0xC297
    3A34 E5            [11]  223 	push	hl
-   3A35 CD 70 7C      [17]  224 	call	_cpct_drawSolidBox
+   3A35 CD 92 7B      [17]  224 	call	_cpct_drawSolidBox
    3A38 F1            [10]  225 	pop	af
    3A39 F1            [10]  226 	pop	af
    3A3A 33            [ 6]  227 	inc	sp

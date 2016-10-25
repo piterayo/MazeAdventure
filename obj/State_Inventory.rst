@@ -38,8 +38,8 @@
                              38 ; ram data
                              39 ;--------------------------------------------------------
                              40 	.area _DATA
-   7E69                      41 _object_used::
-   7E69                      42 	.ds 1
+   7D8B                      41 _object_used::
+   7D8B                      42 	.ds 1
                              43 ;--------------------------------------------------------
                              44 ; ram data
                              45 ;--------------------------------------------------------
@@ -78,7 +78,7 @@
    31A1 33            [ 6]   78 	inc	sp
    31A2 21 97 C2      [10]   79 	ld	hl,#0xC297
    31A5 E5            [11]   80 	push	hl
-   31A6 CD 70 7C      [17]   81 	call	_cpct_drawSolidBox
+   31A6 CD 92 7B      [17]   81 	call	_cpct_drawSolidBox
    31A9 F1            [10]   82 	pop	af
    31AA F1            [10]   83 	pop	af
    31AB 33            [ 6]   84 	inc	sp
@@ -91,7 +91,7 @@
    31B5 33            [ 6]   91 	inc	sp
    31B6 21 98 E2      [10]   92 	ld	hl,#0xE298
    31B9 E5            [11]   93 	push	hl
-   31BA CD 70 7C      [17]   94 	call	_cpct_drawSolidBox
+   31BA CD 92 7B      [17]   94 	call	_cpct_drawSolidBox
    31BD F1            [10]   95 	pop	af
    31BE F1            [10]   96 	pop	af
    31BF 33            [ 6]   97 	inc	sp
@@ -100,7 +100,7 @@
                             100 ;src/State_Inventory.c:21: ui_inventory_render_all();
    31C3 CD BC 45      [17]  101 	call	_ui_inventory_render_all
                             102 ;src/State_Inventory.c:22: object_used=0;
-   31C6 21 69 7E      [10]  103 	ld	hl,#_object_used + 0
+   31C6 21 8B 7D      [10]  103 	ld	hl,#_object_used + 0
    31C9 36 00         [10]  104 	ld	(hl), #0x00
    31CB C9            [10]  105 	ret
                             106 ;src/State_Inventory.c:25: void state_inventory_return(){
@@ -116,7 +116,7 @@
                             116 ; ---------------------------------
    31CD                     117 _state_inventory_object_used::
                             118 ;src/State_Inventory.c:30: return object_used;
-   31CD FD 21 69 7E   [14]  119 	ld	iy,#_object_used
+   31CD FD 21 8B 7D   [14]  119 	ld	iy,#_object_used
    31D1 FD 6E 00      [19]  120 	ld	l,0 (iy)
    31D4 C9            [10]  121 	ret
                             122 ;src/State_Inventory.c:33: void state_inventory_input(){
@@ -126,7 +126,7 @@
    31D5                     126 _state_inventory_input::
                             127 ;src/State_Inventory.c:34: if(cpct_isKeyPressed(Key_CursorUp)){
    31D5 21 00 01      [10]  128 	ld	hl,#0x0100
-   31D8 CD 1D 7A      [17]  129 	call	_cpct_isKeyPressed
+   31D8 CD 3F 79      [17]  129 	call	_cpct_isKeyPressed
    31DB 7D            [ 4]  130 	ld	a,l
    31DC B7            [ 4]  131 	or	a, a
    31DD 28 06         [12]  132 	jr	Z,00107$
@@ -137,7 +137,7 @@
    31E5                     137 00107$:
                             138 ;src/State_Inventory.c:38: else if(cpct_isKeyPressed(Key_CursorDown)){
    31E5 21 00 04      [10]  139 	ld	hl,#0x0400
-   31E8 CD 1D 7A      [17]  140 	call	_cpct_isKeyPressed
+   31E8 CD 3F 79      [17]  140 	call	_cpct_isKeyPressed
    31EB 7D            [ 4]  141 	ld	a,l
    31EC B7            [ 4]  142 	or	a, a
    31ED 28 06         [12]  143 	jr	Z,00104$
@@ -148,7 +148,7 @@
    31F5                     148 00104$:
                             149 ;src/State_Inventory.c:42: else if(cpct_isKeyPressed(Key_Return)){
    31F5 21 02 04      [10]  150 	ld	hl,#0x0402
-   31F8 CD 1D 7A      [17]  151 	call	_cpct_isKeyPressed
+   31F8 CD 3F 79      [17]  151 	call	_cpct_isKeyPressed
    31FB 7D            [ 4]  152 	ld	a,l
    31FC B7            [ 4]  153 	or	a, a
    31FD C8            [11]  154 	ret	Z
@@ -180,7 +180,7 @@
    321B                     180 00101$:
                             181 ;src/State_Inventory.c:53: object_used=item_use_potion();
    321B CD 38 0F      [17]  182 	call	_item_use_potion
-   321E FD 21 69 7E   [14]  183 	ld	iy,#_object_used
+   321E FD 21 8B 7D   [14]  183 	ld	iy,#_object_used
    3222 FD 75 00      [19]  184 	ld	0 (iy),l
                             185 ;src/State_Inventory.c:54: break;
    3225 18 0A         [12]  186 	jr	00103$
@@ -188,7 +188,7 @@
    3227                     188 00102$:
                             189 ;src/State_Inventory.c:57: object_used=item_use_scroll();
    3227 CD 60 0F      [17]  190 	call	_item_use_scroll
-   322A FD 21 69 7E   [14]  191 	ld	iy,#_object_used
+   322A FD 21 8B 7D   [14]  191 	ld	iy,#_object_used
    322E FD 75 00      [19]  192 	ld	0 (iy),l
                             193 ;src/State_Inventory.c:60: }
    3231                     194 00103$:
@@ -217,7 +217,7 @@
    3243 33            [ 6]  217 	inc	sp
    3244 21 97 C2      [10]  218 	ld	hl,#0xC297
    3247 E5            [11]  219 	push	hl
-   3248 CD 70 7C      [17]  220 	call	_cpct_drawSolidBox
+   3248 CD 92 7B      [17]  220 	call	_cpct_drawSolidBox
    324B F1            [10]  221 	pop	af
    324C F1            [10]  222 	pop	af
    324D 33            [ 6]  223 	inc	sp

@@ -46,10 +46,10 @@
                              46 ; ram data
                              47 ;--------------------------------------------------------
                              48 	.area _DATA
-   7D9D                      49 _activeEnemies::
-   7D9D                      50 	.ds 1
-   7D9E                      51 _enemyArray::
-   7D9E                      52 	.ds 120
+   7CBF                      49 _activeEnemies::
+   7CBF                      50 	.ds 1
+   7CC0                      51 _enemyArray::
+   7CC0                      52 	.ds 120
                              53 ;--------------------------------------------------------
                              54 ; ram data
                              55 ;--------------------------------------------------------
@@ -83,7 +83,7 @@
    0042 DD 21 00 00   [14]   83 	ld	ix,#0
    0046 DD 39         [15]   84 	add	ix,sp
                              85 ;src/Enemy.c:35: return (enemyArray+index);
-   0048 01 9E 7D      [10]   86 	ld	bc,#_enemyArray+0
+   0048 01 C0 7C      [10]   86 	ld	bc,#_enemyArray+0
    004B DD 6E 04      [19]   87 	ld	l,4 (ix)
    004E 26 00         [ 7]   88 	ld	h,#0x00
    0050 29            [11]   89 	add	hl, hl
@@ -103,11 +103,11 @@
    005B AF            [ 4]  103 	xor	a, a
    005C F5            [11]  104 	push	af
    005D 33            [ 6]  105 	inc	sp
-   005E 21 9E 7D      [10]  106 	ld	hl,#_enemyArray
+   005E 21 C0 7C      [10]  106 	ld	hl,#_enemyArray
    0061 E5            [11]  107 	push	hl
-   0062 CD 52 7C      [17]  108 	call	_cpct_memset
+   0062 CD 74 7B      [17]  108 	call	_cpct_memset
                             109 ;src/Enemy.c:41: activeEnemies=0;
-   0065 21 9D 7D      [10]  110 	ld	hl,#_activeEnemies + 0
+   0065 21 BF 7C      [10]  110 	ld	hl,#_activeEnemies + 0
    0068 36 00         [10]  111 	ld	(hl), #0x00
                             112 ;src/Enemy.c:43: if(level_get_level()!=KING_LEVEL){
    006A CD A7 0F      [17]  113 	call	_level_get_level
@@ -116,7 +116,7 @@
    0070 28 0B         [12]  116 	jr	Z,00105$
                             117 ;src/Enemy.c:44: while(activeEnemies<ENEMY_MAX_ENEMIES){
    0072                     118 00101$:
-   0072 3A 9D 7D      [13]  119 	ld	a,(#_activeEnemies + 0)
+   0072 3A BF 7C      [13]  119 	ld	a,(#_activeEnemies + 0)
    0075 D6 0F         [ 7]  120 	sub	a, #0x0F
    0077 D0            [11]  121 	ret	NC
                             122 ;src/Enemy.c:45: enemy_try_new_spawn();  
@@ -124,31 +124,31 @@
    007B 18 F5         [12]  124 	jr	00101$
    007D                     125 00105$:
                             126 ;src/Enemy.c:49: activeEnemies=1;
-   007D 21 9D 7D      [10]  127 	ld	hl,#_activeEnemies + 0
+   007D 21 BF 7C      [10]  127 	ld	hl,#_activeEnemies + 0
    0080 36 01         [10]  128 	ld	(hl), #0x01
                             129 ;src/Enemy.c:51: enemyArray->id=0;
-   0082 21 9E 7D      [10]  130 	ld	hl,#_enemyArray
+   0082 21 C0 7C      [10]  130 	ld	hl,#_enemyArray
    0085 36 00         [10]  131 	ld	(hl),#0x00
                             132 ;src/Enemy.c:53: enemyArray->type=1;
-   0087 21 9F 7D      [10]  133 	ld	hl,#(_enemyArray + 0x0001)
+   0087 21 C1 7C      [10]  133 	ld	hl,#(_enemyArray + 0x0001)
    008A 36 01         [10]  134 	ld	(hl),#0x01
                             135 ;src/Enemy.c:55: enemyArray->hitPoints=ENEMY_INITIAL_HP;
-   008C 21 A3 7D      [10]  136 	ld	hl,#(_enemyArray + 0x0005)
+   008C 21 C5 7C      [10]  136 	ld	hl,#(_enemyArray + 0x0005)
    008F 36 FF         [10]  137 	ld	(hl),#0xFF
                             138 ;src/Enemy.c:57: enemyArray->attackValue = 64;
-   0091 21 A4 7D      [10]  139 	ld	hl,#(_enemyArray + 0x0006)
+   0091 21 C6 7C      [10]  139 	ld	hl,#(_enemyArray + 0x0006)
    0094 36 40         [10]  140 	ld	(hl),#0x40
                             141 ;src/Enemy.c:58: enemyArray->defenseValue = 54;
-   0096 21 A5 7D      [10]  142 	ld	hl,#(_enemyArray + 0x0007)
+   0096 21 C7 7C      [10]  142 	ld	hl,#(_enemyArray + 0x0007)
    0099 36 36         [10]  143 	ld	(hl),#0x36
                             144 ;src/Enemy.c:60: enemyArray->direction=MOVEMENT_SOUTH;
-   009B 21 A0 7D      [10]  145 	ld	hl,#(_enemyArray + 0x0002)
+   009B 21 C2 7C      [10]  145 	ld	hl,#(_enemyArray + 0x0002)
    009E 36 06         [10]  146 	ld	(hl),#0x06
                             147 ;src/Enemy.c:62: enemyArray->position.x = KING_LEVEL_KING_X;
-   00A0 21 A1 7D      [10]  148 	ld	hl,#(_enemyArray + 0x0003)
+   00A0 21 C3 7C      [10]  148 	ld	hl,#(_enemyArray + 0x0003)
    00A3 36 04         [10]  149 	ld	(hl),#0x04
                             150 ;src/Enemy.c:63: enemyArray->position.y = KING_LEVEL_KING_Y;
-   00A5 21 A2 7D      [10]  151 	ld	hl,#(_enemyArray + 0x0004)
+   00A5 21 C4 7C      [10]  151 	ld	hl,#(_enemyArray + 0x0004)
    00A8 36 02         [10]  152 	ld	(hl),#0x02
                             153 ;src/Enemy.c:65: *(u8*)(MAP_MEM + KING_LEVEL_KING_X + (KING_LEVEL_KING_Y*MAP_WIDTH)) = 1;
    00AA 21 14 89      [10]  154 	ld	hl,#0x8914
@@ -533,7 +533,7 @@
    02F7 F5            [11]  533 	push	af
    02F8 3B            [ 6]  534 	dec	sp
                             535 ;src/Enemy.c:138: Enemy* enemy=(enemyArray+ENEMY_MAX_ENEMIES);
-   02F9 01 16 7E      [10]  536 	ld	bc,#_enemyArray+120
+   02F9 01 38 7D      [10]  536 	ld	bc,#_enemyArray+120
                             537 ;src/Enemy.c:141: x=position->x;
    02FC DD 6E 04      [19]  538 	ld	l,4 (ix)
    02FF DD 66 05      [19]  539 	ld	h,5 (ix)
@@ -592,7 +592,7 @@
    0349 E5            [11]  592 	push	hl
    034A C5            [11]  593 	push	bc
    034B D5            [11]  594 	push	de
-   034C CD 4F 7B      [17]  595 	call	_cpct_getRandom_mxor_u8
+   034C CD 71 7A      [17]  595 	call	_cpct_getRandom_mxor_u8
    034F 7D            [ 4]  596 	ld	a,l
    0350 D1            [10]  597 	pop	de
    0351 C1            [10]  598 	pop	bc
@@ -616,7 +616,7 @@
    0368 E5            [11]  616 	push	hl
    0369 C5            [11]  617 	push	bc
    036A D5            [11]  618 	push	de
-   036B CD 4F 7B      [17]  619 	call	_cpct_getRandom_mxor_u8
+   036B CD 71 7A      [17]  619 	call	_cpct_getRandom_mxor_u8
    036E 7D            [ 4]  620 	ld	a,l
    036F D1            [10]  621 	pop	de
    0370 C1            [10]  622 	pop	bc
@@ -632,7 +632,7 @@
    037C CD A7 0F      [17]  632 	call	_level_get_level
    037F 5D            [ 4]  633 	ld	e,l
    0380 D5            [11]  634 	push	de
-   0381 CD 4F 7B      [17]  635 	call	_cpct_getRandom_mxor_u8
+   0381 CD 71 7A      [17]  635 	call	_cpct_getRandom_mxor_u8
    0384 7D            [ 4]  636 	ld	a,l
    0385 D1            [10]  637 	pop	de
    0386 C1            [10]  638 	pop	bc
@@ -647,7 +647,7 @@
    038F 13            [ 6]  647 	inc	de
    0390 C5            [11]  648 	push	bc
    0391 D5            [11]  649 	push	de
-   0392 CD 4F 7B      [17]  650 	call	_cpct_getRandom_mxor_u8
+   0392 CD 71 7A      [17]  650 	call	_cpct_getRandom_mxor_u8
    0395 D1            [10]  651 	pop	de
    0396 C1            [10]  652 	pop	bc
    0397 7D            [ 4]  653 	ld	a,l
@@ -675,7 +675,7 @@
    03B1 E5            [11]  675 	push	hl
    03B2 77            [ 7]  676 	ld	(hl),a
                             677 ;src/Enemy.c:166: ++activeEnemies;
-   03B3 21 9D 7D      [10]  678 	ld	hl, #_activeEnemies+0
+   03B3 21 BF 7C      [10]  678 	ld	hl, #_activeEnemies+0
    03B6 34            [11]  679 	inc	(hl)
                             680 ;src/Enemy.c:167: break;
    03B7                     681 00106$:
@@ -694,14 +694,14 @@
    03C7 39            [11]  694 	add	hl,sp
    03C8 F9            [ 6]  695 	ld	sp,hl
                             696 ;src/Enemy.c:216: if(activeEnemies<ENEMY_MAX_ENEMIES){
-   03C9 3A 9D 7D      [13]  697 	ld	a,(#_activeEnemies + 0)
+   03C9 3A BF 7C      [13]  697 	ld	a,(#_activeEnemies + 0)
    03CC D6 0F         [ 7]  698 	sub	a, #0x0F
    03CE 30 74         [12]  699 	jr	NC,00106$
                             700 ;src/Enemy.c:217: pos.x=cpct_getRandom_mxor_u8()%MAP_WIDTH;
    03D0 21 00 00      [10]  701 	ld	hl,#0x0000
    03D3 39            [11]  702 	add	hl,sp
    03D4 E5            [11]  703 	push	hl
-   03D5 CD 4F 7B      [17]  704 	call	_cpct_getRandom_mxor_u8
+   03D5 CD 71 7A      [17]  704 	call	_cpct_getRandom_mxor_u8
    03D8 7D            [ 4]  705 	ld	a,l
    03D9 E1            [10]  706 	pop	hl
    03DA E6 1F         [ 7]  707 	and	a, #0x1F
@@ -713,7 +713,7 @@
    03E4 DD 74 FF      [19]  713 	ld	-1 (ix),h
    03E7 23            [ 6]  714 	inc	hl
    03E8 E5            [11]  715 	push	hl
-   03E9 CD 4F 7B      [17]  716 	call	_cpct_getRandom_mxor_u8
+   03E9 CD 71 7A      [17]  716 	call	_cpct_getRandom_mxor_u8
    03EC C1            [10]  717 	pop	bc
    03ED 7D            [ 4]  718 	ld	a,l
    03EE E6 1F         [ 7]  719 	and	a, #0x1F
@@ -998,7 +998,7 @@
    058E E6 70         [ 7]  998 	and	a, #0x70
    0590 77            [ 7]  999 	ld	(hl),a
                            1000 ;src/Enemy.c:276: --activeEnemies;
-   0591 21 9D 7D      [10] 1001 	ld	hl, #_activeEnemies+0
+   0591 21 BF 7C      [10] 1001 	ld	hl, #_activeEnemies+0
    0594 35            [11] 1002 	dec	(hl)
    0595 DD E1         [14] 1003 	pop	ix
    0597 C9            [10] 1004 	ret
@@ -1124,7 +1124,7 @@
    0659 C5            [11] 1124 	push	bc
    065A FD E1         [14] 1125 	pop	iy
    065C FD 5E 07      [19] 1126 	ld	e,7 (iy)
-   065F 3A 44 7E      [13] 1127 	ld	a,(#_player_attack_value + 0)
+   065F 3A 66 7D      [13] 1127 	ld	a,(#_player_attack_value + 0)
    0662 93            [ 4] 1128 	sub	a, e
                            1129 ;src/Enemy.c:313: if(dmg<1) dmg = 1;
    0663 DD 77 FF      [19] 1130 	ld	-1 (ix), a
@@ -1148,7 +1148,7 @@
    0682 E5            [11] 1148 	push	hl
    0683 21 E4 06      [10] 1149 	ld	hl,#___str_0
    0686 E5            [11] 1150 	push	hl
-   0687 CD 4A 7C      [17] 1151 	call	_cpct_memcpy
+   0687 CD 6C 7B      [17] 1151 	call	_cpct_memcpy
    068A 3E 03         [ 7] 1152 	ld	a,#0x03
    068C F5            [11] 1153 	push	af
    068D 33            [ 6] 1154 	inc	sp
@@ -1187,7 +1187,7 @@
    06BD C5            [11] 1187 	push	bc
    06BE CD 5F 05      [17] 1188 	call	_enemy_remove
    06C1 F1            [10] 1189 	pop	af
-   06C2 CD 4F 7B      [17] 1190 	call	_cpct_getRandom_mxor_u8
+   06C2 CD 71 7A      [17] 1190 	call	_cpct_getRandom_mxor_u8
    06C5 C1            [10] 1191 	pop	bc
    06C6 CB 45         [ 8] 1192 	bit	0, l
    06C8 20 0A         [12] 1193 	jr	NZ,00103$
@@ -1237,7 +1237,7 @@
    0703 11 06 00      [10] 1235 	ld	de, #0x0006
    0706 19            [11] 1236 	add	hl, de
    0707 4E            [ 7] 1237 	ld	c,(hl)
-   0708 21 43 7E      [10] 1238 	ld	hl,#_player_defense_value
+   0708 21 65 7D      [10] 1238 	ld	hl,#_player_defense_value
    070B 79            [ 4] 1239 	ld	a,c
    070C 96            [ 7] 1240 	sub	a, (hl)
                            1241 ;src/Enemy.c:340: if(dmg<1) dmg = 1;
@@ -1261,7 +1261,7 @@
    0725 E5            [11] 1259 	push	hl
    0726 21 6A 07      [10] 1260 	ld	hl,#___str_2
    0729 E5            [11] 1261 	push	hl
-   072A CD 4A 7C      [17] 1262 	call	_cpct_memcpy
+   072A CD 6C 7B      [17] 1262 	call	_cpct_memcpy
    072D 3E 03         [ 7] 1263 	ld	a,#0x03
    072F F5            [11] 1264 	push	af
    0730 33            [ 6] 1265 	inc	sp
@@ -1282,18 +1282,18 @@
    074A C1            [10] 1280 	pop	bc
                            1281 ;src/Enemy.c:347: if(player_health_points>(u8)dmg){
    074B 78            [ 4] 1282 	ld	a, b
-   074C FD 21 45 7E   [14] 1283 	ld	iy,#_player_health_points
+   074C FD 21 67 7D   [14] 1283 	ld	iy,#_player_health_points
    0750 FD 96 00      [19] 1284 	sub	a, 0 (iy)
    0753 30 0A         [12] 1285 	jr	NC,00104$
                            1286 ;src/Enemy.c:348: player_health_points -= dmg;
-   0755 3A 45 7E      [13] 1287 	ld	a,(#_player_health_points + 0)
-   0758 21 45 7E      [10] 1288 	ld	hl, #_player_health_points
+   0755 3A 67 7D      [13] 1287 	ld	a,(#_player_health_points + 0)
+   0758 21 67 7D      [10] 1288 	ld	hl, #_player_health_points
    075B 90            [ 4] 1289 	sub	a, b
    075C 77            [ 7] 1290 	ld	(hl),a
    075D 18 05         [12] 1291 	jr	00105$
    075F                    1292 00104$:
                            1293 ;src/Enemy.c:351: player_is_dead = 1;
-   075F 21 46 7E      [10] 1294 	ld	hl,#_player_is_dead + 0
+   075F 21 68 7D      [10] 1294 	ld	hl,#_player_is_dead + 0
    0762 36 01         [10] 1295 	ld	(hl), #0x01
    0764                    1296 00105$:
                            1297 ;src/Enemy.c:353: ui_playerstats_render_hp();
@@ -1825,7 +1825,7 @@
    0A43 39            [11] 1822 	add	hl,sp
    0A44 E5            [11] 1823 	push	hl
    0A45 C5            [11] 1824 	push	bc
-   0A46 CD 4F 7B      [17] 1825 	call	_cpct_getRandom_mxor_u8
+   0A46 CD 71 7A      [17] 1825 	call	_cpct_getRandom_mxor_u8
    0A49 55            [ 4] 1826 	ld	d,l
    0A4A C1            [10] 1827 	pop	bc
    0A4B C5            [11] 1828 	push	bc
@@ -1834,7 +1834,7 @@
    0A4E 33            [ 6] 1831 	inc	sp
    0A4F D5            [11] 1832 	push	de
    0A50 33            [ 6] 1833 	inc	sp
-   0A51 CD F1 7A      [17] 1834 	call	__moduchar
+   0A51 CD 13 7A      [17] 1834 	call	__moduchar
    0A54 F1            [10] 1835 	pop	af
    0A55 5D            [ 4] 1836 	ld	e,l
    0A56 C1            [10] 1837 	pop	bc
@@ -2051,7 +2051,7 @@
                            2048 ; ---------------------------------
    0B6F                    2049 _enemy_update::
                            2050 ;src/Enemy.c:587: Enemy* enemy=enemyArray;
-   0B6F 01 9E 7D      [10] 2051 	ld	bc,#_enemyArray+0
+   0B6F 01 C0 7C      [10] 2051 	ld	bc,#_enemyArray+0
                            2052 ;src/Enemy.c:589: for(i;i;--i){
    0B72 1E 0F         [ 7] 2053 	ld	e,#0x0F
    0B74                    2054 00108$:
