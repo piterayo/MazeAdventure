@@ -7,26 +7,42 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       00A2 R
-  0 ___str_1                                                       00A8 R
-  0 __str_2                                                        00AB R
-  0 __str_3                                                        00B2 R
-  0 __str_4                                                        00B9 R
-  0 __str_5                                                        00C0 R
-  0 __str_6                                                        00C7 R
+  0 ___str_0                                                       0030 R
+  0 ___str_6                                                       009E R
+  0 ___str_7                                                       01BE R
+  0 ___str_8                                                       01C2 R
+    __divuint                                                      **** GX
+  0 __str_1                                                        0036 R
+  0 __str_2                                                        0038 R
+  0 __str_3                                                        003A R
+  0 __str_4                                                        003C R
+  0 __str_5                                                        003E R
     _cpct_drawSolidBox                                             **** GX
     _g_colors                                                      **** GX
-    _print_transparent_text                                        **** GX
-  0 _strings                                                       0098 GR
-  0 _ui_playerstats_render                                         0000 GR
-
+    _integer_to_string                                             **** GX
+    _player_attack_value                                           **** GX
+    _player_defense_value                                          **** GX
+    _player_has_key                                                **** GX
+    _player_health_points                                          **** GX
+    _player_is_dead                                                **** GX
+    _player_potion_count                                           **** GX
+    _player_scroll_count                                           **** GX
+    _print_text                                                    **** GX
+  0 _strings                                                       0026 GR
+  0 _ui_playerstats_render_all                                     0000 GR
+  0 _ui_playerstats_render_attack                                  00A1 GR
+  0 _ui_playerstats_render_defense                                 00D7 GR
+  0 _ui_playerstats_render_hp                                      0040 GR
+  0 _ui_playerstats_render_key                                     0179 GR
+  0 _ui_playerstats_render_potions                                 010D GR
+  0 _ui_playerstats_render_scrolls                                 0143 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   CE   flags    0
+   0 _CODE                                      size  1C5   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -14,7 +14,7 @@ Symbol Table
   0 _i_to_s_buffer                                                 015E GR
   0 _integer_to_string                                             0000 GR
   0 _print_text                                                    0167 GR
-  0 _print_transparent_text                                        033E GR
+  0 _print_transparent_text                                        0342 GR
     _typography_4x6_monospaced                                     **** GX
 
 
@@ -23,7 +23,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  495   flags    0
+   0 _CODE                                      size  499   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

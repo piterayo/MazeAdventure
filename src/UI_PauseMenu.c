@@ -52,8 +52,6 @@ const char* const ui_pausemenu_buttonText[UI_PAUSEMENU_ENTRIES]={
     "CONTINUE","OPTIONS","SAVE AND EXIT","EXIT"
 };
 
-
-
 void ui_pausemenu_init(){
     ui_pausemenu_lastEntry=0;
     ui_pausemenu_entryIndex=0;

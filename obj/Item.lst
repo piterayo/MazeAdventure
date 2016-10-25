@@ -8,37 +8,687 @@
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
-                             11 ;--------------------------------------------------------
-                             12 ; special function registers
-                             13 ;--------------------------------------------------------
-                             14 ;--------------------------------------------------------
-                             15 ; ram data
-                             16 ;--------------------------------------------------------
-                             17 	.area _DATA
-                             18 ;--------------------------------------------------------
-                             19 ; ram data
-                             20 ;--------------------------------------------------------
-                             21 	.area _INITIALIZED
-                             22 ;--------------------------------------------------------
-                             23 ; absolute external ram data
-                             24 ;--------------------------------------------------------
-                             25 	.area _DABS (ABS)
-                             26 ;--------------------------------------------------------
-                             27 ; global & static initialisations
-                             28 ;--------------------------------------------------------
-                             29 	.area _HOME
-                             30 	.area _GSINIT
-                             31 	.area _GSFINAL
-                             32 	.area _GSINIT
-                             33 ;--------------------------------------------------------
-                             34 ; Home
+                             11 	.globl _item_new_item
+                             12 	.globl _ui_log_render
+                             13 	.globl _ui_log_add_log
+                             14 	.globl _level_get_level
+                             15 	.globl _ui_playerstats_render_key
+                             16 	.globl _ui_playerstats_render_scrolls
+                             17 	.globl _ui_playerstats_render_potions
+                             18 	.globl _ui_playerstats_render_defense
+                             19 	.globl _ui_playerstats_render_attack
+                             20 	.globl _ui_playerstats_render_hp
+                             21 	.globl _cpct_getRandom_mxor_u16
+                             22 	.globl _cpct_getRandom_mxor_u8
+                             23 	.globl _cpct_memset
+                             24 	.globl _itemArray
+                             25 	.globl _item_spawnedKey
+                             26 	.globl _activeItems
+                             27 	.globl _item_get_at
+                             28 	.globl _item_init_items
+                             29 	.globl _item_try_new_spawn
+                             30 	.globl _item_try_new_spawn_at
+                             31 	.globl _item_pick_item
+                             32 	.globl _item_destroy_item
+                             33 	.globl _item_use_potion
+                             34 	.globl _item_use_scroll
                              35 ;--------------------------------------------------------
-                             36 	.area _HOME
-                             37 	.area _HOME
+                             36 ; special function registers
+                             37 ;--------------------------------------------------------
                              38 ;--------------------------------------------------------
-                             39 ; code
+                             39 ; ram data
                              40 ;--------------------------------------------------------
-                             41 	.area _CODE
-                             42 	.area _CODE
-                             43 	.area _INITIALIZER
-                             44 	.area _CABS (ABS)
+                             41 	.area _DATA
+   0000                      42 _activeItems::
+   0000                      43 	.ds 1
+   0001                      44 _item_spawnedKey::
+   0001                      45 	.ds 1
+   0002                      46 _itemArray::
+   0002                      47 	.ds 35
+                             48 ;--------------------------------------------------------
+                             49 ; ram data
+                             50 ;--------------------------------------------------------
+                             51 	.area _INITIALIZED
+                             52 ;--------------------------------------------------------
+                             53 ; absolute external ram data
+                             54 ;--------------------------------------------------------
+                             55 	.area _DABS (ABS)
+                             56 ;--------------------------------------------------------
+                             57 ; global & static initialisations
+                             58 ;--------------------------------------------------------
+                             59 	.area _HOME
+                             60 	.area _GSINIT
+                             61 	.area _GSFINAL
+                             62 	.area _GSINIT
+                             63 ;--------------------------------------------------------
+                             64 ; Home
+                             65 ;--------------------------------------------------------
+                             66 	.area _HOME
+                             67 	.area _HOME
+                             68 ;--------------------------------------------------------
+                             69 ; code
+                             70 ;--------------------------------------------------------
+                             71 	.area _CODE
+                             72 ;src/Item.c:23: Item* item_get_at(u8 index){
+                             73 ;	---------------------------------
+                             74 ; Function item_get_at
+                             75 ; ---------------------------------
+   0000                      76 _item_get_at::
+   0000 DD E5         [15]   77 	push	ix
+   0002 DD 21 00 00   [14]   78 	ld	ix,#0
+   0006 DD 39         [15]   79 	add	ix,sp
+                             80 ;src/Item.c:24: return (itemArray+index);
+   0008 01r02r00      [10]   81 	ld	bc,#_itemArray+0
+   000B DD 5E 04      [19]   82 	ld	e,4 (ix)
+   000E 16 00         [ 7]   83 	ld	d,#0x00
+   0010 6B            [ 4]   84 	ld	l, e
+   0011 62            [ 4]   85 	ld	h, d
+   0012 29            [11]   86 	add	hl, hl
+   0013 29            [11]   87 	add	hl, hl
+   0014 19            [11]   88 	add	hl, de
+   0015 09            [11]   89 	add	hl,bc
+   0016 DD E1         [14]   90 	pop	ix
+   0018 C9            [10]   91 	ret
+                             92 ;src/Item.c:27: void item_init_items(){
+                             93 ;	---------------------------------
+                             94 ; Function item_init_items
+                             95 ; ---------------------------------
+   0019                      96 _item_init_items::
+                             97 ;src/Item.c:28: cpct_memset(itemArray, 0, ITEM_MAX_ITEMS*sizeof(Item));
+   0019 21 23 00      [10]   98 	ld	hl,#0x0023
+   001C E5            [11]   99 	push	hl
+   001D AF            [ 4]  100 	xor	a, a
+   001E F5            [11]  101 	push	af
+   001F 33            [ 6]  102 	inc	sp
+   0020 21r02r00      [10]  103 	ld	hl,#_itemArray
+   0023 E5            [11]  104 	push	hl
+   0024 CDr00r00      [17]  105 	call	_cpct_memset
+                            106 ;src/Item.c:29: activeItems=0;
+   0027 21r00r00      [10]  107 	ld	hl,#_activeItems + 0
+   002A 36 00         [10]  108 	ld	(hl), #0x00
+                            109 ;src/Item.c:30: item_spawnedKey=0;
+   002C 21r01r00      [10]  110 	ld	hl,#_item_spawnedKey + 0
+   002F 36 00         [10]  111 	ld	(hl), #0x00
+   0031 C9            [10]  112 	ret
+                            113 ;src/Item.c:39: u8 item_try_new_spawn(){
+                            114 ;	---------------------------------
+                            115 ; Function item_try_new_spawn
+                            116 ; ---------------------------------
+   0032                     117 _item_try_new_spawn::
+   0032 DD E5         [15]  118 	push	ix
+   0034 DD 21 00 00   [14]  119 	ld	ix,#0
+   0038 DD 39         [15]  120 	add	ix,sp
+   003A F5            [11]  121 	push	af
+                            122 ;src/Item.c:42: pos.x=cpct_getRandom_mxor_u8()%MAP_WIDTH;
+   003B 21 00 00      [10]  123 	ld	hl,#0x0000
+   003E 39            [11]  124 	add	hl,sp
+   003F E5            [11]  125 	push	hl
+   0040 CDr00r00      [17]  126 	call	_cpct_getRandom_mxor_u8
+   0043 7D            [ 4]  127 	ld	a,l
+   0044 E1            [10]  128 	pop	hl
+   0045 E6 1F         [ 7]  129 	and	a, #0x1F
+   0047 77            [ 7]  130 	ld	(hl),a
+                            131 ;src/Item.c:43: pos.y=cpct_getRandom_mxor_u8()%MAP_HEIGHT;
+   0048 21 00 00      [10]  132 	ld	hl,#0x0000
+   004B 39            [11]  133 	add	hl,sp
+   004C 4D            [ 4]  134 	ld	c,l
+   004D 44            [ 4]  135 	ld	b,h
+   004E 59            [ 4]  136 	ld	e, c
+   004F 50            [ 4]  137 	ld	d, b
+   0050 13            [ 6]  138 	inc	de
+   0051 C5            [11]  139 	push	bc
+   0052 D5            [11]  140 	push	de
+   0053 CDr00r00      [17]  141 	call	_cpct_getRandom_mxor_u8
+   0056 D1            [10]  142 	pop	de
+   0057 C1            [10]  143 	pop	bc
+   0058 7D            [ 4]  144 	ld	a,l
+   0059 E6 1F         [ 7]  145 	and	a, #0x1F
+   005B 12            [ 7]  146 	ld	(de),a
+                            147 ;src/Item.c:45: return (item_try_new_spawn_at(&pos));
+   005C C5            [11]  148 	push	bc
+   005D CDr12r02      [17]  149 	call	_item_try_new_spawn_at
+   0060 DD F9         [10]  150 	ld	sp,ix
+   0062 DD E1         [14]  151 	pop	ix
+   0064 C9            [10]  152 	ret
+                            153 ;src/Item.c:48: void item_new_item(Vec2u* pos){
+                            154 ;	---------------------------------
+                            155 ; Function item_new_item
+                            156 ; ---------------------------------
+   0065                     157 _item_new_item::
+   0065 DD E5         [15]  158 	push	ix
+   0067 DD 21 00 00   [14]  159 	ld	ix,#0
+   006B DD 39         [15]  160 	add	ix,sp
+   006D 21 F3 FF      [10]  161 	ld	hl,#-13
+   0070 39            [11]  162 	add	hl,sp
+   0071 F9            [ 6]  163 	ld	sp,hl
+                            164 ;src/Item.c:50: Item* item=(itemArray+ITEM_MAX_ITEMS);
+   0072 DD 36 FAr25   [19]  165 	ld	-6 (ix),#<((_itemArray + 0x0023))
+   0076 DD 36 FBs00   [19]  166 	ld	-5 (ix),#>((_itemArray + 0x0023))
+                            167 ;src/Item.c:54: x=pos->x;
+   007A DD 7E 04      [19]  168 	ld	a,4 (ix)
+   007D DD 77 F8      [19]  169 	ld	-8 (ix),a
+   0080 DD 7E 05      [19]  170 	ld	a,5 (ix)
+   0083 DD 77 F9      [19]  171 	ld	-7 (ix),a
+   0086 DD 6E F8      [19]  172 	ld	l,-8 (ix)
+   0089 DD 66 F9      [19]  173 	ld	h,-7 (ix)
+   008C 7E            [ 7]  174 	ld	a,(hl)
+   008D DD 77 F5      [19]  175 	ld	-11 (ix),a
+                            176 ;src/Item.c:55: y=pos->y;
+   0090 DD 6E F8      [19]  177 	ld	l,-8 (ix)
+   0093 DD 66 F9      [19]  178 	ld	h,-7 (ix)
+   0096 23            [ 6]  179 	inc	hl
+   0097 7E            [ 7]  180 	ld	a,(hl)
+   0098 DD 77 F6      [19]  181 	ld	-10 (ix),a
+                            182 ;src/Item.c:57: while(i){
+   009B DD 36 F7 07   [19]  183 	ld	-9 (ix),#0x07
+   009F                     184 00114$:
+   009F DD 7E F7      [19]  185 	ld	a,-9 (ix)
+   00A2 B7            [ 4]  186 	or	a, a
+   00A3 CAr0Dr02      [10]  187 	jp	Z,00117$
+                            188 ;src/Item.c:58: --i;
+   00A6 DD 35 F7      [23]  189 	dec	-9 (ix)
+   00A9 DD 7E F7      [19]  190 	ld	a,-9 (ix)
+   00AC DD 77 F8      [19]  191 	ld	-8 (ix),a
+                            192 ;src/Item.c:59: --item;
+   00AF DD 7E FA      [19]  193 	ld	a,-6 (ix)
+   00B2 C6 FB         [ 7]  194 	add	a,#0xFB
+   00B4 DD 77 FA      [19]  195 	ld	-6 (ix),a
+   00B7 DD 7E FB      [19]  196 	ld	a,-5 (ix)
+   00BA CE FF         [ 7]  197 	adc	a,#0xFF
+   00BC DD 77 FB      [19]  198 	ld	-5 (ix),a
+   00BF DD 7E FA      [19]  199 	ld	a,-6 (ix)
+   00C2 DD 77 F3      [19]  200 	ld	-13 (ix),a
+   00C5 DD 7E FB      [19]  201 	ld	a,-5 (ix)
+   00C8 DD 77 F4      [19]  202 	ld	-12 (ix),a
+                            203 ;src/Item.c:60: if(item->value==0){
+   00CB DD 7E FA      [19]  204 	ld	a,-6 (ix)
+   00CE C6 04         [ 7]  205 	add	a, #0x04
+   00D0 DD 77 FE      [19]  206 	ld	-2 (ix),a
+   00D3 DD 7E FB      [19]  207 	ld	a,-5 (ix)
+   00D6 CE 00         [ 7]  208 	adc	a, #0x00
+   00D8 DD 77 FF      [19]  209 	ld	-1 (ix),a
+   00DB DD 6E FE      [19]  210 	ld	l,-2 (ix)
+   00DE DD 66 FF      [19]  211 	ld	h,-1 (ix)
+   00E1 7E            [ 7]  212 	ld	a,(hl)
+   00E2 B7            [ 4]  213 	or	a, a
+   00E3 20 BA         [12]  214 	jr	NZ,00114$
+                            215 ;src/Item.c:61: item->id=i;
+   00E5 DD 6E FA      [19]  216 	ld	l,-6 (ix)
+   00E8 DD 66 FB      [19]  217 	ld	h,-5 (ix)
+   00EB DD 7E F7      [19]  218 	ld	a,-9 (ix)
+   00EE 77            [ 7]  219 	ld	(hl),a
+                            220 ;src/Item.c:64: item->type=0;
+   00EF C1            [10]  221 	pop	bc
+   00F0 C5            [11]  222 	push	bc
+   00F1 03            [ 6]  223 	inc	bc
+   00F2 03            [ 6]  224 	inc	bc
+   00F3 03            [ 6]  225 	inc	bc
+                            226 ;src/Item.c:63: if((!item_spawnedKey) && (((cpct_getRandom_mxor_u8()%16)==0)||level_get_level()==KING_LEVEL)){//1/16 is key
+   00F4 3Ar01r00      [13]  227 	ld	a,(#_item_spawnedKey + 0)
+   00F7 B7            [ 4]  228 	or	a, a
+   00F8 20 1D         [12]  229 	jr	NZ,00102$
+   00FA C5            [11]  230 	push	bc
+   00FB CDr00r00      [17]  231 	call	_cpct_getRandom_mxor_u8
+   00FE C1            [10]  232 	pop	bc
+   00FF 7D            [ 4]  233 	ld	a,l
+   0100 E6 0F         [ 7]  234 	and	a, #0x0F
+   0102 28 0A         [12]  235 	jr	Z,00101$
+   0104 C5            [11]  236 	push	bc
+   0105 CDr00r00      [17]  237 	call	_level_get_level
+   0108 C1            [10]  238 	pop	bc
+   0109 7D            [ 4]  239 	ld	a,l
+   010A D6 20         [ 7]  240 	sub	a, #0x20
+   010C 20 09         [12]  241 	jr	NZ,00102$
+   010E                     242 00101$:
+                            243 ;src/Item.c:64: item->type=0;
+   010E AF            [ 4]  244 	xor	a, a
+   010F 02            [ 7]  245 	ld	(bc),a
+                            246 ;src/Item.c:65: item_spawnedKey=1;
+   0110 21r01r00      [10]  247 	ld	hl,#_item_spawnedKey + 0
+   0113 36 01         [10]  248 	ld	(hl), #0x01
+   0115 18 0A         [12]  249 	jr	00103$
+   0117                     250 00102$:
+                            251 ;src/Item.c:70: item->type = (cpct_getRandom_mxor_u8()&3)+1;
+   0117 C5            [11]  252 	push	bc
+   0118 CDr00r00      [17]  253 	call	_cpct_getRandom_mxor_u8
+   011B C1            [10]  254 	pop	bc
+   011C 7D            [ 4]  255 	ld	a,l
+   011D E6 03         [ 7]  256 	and	a, #0x03
+   011F 3C            [ 4]  257 	inc	a
+   0120 02            [ 7]  258 	ld	(bc),a
+   0121                     259 00103$:
+                            260 ;src/Item.c:74: if(item->type == 1){
+   0121 0A            [ 7]  261 	ld	a,(bc)
+   0122 DD 77 FA      [19]  262 	ld	-6 (ix), a
+   0125 3D            [ 4]  263 	dec	a
+   0126 20 27         [12]  264 	jr	NZ,00110$
+                            265 ;src/Item.c:75: item->value = 48 +level_get_level() + (cpct_getRandom_mxor_u8()&7);
+   0128 CDr00r00      [17]  266 	call	_level_get_level
+   012B DD 75 FD      [19]  267 	ld	-3 (ix), l
+   012E 7D            [ 4]  268 	ld	a, l
+   012F C6 30         [ 7]  269 	add	a, #0x30
+   0131 DD 77 FD      [19]  270 	ld	-3 (ix),a
+   0134 CDr00r00      [17]  271 	call	_cpct_getRandom_mxor_u8
+   0137 DD 75 FC      [19]  272 	ld	-4 (ix), l
+   013A 7D            [ 4]  273 	ld	a, l
+   013B E6 07         [ 7]  274 	and	a, #0x07
+   013D DD 77 FC      [19]  275 	ld	-4 (ix),a
+   0140 DD 7E FD      [19]  276 	ld	a,-3 (ix)
+   0143 DD 86 FC      [19]  277 	add	a, -4 (ix)
+   0146 DD 6E FE      [19]  278 	ld	l,-2 (ix)
+   0149 DD 66 FF      [19]  279 	ld	h,-1 (ix)
+   014C 77            [ 7]  280 	ld	(hl),a
+   014D 18 3C         [12]  281 	jr	00111$
+   014F                     282 00110$:
+                            283 ;src/Item.c:77: else if(item->type == 2){
+   014F DD 7E FA      [19]  284 	ld	a,-6 (ix)
+   0152 D6 02         [ 7]  285 	sub	a, #0x02
+   0154 20 2D         [12]  286 	jr	NZ,00107$
+                            287 ;src/Item.c:78: item->value = 4 + level_get_level() + (cpct_getRandom_mxor_u8()&7);
+   0156 CDr00r00      [17]  288 	call	_level_get_level
+   0159 DD 75 FC      [19]  289 	ld	-4 (ix),l
+   015C DD 34 FC      [23]  290 	inc	-4 (ix)
+   015F DD 34 FC      [23]  291 	inc	-4 (ix)
+   0162 DD 34 FC      [23]  292 	inc	-4 (ix)
+   0165 DD 34 FC      [23]  293 	inc	-4 (ix)
+   0168 CDr00r00      [17]  294 	call	_cpct_getRandom_mxor_u8
+   016B DD 75 FD      [19]  295 	ld	-3 (ix), l
+   016E 7D            [ 4]  296 	ld	a, l
+   016F E6 07         [ 7]  297 	and	a, #0x07
+   0171 DD 77 FD      [19]  298 	ld	-3 (ix),a
+   0174 DD 7E FC      [19]  299 	ld	a,-4 (ix)
+   0177 DD 86 FD      [19]  300 	add	a, -3 (ix)
+   017A DD 6E FE      [19]  301 	ld	l,-2 (ix)
+   017D DD 66 FF      [19]  302 	ld	h,-1 (ix)
+   0180 77            [ 7]  303 	ld	(hl),a
+   0181 18 08         [12]  304 	jr	00111$
+   0183                     305 00107$:
+                            306 ;src/Item.c:81: item->value=1;
+   0183 DD 6E FE      [19]  307 	ld	l,-2 (ix)
+   0186 DD 66 FF      [19]  308 	ld	h,-1 (ix)
+   0189 36 01         [10]  309 	ld	(hl),#0x01
+   018B                     310 00111$:
+                            311 ;src/Item.c:84: item->position.x = x;
+   018B C1            [10]  312 	pop	bc
+   018C C5            [11]  313 	push	bc
+   018D 03            [ 6]  314 	inc	bc
+   018E DD 7E F5      [19]  315 	ld	a,-11 (ix)
+   0191 02            [ 7]  316 	ld	(bc),a
+                            317 ;src/Item.c:85: item->position.y = y;
+   0192 03            [ 6]  318 	inc	bc
+   0193 DD 7E F6      [19]  319 	ld	a,-10 (ix)
+   0196 02            [ 7]  320 	ld	(bc),a
+                            321 ;src/Item.c:87: map[x+(y*MAP_WIDTH)] |=((i+1)<<4);
+   0197 DD 7E F5      [19]  322 	ld	a,-11 (ix)
+   019A DD 77 FE      [19]  323 	ld	-2 (ix),a
+   019D DD 36 FF 00   [19]  324 	ld	-1 (ix),#0x00
+   01A1 DD 7E F6      [19]  325 	ld	a,-10 (ix)
+   01A4 DD 77 FA      [19]  326 	ld	-6 (ix),a
+   01A7 DD 36 FB 00   [19]  327 	ld	-5 (ix),#0x00
+   01AB 3E 06         [ 7]  328 	ld	a,#0x05+1
+   01AD 18 08         [12]  329 	jr	00155$
+   01AF                     330 00154$:
+   01AF DD CB FA 26   [23]  331 	sla	-6 (ix)
+   01B3 DD CB FB 16   [23]  332 	rl	-5 (ix)
+   01B7                     333 00155$:
+   01B7 3D            [ 4]  334 	dec	a
+   01B8 20 F5         [12]  335 	jr	NZ,00154$
+   01BA DD 7E FE      [19]  336 	ld	a,-2 (ix)
+   01BD DD 86 FA      [19]  337 	add	a, -6 (ix)
+   01C0 DD 77 FE      [19]  338 	ld	-2 (ix),a
+   01C3 DD 7E FF      [19]  339 	ld	a,-1 (ix)
+   01C6 DD 8E FB      [19]  340 	adc	a, -5 (ix)
+   01C9 DD 77 FF      [19]  341 	ld	-1 (ix),a
+   01CC DD 7E FE      [19]  342 	ld	a,-2 (ix)
+   01CF C6 D0         [ 7]  343 	add	a, #0xD0
+   01D1 DD 77 FE      [19]  344 	ld	-2 (ix),a
+   01D4 DD 7E FF      [19]  345 	ld	a,-1 (ix)
+   01D7 CE 88         [ 7]  346 	adc	a, #0x88
+   01D9 DD 77 FF      [19]  347 	ld	-1 (ix),a
+   01DC DD 6E FE      [19]  348 	ld	l,-2 (ix)
+   01DF DD 66 FF      [19]  349 	ld	h,-1 (ix)
+   01E2 7E            [ 7]  350 	ld	a,(hl)
+   01E3 DD 77 FC      [19]  351 	ld	-4 (ix),a
+   01E6 DD 7E F8      [19]  352 	ld	a,-8 (ix)
+   01E9 3C            [ 4]  353 	inc	a
+   01EA DD 77 FD      [19]  354 	ld	-3 (ix), a
+   01ED 07            [ 4]  355 	rlca
+   01EE 07            [ 4]  356 	rlca
+   01EF 07            [ 4]  357 	rlca
+   01F0 07            [ 4]  358 	rlca
+   01F1 E6 F0         [ 7]  359 	and	a,#0xF0
+   01F3 DD 77 FD      [19]  360 	ld	-3 (ix),a
+   01F6 DD 7E FC      [19]  361 	ld	a,-4 (ix)
+   01F9 DD B6 FD      [19]  362 	or	a, -3 (ix)
+   01FC DD 77 FC      [19]  363 	ld	-4 (ix),a
+   01FF DD 6E FE      [19]  364 	ld	l,-2 (ix)
+   0202 DD 66 FF      [19]  365 	ld	h,-1 (ix)
+   0205 DD 7E FC      [19]  366 	ld	a,-4 (ix)
+   0208 77            [ 7]  367 	ld	(hl),a
+                            368 ;src/Item.c:89: ++activeItems;
+   0209 21r00r00      [10]  369 	ld	hl, #_activeItems+0
+   020C 34            [11]  370 	inc	(hl)
+                            371 ;src/Item.c:90: break;
+   020D                     372 00117$:
+   020D DD F9         [10]  373 	ld	sp, ix
+   020F DD E1         [14]  374 	pop	ix
+   0211 C9            [10]  375 	ret
+                            376 ;src/Item.c:95: u8 item_try_new_spawn_at(Vec2u* pos){
+                            377 ;	---------------------------------
+                            378 ; Function item_try_new_spawn_at
+                            379 ; ---------------------------------
+   0212                     380 _item_try_new_spawn_at::
+                            381 ;src/Item.c:107: return 0;
+   0212 2E 00         [ 7]  382 	ld	l,#0x00
+   0214 C9            [10]  383 	ret
+                            384 ;src/Item.c:110: void item_pick_item(Item* i){
+                            385 ;	---------------------------------
+                            386 ; Function item_pick_item
+                            387 ; ---------------------------------
+   0215                     388 _item_pick_item::
+   0215 DD E5         [15]  389 	push	ix
+   0217 DD 21 00 00   [14]  390 	ld	ix,#0
+   021B DD 39         [15]  391 	add	ix,sp
+   021D F5            [11]  392 	push	af
+   021E F5            [11]  393 	push	af
+                            394 ;src/Item.c:112: switch(i->type){
+   021F DD 4E 04      [19]  395 	ld	c,4 (ix)
+   0222 DD 46 05      [19]  396 	ld	b,5 (ix)
+   0225 69            [ 4]  397 	ld	l, c
+   0226 60            [ 4]  398 	ld	h, b
+   0227 23            [ 6]  399 	inc	hl
+   0228 23            [ 6]  400 	inc	hl
+   0229 23            [ 6]  401 	inc	hl
+   022A 5E            [ 7]  402 	ld	e,(hl)
+   022B 3E 04         [ 7]  403 	ld	a,#0x04
+   022D 93            [ 4]  404 	sub	a, e
+   022E DArB4r02      [10]  405 	jp	C,00106$
+                            406 ;src/Item.c:120: player_attack_value=(i->value>player_attack_value)?i->value:player_attack_value;
+   0231 21 04 00      [10]  407 	ld	hl,#0x0004
+   0234 09            [11]  408 	add	hl,bc
+   0235 DD 75 FE      [19]  409 	ld	-2 (ix),l
+   0238 DD 74 FF      [19]  410 	ld	-1 (ix),h
+                            411 ;src/Item.c:112: switch(i->type){
+   023B 16 00         [ 7]  412 	ld	d,#0x00
+   023D 21r43r02      [10]  413 	ld	hl,#00125$
+   0240 19            [11]  414 	add	hl,de
+   0241 19            [11]  415 	add	hl,de
+                            416 ;src/Item.c:113: case 0:{//key
+   0242 E9            [ 4]  417 	jp	(hl)
+   0243                     418 00125$:
+   0243 18 08         [12]  419 	jr	00101$
+   0245 18 15         [12]  420 	jr	00102$
+   0247 18 32         [12]  421 	jr	00103$
+   0249 18 4F         [12]  422 	jr	00104$
+   024B 18 5B         [12]  423 	jr	00105$
+   024D                     424 00101$:
+                            425 ;src/Item.c:114: player_has_key=1;
+   024D 21r00r00      [10]  426 	ld	hl,#_player_has_key + 0
+   0250 36 01         [10]  427 	ld	(hl), #0x01
+                            428 ;src/Item.c:115: ui_playerstats_render_key();
+   0252 C5            [11]  429 	push	bc
+   0253 CDr00r00      [17]  430 	call	_ui_playerstats_render_key
+   0256 C1            [10]  431 	pop	bc
+                            432 ;src/Item.c:116: object = "KEY";
+   0257 11rD9r02      [10]  433 	ld	de,#___str_0+0
+                            434 ;src/Item.c:117: break;
+   025A 18 58         [12]  435 	jr	00106$
+                            436 ;src/Item.c:119: case 1:{
+   025C                     437 00102$:
+                            438 ;src/Item.c:120: player_attack_value=(i->value>player_attack_value)?i->value:player_attack_value;
+   025C DD 6E FE      [19]  439 	ld	l,-2 (ix)
+   025F DD 66 FF      [19]  440 	ld	h,-1 (ix)
+   0262 5E            [ 7]  441 	ld	e,(hl)
+   0263 3Ar00r00      [13]  442 	ld	a,(#_player_attack_value)
+   0266 93            [ 4]  443 	sub	a, e
+   0267 38 04         [12]  444 	jr	C,00110$
+   0269 21r00r00      [10]  445 	ld	hl,#_player_attack_value + 0
+   026C 5E            [ 7]  446 	ld	e, (hl)
+   026D                     447 00110$:
+   026D 21r00r00      [10]  448 	ld	hl,#_player_attack_value + 0
+   0270 73            [ 7]  449 	ld	(hl), e
+                            450 ;src/Item.c:121: ui_playerstats_render_attack();
+   0271 C5            [11]  451 	push	bc
+   0272 CDr00r00      [17]  452 	call	_ui_playerstats_render_attack
+   0275 C1            [10]  453 	pop	bc
+                            454 ;src/Item.c:122: object="SWORD";
+   0276 11rDDr02      [10]  455 	ld	de,#___str_1
+                            456 ;src/Item.c:123: break;
+   0279 18 39         [12]  457 	jr	00106$
+                            458 ;src/Item.c:125: case 2:{
+   027B                     459 00103$:
+                            460 ;src/Item.c:126: player_defense_value = (i->value>player_defense_value)?i->value:player_defense_value;
+   027B DD 6E FE      [19]  461 	ld	l,-2 (ix)
+   027E DD 66 FF      [19]  462 	ld	h,-1 (ix)
+   0281 5E            [ 7]  463 	ld	e,(hl)
+   0282 3Ar00r00      [13]  464 	ld	a,(#_player_defense_value)
+   0285 93            [ 4]  465 	sub	a, e
+   0286 38 04         [12]  466 	jr	C,00112$
+   0288 21r00r00      [10]  467 	ld	hl,#_player_defense_value + 0
+   028B 5E            [ 7]  468 	ld	e, (hl)
+   028C                     469 00112$:
+   028C 21r00r00      [10]  470 	ld	hl,#_player_defense_value + 0
+   028F 73            [ 7]  471 	ld	(hl), e
+                            472 ;src/Item.c:127: ui_playerstats_render_defense();
+   0290 C5            [11]  473 	push	bc
+   0291 CDr00r00      [17]  474 	call	_ui_playerstats_render_defense
+   0294 C1            [10]  475 	pop	bc
+                            476 ;src/Item.c:128: object="ARMOR";
+   0295 11rE3r02      [10]  477 	ld	de,#___str_2
+                            478 ;src/Item.c:129: break;
+   0298 18 1A         [12]  479 	jr	00106$
+                            480 ;src/Item.c:131: case 3:{
+   029A                     481 00104$:
+                            482 ;src/Item.c:132: ++player_potion_count;
+   029A 21r00r00      [10]  483 	ld	hl, #_player_potion_count+0
+   029D 34            [11]  484 	inc	(hl)
+                            485 ;src/Item.c:133: ui_playerstats_render_potions();
+   029E C5            [11]  486 	push	bc
+   029F CDr00r00      [17]  487 	call	_ui_playerstats_render_potions
+   02A2 C1            [10]  488 	pop	bc
+                            489 ;src/Item.c:134: object="POTION";
+   02A3 11rE9r02      [10]  490 	ld	de,#___str_3
+                            491 ;src/Item.c:135: break;
+   02A6 18 0C         [12]  492 	jr	00106$
+                            493 ;src/Item.c:137: case 4:{
+   02A8                     494 00105$:
+                            495 ;src/Item.c:138: ++player_scroll_count;
+   02A8 21r00r00      [10]  496 	ld	hl, #_player_scroll_count+0
+   02AB 34            [11]  497 	inc	(hl)
+                            498 ;src/Item.c:139: ui_playerstats_render_scrolls();
+   02AC C5            [11]  499 	push	bc
+   02AD CDr00r00      [17]  500 	call	_ui_playerstats_render_scrolls
+   02B0 C1            [10]  501 	pop	bc
+                            502 ;src/Item.c:140: object="SCROLL";
+   02B1 11rF0r02      [10]  503 	ld	de,#___str_4
+                            504 ;src/Item.c:143: }
+   02B4                     505 00106$:
+                            506 ;src/Item.c:145: ui_log_add_log("PICKED",3);
+   02B4 C5            [11]  507 	push	bc
+   02B5 D5            [11]  508 	push	de
+   02B6 3E 03         [ 7]  509 	ld	a,#0x03
+   02B8 F5            [11]  510 	push	af
+   02B9 33            [ 6]  511 	inc	sp
+   02BA 21rF7r02      [10]  512 	ld	hl,#___str_5
+   02BD E5            [11]  513 	push	hl
+   02BE CDr00r00      [17]  514 	call	_ui_log_add_log
+   02C1 F1            [10]  515 	pop	af
+   02C2 33            [ 6]  516 	inc	sp
+   02C3 D1            [10]  517 	pop	de
+   02C4 3E 06         [ 7]  518 	ld	a,#0x06
+   02C6 F5            [11]  519 	push	af
+   02C7 33            [ 6]  520 	inc	sp
+   02C8 D5            [11]  521 	push	de
+   02C9 CDr00r00      [17]  522 	call	_ui_log_add_log
+   02CC F1            [10]  523 	pop	af
+   02CD 33            [ 6]  524 	inc	sp
+   02CE CDr00r00      [17]  525 	call	_ui_log_render
+   02D1 CDrFEr02      [17]  526 	call	_item_destroy_item
+   02D4 DD F9         [10]  527 	ld	sp,ix
+   02D6 DD E1         [14]  528 	pop	ix
+   02D8 C9            [10]  529 	ret
+   02D9                     530 ___str_0:
+   02D9 4B 45 59            531 	.ascii "KEY"
+   02DC 00                  532 	.db 0x00
+   02DD                     533 ___str_1:
+   02DD 53 57 4F 52 44      534 	.ascii "SWORD"
+   02E2 00                  535 	.db 0x00
+   02E3                     536 ___str_2:
+   02E3 41 52 4D 4F 52      537 	.ascii "ARMOR"
+   02E8 00                  538 	.db 0x00
+   02E9                     539 ___str_3:
+   02E9 50 4F 54 49 4F 4E   540 	.ascii "POTION"
+   02EF 00                  541 	.db 0x00
+   02F0                     542 ___str_4:
+   02F0 53 43 52 4F 4C 4C   543 	.ascii "SCROLL"
+   02F6 00                  544 	.db 0x00
+   02F7                     545 ___str_5:
+   02F7 50 49 43 4B 45 44   546 	.ascii "PICKED"
+   02FD 00                  547 	.db 0x00
+                            548 ;src/Item.c:152: void item_destroy_item(Item* i){
+                            549 ;	---------------------------------
+                            550 ; Function item_destroy_item
+                            551 ; ---------------------------------
+   02FE                     552 _item_destroy_item::
+   02FE DD E5         [15]  553 	push	ix
+   0300 DD 21 00 00   [14]  554 	ld	ix,#0
+   0304 DD 39         [15]  555 	add	ix,sp
+                            556 ;src/Item.c:153: u8* mapPos = (u8*)(MAP_MEM + i->position.x + (i->position.y*MAP_WIDTH));
+   0306 DD 5E 04      [19]  557 	ld	e,4 (ix)
+   0309 DD 56 05      [19]  558 	ld	d,5 (ix)
+   030C 6B            [ 4]  559 	ld	l, e
+   030D 62            [ 4]  560 	ld	h, d
+   030E 23            [ 6]  561 	inc	hl
+   030F 4E            [ 7]  562 	ld	c,(hl)
+   0310 06 00         [ 7]  563 	ld	b,#0x00
+   0312 21 D0 88      [10]  564 	ld	hl,#0x88D0
+   0315 09            [11]  565 	add	hl,bc
+   0316 4D            [ 4]  566 	ld	c,l
+   0317 44            [ 4]  567 	ld	b,h
+   0318 6B            [ 4]  568 	ld	l, e
+   0319 62            [ 4]  569 	ld	h, d
+   031A 23            [ 6]  570 	inc	hl
+   031B 23            [ 6]  571 	inc	hl
+   031C 6E            [ 7]  572 	ld	l,(hl)
+   031D 26 00         [ 7]  573 	ld	h,#0x00
+   031F 29            [11]  574 	add	hl, hl
+   0320 29            [11]  575 	add	hl, hl
+   0321 29            [11]  576 	add	hl, hl
+   0322 29            [11]  577 	add	hl, hl
+   0323 29            [11]  578 	add	hl, hl
+   0324 09            [11]  579 	add	hl,bc
+   0325 4D            [ 4]  580 	ld	c,l
+   0326 44            [ 4]  581 	ld	b,h
+                            582 ;src/Item.c:155: --activeItems;
+   0327 21r00r00      [10]  583 	ld	hl, #_activeItems+0
+   032A 35            [11]  584 	dec	(hl)
+                            585 ;src/Item.c:157: i->value=0;
+   032B 13            [ 6]  586 	inc	de
+   032C 13            [ 6]  587 	inc	de
+   032D 13            [ 6]  588 	inc	de
+   032E 13            [ 6]  589 	inc	de
+   032F AF            [ 4]  590 	xor	a, a
+   0330 12            [ 7]  591 	ld	(de),a
+                            592 ;src/Item.c:159: *mapPos = *mapPos&(CELL_WALL_MASK|CELL_ENEMY_MASK);
+   0331 0A            [ 7]  593 	ld	a,(bc)
+   0332 E6 8F         [ 7]  594 	and	a, #0x8F
+   0334 02            [ 7]  595 	ld	(bc),a
+   0335 DD E1         [14]  596 	pop	ix
+   0337 C9            [10]  597 	ret
+                            598 ;src/Item.c:163: u8 item_use_potion(){
+                            599 ;	---------------------------------
+                            600 ; Function item_use_potion
+                            601 ; ---------------------------------
+   0338                     602 _item_use_potion::
+                            603 ;src/Item.c:164: if(player_potion_count){
+   0338 3Ar00r00      [13]  604 	ld	a,(#_player_potion_count + 0)
+   033B B7            [ 4]  605 	or	a, a
+   033C 28 1F         [12]  606 	jr	Z,00105$
+                            607 ;src/Item.c:165: --player_potion_count;
+   033E 21r00r00      [10]  608 	ld	hl, #_player_potion_count+0
+   0341 35            [11]  609 	dec	(hl)
+                            610 ;src/Item.c:166: if(player_health_points<(255-ITEM_POTION_HEAL)){
+   0342 3Ar00r00      [13]  611 	ld	a,(#_player_health_points + 0)
+   0345 D6 80         [ 7]  612 	sub	a, #0x80
+   0347 30 09         [12]  613 	jr	NC,00102$
+                            614 ;src/Item.c:167: player_health_points+=ITEM_POTION_HEAL;
+   0349 21r00r00      [10]  615 	ld	hl,#_player_health_points
+   034C 7E            [ 7]  616 	ld	a,(hl)
+   034D C6 7F         [ 7]  617 	add	a, #0x7F
+   034F 77            [ 7]  618 	ld	(hl),a
+   0350 18 05         [12]  619 	jr	00103$
+   0352                     620 00102$:
+                            621 ;src/Item.c:170: player_health_points=255;
+   0352 21r00r00      [10]  622 	ld	hl,#_player_health_points + 0
+   0355 36 FF         [10]  623 	ld	(hl), #0xFF
+   0357                     624 00103$:
+                            625 ;src/Item.c:172: ui_playerstats_render_hp();
+   0357 CDr00r00      [17]  626 	call	_ui_playerstats_render_hp
+                            627 ;src/Item.c:173: return 1;
+   035A 2E 01         [ 7]  628 	ld	l,#0x01
+   035C C9            [10]  629 	ret
+   035D                     630 00105$:
+                            631 ;src/Item.c:175: return 0;
+   035D 2E 00         [ 7]  632 	ld	l,#0x00
+   035F C9            [10]  633 	ret
+                            634 ;src/Item.c:178: u8 item_use_scroll(){
+                            635 ;	---------------------------------
+                            636 ; Function item_use_scroll
+                            637 ; ---------------------------------
+   0360                     638 _item_use_scroll::
+                            639 ;src/Item.c:179: u16 pos = (cpct_getRandom_mxor_u16()%1024);
+   0360 CDr00r00      [17]  640 	call	_cpct_getRandom_mxor_u16
+   0363 4D            [ 4]  641 	ld	c,l
+   0364 7C            [ 4]  642 	ld	a,h
+   0365 E6 03         [ 7]  643 	and	a, #0x03
+   0367 47            [ 4]  644 	ld	b,a
+                            645 ;src/Item.c:180: if(player_scroll_count){
+   0368 3Ar00r00      [13]  646 	ld	a,(#_player_scroll_count + 0)
+   036B B7            [ 4]  647 	or	a, a
+   036C 28 36         [12]  648 	jr	Z,00105$
+                            649 ;src/Item.c:181: while(*(u8*)(MAP_MEM+pos)!=CELLTYPE_FLOOR){
+   036E                     650 00101$:
+   036E 21 D0 88      [10]  651 	ld	hl,#0x88D0
+   0371 09            [11]  652 	add	hl,bc
+   0372 7E            [ 7]  653 	ld	a,(hl)
+   0373 B7            [ 4]  654 	or	a, a
+   0374 28 07         [12]  655 	jr	Z,00103$
+                            656 ;src/Item.c:182: pos = (pos+1)%1024;
+   0376 03            [ 6]  657 	inc	bc
+   0377 78            [ 4]  658 	ld	a,b
+   0378 E6 03         [ 7]  659 	and	a, #0x03
+   037A 47            [ 4]  660 	ld	b,a
+   037B 18 F1         [12]  661 	jr	00101$
+   037D                     662 00103$:
+                            663 ;src/Item.c:184: --player_scroll_count;
+   037D 21r00r00      [10]  664 	ld	hl, #_player_scroll_count+0
+   0380 35            [11]  665 	dec	(hl)
+                            666 ;src/Item.c:185: *(u8*)&(player_position.x) = (pos%MAP_WIDTH);
+   0381 79            [ 4]  667 	ld	a,c
+   0382 E6 1F         [ 7]  668 	and	a, #0x1F
+   0384 5F            [ 4]  669 	ld	e,a
+   0385 21r00r00      [10]  670 	ld	hl,#_player_position
+   0388 73            [ 7]  671 	ld	(hl),e
+                            672 ;src/Item.c:186: *(u8*)&(player_position.y) = (pos/MAP_HEIGHT);
+   0389 CB 38         [ 8]  673 	srl	b
+   038B CB 19         [ 8]  674 	rr	c
+   038D CB 38         [ 8]  675 	srl	b
+   038F CB 19         [ 8]  676 	rr	c
+   0391 CB 38         [ 8]  677 	srl	b
+   0393 CB 19         [ 8]  678 	rr	c
+   0395 CB 38         [ 8]  679 	srl	b
+   0397 CB 19         [ 8]  680 	rr	c
+   0399 CB 38         [ 8]  681 	srl	b
+   039B CB 19         [ 8]  682 	rr	c
+   039D 21r01r00      [10]  683 	ld	hl,#(_player_position + 0x0001)
+   03A0 71            [ 7]  684 	ld	(hl),c
+                            685 ;src/Item.c:187: return 1;
+   03A1 2E 01         [ 7]  686 	ld	l,#0x01
+   03A3 C9            [10]  687 	ret
+   03A4                     688 00105$:
+                            689 ;src/Item.c:189: return 0;
+   03A4 2E 00         [ 7]  690 	ld	l,#0x00
+   03A6 C9            [10]  691 	ret
+                            692 	.area _CODE
+                            693 	.area _INITIALIZER
+                            694 	.area _CABS (ABS)

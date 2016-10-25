@@ -1,0 +1,518 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.5 #9498 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module SaveGame
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _savegame_decrypt_save
+                             12 	.globl _savegame_to_string
+                             13 	.globl _savegame_checksave
+                             14 	.globl _savegame_string_to_save
+                             15 	.globl _str_cmp
+                             16 	.globl _map_get_seed
+                             17 	.globl _level_get_level
+                             18 	.globl _level_set_level
+                             19 	.globl _player_init
+                             20 	.globl _statemanager_set_state
+                             21 	.globl _saveString
+                             22 	.globl _save
+                             23 	.globl _saveArray
+                             24 	.globl _savegame_Save
+                             25 	.globl _savegame_Load
+                             26 	.globl _savegame_get_saveString
+                             27 ;--------------------------------------------------------
+                             28 ; special function registers
+                             29 ;--------------------------------------------------------
+                             30 ;--------------------------------------------------------
+                             31 ; ram data
+                             32 ;--------------------------------------------------------
+                             33 	.area _DATA
+   0000                      34 _save::
+   0000                      35 	.ds 9
+   0009                      36 _saveString::
+   0009                      37 	.ds 19
+                             38 ;--------------------------------------------------------
+                             39 ; ram data
+                             40 ;--------------------------------------------------------
+                             41 	.area _INITIALIZED
+                             42 ;--------------------------------------------------------
+                             43 ; absolute external ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area _DABS (ABS)
+                             46 ;--------------------------------------------------------
+                             47 ; global & static initialisations
+                             48 ;--------------------------------------------------------
+                             49 	.area _HOME
+                             50 	.area _GSINIT
+                             51 	.area _GSFINAL
+                             52 	.area _GSINIT
+                             53 ;--------------------------------------------------------
+                             54 ; Home
+                             55 ;--------------------------------------------------------
+                             56 	.area _HOME
+                             57 	.area _HOME
+                             58 ;--------------------------------------------------------
+                             59 ; code
+                             60 ;--------------------------------------------------------
+                             61 	.area _CODE
+                             62 ;src/SaveGame.c:31: u8 str_cmp(char* a, char* b){
+                             63 ;	---------------------------------
+                             64 ; Function str_cmp
+                             65 ; ---------------------------------
+   0000                      66 _str_cmp::
+                             67 ;src/SaveGame.c:32: u8 sum=0;
+   0000 0E 00         [ 7]   68 	ld	c,#0x00
+                             69 ;src/SaveGame.c:33: while(*a){
+   0002 D1            [10]   70 	pop	de
+   0003 E1            [10]   71 	pop	hl
+   0004 E5            [11]   72 	push	hl
+   0005 D5            [11]   73 	push	de
+   0006                      74 00101$:
+   0006 46            [ 7]   75 	ld	b,(hl)
+   0007 78            [ 4]   76 	ld	a,b
+   0008 B7            [ 4]   77 	or	a, a
+   0009 28 06         [12]   78 	jr	Z,00112$
+                             79 ;src/SaveGame.c:34: sum+=*a;
+   000B 79            [ 4]   80 	ld	a,c
+   000C 80            [ 4]   81 	add	a, b
+   000D 4F            [ 4]   82 	ld	c,a
+                             83 ;src/SaveGame.c:35: ++a;
+   000E 23            [ 6]   84 	inc	hl
+   000F 18 F5         [12]   85 	jr	00101$
+                             86 ;src/SaveGame.c:38: while(*b){
+   0011                      87 00112$:
+   0011 21 04 00      [10]   88 	ld	hl, #4
+   0014 39            [11]   89 	add	hl, sp
+   0015 5E            [ 7]   90 	ld	e, (hl)
+   0016 23            [ 6]   91 	inc	hl
+   0017 56            [ 7]   92 	ld	d, (hl)
+   0018                      93 00104$:
+   0018 1A            [ 7]   94 	ld	a,(de)
+   0019 47            [ 4]   95 	ld	b,a
+   001A B7            [ 4]   96 	or	a, a
+   001B 28 06         [12]   97 	jr	Z,00106$
+                             98 ;src/SaveGame.c:39: sum-=*b;
+   001D 79            [ 4]   99 	ld	a,c
+   001E 90            [ 4]  100 	sub	a, b
+   001F 4F            [ 4]  101 	ld	c,a
+                            102 ;src/SaveGame.c:40: ++b;
+   0020 13            [ 6]  103 	inc	de
+   0021 18 F5         [12]  104 	jr	00104$
+   0023                     105 00106$:
+                            106 ;src/SaveGame.c:43: return sum;
+   0023 69            [ 4]  107 	ld	l,c
+   0024 C9            [10]  108 	ret
+   0025                     109 _saveArray:
+   0025r00r00               110 	.dw _save
+                            111 ;src/SaveGame.c:46: void savegame_string_to_save(char* in){
+                            112 ;	---------------------------------
+                            113 ; Function savegame_string_to_save
+                            114 ; ---------------------------------
+   0027                     115 _savegame_string_to_save::
+   0027 DD E5         [15]  116 	push	ix
+   0029 DD 21 00 00   [14]  117 	ld	ix,#0
+   002D DD 39         [15]  118 	add	ix,sp
+   002F 3B            [ 6]  119 	dec	sp
+                            120 ;src/SaveGame.c:51: while(i<SAVEDATA_SIZE){
+   0030 0E 00         [ 7]  121 	ld	c,#0x00
+   0032                     122 00106$:
+   0032 79            [ 4]  123 	ld	a,c
+   0033 D6 09         [ 7]  124 	sub	a, #0x09
+   0035 30 48         [12]  125 	jr	NC,00111$
+                            126 ;src/SaveGame.c:52: val=0;
+   0037 06 00         [ 7]  127 	ld	b,#0x00
+                            128 ;src/SaveGame.c:53: for(j=2;j;--j){
+   0039 1E 02         [ 7]  129 	ld	e,#0x02
+   003B DD 6E 04      [19]  130 	ld	l,4 (ix)
+   003E DD 66 05      [19]  131 	ld	h,5 (ix)
+   0041                     132 00109$:
+                            133 ;src/SaveGame.c:54: val=val<<4;
+   0041 78            [ 4]  134 	ld	a,b
+   0042 07            [ 4]  135 	rlca
+   0043 07            [ 4]  136 	rlca
+   0044 07            [ 4]  137 	rlca
+   0045 07            [ 4]  138 	rlca
+   0046 E6 F0         [ 7]  139 	and	a,#0xF0
+   0048 DD 77 FF      [19]  140 	ld	-1 (ix),a
+                            141 ;src/SaveGame.c:55: if((*in)>47 && (*in)<=57){//Number
+   004B 46            [ 7]  142 	ld	b,(hl)
+   004C 3E 2F         [ 7]  143 	ld	a,#0x2F
+   004E 90            [ 4]  144 	sub	a, b
+   004F 30 0E         [12]  145 	jr	NC,00102$
+   0051 3E 39         [ 7]  146 	ld	a,#0x39
+   0053 90            [ 4]  147 	sub	a, b
+   0054 38 09         [12]  148 	jr	C,00102$
+                            149 ;src/SaveGame.c:56: val=val|(*in)-48;
+   0056 78            [ 4]  150 	ld	a,b
+   0057 C6 D0         [ 7]  151 	add	a,#0xD0
+   0059 DD B6 FF      [19]  152 	or	a, -1 (ix)
+   005C 47            [ 4]  153 	ld	b,a
+   005D 18 07         [12]  154 	jr	00103$
+   005F                     155 00102$:
+                            156 ;src/SaveGame.c:59: val=val|(*in)-65+10;
+   005F 78            [ 4]  157 	ld	a,b
+   0060 C6 C9         [ 7]  158 	add	a, #0xC9
+   0062 DD B6 FF      [19]  159 	or	a, -1 (ix)
+   0065 47            [ 4]  160 	ld	b,a
+   0066                     161 00103$:
+                            162 ;src/SaveGame.c:61: ++in;
+   0066 23            [ 6]  163 	inc	hl
+                            164 ;src/SaveGame.c:53: for(j=2;j;--j){
+   0067 53            [ 4]  165 	ld	d,e
+   0068 15            [ 4]  166 	dec	d
+   0069 7A            [ 4]  167 	ld	a,d
+   006A 5F            [ 4]  168 	ld	e,a
+   006B B7            [ 4]  169 	or	a, a
+   006C 20 D3         [12]  170 	jr	NZ,00109$
+                            171 ;src/SaveGame.c:64: saveArray[i]=val;
+   006E DD 75 04      [19]  172 	ld	4 (ix),l
+   0071 DD 74 05      [19]  173 	ld	5 (ix),h
+   0074 2Ar25r00      [16]  174 	ld	hl,(_saveArray)
+   0077 59            [ 4]  175 	ld	e,c
+   0078 16 00         [ 7]  176 	ld	d,#0x00
+   007A 19            [11]  177 	add	hl,de
+   007B 70            [ 7]  178 	ld	(hl),b
+                            179 ;src/SaveGame.c:65: ++i;
+   007C 0C            [ 4]  180 	inc	c
+   007D 18 B3         [12]  181 	jr	00106$
+   007F                     182 00111$:
+   007F 33            [ 6]  183 	inc	sp
+   0080 DD E1         [14]  184 	pop	ix
+   0082 C9            [10]  185 	ret
+                            186 ;src/SaveGame.c:71: u8 savegame_checksave(){
+                            187 ;	---------------------------------
+                            188 ; Function savegame_checksave
+                            189 ; ---------------------------------
+   0083                     190 _savegame_checksave::
+                            191 ;src/SaveGame.c:73: u8 checksum=0;
+                            192 ;src/SaveGame.c:76: while(i){
+   0083 01 00 08      [10]  193 	ld	bc,#0x0800
+   0086                     194 00101$:
+   0086 78            [ 4]  195 	ld	a,b
+   0087 B7            [ 4]  196 	or	a, a
+   0088 28 10         [12]  197 	jr	Z,00103$
+                            198 ;src/SaveGame.c:77: --i;
+   008A 05            [ 4]  199 	dec	b
+                            200 ;src/SaveGame.c:78: checksum+=(saveArray[i]^SAVE_MASK);
+   008B 2Ar25r00      [16]  201 	ld	hl,(_saveArray)
+   008E 58            [ 4]  202 	ld	e,b
+   008F 16 00         [ 7]  203 	ld	d,#0x00
+   0091 19            [11]  204 	add	hl,de
+   0092 7E            [ 7]  205 	ld	a,(hl)
+   0093 EE DB         [ 7]  206 	xor	a, #0xDB
+   0095 5F            [ 4]  207 	ld	e, a
+   0096 81            [ 4]  208 	add	a,c
+   0097 4F            [ 4]  209 	ld	c,a
+   0098 18 EC         [12]  210 	jr	00101$
+   009A                     211 00103$:
+                            212 ;src/SaveGame.c:80: checksum=checksum^CHECKSUM_MASK^SAVE_MASK;
+   009A 79            [ 4]  213 	ld	a,c
+   009B EE 71         [ 7]  214 	xor	a, #0x71
+   009D 4F            [ 4]  215 	ld	c,a
+                            216 ;src/SaveGame.c:81: return (checksum==save.checksum);
+   009E 21r08r00      [10]  217 	ld	hl, #(_save + 0x0008) + 0
+   00A1 46            [ 7]  218 	ld	b,(hl)
+   00A2 79            [ 4]  219 	ld	a,c
+   00A3 90            [ 4]  220 	sub	a, b
+   00A4 20 04         [12]  221 	jr	NZ,00115$
+   00A6 3E 01         [ 7]  222 	ld	a,#0x01
+   00A8 18 01         [12]  223 	jr	00116$
+   00AA                     224 00115$:
+   00AA AF            [ 4]  225 	xor	a,a
+   00AB                     226 00116$:
+   00AB 6F            [ 4]  227 	ld	l,a
+   00AC C9            [10]  228 	ret
+                            229 ;src/SaveGame.c:86: void savegame_to_string(){
+                            230 ;	---------------------------------
+                            231 ; Function savegame_to_string
+                            232 ; ---------------------------------
+   00AD                     233 _savegame_to_string::
+                            234 ;src/SaveGame.c:89: char* string = saveString;
+   00AD 11r09r00      [10]  235 	ld	de,#_saveString
+                            236 ;src/SaveGame.c:90: saveString[SAVESTRING_SIZE-1]=0;
+   00B0 21r1Br00      [10]  237 	ld	hl,#(_saveString + 0x0012)
+   00B3 36 00         [10]  238 	ld	(hl),#0x00
+                            239 ;src/SaveGame.c:93: while(i<SAVEDATA_SIZE){
+   00B5 0E 00         [ 7]  240 	ld	c,#0x00
+   00B7                     241 00107$:
+   00B7 79            [ 4]  242 	ld	a,c
+   00B8 D6 09         [ 7]  243 	sub	a, #0x09
+   00BA D0            [11]  244 	ret	NC
+                            245 ;src/SaveGame.c:94: val = saveArray[i]>>4;
+   00BB 2Ar25r00      [16]  246 	ld	hl,(_saveArray)
+   00BE 06 00         [ 7]  247 	ld	b,#0x00
+   00C0 09            [11]  248 	add	hl, bc
+   00C1 7E            [ 7]  249 	ld	a,(hl)
+   00C2 07            [ 4]  250 	rlca
+   00C3 07            [ 4]  251 	rlca
+   00C4 07            [ 4]  252 	rlca
+   00C5 07            [ 4]  253 	rlca
+   00C6 E6 0F         [ 7]  254 	and	a,#0x0F
+                            255 ;src/SaveGame.c:95: if(val<10) *string=48+val;
+   00C8 47            [ 4]  256 	ld	b,a
+   00C9 D6 0A         [ 7]  257 	sub	a, #0x0A
+   00CB 30 06         [12]  258 	jr	NC,00102$
+   00CD 78            [ 4]  259 	ld	a,b
+   00CE C6 30         [ 7]  260 	add	a, #0x30
+   00D0 12            [ 7]  261 	ld	(de),a
+   00D1 18 04         [12]  262 	jr	00103$
+   00D3                     263 00102$:
+                            264 ;src/SaveGame.c:96: else *string=65+(val-10);
+   00D3 78            [ 4]  265 	ld	a,b
+   00D4 C6 37         [ 7]  266 	add	a, #0x37
+   00D6 12            [ 7]  267 	ld	(de),a
+   00D7                     268 00103$:
+                            269 ;src/SaveGame.c:98: ++string;
+   00D7 13            [ 6]  270 	inc	de
+                            271 ;src/SaveGame.c:99: val = saveArray[i]&0x0F;
+   00D8 2Ar25r00      [16]  272 	ld	hl,(_saveArray)
+   00DB 06 00         [ 7]  273 	ld	b,#0x00
+   00DD 09            [11]  274 	add	hl, bc
+   00DE 7E            [ 7]  275 	ld	a,(hl)
+   00DF E6 0F         [ 7]  276 	and	a, #0x0F
+                            277 ;src/SaveGame.c:100: if(val<10) *string=48+val;
+   00E1 47            [ 4]  278 	ld	b,a
+   00E2 D6 0A         [ 7]  279 	sub	a, #0x0A
+   00E4 30 06         [12]  280 	jr	NC,00105$
+   00E6 78            [ 4]  281 	ld	a,b
+   00E7 C6 30         [ 7]  282 	add	a, #0x30
+   00E9 12            [ 7]  283 	ld	(de),a
+   00EA 18 04         [12]  284 	jr	00106$
+   00EC                     285 00105$:
+                            286 ;src/SaveGame.c:101: else *string=65+(val-10);
+   00EC 78            [ 4]  287 	ld	a,b
+   00ED C6 37         [ 7]  288 	add	a, #0x37
+   00EF 12            [ 7]  289 	ld	(de),a
+   00F0                     290 00106$:
+                            291 ;src/SaveGame.c:103: ++string;
+   00F0 13            [ 6]  292 	inc	de
+                            293 ;src/SaveGame.c:104: ++i;
+   00F1 0C            [ 4]  294 	inc	c
+   00F2 18 C3         [12]  295 	jr	00107$
+                            296 ;src/SaveGame.c:108: void savegame_Save(){
+                            297 ;	---------------------------------
+                            298 ; Function savegame_Save
+                            299 ; ---------------------------------
+   00F4                     300 _savegame_Save::
+                            301 ;src/SaveGame.c:112: save.seed = map_get_seed();
+   00F4 CDr00r00      [17]  302 	call	_map_get_seed
+   00F7 4D            [ 4]  303 	ld	c,l
+   00F8 44            [ 4]  304 	ld	b,h
+   00F9 ED 43r00r00   [20]  305 	ld	(_save), bc
+                            306 ;src/SaveGame.c:114: save.potions = player_potion_count;
+   00FD 21r02r00      [10]  307 	ld	hl,#(_save + 0x0002)
+   0100 3Ar00r00      [13]  308 	ld	a,(#_player_potion_count + 0)
+   0103 77            [ 7]  309 	ld	(hl),a
+                            310 ;src/SaveGame.c:115: save.scrolls = player_scroll_count;
+   0104 21r03r00      [10]  311 	ld	hl,#(_save + 0x0003)
+   0107 3Ar00r00      [13]  312 	ld	a,(#_player_scroll_count + 0)
+   010A 77            [ 7]  313 	ld	(hl),a
+                            314 ;src/SaveGame.c:117: save.player_hp = player_health_points;
+   010B 21r04r00      [10]  315 	ld	hl,#(_save + 0x0004)
+   010E 3Ar00r00      [13]  316 	ld	a,(#_player_health_points + 0)
+   0111 77            [ 7]  317 	ld	(hl),a
+                            318 ;src/SaveGame.c:118: save.player_attack = player_attack_value;
+   0112 21r05r00      [10]  319 	ld	hl,#(_save + 0x0005)
+   0115 3Ar00r00      [13]  320 	ld	a,(#_player_attack_value + 0)
+   0118 77            [ 7]  321 	ld	(hl),a
+                            322 ;src/SaveGame.c:119: save.player_defense = player_defense_value;
+   0119 21r06r00      [10]  323 	ld	hl,#(_save + 0x0006)
+   011C 3Ar00r00      [13]  324 	ld	a,(#_player_defense_value + 0)
+   011F 77            [ 7]  325 	ld	(hl),a
+                            326 ;src/SaveGame.c:121: save.level = level_get_level();
+   0120 CDr00r00      [17]  327 	call	_level_get_level
+   0123 4D            [ 4]  328 	ld	c,l
+   0124 21r07r00      [10]  329 	ld	hl,#(_save + 0x0007)
+   0127 71            [ 7]  330 	ld	(hl),c
+                            331 ;src/SaveGame.c:123: save.checksum=0;
+   0128 01r08r00      [10]  332 	ld	bc,#_save + 8
+   012B AF            [ 4]  333 	xor	a, a
+   012C 02            [ 7]  334 	ld	(bc),a
+                            335 ;src/SaveGame.c:124: while(i){
+   012D 1E 08         [ 7]  336 	ld	e,#0x08
+   012F                     337 00101$:
+   012F 7B            [ 4]  338 	ld	a,e
+   0130 B7            [ 4]  339 	or	a, a
+   0131 28 13         [12]  340 	jr	Z,00103$
+                            341 ;src/SaveGame.c:125: --i;
+   0133 1D            [ 4]  342 	dec	e
+                            343 ;src/SaveGame.c:126: save.checksum+=saveArray[i];
+   0134 0A            [ 7]  344 	ld	a,(bc)
+   0135 57            [ 4]  345 	ld	d,a
+   0136 2Ar25r00      [16]  346 	ld	hl,(_saveArray)
+   0139 7B            [ 4]  347 	ld	a,e
+   013A 85            [ 4]  348 	add	a, l
+   013B 6F            [ 4]  349 	ld	l,a
+   013C 3E 00         [ 7]  350 	ld	a,#0x00
+   013E 8C            [ 4]  351 	adc	a, h
+   013F 67            [ 4]  352 	ld	h,a
+   0140 6E            [ 7]  353 	ld	l,(hl)
+   0141 7A            [ 4]  354 	ld	a,d
+   0142 85            [ 4]  355 	add	a, l
+   0143 02            [ 7]  356 	ld	(bc),a
+   0144 18 E9         [12]  357 	jr	00101$
+   0146                     358 00103$:
+                            359 ;src/SaveGame.c:131: while(i){
+   0146 1E 09         [ 7]  360 	ld	e,#0x09
+   0148                     361 00104$:
+   0148 7B            [ 4]  362 	ld	a,e
+   0149 B7            [ 4]  363 	or	a, a
+   014A 28 0D         [12]  364 	jr	Z,00106$
+                            365 ;src/SaveGame.c:132: --i;
+   014C 1D            [ 4]  366 	dec	e
+                            367 ;src/SaveGame.c:133: saveArray[i] = saveArray[i]^SAVE_MASK;
+   014D 2Ar25r00      [16]  368 	ld	hl,(_saveArray)
+   0150 16 00         [ 7]  369 	ld	d,#0x00
+   0152 19            [11]  370 	add	hl, de
+   0153 7E            [ 7]  371 	ld	a,(hl)
+   0154 EE DB         [ 7]  372 	xor	a, #0xDB
+   0156 77            [ 7]  373 	ld	(hl),a
+   0157 18 EF         [12]  374 	jr	00104$
+   0159                     375 00106$:
+                            376 ;src/SaveGame.c:136: save.checksum = save.checksum^CHECKSUM_MASK;
+   0159 0A            [ 7]  377 	ld	a,(bc)
+   015A EE AA         [ 7]  378 	xor	a, #0xAA
+   015C 02            [ 7]  379 	ld	(bc),a
+                            380 ;src/SaveGame.c:138: savegame_to_string();
+   015D C3rADr00      [10]  381 	jp  _savegame_to_string
+                            382 ;src/SaveGame.c:142: void savegame_decrypt_save(){
+                            383 ;	---------------------------------
+                            384 ; Function savegame_decrypt_save
+                            385 ; ---------------------------------
+   0160                     386 _savegame_decrypt_save::
+                            387 ;src/SaveGame.c:145: while(i){
+   0160 0E 09         [ 7]  388 	ld	c,#0x09
+   0162                     389 00101$:
+   0162 79            [ 4]  390 	ld	a,c
+   0163 B7            [ 4]  391 	or	a, a
+   0164 C8            [11]  392 	ret	Z
+                            393 ;src/SaveGame.c:146: --i;
+   0165 0D            [ 4]  394 	dec	c
+                            395 ;src/SaveGame.c:147: saveArray[i] = saveArray[i]^SAVE_MASK;
+   0166 2Ar25r00      [16]  396 	ld	hl,(_saveArray)
+   0169 59            [ 4]  397 	ld	e,c
+   016A 16 00         [ 7]  398 	ld	d,#0x00
+   016C 19            [11]  399 	add	hl,de
+   016D 7E            [ 7]  400 	ld	a,(hl)
+   016E EE DB         [ 7]  401 	xor	a, #0xDB
+   0170 77            [ 7]  402 	ld	(hl),a
+   0171 18 EF         [12]  403 	jr	00101$
+                            404 ;src/SaveGame.c:151: u8 savegame_Load(char * loadstring){
+                            405 ;	---------------------------------
+                            406 ; Function savegame_Load
+                            407 ; ---------------------------------
+   0173                     408 _savegame_Load::
+                            409 ;src/SaveGame.c:152: if(!str_cmp(loadstring,"CAMELOT WARRIORS")){
+   0173 21rFBr01      [10]  410 	ld	hl,#___str_0
+   0176 E5            [11]  411 	push	hl
+   0177 21 04 00      [10]  412 	ld	hl, #4
+   017A 39            [11]  413 	add	hl, sp
+   017B 4E            [ 7]  414 	ld	c, (hl)
+   017C 23            [ 6]  415 	inc	hl
+   017D 46            [ 7]  416 	ld	b, (hl)
+   017E C5            [11]  417 	push	bc
+   017F CDr00r00      [17]  418 	call	_str_cmp
+   0182 F1            [10]  419 	pop	af
+   0183 F1            [10]  420 	pop	af
+   0184 7D            [ 4]  421 	ld	a,l
+   0185 B7            [ 4]  422 	or	a, a
+   0186 20 1A         [12]  423 	jr	NZ,00104$
+                            424 ;src/SaveGame.c:153: level_set_level(0);
+   0188 AF            [ 4]  425 	xor	a, a
+   0189 F5            [11]  426 	push	af
+   018A 33            [ 6]  427 	inc	sp
+   018B CDr00r00      [17]  428 	call	_level_set_level
+   018E 33            [ 6]  429 	inc	sp
+                            430 ;src/SaveGame.c:154: camelot_warriors_mode=1;
+   018F 21r00r00      [10]  431 	ld	hl,#_camelot_warriors_mode + 0
+   0192 36 01         [10]  432 	ld	(hl), #0x01
+                            433 ;src/SaveGame.c:155: player_init();
+   0194 CDr00r00      [17]  434 	call	_player_init
+                            435 ;src/SaveGame.c:156: statemanager_set_state(STATE_LOADLEVEL);
+   0197 3E 03         [ 7]  436 	ld	a,#0x03
+   0199 F5            [11]  437 	push	af
+   019A 33            [ 6]  438 	inc	sp
+   019B CDr00r00      [17]  439 	call	_statemanager_set_state
+   019E 33            [ 6]  440 	inc	sp
+                            441 ;src/SaveGame.c:158: return 1;
+   019F 2E 01         [ 7]  442 	ld	l,#0x01
+   01A1 C9            [10]  443 	ret
+   01A2                     444 00104$:
+                            445 ;src/SaveGame.c:161: savegame_string_to_save(loadstring);
+   01A2 C1            [10]  446 	pop	bc
+   01A3 E1            [10]  447 	pop	hl
+   01A4 E5            [11]  448 	push	hl
+   01A5 C5            [11]  449 	push	bc
+   01A6 E5            [11]  450 	push	hl
+   01A7 CDr27r00      [17]  451 	call	_savegame_string_to_save
+   01AA F1            [10]  452 	pop	af
+                            453 ;src/SaveGame.c:162: if(savegame_checksave()){
+   01AB CDr83r00      [17]  454 	call	_savegame_checksave
+   01AE 7D            [ 4]  455 	ld	a,l
+   01AF B7            [ 4]  456 	or	a, a
+   01B0 28 46         [12]  457 	jr	Z,00105$
+                            458 ;src/SaveGame.c:163: savegame_decrypt_save();
+   01B2 CDr60r01      [17]  459 	call	_savegame_decrypt_save
+                            460 ;src/SaveGame.c:164: level_set_level(save.level);
+   01B5 21r07r00      [10]  461 	ld	hl, #_save + 7
+   01B8 46            [ 7]  462 	ld	b,(hl)
+   01B9 C5            [11]  463 	push	bc
+   01BA 33            [ 6]  464 	inc	sp
+   01BB CDr00r00      [17]  465 	call	_level_set_level
+   01BE 33            [ 6]  466 	inc	sp
+                            467 ;src/SaveGame.c:166: player_health_points=save.player_hp;
+   01BF 3Ar04r00      [13]  468 	ld	a,(#_save + 4)
+   01C2 32r00r00      [13]  469 	ld	(#_player_health_points + 0),a
+                            470 ;src/SaveGame.c:167: player_attack_value=save.player_attack;
+   01C5 3Ar05r00      [13]  471 	ld	a,(#_save + 5)
+   01C8 32r00r00      [13]  472 	ld	(#_player_attack_value + 0),a
+                            473 ;src/SaveGame.c:168: player_defense_value=save.player_defense;
+   01CB 3Ar06r00      [13]  474 	ld	a,(#_save + 6)
+   01CE 32r00r00      [13]  475 	ld	(#_player_defense_value + 0),a
+                            476 ;src/SaveGame.c:170: player_potion_count = save.potions;
+   01D1 3Ar02r00      [13]  477 	ld	a,(#_save + 2)
+   01D4 32r00r00      [13]  478 	ld	(#_player_potion_count + 0),a
+                            479 ;src/SaveGame.c:171: player_scroll_count = save.scrolls;
+   01D7 3Ar03r00      [13]  480 	ld	a,(#_save + 3)
+   01DA 32r00r00      [13]  481 	ld	(#_player_scroll_count + 0),a
+                            482 ;src/SaveGame.c:173: level_seed=save.seed;
+   01DD 21r00r00      [10]  483 	ld	hl, #_save + 0
+   01E0 7E            [ 7]  484 	ld	a,(hl)
+   01E1 FD 21r00r00   [14]  485 	ld	iy,#_level_seed
+   01E5 FD 77 00      [19]  486 	ld	0 (iy),a
+   01E8 23            [ 6]  487 	inc	hl
+   01E9 7E            [ 7]  488 	ld	a,(hl)
+   01EA 32r01r00      [13]  489 	ld	(#_level_seed + 1),a
+                            490 ;src/SaveGame.c:175: statemanager_set_state(STATE_LOADLEVEL);
+   01ED 3E 03         [ 7]  491 	ld	a,#0x03
+   01EF F5            [11]  492 	push	af
+   01F0 33            [ 6]  493 	inc	sp
+   01F1 CDr00r00      [17]  494 	call	_statemanager_set_state
+   01F4 33            [ 6]  495 	inc	sp
+                            496 ;src/SaveGame.c:177: return 1;
+   01F5 2E 01         [ 7]  497 	ld	l,#0x01
+   01F7 C9            [10]  498 	ret
+   01F8                     499 00105$:
+                            500 ;src/SaveGame.c:180: return 0;
+   01F8 2E 00         [ 7]  501 	ld	l,#0x00
+   01FA C9            [10]  502 	ret
+   01FB                     503 ___str_0:
+   01FB 43 41 4D 45 4C 4F   504 	.ascii "CAMELOT WARRIORS"
+        54 20 57 41 52 52
+        49 4F 52 53
+   020B 00                  505 	.db 0x00
+                            506 ;src/SaveGame.c:183: char* savegame_get_saveString(){
+                            507 ;	---------------------------------
+                            508 ; Function savegame_get_saveString
+                            509 ; ---------------------------------
+   020C                     510 _savegame_get_saveString::
+                            511 ;src/SaveGame.c:184: return saveString;
+   020C 21r09r00      [10]  512 	ld	hl,#_saveString
+   020F C9            [10]  513 	ret
+                            514 	.area _CODE
+                            515 	.area _INITIALIZER
+                            516 	.area _CABS (ABS)

@@ -8,24 +8,49 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
     ___sdcc_call_hl                                                **** GX
-  0 _changeToState                                                 0090 GR
-  0 _closeState                                                    008E GR
+  0 _changeToState                                                 00F2 GR
+  0 _closeState                                                    00F0 GR
+    _cpct_isAnyKeyPressed_f                                        **** GX
     _cpct_keyboardStatusBuffer                                     **** GX
     _cpct_scanKeyboard_f                                           **** GX
     _cpct_waitVSYNC                                                **** GX
-  0 _currentState                                                  008F GR
-  0 _gameRunning                                                   0092 GR
-  0 _inputReceived                                                 0091 GR
-  0 _last_keyboardStatusBuffer                                     0093 GR
+  0 _currentState                                                  00F1 GR
+  0 _gameRunning                                                   00F4 GR
+  0 _inputReceived                                                 00F3 GR
+  0 _last_keyboardStatusBuffer                                     00F5 GR
     _r_counter                                                     **** GX
-  0 _scan_input                                                    00F3 GR
+  0 _scan_input                                                    0159 GR
   0 _stateArray                                                    0056 GR
+    _state_credits_enter                                           **** GX
+    _state_credits_exit                                            **** GX
+    _state_credits_input                                           **** GX
+    _state_credits_render                                          **** GX
+    _state_credits_return                                          **** GX
+    _state_credits_update                                          **** GX
+    _state_gameover_enter                                          **** GX
+    _state_gameover_exit                                           **** GX
+    _state_gameover_input                                          **** GX
+    _state_gameover_render                                         **** GX
+    _state_gameover_return                                         **** GX
+    _state_gameover_update                                         **** GX
     _state_ingame_enter                                            **** GX
     _state_ingame_exit                                             **** GX
     _state_ingame_input                                            **** GX
     _state_ingame_render                                           **** GX
     _state_ingame_return                                           **** GX
     _state_ingame_update                                           **** GX
+    _state_inventory_enter                                         **** GX
+    _state_inventory_exit                                          **** GX
+    _state_inventory_input                                         **** GX
+    _state_inventory_render                                        **** GX
+    _state_inventory_return                                        **** GX
+    _state_inventory_update                                        **** GX
+    _state_loadgame_enter                                          **** GX
+    _state_loadgame_exit                                           **** GX
+    _state_loadgame_input                                          **** GX
+    _state_loadgame_render                                         **** GX
+    _state_loadgame_return                                         **** GX
+    _state_loadgame_update                                         **** GX
     _state_loadlevel_enter                                         **** GX
     _state_loadlevel_exit                                          **** GX
     _state_loadlevel_input                                         **** GX
@@ -33,34 +58,58 @@ Symbol Table
     _state_loadlevel_return                                        **** GX
     _state_loadlevel_update                                        **** GX
     _state_mainmenu_enter                                          **** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
     _state_mainmenu_exit                                           **** GX
     _state_mainmenu_input                                          **** GX
     _state_mainmenu_render                                         **** GX
     _state_mainmenu_return                                         **** GX
     _state_mainmenu_update                                         **** GX
+    _state_options_enter                                           **** GX
+    _state_options_exit                                            **** GX
+    _state_options_input                                           **** GX
+    _state_options_render                                          **** GX
+    _state_options_return                                          **** GX
+    _state_options_update                                          **** GX
     _state_pausemenu_enter                                         **** GX
     _state_pausemenu_exit                                          **** GX
     _state_pausemenu_input                                         **** GX
     _state_pausemenu_render                                        **** GX
     _state_pausemenu_return                                        **** GX
     _state_pausemenu_update                                        **** GX
-  0 _statemanager_change_state                                     009D GR
-  0 _statemanager_close_state                                      019C GR
+    _state_saveexit_enter                                          **** GX
+    _state_saveexit_exit                                           **** GX
+    _state_saveexit_input                                          **** GX
+    _state_saveexit_render                                         **** GX
+    _state_saveexit_return                                         **** GX
+    _state_saveexit_update                                         **** GX
+    _state_victory_enter                                           **** GX
+    _state_victory_exit                                            **** GX
+    _state_victory_input                                           **** GX
+    _state_victory_render                                          **** GX
+    _state_victory_return                                          **** GX
+    _state_victory_update                                          **** GX
+  0 _statemanager_change_state                                     00FF GR
+  0 _statemanager_close_state                                      01F1 GR
   0 _statemanager_drop_state                                       0000 GR
-  0 _statemanager_exit_game                                        01BE GR
-  0 _statemanager_input_accepted                                   00E6 GR
-  0 _statemanager_main_loop                                        01C4 GR
-  0 _statemanager_manage_input                                     0150 GR
-  0 _statemanager_render_state                                     017D GR
-  0 _statemanager_set_state                                        00EC GR
-  0 _statemanager_update_state                                     01A2 GR
+  0 _statemanager_exit_game                                        0213 GR
+  0 _statemanager_input_accepted                                   0148 GR
+  0 _statemanager_main_loop                                        0219 GR
+  0 _statemanager_manage_input                                     01A5 GR
+  0 _statemanager_render_state                                     01D2 GR
+  0 _statemanager_set_state                                        014E GR
+  0 _statemanager_update_state                                     01F7 GR
 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  1DA   flags    0
+   0 _CODE                                      size  22F   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

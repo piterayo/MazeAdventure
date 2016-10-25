@@ -16,6 +16,9 @@
 	.globl _cpct_setVideoMode
 	.globl _cpct_setInterruptHandler
 	.globl _cpct_disableFirmware
+	.globl _camelot_warriors_mode
+	.globl _textures_on
+	.globl _music_on
 	.globl _r_counter
 	.globl _movement_directionArray
 	.globl _game_init
@@ -28,6 +31,12 @@
 	.area _DATA
 _r_counter::
 	.ds 2
+_music_on::
+	.ds 1
+_textures_on::
+	.ds 1
+_camelot_warriors_mode::
+	.ds 1
 ;--------------------------------------------------------
 ; ram data
 ;--------------------------------------------------------
@@ -52,46 +61,46 @@ _r_counter::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/GameFunctions.c:11: void game_interrupt_handler(){
+;src/GameFunctions.c:16: void game_interrupt_handler(){
 ;	---------------------------------
 ; Function game_interrupt_handler
 ; ---------------------------------
 _game_interrupt_handler::
-;src/GameFunctions.c:12: ++r_counter;
+;src/GameFunctions.c:17: ++r_counter;
 	ld	hl, #_r_counter+0
 	inc	(hl)
 	ret	NZ
 	ld	hl, #_r_counter+1
 	inc	(hl)
 	ret
-;src/GameFunctions.c:20: void game_init(){
+;src/GameFunctions.c:25: void game_init(){
 ;	---------------------------------
 ; Function game_init
 ; ---------------------------------
 _game_init::
-;src/GameFunctions.c:21: cpct_disableFirmware();
+;src/GameFunctions.c:26: cpct_disableFirmware();
 	call	_cpct_disableFirmware
-;src/GameFunctions.c:22: cpct_setVideoMode(0);
+;src/GameFunctions.c:27: cpct_setVideoMode(0);
 	ld	l,#0x00
 	call	_cpct_setVideoMode
-;src/GameFunctions.c:24: cpct_fw2hw(g_palette,16);
+;src/GameFunctions.c:29: cpct_fw2hw(g_palette,16);
 	ld	hl,#0x0010
 	push	hl
 	ld	hl,#_g_palette
 	push	hl
 	call	_cpct_fw2hw
-;src/GameFunctions.c:26: cpct_setInterruptHandler(game_interrupt_handler);
+;src/GameFunctions.c:31: cpct_setInterruptHandler(game_interrupt_handler);
 	ld	hl,#_game_interrupt_handler
 	call	_cpct_setInterruptHandler
-;src/GameFunctions.c:27: level_init_palettes();
+;src/GameFunctions.c:32: level_init_palettes();
 	call	_level_init_palettes
-;src/GameFunctions.c:28: cpct_setPalette(g_palette,16);
+;src/GameFunctions.c:33: cpct_setPalette(g_palette,16);
 	ld	hl,#0x0010
 	push	hl
 	ld	hl,#_g_palette
 	push	hl
 	call	_cpct_setPalette
-;src/GameFunctions.c:29: cpct_setBorder(g_palette[1]);
+;src/GameFunctions.c:34: cpct_setBorder(g_palette[1]);
 	ld	hl, #_g_palette + 1
 	ld	b,(hl)
 	push	bc
@@ -100,6 +109,15 @@ _game_init::
 	push	af
 	inc	sp
 	call	_cpct_setPALColour
+;src/GameFunctions.c:36: music_on = 1;
+	ld	hl,#_music_on + 0
+	ld	(hl), #0x01
+;src/GameFunctions.c:37: textures_on = 1;
+	ld	hl,#_textures_on + 0
+	ld	(hl), #0x01
+;src/GameFunctions.c:40: camelot_warriors_mode=0;
+	ld	hl,#_camelot_warriors_mode + 0
+	ld	(hl), #0x00
 	ret
 _movement_directionArray:
 	.db #0x01	;  1

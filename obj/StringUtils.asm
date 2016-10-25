@@ -219,54 +219,54 @@ _integer_to_string::
 	pop	ix
 	ret
 _charArray:
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
 	.db #0x29	; 41
 	.db #0x24	; 36
-	.db #0xFF	; 255
+	.db #0x29	; 41
 	.db #0x2D	; 45
 	.db #0x2F	; 47
-	.db #0xFF	; 255
+	.db #0x29	; 41
 	.db #0x2E	; 46
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
 	.db #0x31	; 49	'1'
 	.db #0x2C	; 44
-	.db #0xFF	; 255
-	.db #0xFF	; 255
+	.db #0x29	; 41
+	.db #0x29	; 41
 	.db #0x26	; 38
-	.db #0xFF	; 255
+	.db #0x29	; 41
 	.db #0x1A	; 26
 	.db #0x1B	; 27
 	.db #0x1C	; 28
@@ -278,9 +278,9 @@ _charArray:
 	.db #0x22	; 34
 	.db #0x23	; 35
 	.db #0x27	; 39
-	.db #0xFF	; 255
+	.db #0x29	; 41
 	.db #0x2A	; 42
-	.db #0xFF	; 255
+	.db #0x29	; 41
 	.db #0x2B	; 43
 	.db #0x25	; 37
 	.db #0x28	; 40
@@ -310,12 +310,12 @@ _charArray:
 	.db #0x17	; 23
 	.db #0x18	; 24
 	.db #0x19	; 25
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
 	.db #0x00	; 0
 	.db #0x01	; 1
 	.db #0x02	; 2
@@ -342,11 +342,11 @@ _charArray:
 	.db #0x17	; 23
 	.db #0x18	; 24
 	.db #0x19	; 25
-	.db #0xFF	; 255
-	.db #0xFF	; 255
-	.db #0xFF	; 255
+	.db #0x29	; 41
+	.db #0x29	; 41
+	.db #0x29	; 41
 	.db #0x30	; 48	'0'
-	.db #0xFF	; 255
+	.db #0x29	; 41
 _i_to_s_buffer:
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -371,22 +371,22 @@ _print_text::
 ;src/StringUtils.c:91: u8 val, charBitArray, spritePos, fgColor=g_colors[fg], bgColor=g_colors[bg];
 	ld	a,9 (ix)
 	add	a, #<(_g_colors)
-	ld	-4 (ix),a
+	ld	-7 (ix),a
 	ld	a,#0x00
 	adc	a, #>(_g_colors)
-	ld	-3 (ix),a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-6 (ix),a
+	ld	l,-7 (ix)
+	ld	h,-6 (ix)
 	ld	a,(hl)
 	ld	-13 (ix),a
 	ld	a,#<(_g_colors)
 	add	a, 8 (ix)
-	ld	-4 (ix),a
+	ld	-7 (ix),a
 	ld	a,#>(_g_colors)
 	adc	a, #0x00
-	ld	-3 (ix),a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-6 (ix),a
+	ld	l,-7 (ix)
+	ld	h,-6 (ix)
 	ld	a,(hl)
 	ld	-14 (ix),a
 ;src/StringUtils.c:97: (position)+=0x2800;
@@ -418,73 +418,73 @@ _print_text::
 	ld	7 (ix),a
 ;src/StringUtils.c:103: while(height){
 00132$:
-	ld	-15 (ix),#0x06
-	ld	-4 (ix),#0x96
+	ld	-17 (ix),#0x06
+	ld	-7 (ix),#0x96
 00110$:
-	ld	a,-15 (ix)
+	ld	a,-17 (ix)
 	or	a, a
 	jp	Z,00113$
 ;src/StringUtils.c:104: --height;
-	ld	a,-4 (ix)
+	ld	a,-7 (ix)
 	add	a,#0xE7
-	ld	-4 (ix),a
-	dec	-15 (ix)
+	ld	-7 (ix),a
+	dec	-17 (ix)
 ;src/StringUtils.c:105: currentChar=text;
 	ld	a,4 (ix)
-	ld	-8 (ix),a
+	ld	-9 (ix),a
 	ld	a,5 (ix)
-	ld	-7 (ix),a
+	ld	-8 (ix),a
 ;src/StringUtils.c:106: currentPos=position;
 	ld	a,6 (ix)
-	ld	-6 (ix),a
+	ld	-2 (ix),a
 	ld	a,7 (ix)
-	ld	-5 (ix),a
+	ld	-1 (ix),a
 ;src/StringUtils.c:108: while(*currentChar){
 00105$:
-	ld	l,-8 (ix)
-	ld	h,-7 (ix)
+	ld	l,-9 (ix)
+	ld	h,-8 (ix)
 	ld	a,(hl)
-	ld	-9 (ix), a
+	ld	-3 (ix), a
 	or	a, a
 	jp	Z,00107$
 ;src/StringUtils.c:110: spritePos = charArray[(*currentChar)];
 	ld	a,#<(_charArray)
-	add	a, -9 (ix)
-	ld	-2 (ix),a
+	add	a, -3 (ix)
+	ld	-5 (ix),a
 	ld	a,#>(_charArray)
 	adc	a, #0x00
-	ld	-1 (ix),a
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-4 (ix),a
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	ld	a,(hl)
 ;src/StringUtils.c:112: charBitArray = typography_4x6_monospaced[spritePos/2 + height*width];
 	ld	-12 (ix), a
 	srl	a
-	ld	-2 (ix), a
-	add	a, -4 (ix)
-	ld	-2 (ix),a
+	ld	-5 (ix), a
+	add	a, -7 (ix)
+	ld	-5 (ix),a
 	add	a,#<(_typography_4x6_monospaced)
-	ld	-2 (ix),a
+	ld	-5 (ix),a
 	ld	a,#>(_typography_4x6_monospaced)
 	adc	a, #0x00
-	ld	-1 (ix),a
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-4 (ix),a
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	ld	a,(hl)
-	ld	-2 (ix),a
+	ld	-5 (ix),a
 ;src/StringUtils.c:114: if(spritePos%2) charBitArray<<=4;
 	bit	0, -12 (ix)
 	jr	Z,00104$
-	ld	a,-2 (ix)
+	ld	a,-5 (ix)
 	rlca
 	rlca
 	rlca
 	rlca
 	and	a,#0xF0
-	ld	-2 (ix),a
+	ld	-5 (ix),a
 00104$:
 ;src/StringUtils.c:118: val = ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b10101010;
-	bit	7, -2 (ix)
+	bit	7, -5 (ix)
 	jr	Z,00115$
 	ld	a,-13 (ix)
 	jr	00116$
@@ -494,7 +494,7 @@ _print_text::
 	and	a, #0xAA
 	ld	c,a
 ;src/StringUtils.c:120: charBitArray<<=1;
-	ld	a,-2 (ix)
+	ld	a,-5 (ix)
 	add	a, a
 	ld	b,a
 ;src/StringUtils.c:122: val = val | ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b01010101;
@@ -513,16 +513,16 @@ _print_text::
 	add	a, a
 	ld	-11 (ix),a
 ;src/StringUtils.c:126: *currentPos=val;
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	(hl),c
 ;src/StringUtils.c:127: ++currentPos;
-	ld	a,-6 (ix)
+	ld	a,-2 (ix)
 	add	a, #0x01
-	ld	-17 (ix),a
-	ld	a,-5 (ix)
-	adc	a, #0x00
 	ld	-16 (ix),a
+	ld	a,-1 (ix)
+	adc	a, #0x00
+	ld	-15 (ix),a
 ;src/StringUtils.c:131: val = ((charBitArray&0b10000000)?(fgColor):(bgColor))&0b10101010;
 	bit	7, -11 (ix)
 	jr	Z,00119$
@@ -545,26 +545,26 @@ _print_text::
 	ld	a,-14 (ix)
 00122$:
 	and	a, #0x55
-	ld	-2 (ix),a
+	ld	-5 (ix),a
 	ld	a,-10 (ix)
-	or	a, -2 (ix)
-	ld	-2 (ix),a
+	or	a, -5 (ix)
+	ld	-5 (ix),a
 ;src/StringUtils.c:139: *currentPos=val;
-	pop	hl
-	push	hl
-	ld	a,-2 (ix)
+	ld	l,-16 (ix)
+	ld	h,-15 (ix)
+	ld	a,-5 (ix)
 	ld	(hl),a
 ;src/StringUtils.c:140: ++currentPos;
-	ld	a,-17 (ix)
-	add	a, #0x01
-	ld	-6 (ix),a
 	ld	a,-16 (ix)
+	add	a, #0x01
+	ld	-2 (ix),a
+	ld	a,-15 (ix)
 	adc	a, #0x00
-	ld	-5 (ix),a
+	ld	-1 (ix),a
 ;src/StringUtils.c:142: ++currentChar;
-	inc	-8 (ix)
+	inc	-9 (ix)
 	jp	NZ,00105$
-	inc	-7 (ix)
+	inc	-8 (ix)
 	jp	00105$
 00107$:
 ;src/StringUtils.c:144: position-=0x0800;

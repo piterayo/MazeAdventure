@@ -7,18 +7,26 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       0029 R
+    _camelot_warriors_mode                                         **** GX
+    _cpct_drawSprite                                               **** GX
+    _cpct_hflipSpriteM0                                            **** GX
     _cpct_isKeyPressed                                             **** GX
+    _cpct_memcpy                                                   **** GX
     _cpct_memset                                                   **** GX
+  0 _dec_main_bg                                                   0000 GR
+  0 _draw_main_bg                                                  00C5 GR
     _g_colors                                                      **** GX
+    _level_seed                                                    **** GX
     _level_set_level                                               **** GX
-    _print_transparent_text                                        **** GX
-  0 _state_mainmenu_enter                                          0000 GR
-  0 _state_mainmenu_exit                                           00A9 GR
-  0 _state_mainmenu_input                                          0036 GR
-  0 _state_mainmenu_render                                         00A6 GR
-  0 _state_mainmenu_return                                         0033 GR
-  0 _state_mainmenu_update                                         0065 GR
+    _menu_bg                                                       **** GX
+    _player_init                                                   **** GX
+    _setMenuPalette                                                **** GX
+  0 _state_mainmenu_enter                                          00E4 GR
+  0 _state_mainmenu_exit                                           01B9 GR
+  0 _state_mainmenu_input                                          0120 GR
+  0 _state_mainmenu_render                                         01B6 GR
+  0 _state_mainmenu_return                                         0109 GR
+  0 _state_mainmenu_update                                         014F GR
     _statemanager_exit_game                                        **** GX
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
@@ -32,13 +40,12 @@ Symbol Table
     _ui_mainmenu_select_entry                                      **** GX
     _ui_mainmenu_unselect_entry                                    **** GX
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   AA   flags    0
+   0 _CODE                                      size  1BA   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

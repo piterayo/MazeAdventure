@@ -1,0 +1,356 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.5 #9498 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module UI_Options
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _ui_options_render_button
+                             12 	.globl _print_transparent_text
+                             13 	.globl _cpct_drawSolidBox
+                             14 	.globl _ui_options_entrySelected
+                             15 	.globl _ui_options_entryIndex
+                             16 	.globl _ui_options_lastEntry
+                             17 	.globl _ui_options_buttonText
+                             18 	.globl _ui_options_on_off
+                             19 	.globl _ui_options_entriesTextPosition
+                             20 	.globl _ui_options_entriesPosition
+                             21 	.globl _ui_options_set_strings
+                             22 	.globl _ui_options_init
+                             23 	.globl _ui_options_get_entry
+                             24 	.globl _ui_options_is_selected
+                             25 	.globl _ui_options_next_entry
+                             26 	.globl _ui_options_previous_entry
+                             27 	.globl _ui_options_select_entry
+                             28 	.globl _ui_options_unselect_entry
+                             29 	.globl _ui_options_render_refresh
+                             30 	.globl _ui_options_render_all
+                             31 ;--------------------------------------------------------
+                             32 ; special function registers
+                             33 ;--------------------------------------------------------
+                             34 ;--------------------------------------------------------
+                             35 ; ram data
+                             36 ;--------------------------------------------------------
+                             37 	.area _DATA
+   0000                      38 _ui_options_lastEntry::
+   0000                      39 	.ds 1
+   0001                      40 _ui_options_entryIndex::
+   0001                      41 	.ds 1
+   0002                      42 _ui_options_entrySelected::
+   0002                      43 	.ds 1
+                             44 ;--------------------------------------------------------
+                             45 ; ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area _INITIALIZED
+                             48 ;--------------------------------------------------------
+                             49 ; absolute external ram data
+                             50 ;--------------------------------------------------------
+                             51 	.area _DABS (ABS)
+                             52 ;--------------------------------------------------------
+                             53 ; global & static initialisations
+                             54 ;--------------------------------------------------------
+                             55 	.area _HOME
+                             56 	.area _GSINIT
+                             57 	.area _GSFINAL
+                             58 	.area _GSINIT
+                             59 ;--------------------------------------------------------
+                             60 ; Home
+                             61 ;--------------------------------------------------------
+                             62 	.area _HOME
+                             63 	.area _HOME
+                             64 ;--------------------------------------------------------
+                             65 ; code
+                             66 ;--------------------------------------------------------
+                             67 	.area _CODE
+                             68 ;src/UI_Options.c:58: void ui_options_set_strings(){
+                             69 ;	---------------------------------
+                             70 ; Function ui_options_set_strings
+                             71 ; ---------------------------------
+   0000                      72 _ui_options_set_strings::
+                             73 ;src/UI_Options.c:59: *(char**)(ui_options_buttonText)=ui_options_on_off[textures_on];
+   0000 01r34r00      [10]   74 	ld	bc,#_ui_options_on_off+0
+   0003 FD 21r00r00   [14]   75 	ld	iy,#_textures_on
+   0007 FD 6E 00      [19]   76 	ld	l,0 (iy)
+   000A 26 00         [ 7]   77 	ld	h,#0x00
+   000C 29            [11]   78 	add	hl, hl
+   000D 09            [11]   79 	add	hl,bc
+   000E 5E            [ 7]   80 	ld	e,(hl)
+   000F 23            [ 6]   81 	inc	hl
+   0010 56            [ 7]   82 	ld	d,(hl)
+   0011 ED 53r38r00   [20]   83 	ld	(_ui_options_buttonText), de
+                             84 ;src/UI_Options.c:60: *(char**)(ui_options_buttonText+1)=ui_options_on_off[music_on];
+   0015 FD 21r00r00   [14]   85 	ld	iy,#_music_on
+   0019 FD 6E 00      [19]   86 	ld	l,0 (iy)
+   001C 26 00         [ 7]   87 	ld	h,#0x00
+   001E 29            [11]   88 	add	hl, hl
+   001F 09            [11]   89 	add	hl,bc
+   0020 4E            [ 7]   90 	ld	c,(hl)
+   0021 23            [ 6]   91 	inc	hl
+   0022 46            [ 7]   92 	ld	b,(hl)
+   0023 ED 43r3Ar00   [20]   93 	ld	((_ui_options_buttonText + 0x0002)), bc
+   0027 C9            [10]   94 	ret
+   0028                      95 _ui_options_entriesPosition:
+   0028 FB C2                96 	.dw #0xC2FB
+   002A 9B E3                97 	.dw #0xE39B
+   002C 82 C4                98 	.dw #0xC482
+   002E                      99 _ui_options_entriesTextPosition:
+   002E FE EA               100 	.dw #0xEAFE
+   0030 EE CB               101 	.dw #0xCBEE
+   0032 84 EC               102 	.dw #0xEC84
+   0034                     103 _ui_options_on_off:
+   0034r3Er00               104 	.dw __str_0
+   0036r42r00               105 	.dw __str_1
+   0038                     106 _ui_options_buttonText:
+   0038r45r00               107 	.dw __str_2
+   003Ar45r00               108 	.dw __str_2
+   003Cr46r00               109 	.dw __str_3
+   003E                     110 __str_0:
+   003E 4F 46 46            111 	.ascii "OFF"
+   0041 00                  112 	.db 0x00
+   0042                     113 __str_1:
+   0042 4F 4E               114 	.ascii "ON"
+   0044 00                  115 	.db 0x00
+   0045                     116 __str_2:
+   0045 00                  117 	.db 0x00
+   0046                     118 __str_3:
+   0046 45 58 49 54         119 	.ascii "EXIT"
+   004A 00                  120 	.db 0x00
+                            121 ;src/UI_Options.c:64: void ui_options_init(){
+                            122 ;	---------------------------------
+                            123 ; Function ui_options_init
+                            124 ; ---------------------------------
+   004B                     125 _ui_options_init::
+                            126 ;src/UI_Options.c:65: ui_options_lastEntry=0;
+   004B 21r00r00      [10]  127 	ld	hl,#_ui_options_lastEntry + 0
+   004E 36 00         [10]  128 	ld	(hl), #0x00
+                            129 ;src/UI_Options.c:66: ui_options_entryIndex=0;
+   0050 21r01r00      [10]  130 	ld	hl,#_ui_options_entryIndex + 0
+   0053 36 00         [10]  131 	ld	(hl), #0x00
+                            132 ;src/UI_Options.c:67: ui_options_entrySelected=0;
+   0055 21r02r00      [10]  133 	ld	hl,#_ui_options_entrySelected + 0
+   0058 36 00         [10]  134 	ld	(hl), #0x00
+                            135 ;src/UI_Options.c:68: ui_options_set_strings();
+   005A C3r00r00      [10]  136 	jp  _ui_options_set_strings
+                            137 ;src/UI_Options.c:72: u8 ui_options_get_entry(){
+                            138 ;	---------------------------------
+                            139 ; Function ui_options_get_entry
+                            140 ; ---------------------------------
+   005D                     141 _ui_options_get_entry::
+                            142 ;src/UI_Options.c:73: return ui_options_entryIndex;
+   005D FD 21r01r00   [14]  143 	ld	iy,#_ui_options_entryIndex
+   0061 FD 6E 00      [19]  144 	ld	l,0 (iy)
+   0064 C9            [10]  145 	ret
+                            146 ;src/UI_Options.c:76: u8 ui_options_is_selected(){
+                            147 ;	---------------------------------
+                            148 ; Function ui_options_is_selected
+                            149 ; ---------------------------------
+   0065                     150 _ui_options_is_selected::
+                            151 ;src/UI_Options.c:77: return ui_options_entrySelected;
+   0065 FD 21r02r00   [14]  152 	ld	iy,#_ui_options_entrySelected
+   0069 FD 6E 00      [19]  153 	ld	l,0 (iy)
+   006C C9            [10]  154 	ret
+                            155 ;src/UI_Options.c:80: void ui_options_next_entry(){
+                            156 ;	---------------------------------
+                            157 ; Function ui_options_next_entry
+                            158 ; ---------------------------------
+   006D                     159 _ui_options_next_entry::
+                            160 ;src/UI_Options.c:81: if(ui_options_entryIndex<(UI_OPTIONS_ENTRIES-1)){
+                            161 ;src/UI_Options.c:82: ui_options_lastEntry=ui_options_entryIndex;
+   006D 3Ar01r00      [13]  162 	ld	a,(#_ui_options_entryIndex + 0)
+   0070 FE 02         [ 7]  163 	cp	a,#0x02
+   0072 D0            [11]  164 	ret	NC
+   0073 32r00r00      [13]  165 	ld	(#_ui_options_lastEntry + 0),a
+                            166 ;src/UI_Options.c:83: ++ui_options_entryIndex;
+   0076 21r01r00      [10]  167 	ld	hl, #_ui_options_entryIndex+0
+   0079 34            [11]  168 	inc	(hl)
+   007A C9            [10]  169 	ret
+                            170 ;src/UI_Options.c:87: void ui_options_previous_entry(){
+                            171 ;	---------------------------------
+                            172 ; Function ui_options_previous_entry
+                            173 ; ---------------------------------
+   007B                     174 _ui_options_previous_entry::
+                            175 ;src/UI_Options.c:88: if(ui_options_entryIndex>0){
+   007B 3Ar01r00      [13]  176 	ld	a,(#_ui_options_entryIndex + 0)
+   007E B7            [ 4]  177 	or	a, a
+   007F C8            [11]  178 	ret	Z
+                            179 ;src/UI_Options.c:89: ui_options_lastEntry=ui_options_entryIndex;
+   0080 3Ar01r00      [13]  180 	ld	a,(#_ui_options_entryIndex + 0)
+   0083 32r00r00      [13]  181 	ld	(#_ui_options_lastEntry + 0),a
+                            182 ;src/UI_Options.c:90: --ui_options_entryIndex;
+   0086 21r01r00      [10]  183 	ld	hl, #_ui_options_entryIndex+0
+   0089 35            [11]  184 	dec	(hl)
+   008A C9            [10]  185 	ret
+                            186 ;src/UI_Options.c:95: void ui_options_select_entry(){
+                            187 ;	---------------------------------
+                            188 ; Function ui_options_select_entry
+                            189 ; ---------------------------------
+   008B                     190 _ui_options_select_entry::
+                            191 ;src/UI_Options.c:96: ui_options_entrySelected=1;
+   008B 21r02r00      [10]  192 	ld	hl,#_ui_options_entrySelected + 0
+   008E 36 01         [10]  193 	ld	(hl), #0x01
+   0090 C9            [10]  194 	ret
+                            195 ;src/UI_Options.c:99: void ui_options_unselect_entry(){
+                            196 ;	---------------------------------
+                            197 ; Function ui_options_unselect_entry
+                            198 ; ---------------------------------
+   0091                     199 _ui_options_unselect_entry::
+                            200 ;src/UI_Options.c:100: ui_options_entrySelected=0;
+   0091 21r02r00      [10]  201 	ld	hl,#_ui_options_entrySelected + 0
+   0094 36 00         [10]  202 	ld	(hl), #0x00
+   0096 C9            [10]  203 	ret
+                            204 ;src/UI_Options.c:103: void ui_options_render_button(u8 n){
+                            205 ;	---------------------------------
+                            206 ; Function ui_options_render_button
+                            207 ; ---------------------------------
+   0097                     208 _ui_options_render_button::
+   0097 DD E5         [15]  209 	push	ix
+   0099 DD 21 00 00   [14]  210 	ld	ix,#0
+   009D DD 39         [15]  211 	add	ix,sp
+   009F 3B            [ 6]  212 	dec	sp
+                            213 ;src/UI_Options.c:105: color = (n==ui_options_entryIndex)?((ui_options_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
+   00A0 DD 7E 04      [19]  214 	ld	a,4 (ix)
+   00A3 FD 21r01r00   [14]  215 	ld	iy,#_ui_options_entryIndex
+   00A7 FD 96 00      [19]  216 	sub	a, 0 (iy)
+   00AA 20 10         [12]  217 	jr	NZ,00103$
+   00AC 3Ar02r00      [13]  218 	ld	a,(#_ui_options_entrySelected + 0)
+   00AF B7            [ 4]  219 	or	a, a
+   00B0 28 05         [12]  220 	jr	Z,00105$
+   00B2 3Ar04r00      [13]  221 	ld	a, (#(_g_colors + 0x0004) + 0)
+   00B5 18 08         [12]  222 	jr	00104$
+   00B7                     223 00105$:
+   00B7 3Ar06r00      [13]  224 	ld	a, (#(_g_colors + 0x0006) + 0)
+   00BA 18 03         [12]  225 	jr	00104$
+   00BC                     226 00103$:
+   00BC 3Ar02r00      [13]  227 	ld	a, (#(_g_colors + 0x0002) + 0)
+   00BF                     228 00104$:
+   00BF DD 77 FF      [19]  229 	ld	-1 (ix),a
+                            230 ;src/UI_Options.c:106: cpct_drawSolidBox(ui_options_entriesPosition[n],color, UI_OPTIONS_BUTTON_WIDTH, UI_OPTIONS_BUTTON_HEIGHT);
+   00C2 DD 6E 04      [19]  231 	ld	l,4 (ix)
+   00C5 26 00         [ 7]  232 	ld	h,#0x00
+   00C7 29            [11]  233 	add	hl, hl
+   00C8 4D            [ 4]  234 	ld	c, l
+   00C9 44            [ 4]  235 	ld	b, h
+   00CA 21r28r00      [10]  236 	ld	hl,#_ui_options_entriesPosition
+   00CD 09            [11]  237 	add	hl,bc
+   00CE 5E            [ 7]  238 	ld	e,(hl)
+   00CF 23            [ 6]  239 	inc	hl
+   00D0 56            [ 7]  240 	ld	d,(hl)
+   00D1 C5            [11]  241 	push	bc
+   00D2 21 0C 10      [10]  242 	ld	hl,#0x100C
+   00D5 E5            [11]  243 	push	hl
+   00D6 DD 7E FF      [19]  244 	ld	a,-1 (ix)
+   00D9 F5            [11]  245 	push	af
+   00DA 33            [ 6]  246 	inc	sp
+   00DB D5            [11]  247 	push	de
+   00DC CDr00r00      [17]  248 	call	_cpct_drawSolidBox
+   00DF F1            [10]  249 	pop	af
+   00E0 F1            [10]  250 	pop	af
+   00E1 33            [ 6]  251 	inc	sp
+   00E2 C1            [10]  252 	pop	bc
+                            253 ;src/UI_Options.c:107: print_transparent_text(ui_options_buttonText[n], ui_options_entriesTextPosition[n], 3);
+   00E3 21r2Er00      [10]  254 	ld	hl,#_ui_options_entriesTextPosition
+   00E6 09            [11]  255 	add	hl,bc
+   00E7 5E            [ 7]  256 	ld	e,(hl)
+   00E8 23            [ 6]  257 	inc	hl
+   00E9 56            [ 7]  258 	ld	d,(hl)
+   00EA 21r38r00      [10]  259 	ld	hl,#_ui_options_buttonText
+   00ED 09            [11]  260 	add	hl,bc
+   00EE 4E            [ 7]  261 	ld	c,(hl)
+   00EF 23            [ 6]  262 	inc	hl
+   00F0 46            [ 7]  263 	ld	b,(hl)
+   00F1 3E 03         [ 7]  264 	ld	a,#0x03
+   00F3 F5            [11]  265 	push	af
+   00F4 33            [ 6]  266 	inc	sp
+   00F5 D5            [11]  267 	push	de
+   00F6 C5            [11]  268 	push	bc
+   00F7 CDr00r00      [17]  269 	call	_print_transparent_text
+   00FA F1            [10]  270 	pop	af
+   00FB F1            [10]  271 	pop	af
+   00FC 33            [ 6]  272 	inc	sp
+   00FD 33            [ 6]  273 	inc	sp
+   00FE DD E1         [14]  274 	pop	ix
+   0100 C9            [10]  275 	ret
+                            276 ;src/UI_Options.c:111: void ui_options_render_refresh(){
+                            277 ;	---------------------------------
+                            278 ; Function ui_options_render_refresh
+                            279 ; ---------------------------------
+   0101                     280 _ui_options_render_refresh::
+                            281 ;src/UI_Options.c:113: ui_options_render_button(ui_options_entryIndex);
+   0101 3Ar01r00      [13]  282 	ld	a,(_ui_options_entryIndex)
+   0104 F5            [11]  283 	push	af
+   0105 33            [ 6]  284 	inc	sp
+   0106 CDr97r00      [17]  285 	call	_ui_options_render_button
+   0109 33            [ 6]  286 	inc	sp
+                            287 ;src/UI_Options.c:114: ui_options_render_button(ui_options_lastEntry);
+   010A 3Ar00r00      [13]  288 	ld	a,(_ui_options_lastEntry)
+   010D F5            [11]  289 	push	af
+   010E 33            [ 6]  290 	inc	sp
+   010F CDr97r00      [17]  291 	call	_ui_options_render_button
+   0112 33            [ 6]  292 	inc	sp
+                            293 ;src/UI_Options.c:116: ui_options_lastEntry=ui_options_entryIndex;
+   0113 3Ar01r00      [13]  294 	ld	a,(#_ui_options_entryIndex + 0)
+   0116 32r00r00      [13]  295 	ld	(#_ui_options_lastEntry + 0),a
+   0119 C9            [10]  296 	ret
+                            297 ;src/UI_Options.c:119: void ui_options_render_all(){
+                            298 ;	---------------------------------
+                            299 ; Function ui_options_render_all
+                            300 ; ---------------------------------
+   011A                     301 _ui_options_render_all::
+                            302 ;src/UI_Options.c:122: print_transparent_text("TEXTURES", UI_OPTIONS_BUTTON_TEXT_LABEL_POSITION, 3);
+   011A 3E 03         [ 7]  303 	ld	a,#0x03
+   011C F5            [11]  304 	push	af
+   011D 33            [ 6]  305 	inc	sp
+   011E 21 EA EA      [10]  306 	ld	hl,#0xEAEA
+   0121 E5            [11]  307 	push	hl
+   0122 21r56r01      [10]  308 	ld	hl,#___str_4
+   0125 E5            [11]  309 	push	hl
+   0126 CDr00r00      [17]  310 	call	_print_transparent_text
+   0129 F1            [10]  311 	pop	af
+   012A F1            [10]  312 	pop	af
+   012B 33            [ 6]  313 	inc	sp
+                            314 ;src/UI_Options.c:123: print_transparent_text("MUSIC", UI_OPTIONS_BUTTON_MUSIC_LABEL_POSITION, 3);
+   012C 3E 03         [ 7]  315 	ld	a,#0x03
+   012E F5            [11]  316 	push	af
+   012F 33            [ 6]  317 	inc	sp
+   0130 21 DA CB      [10]  318 	ld	hl,#0xCBDA
+   0133 E5            [11]  319 	push	hl
+   0134 21r5Fr01      [10]  320 	ld	hl,#___str_5
+   0137 E5            [11]  321 	push	hl
+   0138 CDr00r00      [17]  322 	call	_print_transparent_text
+   013B F1            [10]  323 	pop	af
+   013C F1            [10]  324 	pop	af
+   013D 33            [ 6]  325 	inc	sp
+                            326 ;src/UI_Options.c:125: while(n){
+   013E 06 03         [ 7]  327 	ld	b,#0x03
+   0140                     328 00101$:
+   0140 78            [ 4]  329 	ld	a,b
+   0141 B7            [ 4]  330 	or	a, a
+   0142 28 0B         [12]  331 	jr	Z,00103$
+                            332 ;src/UI_Options.c:126: --n;
+   0144 05            [ 4]  333 	dec	b
+                            334 ;src/UI_Options.c:127: ui_options_render_button(n);
+   0145 C5            [11]  335 	push	bc
+   0146 C5            [11]  336 	push	bc
+   0147 33            [ 6]  337 	inc	sp
+   0148 CDr97r00      [17]  338 	call	_ui_options_render_button
+   014B 33            [ 6]  339 	inc	sp
+   014C C1            [10]  340 	pop	bc
+   014D 18 F1         [12]  341 	jr	00101$
+   014F                     342 00103$:
+                            343 ;src/UI_Options.c:130: ui_options_lastEntry=ui_options_entryIndex;
+   014F 3Ar01r00      [13]  344 	ld	a,(#_ui_options_entryIndex + 0)
+   0152 32r00r00      [13]  345 	ld	(#_ui_options_lastEntry + 0),a
+   0155 C9            [10]  346 	ret
+   0156                     347 ___str_4:
+   0156 54 45 58 54 55 52   348 	.ascii "TEXTURES"
+        45 53
+   015E 00                  349 	.db 0x00
+   015F                     350 ___str_5:
+   015F 4D 55 53 49 43      351 	.ascii "MUSIC"
+   0164 00                  352 	.db 0x00
+                            353 	.area _CODE
+                            354 	.area _INITIALIZER
+                            355 	.area _CABS (ABS)

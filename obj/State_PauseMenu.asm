@@ -99,58 +99,84 @@ _state_pausemenu_enter::
 ; Function state_pausemenu_return
 ; ---------------------------------
 _state_pausemenu_return::
-;src/State_PauseMenu.c:22: ui_pausemenu_render_all();
+;src/State_PauseMenu.c:22: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[4], 34, 144);
+	ld	hl, #_g_colors + 4
+	ld	b,(hl)
+	ld	hl,#0x9022
+	push	hl
+	push	bc
+	inc	sp
+	ld	hl,#0xE107
+	push	hl
+	call	_cpct_drawSolidBox
+	pop	af
+	pop	af
+	inc	sp
+;src/State_PauseMenu.c:23: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 24, 32), g_colors[1], 32, 136);
+	ld	hl, #_g_colors + 1
+	ld	b,(hl)
+	ld	hl,#0x8820
+	push	hl
+	push	bc
+	inc	sp
+	ld	hl,#0xC158
+	push	hl
+	call	_cpct_drawSolidBox
+	pop	af
+	pop	af
+	inc	sp
+;src/State_PauseMenu.c:24: ui_pausemenu_render_all();
 	jp  _ui_pausemenu_render_all
-;src/State_PauseMenu.c:25: void state_pausemenu_input(){
+;src/State_PauseMenu.c:27: void state_pausemenu_input(){
 ;	---------------------------------
 ; Function state_pausemenu_input
 ; ---------------------------------
 _state_pausemenu_input::
-;src/State_PauseMenu.c:27: if(cpct_isKeyPressed(Key_CursorUp)){
+;src/State_PauseMenu.c:29: if(cpct_isKeyPressed(Key_CursorUp)){
 	ld	hl,#0x0100
 	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
 	jr	Z,00107$
-;src/State_PauseMenu.c:28: ui_pausemenu_previous_entry();
+;src/State_PauseMenu.c:30: ui_pausemenu_previous_entry();
 	call	_ui_pausemenu_previous_entry
-;src/State_PauseMenu.c:29: statemanager_input_accepted();
+;src/State_PauseMenu.c:31: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
 00107$:
-;src/State_PauseMenu.c:31: else if(cpct_isKeyPressed(Key_CursorDown)){
+;src/State_PauseMenu.c:33: else if(cpct_isKeyPressed(Key_CursorDown)){
 	ld	hl,#0x0400
 	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
 	jr	Z,00104$
-;src/State_PauseMenu.c:32: ui_pausemenu_next_entry();
+;src/State_PauseMenu.c:34: ui_pausemenu_next_entry();
 	call	_ui_pausemenu_next_entry
-;src/State_PauseMenu.c:33: statemanager_input_accepted();
+;src/State_PauseMenu.c:35: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
 00104$:
-;src/State_PauseMenu.c:35: else if(cpct_isKeyPressed(Key_Return)){
+;src/State_PauseMenu.c:37: else if(cpct_isKeyPressed(Key_Return)){
 	ld	hl,#0x0402
 	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
 	ret	Z
-;src/State_PauseMenu.c:36: ui_pausemenu_select_entry();
+;src/State_PauseMenu.c:38: ui_pausemenu_select_entry();
 	call	_ui_pausemenu_select_entry
-;src/State_PauseMenu.c:37: statemanager_input_accepted();
+;src/State_PauseMenu.c:39: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
-;src/State_PauseMenu.c:42: void state_pausemenu_update(){
+;src/State_PauseMenu.c:44: void state_pausemenu_update(){
 ;	---------------------------------
 ; Function state_pausemenu_update
 ; ---------------------------------
 _state_pausemenu_update::
-;src/State_PauseMenu.c:43: if(ui_pausemenu_is_selected()){
+;src/State_PauseMenu.c:45: if(ui_pausemenu_is_selected()){
 	call	_ui_pausemenu_is_selected
 	ld	a,l
 	or	a, a
 	jp	Z,_ui_pausemenu_unselect_entry
-;src/State_PauseMenu.c:44: ui_pausemenu_render_refresh();
+;src/State_PauseMenu.c:46: ui_pausemenu_render_refresh();
 	call	_ui_pausemenu_render_refresh
-;src/State_PauseMenu.c:45: switch(ui_pausemenu_get_entry()){
+;src/State_PauseMenu.c:47: switch(ui_pausemenu_get_entry()){
 	call	_ui_pausemenu_get_entry
 	ld	e,l
 	ld	a,#0x03
@@ -160,46 +186,62 @@ _state_pausemenu_update::
 	ld	hl,#00118$
 	add	hl,de
 	add	hl,de
-	add	hl,de
+;src/State_PauseMenu.c:48: case 0:{
 	jp	(hl)
 00118$:
-	jp	00101$
-	jp	_ui_pausemenu_unselect_entry
-	jp	_ui_pausemenu_unselect_entry
-	jp	00104$
-;src/State_PauseMenu.c:46: case 0:{
+	jr	00101$
+	jr	00102$
+	jr	00103$
+	jr	00104$
 00101$:
-;src/State_PauseMenu.c:47: statemanager_close_state();
+;src/State_PauseMenu.c:49: statemanager_close_state();
 	call	_statemanager_close_state
-;src/State_PauseMenu.c:48: break;
+;src/State_PauseMenu.c:50: break;
 	jp	_ui_pausemenu_unselect_entry
-;src/State_PauseMenu.c:50: case 1:{
-;src/State_PauseMenu.c:52: break;
-	jp	_ui_pausemenu_unselect_entry
-;src/State_PauseMenu.c:54: case 2:{
-;src/State_PauseMenu.c:56: break;
-	jp	_ui_pausemenu_unselect_entry
-;src/State_PauseMenu.c:58: case 3:{
-00104$:
-;src/State_PauseMenu.c:59: statemanager_set_state(STATE_MAINMENU);
-	ld	l,#0x00
+;src/State_PauseMenu.c:52: case 1:{
+00102$:
+;src/State_PauseMenu.c:53: statemanager_set_state(STATE_OPTIONS);
+	ld	a,#0x04
+	push	af
+	inc	sp
 	call	_statemanager_set_state
-;src/State_PauseMenu.c:62: }
-;src/State_PauseMenu.c:64: ui_pausemenu_unselect_entry();
+	inc	sp
+;src/State_PauseMenu.c:54: break;
+	jp	_ui_pausemenu_unselect_entry
+;src/State_PauseMenu.c:56: case 2:{
+00103$:
+;src/State_PauseMenu.c:57: statemanager_set_state(STATE_SAVEEXIT);
+	ld	a,#0x09
+	push	af
+	inc	sp
+	call	_statemanager_set_state
+	inc	sp
+;src/State_PauseMenu.c:58: break;
+	jp	_ui_pausemenu_unselect_entry
+;src/State_PauseMenu.c:60: case 3:{
+00104$:
+;src/State_PauseMenu.c:61: statemanager_set_state(STATE_MAINMENU);
+	xor	a, a
+	push	af
+	inc	sp
+	call	_statemanager_set_state
+	inc	sp
+;src/State_PauseMenu.c:64: }
+;src/State_PauseMenu.c:66: ui_pausemenu_unselect_entry();
 	jp  _ui_pausemenu_unselect_entry
-;src/State_PauseMenu.c:67: void state_pausemenu_render() {
+;src/State_PauseMenu.c:69: void state_pausemenu_render() {
 ;	---------------------------------
 ; Function state_pausemenu_render
 ; ---------------------------------
 _state_pausemenu_render::
-;src/State_PauseMenu.c:68: ui_pausemenu_render_refresh();
+;src/State_PauseMenu.c:70: ui_pausemenu_render_refresh();
 	jp  _ui_pausemenu_render_refresh
-;src/State_PauseMenu.c:71: void state_pausemenu_exit(){
+;src/State_PauseMenu.c:73: void state_pausemenu_exit(){
 ;	---------------------------------
 ; Function state_pausemenu_exit
 ; ---------------------------------
 _state_pausemenu_exit::
-;src/State_PauseMenu.c:72: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[1], 34, 144);
+;src/State_PauseMenu.c:74: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[1], 34, 144);
 	ld	hl, #(_g_colors + 0x0001) + 0
 	ld	b,(hl)
 	ld	hl,#0x9022

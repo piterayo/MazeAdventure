@@ -9,30 +9,63 @@
 
 #include "Renderer.h"
 
-u8 rand_seed;
+u16 rand_seed;
 
-u8 map_get_seed(){
+u16 map_get_seed(){
     return rand_seed;
 }
 
 u8 get_random_wall(){
     u8 cellType = cpct_getRandom_mxor_u8 ();
-    if(cellType&1){
+    if(cellType&1){ //1,3,5,7
         return CELLTYPE_WALL1;
     }
     else{
-        if(cellType&3){
+        if(cellType&3){//2,6
             return CELLTYPE_WALL2;
         }
         else{
-            if(cellType&5){
+            if(cellType&7){//4
                 return CELLTYPE_WALL3;
             }
-            else{
+            else{//0
                 return CELLTYPE_WALL4;  
             }
         }
     }
+}
+
+void generate_final_map(){
+    u8 i,j;
+    u8 (*map)[MAP_HEIGHT] = MAP_MEM;
+    u8* m = MAP_MEM+1024;
+    
+    while(m>=MAP_MEM){
+        *m=CELLTYPE_WALL1;
+        --m;
+    }
+    //GENERATE BORDERS
+    for(i=1;i<KING_LEVEL_WIDTH-1;++i){
+        for(j=1;j<KING_LEVEL_HEIGHT-1;++j){
+            map[j][i]=CELLTYPE_FLOOR;//get_random_wall();
+        }
+    }
+    
+    for(i=2;i<7;i+=2){
+        map[i][2]=(cpct_getRandom_mxor_u8 ()%2)?CELLTYPE_WALL2:CELLTYPE_WALL3;//get_random_wall();
+        map[i][6]=(cpct_getRandom_mxor_u8 ()%2)?CELLTYPE_WALL2:CELLTYPE_WALL3;//get_random_wall();
+    }
+    
+    map[KING_LEVEL_EXIT_Y][KING_LEVEL_EXIT_X] = CELLTYPE_DOOR;
+    
+    
+    while(player_get_direction_index()!=MOVEMENT_NORTH){
+        player_turn_left();
+    }
+    
+    *(i8*)&(player_position.x) = KING_LEVEL_PLAYER_X;
+    *(i8*)&(player_position.y) = KING_LEVEL_PLAYER_Y;
+    
 }
 
 void generate_map(){
@@ -72,7 +105,7 @@ void generate_map(){
         map[MAP_HEIGHT-1][i]=CELLTYPE_WALL1;//get_random_wall();
     }
     
-    for(i=1;i<MAP_HEIGHT-1;++i){
+    for(i=0;i<MAP_HEIGHT-1;++i){
         map[i][0]=CELLTYPE_WALL1;//get_random_wall();
         map[i][MAP_WIDTH-1]=CELLTYPE_WALL1;//get_random_wall();
     }
@@ -282,7 +315,7 @@ void generate_level(){
     generate_level_with_seed(r_counter);
 }
 
-void generate_level_with_seed(u8 seed) __z88dk_fastcall{
+void generate_level_with_seed(u16 seed) {
     
     rand_seed=seed;
     // cpct_setSeed_lcg_u8(seed+level_get_level());
@@ -290,13 +323,11 @@ void generate_level_with_seed(u8 seed) __z88dk_fastcall{
     cpct_setSeed_mxor(((seed+level_get_level())&0xFFFE) + 1);
     cpct_restoreState_mxor_u8();
     
-    
-    generate_map();
-    generate_exit_door();
-    
-    //DEBUG
-    // *(u8*)(MAP_MEM + 6 + MAP_WIDTH*5)=0b00000001;
-    // *(u8*)(MAP_MEM + 7 + MAP_WIDTH*5)=0b00000010;
-    // *(u8*)(MAP_MEM + 8 + MAP_WIDTH*5)=0b00000011;
-    // *(u8*)(MAP_MEM + 9 + MAP_WIDTH*5)=0b00000100;
+    if(level_get_level()<KING_LEVEL){
+        generate_map();
+        generate_exit_door();
+    }
+    else{
+        generate_final_map();
+    }
 }

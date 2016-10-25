@@ -7,6 +7,43 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
+  0 ___str_0                                                       02D9 R
+  0 ___str_1                                                       02DD R
+  0 ___str_2                                                       02E3 R
+  0 ___str_3                                                       02E9 R
+  0 ___str_4                                                       02F0 R
+  0 ___str_5                                                       02F7 R
+  1 _activeItems                                                   0000 GR
+    _cpct_getRandom_mxor_u16                                       **** GX
+    _cpct_getRandom_mxor_u8                                        **** GX
+    _cpct_memset                                                   **** GX
+  1 _itemArray                                                     0002 GR
+  0 _item_destroy_item                                             02FE GR
+  0 _item_get_at                                                   0000 GR
+  0 _item_init_items                                               0019 GR
+  0 _item_new_item                                                 0065 GR
+  0 _item_pick_item                                                0215 GR
+  1 _item_spawnedKey                                               0001 GR
+  0 _item_try_new_spawn                                            0032 GR
+  0 _item_try_new_spawn_at                                         0212 GR
+  0 _item_use_potion                                               0338 GR
+  0 _item_use_scroll                                               0360 GR
+    _level_get_level                                               **** GX
+    _player_attack_value                                           **** GX
+    _player_defense_value                                          **** GX
+    _player_has_key                                                **** GX
+    _player_health_points                                          **** GX
+    _player_position                                               **** GX
+    _player_potion_count                                           **** GX
+    _player_scroll_count                                           **** GX
+    _ui_log_add_log                                                **** GX
+    _ui_log_render                                                 **** GX
+    _ui_playerstats_render_attack                                  **** GX
+    _ui_playerstats_render_defense                                 **** GX
+    _ui_playerstats_render_hp                                      **** GX
+    _ui_playerstats_render_key                                     **** GX
+    _ui_playerstats_render_potions                                 **** GX
+    _ui_playerstats_render_scrolls                                 **** GX
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -14,8 +51,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size    0   flags    0
-   1 _DATA                                      size    0   flags    0
+   0 _CODE                                      size  3A7   flags    0
+   1 _DATA                                      size   25   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

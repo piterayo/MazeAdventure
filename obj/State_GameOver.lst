@@ -1,0 +1,172 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.5 #9498 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module State_GameOver
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _level_get_level
+                             12 	.globl _statemanager_input_accepted
+                             13 	.globl _statemanager_set_state
+                             14 	.globl _integer_to_string
+                             15 	.globl _print_transparent_text
+                             16 	.globl _cpct_isAnyKeyPressed_f
+                             17 	.globl _cpct_memset
+                             18 	.globl _state_gameover_enter
+                             19 	.globl _state_gameover_return
+                             20 	.globl _state_gameover_input
+                             21 	.globl _state_gameover_update
+                             22 	.globl _state_gameover_render
+                             23 	.globl _state_gameover_exit
+                             24 ;--------------------------------------------------------
+                             25 ; special function registers
+                             26 ;--------------------------------------------------------
+                             27 ;--------------------------------------------------------
+                             28 ; ram data
+                             29 ;--------------------------------------------------------
+                             30 	.area _DATA
+                             31 ;--------------------------------------------------------
+                             32 ; ram data
+                             33 ;--------------------------------------------------------
+                             34 	.area _INITIALIZED
+                             35 ;--------------------------------------------------------
+                             36 ; absolute external ram data
+                             37 ;--------------------------------------------------------
+                             38 	.area _DABS (ABS)
+                             39 ;--------------------------------------------------------
+                             40 ; global & static initialisations
+                             41 ;--------------------------------------------------------
+                             42 	.area _HOME
+                             43 	.area _GSINIT
+                             44 	.area _GSFINAL
+                             45 	.area _GSINIT
+                             46 ;--------------------------------------------------------
+                             47 ; Home
+                             48 ;--------------------------------------------------------
+                             49 	.area _HOME
+                             50 	.area _HOME
+                             51 ;--------------------------------------------------------
+                             52 ; code
+                             53 ;--------------------------------------------------------
+                             54 	.area _CODE
+                             55 ;src/State_GameOver.c:15: void state_gameover_enter(){
+                             56 ;	---------------------------------
+                             57 ; Function state_gameover_enter
+                             58 ; ---------------------------------
+   0000                      59 _state_gameover_enter::
+                             60 ;src/State_GameOver.c:16: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+   0000 21r01r00      [10]   61 	ld	hl,#_g_colors+1
+   0003 46            [ 7]   62 	ld	b,(hl)
+   0004 21 00 40      [10]   63 	ld	hl,#0x4000
+   0007 E5            [11]   64 	push	hl
+   0008 C5            [11]   65 	push	bc
+   0009 33            [ 6]   66 	inc	sp
+   000A 26 C0         [ 7]   67 	ld	h, #0xC0
+   000C E5            [11]   68 	push	hl
+   000D CDr00r00      [17]   69 	call	_cpct_memset
+                             70 ;src/State_GameOver.c:17: print_transparent_text("GAME OVER", cpctm_screenPtr((u16)CPCT_VMEM_START,32,92), 3);
+   0010 3E 03         [ 7]   71 	ld	a,#0x03
+   0012 F5            [11]   72 	push	af
+   0013 33            [ 6]   73 	inc	sp
+   0014 21 90 E3      [10]   74 	ld	hl,#0xE390
+   0017 E5            [11]   75 	push	hl
+   0018 21r54r00      [10]   76 	ld	hl,#___str_0
+   001B E5            [11]   77 	push	hl
+   001C CDr00r00      [17]   78 	call	_print_transparent_text
+   001F F1            [10]   79 	pop	af
+   0020 F1            [10]   80 	pop	af
+   0021 33            [ 6]   81 	inc	sp
+                             82 ;src/State_GameOver.c:18: print_transparent_text("LEVEL: ", cpctm_screenPtr((u16)CPCT_VMEM_START,30,100), 3);
+   0022 3E 03         [ 7]   83 	ld	a,#0x03
+   0024 F5            [11]   84 	push	af
+   0025 33            [ 6]   85 	inc	sp
+   0026 21 DE E3      [10]   86 	ld	hl,#0xE3DE
+   0029 E5            [11]   87 	push	hl
+   002A 21r5Er00      [10]   88 	ld	hl,#___str_1
+   002D E5            [11]   89 	push	hl
+   002E CDr00r00      [17]   90 	call	_print_transparent_text
+   0031 F1            [10]   91 	pop	af
+   0032 F1            [10]   92 	pop	af
+   0033 33            [ 6]   93 	inc	sp
+                             94 ;src/State_GameOver.c:19: print_transparent_text(integer_to_string(level_get_level(),'d'), cpctm_screenPtr((u16)CPCT_VMEM_START,46,100), 3);
+   0034 CDr00r00      [17]   95 	call	_level_get_level
+   0037 45            [ 4]   96 	ld	b,l
+   0038 3E 64         [ 7]   97 	ld	a,#0x64
+   003A F5            [11]   98 	push	af
+   003B 33            [ 6]   99 	inc	sp
+   003C C5            [11]  100 	push	bc
+   003D 33            [ 6]  101 	inc	sp
+   003E CDr00r00      [17]  102 	call	_integer_to_string
+   0041 F1            [10]  103 	pop	af
+   0042 4D            [ 4]  104 	ld	c,l
+   0043 44            [ 4]  105 	ld	b,h
+   0044 3E 03         [ 7]  106 	ld	a,#0x03
+   0046 F5            [11]  107 	push	af
+   0047 33            [ 6]  108 	inc	sp
+   0048 21 EE E3      [10]  109 	ld	hl,#0xE3EE
+   004B E5            [11]  110 	push	hl
+   004C C5            [11]  111 	push	bc
+   004D CDr00r00      [17]  112 	call	_print_transparent_text
+   0050 F1            [10]  113 	pop	af
+   0051 F1            [10]  114 	pop	af
+   0052 33            [ 6]  115 	inc	sp
+   0053 C9            [10]  116 	ret
+   0054                     117 ___str_0:
+   0054 47 41 4D 45 20 4F   118 	.ascii "GAME OVER"
+        56 45 52
+   005D 00                  119 	.db 0x00
+   005E                     120 ___str_1:
+   005E 4C 45 56 45 4C 3A   121 	.ascii "LEVEL: "
+        20
+   0065 00                  122 	.db 0x00
+                            123 ;src/State_GameOver.c:22: void state_gameover_return(){
+                            124 ;	---------------------------------
+                            125 ; Function state_gameover_return
+                            126 ; ---------------------------------
+   0066                     127 _state_gameover_return::
+                            128 ;src/State_GameOver.c:24: }
+   0066 C9            [10]  129 	ret
+                            130 ;src/State_GameOver.c:26: void state_gameover_input(){
+                            131 ;	---------------------------------
+                            132 ; Function state_gameover_input
+                            133 ; ---------------------------------
+   0067                     134 _state_gameover_input::
+                            135 ;src/State_GameOver.c:27: if(cpct_isAnyKeyPressed_f ()){
+   0067 CDr00r00      [17]  136 	call	_cpct_isAnyKeyPressed_f
+   006A 7D            [ 4]  137 	ld	a,l
+   006B B7            [ 4]  138 	or	a, a
+   006C C8            [11]  139 	ret	Z
+                            140 ;src/State_GameOver.c:28: statemanager_input_accepted();
+   006D C3r00r00      [10]  141 	jp  _statemanager_input_accepted
+                            142 ;src/State_GameOver.c:32: void state_gameover_update(){
+                            143 ;	---------------------------------
+                            144 ; Function state_gameover_update
+                            145 ; ---------------------------------
+   0070                     146 _state_gameover_update::
+                            147 ;src/State_GameOver.c:33: statemanager_set_state(STATE_MAINMENU);
+   0070 AF            [ 4]  148 	xor	a, a
+   0071 F5            [11]  149 	push	af
+   0072 33            [ 6]  150 	inc	sp
+   0073 CDr00r00      [17]  151 	call	_statemanager_set_state
+   0076 33            [ 6]  152 	inc	sp
+   0077 C9            [10]  153 	ret
+                            154 ;src/State_GameOver.c:36: void state_gameover_render(){
+                            155 ;	---------------------------------
+                            156 ; Function state_gameover_render
+                            157 ; ---------------------------------
+   0078                     158 _state_gameover_render::
+                            159 ;src/State_GameOver.c:38: }
+   0078 C9            [10]  160 	ret
+                            161 ;src/State_GameOver.c:40: void state_gameover_exit(){
+                            162 ;	---------------------------------
+                            163 ; Function state_gameover_exit
+                            164 ; ---------------------------------
+   0079                     165 _state_gameover_exit::
+                            166 ;src/State_GameOver.c:42: }
+   0079 C9            [10]  167 	ret
+                            168 	.area _CODE
+                            169 	.area _INITIALIZER
+                            170 	.area _CABS (ABS)

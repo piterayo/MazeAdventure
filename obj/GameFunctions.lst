@@ -16,100 +16,118 @@
                              16 	.globl _cpct_setVideoMode
                              17 	.globl _cpct_setInterruptHandler
                              18 	.globl _cpct_disableFirmware
-                             19 	.globl _r_counter
-                             20 	.globl _movement_directionArray
-                             21 	.globl _game_init
-                             22 ;--------------------------------------------------------
-                             23 ; special function registers
-                             24 ;--------------------------------------------------------
+                             19 	.globl _camelot_warriors_mode
+                             20 	.globl _textures_on
+                             21 	.globl _music_on
+                             22 	.globl _r_counter
+                             23 	.globl _movement_directionArray
+                             24 	.globl _game_init
                              25 ;--------------------------------------------------------
-                             26 ; ram data
+                             26 ; special function registers
                              27 ;--------------------------------------------------------
-                             28 	.area _DATA
-   0000                      29 _r_counter::
-   0000                      30 	.ds 2
-                             31 ;--------------------------------------------------------
-                             32 ; ram data
-                             33 ;--------------------------------------------------------
-                             34 	.area _INITIALIZED
-                             35 ;--------------------------------------------------------
-                             36 ; absolute external ram data
-                             37 ;--------------------------------------------------------
-                             38 	.area _DABS (ABS)
-                             39 ;--------------------------------------------------------
-                             40 ; global & static initialisations
-                             41 ;--------------------------------------------------------
-                             42 	.area _HOME
-                             43 	.area _GSINIT
-                             44 	.area _GSFINAL
-                             45 	.area _GSINIT
+                             28 ;--------------------------------------------------------
+                             29 ; ram data
+                             30 ;--------------------------------------------------------
+                             31 	.area _DATA
+   0000                      32 _r_counter::
+   0000                      33 	.ds 2
+   0002                      34 _music_on::
+   0002                      35 	.ds 1
+   0003                      36 _textures_on::
+   0003                      37 	.ds 1
+   0004                      38 _camelot_warriors_mode::
+   0004                      39 	.ds 1
+                             40 ;--------------------------------------------------------
+                             41 ; ram data
+                             42 ;--------------------------------------------------------
+                             43 	.area _INITIALIZED
+                             44 ;--------------------------------------------------------
+                             45 ; absolute external ram data
                              46 ;--------------------------------------------------------
-                             47 ; Home
+                             47 	.area _DABS (ABS)
                              48 ;--------------------------------------------------------
-                             49 	.area _HOME
-                             50 	.area _HOME
-                             51 ;--------------------------------------------------------
-                             52 ; code
-                             53 ;--------------------------------------------------------
-                             54 	.area _CODE
-                             55 ;src/GameFunctions.c:11: void game_interrupt_handler(){
-                             56 ;	---------------------------------
-                             57 ; Function game_interrupt_handler
-                             58 ; ---------------------------------
-   0000                      59 _game_interrupt_handler::
-                             60 ;src/GameFunctions.c:12: ++r_counter;
-   0000 21r00r00      [10]   61 	ld	hl, #_r_counter+0
-   0003 34            [11]   62 	inc	(hl)
-   0004 C0            [11]   63 	ret	NZ
-   0005 21r01r00      [10]   64 	ld	hl, #_r_counter+1
-   0008 34            [11]   65 	inc	(hl)
-   0009 C9            [10]   66 	ret
-                             67 ;src/GameFunctions.c:20: void game_init(){
-                             68 ;	---------------------------------
-                             69 ; Function game_init
-                             70 ; ---------------------------------
-   000A                      71 _game_init::
-                             72 ;src/GameFunctions.c:21: cpct_disableFirmware();
-   000A CDr00r00      [17]   73 	call	_cpct_disableFirmware
-                             74 ;src/GameFunctions.c:22: cpct_setVideoMode(0);
-   000D 2E 00         [ 7]   75 	ld	l,#0x00
-   000F CDr00r00      [17]   76 	call	_cpct_setVideoMode
-                             77 ;src/GameFunctions.c:24: cpct_fw2hw(g_palette,16);
-   0012 21 10 00      [10]   78 	ld	hl,#0x0010
-   0015 E5            [11]   79 	push	hl
-   0016 21r00r00      [10]   80 	ld	hl,#_g_palette
-   0019 E5            [11]   81 	push	hl
-   001A CDr00r00      [17]   82 	call	_cpct_fw2hw
-                             83 ;src/GameFunctions.c:26: cpct_setInterruptHandler(game_interrupt_handler);
-   001D 21r00r00      [10]   84 	ld	hl,#_game_interrupt_handler
-   0020 CDr00r00      [17]   85 	call	_cpct_setInterruptHandler
-                             86 ;src/GameFunctions.c:27: level_init_palettes();
-   0023 CDr00r00      [17]   87 	call	_level_init_palettes
-                             88 ;src/GameFunctions.c:28: cpct_setPalette(g_palette,16);
-   0026 21 10 00      [10]   89 	ld	hl,#0x0010
-   0029 E5            [11]   90 	push	hl
-   002A 21r00r00      [10]   91 	ld	hl,#_g_palette
-   002D E5            [11]   92 	push	hl
-   002E CDr00r00      [17]   93 	call	_cpct_setPalette
-                             94 ;src/GameFunctions.c:29: cpct_setBorder(g_palette[1]);
-   0031 21r01r00      [10]   95 	ld	hl, #_g_palette + 1
-   0034 46            [ 7]   96 	ld	b,(hl)
-   0035 C5            [11]   97 	push	bc
-   0036 33            [ 6]   98 	inc	sp
-   0037 3E 10         [ 7]   99 	ld	a,#0x10
-   0039 F5            [11]  100 	push	af
-   003A 33            [ 6]  101 	inc	sp
-   003B CDr00r00      [17]  102 	call	_cpct_setPALColour
-   003E C9            [10]  103 	ret
-   003F                     104 _movement_directionArray:
-   003F 01                  105 	.db #0x01	;  1
-   0040 00                  106 	.db #0x00	;  0
-   0041 00                  107 	.db #0x00	;  0
-   0042 FF                  108 	.db #0xFF	; -1
-   0043 FF                  109 	.db #0xFF	; -1
-   0044 00                  110 	.db #0x00	;  0
-   0045 00                  111 	.db #0x00	;  0
-   0046 01                  112 	.db #0x01	;  1
-                            113 	.area _CODE
-                            114 	.area _INITIALIZER
-                            115 	.area _CABS (ABS)
+                             49 ; global & static initialisations
+                             50 ;--------------------------------------------------------
+                             51 	.area _HOME
+                             52 	.area _GSINIT
+                             53 	.area _GSFINAL
+                             54 	.area _GSINIT
+                             55 ;--------------------------------------------------------
+                             56 ; Home
+                             57 ;--------------------------------------------------------
+                             58 	.area _HOME
+                             59 	.area _HOME
+                             60 ;--------------------------------------------------------
+                             61 ; code
+                             62 ;--------------------------------------------------------
+                             63 	.area _CODE
+                             64 ;src/GameFunctions.c:16: void game_interrupt_handler(){
+                             65 ;	---------------------------------
+                             66 ; Function game_interrupt_handler
+                             67 ; ---------------------------------
+   0000                      68 _game_interrupt_handler::
+                             69 ;src/GameFunctions.c:17: ++r_counter;
+   0000 21r00r00      [10]   70 	ld	hl, #_r_counter+0
+   0003 34            [11]   71 	inc	(hl)
+   0004 C0            [11]   72 	ret	NZ
+   0005 21r01r00      [10]   73 	ld	hl, #_r_counter+1
+   0008 34            [11]   74 	inc	(hl)
+   0009 C9            [10]   75 	ret
+                             76 ;src/GameFunctions.c:25: void game_init(){
+                             77 ;	---------------------------------
+                             78 ; Function game_init
+                             79 ; ---------------------------------
+   000A                      80 _game_init::
+                             81 ;src/GameFunctions.c:26: cpct_disableFirmware();
+   000A CDr00r00      [17]   82 	call	_cpct_disableFirmware
+                             83 ;src/GameFunctions.c:27: cpct_setVideoMode(0);
+   000D 2E 00         [ 7]   84 	ld	l,#0x00
+   000F CDr00r00      [17]   85 	call	_cpct_setVideoMode
+                             86 ;src/GameFunctions.c:29: cpct_fw2hw(g_palette,16);
+   0012 21 10 00      [10]   87 	ld	hl,#0x0010
+   0015 E5            [11]   88 	push	hl
+   0016 21r00r00      [10]   89 	ld	hl,#_g_palette
+   0019 E5            [11]   90 	push	hl
+   001A CDr00r00      [17]   91 	call	_cpct_fw2hw
+                             92 ;src/GameFunctions.c:31: cpct_setInterruptHandler(game_interrupt_handler);
+   001D 21r00r00      [10]   93 	ld	hl,#_game_interrupt_handler
+   0020 CDr00r00      [17]   94 	call	_cpct_setInterruptHandler
+                             95 ;src/GameFunctions.c:32: level_init_palettes();
+   0023 CDr00r00      [17]   96 	call	_level_init_palettes
+                             97 ;src/GameFunctions.c:33: cpct_setPalette(g_palette,16);
+   0026 21 10 00      [10]   98 	ld	hl,#0x0010
+   0029 E5            [11]   99 	push	hl
+   002A 21r00r00      [10]  100 	ld	hl,#_g_palette
+   002D E5            [11]  101 	push	hl
+   002E CDr00r00      [17]  102 	call	_cpct_setPalette
+                            103 ;src/GameFunctions.c:34: cpct_setBorder(g_palette[1]);
+   0031 21r01r00      [10]  104 	ld	hl, #_g_palette + 1
+   0034 46            [ 7]  105 	ld	b,(hl)
+   0035 C5            [11]  106 	push	bc
+   0036 33            [ 6]  107 	inc	sp
+   0037 3E 10         [ 7]  108 	ld	a,#0x10
+   0039 F5            [11]  109 	push	af
+   003A 33            [ 6]  110 	inc	sp
+   003B CDr00r00      [17]  111 	call	_cpct_setPALColour
+                            112 ;src/GameFunctions.c:36: music_on = 1;
+   003E 21r02r00      [10]  113 	ld	hl,#_music_on + 0
+   0041 36 01         [10]  114 	ld	(hl), #0x01
+                            115 ;src/GameFunctions.c:37: textures_on = 1;
+   0043 21r03r00      [10]  116 	ld	hl,#_textures_on + 0
+   0046 36 01         [10]  117 	ld	(hl), #0x01
+                            118 ;src/GameFunctions.c:40: camelot_warriors_mode=0;
+   0048 21r04r00      [10]  119 	ld	hl,#_camelot_warriors_mode + 0
+   004B 36 00         [10]  120 	ld	(hl), #0x00
+   004D C9            [10]  121 	ret
+   004E                     122 _movement_directionArray:
+   004E 01                  123 	.db #0x01	;  1
+   004F 00                  124 	.db #0x00	;  0
+   0050 00                  125 	.db #0x00	;  0
+   0051 FF                  126 	.db #0xFF	; -1
+   0052 FF                  127 	.db #0xFF	; -1
+   0053 00                  128 	.db #0x00	;  0
+   0054 00                  129 	.db #0x00	;  0
+   0055 01                  130 	.db #0x01	;  1
+                            131 	.area _CODE
+                            132 	.area _INITIALIZER
+                            133 	.area _CABS (ABS)

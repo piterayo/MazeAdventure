@@ -1,0 +1,67 @@
+XL2
+H 9 areas E global symbols
+M State_SaveExit
+O -mz80
+S _print_transparent_text Ref0000
+S _statemanager_input_accepted Ref0000
+S _statemanager_set_state Ref0000
+S _savegame_get_saveString Ref0000
+S .__.ABS. Def0000
+S _cpct_isAnyKeyPressed_f Ref0000
+S _g_colors Ref0000
+S _cpct_drawSolidBox Ref0000
+A _CODE size 71 flags 0 addr 0
+S _state_saveexit_enter Def0000
+S _state_saveexit_return Def005D
+S _state_saveexit_input Def005E
+S _state_saveexit_exit Def0070
+S _state_saveexit_render Def006F
+S _state_saveexit_update Def006E
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 21 04 00 46 21 28 28 E5 C5 33 21 34 C3 E5
+R 00 00 00 00 02 03 06 00
+T 0E 00 CD 00 00 F1 F1 33 21 01 00 46 21 26 20 E5
+R 00 00 00 00 02 03 07 00 02 09 06 00
+T 1C 00 C5 33 21 35 E3 E5 CD 00 00 F1 F1 33 CD
+R 00 00 00 00 02 09 07 00
+T 29 00 00 00 4D 44 3E 03 F5 33 21 86 E3 E5 C5 CD
+R 00 00 00 00 02 02 03 00
+T 37 00 00 00 F1 F1 33 3E 03 F5 33 21 DB E3 E5 21
+R 00 00 00 00 02 02 00 00
+T 45 00 4F 00 E5 CD 00 00 F1 F1 33 C9
+R 00 00 00 00 00 02 00 00 02 06 00 00
+T 4F 00
+R 00 00 00 00
+T 4F 00 50 52 45 53 53 20 41 4E 59 20 4B 45 59 00
+R 00 00 00 00
+T 5D 00
+R 00 00 00 00
+T 5D 00 C9
+R 00 00 00 00
+T 5E 00
+R 00 00 00 00
+T 5E 00 CD 00 00 7D B7 C8 AF F5 33 CD 00 00 33 C3
+R 00 00 00 00 02 03 05 00 02 0C 02 00
+T 6C 00 00 00
+R 00 00 00 00 02 02 01 00
+T 6E 00
+R 00 00 00 00
+T 6E 00 C9
+R 00 00 00 00
+T 6F 00
+R 00 00 00 00
+T 6F 00 C9
+R 00 00 00 00
+T 70 00
+R 00 00 00 00
+T 70 00 C9
+R 00 00 00 00

@@ -5,14 +5,19 @@
 
 #include "GameDefinitions.h"
 
+#include "GameFunctions.h"
+
 #include "StringUtils.h"
 
 #include "Map.h"
 #include "Player.h"
 #include "Renderer.h"
 #include "Level.h"
+#include "Item.h"
 
 #include "Enemy.h"
+
+#include "State_Inventory.h"
 
 #include "UI_Compass.h"
 #include "UI_GameMenu.h"
@@ -21,8 +26,9 @@
 
 u8 updateRenderBuffer;
 
+
 typedef enum{
-    NONE,MOVE,ATTACK,USE_OBJECT,PICK_OBJECT,WAIT
+    NONE,MOVE,ATTACK,PICK_OBJECT,WAIT
 }ACTION;
 
 ACTION action;
@@ -33,13 +39,40 @@ void state_ingame_enter(){
     
     ui_log_init();
     
+    action=NONE;
+    
     ui_gamemenu_init();
     ui_gamemenu_render_all();
+    ui_playerstats_render_all();
+    ui_log_render();
     state_ingame_render();
 }
 
+void state_ingame_update_turn(){
+        enemy_update();
+        if(level_get_level()!=KING_LEVEL) enemy_try_new_spawn();
+        ui_gamemenu_update_action();
+        
+        if(player_is_dead){//Game over
+            statemanager_set_state(STATE_GAMEOVER);
+        }
+        updateRenderBuffer = 1;
+}
+
+void state_ingame_update_buffers(){
+         render_draw_to_buffer();
+         draw_minimap_to_buffer();
+}
+
 void state_ingame_return(){
+    if(state_inventory_object_used()){
+        state_ingame_update_turn();
+        state_ingame_update_buffers();
+    }
+    ui_gamemenu_unselect_entry();
     ui_gamemenu_render_all();
+    ui_playerstats_render_all();
+    ui_log_render();
     state_ingame_render();
 }
 
@@ -65,11 +98,6 @@ void state_ingame_input(){
             ui_gamemenu_select_entry();
             statemanager_input_accepted();
         }
-        //DEBUG
-        else if(cpct_isKeyPressed(Key_T)){
-            *(u8*)&g_texturedWalls = !g_texturedWalls;
-            statemanager_input_accepted();
-        }
         else if(cpct_isKeyPressed(Key_Tab)){
             level_set_level(level_get_level()+1);
             statemanager_close_state();
@@ -79,8 +107,9 @@ void state_ingame_input(){
 }
 
 void state_ingame_update(){
+    u8 forward = *(u8*)(MAP_MEM + (player_position.x+player_direction.x) + (player_position.y+player_direction.y) * MAP_WIDTH);
     
-    action=NONE;
+    // action=NONE;
     updateRenderBuffer=0;
     
     if(ui_gamemenu_is_selected()){
@@ -97,18 +126,23 @@ void state_ingame_update(){
                         break;
                     }
                     case 2:{
-                        // action=ATTACK;
+                        action=ATTACK;
+                        enemy_attack_enemy(enemy_get_at(forward-1));
                         break;
                     }
                     case 3:{
-                        // action=PICK_OBJECT;
+                        action=PICK_OBJECT;
+                        item_pick_item(item_get_at((forward)>>4)-1);
+                        // updateRenderBuffer = 1;
                         break;
                     }
                 }
+                ui_gamemenu_unselect_entry();
                 break;
             }
             case 1:{//INVENTORY
                 
+                statemanager_set_state(STATE_INVENTORY);                
                 
                 break;
             }
@@ -118,22 +152,25 @@ void state_ingame_update(){
                 ui_gamemenu_update_action();
                 
                 updateRenderBuffer = 1;
+                ui_gamemenu_unselect_entry();
                 break;
             }
             case 3:{//MOVE
-                // if(ui_gamemenu_get_movement()){//BYPASS IF FOR NOCLIP
+                if(ui_gamemenu_get_movement()){//BYPASS IF FOR NOCLIP
                 
                     player_move_forward();
                     ui_gamemenu_update_action();
-                    // action=MOVE;
+                    action=MOVE;
                     
-                    updateRenderBuffer = 1;
-                // }
+                    // updateRenderBuffer = 1;
+                }
+                ui_gamemenu_unselect_entry();
                 break;
             }
             case 4:{//TURN RIGHT
                 player_turn_right();
                 ui_gamemenu_update_action();
+                ui_gamemenu_unselect_entry();
                 
                 updateRenderBuffer = 1;
                 
@@ -141,7 +178,7 @@ void state_ingame_update(){
             }
             case 5:{//WAIT
                 action=WAIT;
-                updateRenderBuffer = 1;
+                ui_gamemenu_unselect_entry();
                 break;
             }
             case 6:{//PAUSE
@@ -149,17 +186,16 @@ void state_ingame_update(){
                 break;
             }
         }
-        ui_gamemenu_unselect_entry();
     }
     
     if(action!=NONE){
-        enemy_update();
+        state_ingame_update_turn();
     }
     
     if(updateRenderBuffer){
-         render_draw_to_buffer();
-         draw_minimap_to_buffer();
+        state_ingame_update_buffers();
     }
+    action=NONE;
     
 }
 
@@ -168,8 +204,6 @@ void state_ingame_render(){
     renderCompass();
     cpct_drawSprite(SCREEN_TEXTURE_BUFFER,SCREEN_TEXTURE_POSITION,SCREEN_TEXTURE_WIDTH_BYTES,SCREEN_TEXTURE_HEIGHT);
     cpct_drawSprite(MINIMAP_BUFFER,MINIMAP_POSITION,MINIMAP_WIDTH_BYTES,MINIMAP_HEIGHT_BYTES);
-    ui_playerstats_render();
-    ui_log_render();
 }
 
 void state_ingame_exit(){

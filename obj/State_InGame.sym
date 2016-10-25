@@ -12,22 +12,32 @@ Symbol Table
     _cpct_isKeyPressed                                             **** GX
     _cpct_memset                                                   **** GX
     _draw_minimap_to_buffer                                        **** GX
+    _enemy_attack_enemy                                            **** GX
+    _enemy_get_at                                                  **** GX
+    _enemy_try_new_spawn                                           **** GX
     _enemy_update                                                  **** GX
     _g_colors                                                      **** GX
-    _g_texturedWalls                                               **** GX
+    _item_get_at                                                   **** GX
+    _item_pick_item                                                **** GX
     _level_get_level                                               **** GX
     _level_set_level                                               **** GX
+    _player_direction                                              **** GX
+    _player_is_dead                                                **** GX
     _player_move_forward                                           **** GX
+    _player_position                                               **** GX
     _player_turn_left                                              **** GX
     _player_turn_right                                             **** GX
     _renderCompass                                                 **** GX
     _render_draw_to_buffer                                         **** GX
   0 _state_ingame_enter                                            0000 GR
-  0 _state_ingame_exit                                             0193 GR
-  0 _state_ingame_input                                            0023 GR
-  0 _state_ingame_render                                           0168 GR
-  0 _state_ingame_return                                           001D GR
-  0 _state_ingame_update                                           00A8 GR
+  0 _state_ingame_exit                                             024F GR
+  0 _state_ingame_input                                            006F GR
+  0 _state_ingame_render                                           022A GR
+  0 _state_ingame_return                                           0053 GR
+  0 _state_ingame_update                                           00E1 GR
+  0 _state_ingame_update_buffers                                   004D GR
+  0 _state_ingame_update_turn                                      0028 GR
+    _state_inventory_object_used                                   **** GX
     _statemanager_close_state                                      **** GX
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
@@ -35,6 +45,7 @@ Symbol Table
     _ui_gamemenu_below_entry                                       **** GX
     _ui_gamemenu_get_action                                        **** GX
     _ui_gamemenu_get_entry                                         **** GX
+    _ui_gamemenu_get_movement                                      **** GX
     _ui_gamemenu_init                                              **** GX
     _ui_gamemenu_is_selected                                       **** GX
     _ui_gamemenu_next_entry                                        **** GX
@@ -46,15 +57,21 @@ Symbol Table
     _ui_gamemenu_update_action                                     **** GX
     _ui_log_init                                                   **** GX
     _ui_log_render                                                 **** GX
-    _ui_playerstats_render                                         **** GX
+    _ui_playerstats_render_all                                     **** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
   1 _updateRenderBuffer                                            0000 GR
 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  194   flags    0
+   0 _CODE                                      size  250   flags    0
    1 _DATA                                      size    2   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

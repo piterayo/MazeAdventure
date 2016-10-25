@@ -6,7 +6,7 @@ S _statemanager_set_state Ref0000
 S _game_init Ref0000
 S .__.ABS. Def0000
 S _statemanager_main_loop Ref0000
-A _CODE size B flags 0 addr 0
+A _CODE size D flags 0 addr 0
 S _main Def0000
 A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
@@ -18,5 +18,5 @@ A _INITIALIZER size 0 flags 0 addr 0
 A _CABS size 0 flags 8 addr 0
 T 00 00
 R 00 00 00 00
-T 00 00 CD 00 00 2E 00 CD 00 00 C3 00 00
-R 00 00 00 00 02 03 01 00 02 08 00 00 02 0B 03 00
+T 00 00 CD 00 00 AF F5 33 CD 00 00 33 C3 00 00
+R 00 00 00 00 02 03 01 00 02 09 00 00 02 0D 03 00

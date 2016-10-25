@@ -9,142 +9,191 @@
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
                              11 	.globl _player_directionIndex
-                             12 	.globl _player_direction
-                             13 	.globl _player_position
-                             14 	.globl _player_turn_left
-                             15 	.globl _player_turn_right
-                             16 	.globl _player_move_forward
-                             17 	.globl _player_get_direction_index
-                             18 ;--------------------------------------------------------
-                             19 ; special function registers
-                             20 ;--------------------------------------------------------
-                             21 ;--------------------------------------------------------
-                             22 ; ram data
-                             23 ;--------------------------------------------------------
-                             24 	.area _DATA
-   5B2A                      25 _player_directionIndex::
-   5B2A                      26 	.ds 1
-                             27 ;--------------------------------------------------------
-                             28 ; ram data
+                             12 	.globl _player_scroll_count
+                             13 	.globl _player_potion_count
+                             14 	.globl _player_has_key
+                             15 	.globl _player_is_dead
+                             16 	.globl _player_health_points
+                             17 	.globl _player_attack_value
+                             18 	.globl _player_defense_value
+                             19 	.globl _player_direction
+                             20 	.globl _player_position
+                             21 	.globl _player_init
+                             22 	.globl _player_turn_left
+                             23 	.globl _player_turn_right
+                             24 	.globl _player_move_forward
+                             25 	.globl _player_get_direction_index
+                             26 ;--------------------------------------------------------
+                             27 ; special function registers
+                             28 ;--------------------------------------------------------
                              29 ;--------------------------------------------------------
-                             30 	.area _INITIALIZED
+                             30 ; ram data
                              31 ;--------------------------------------------------------
-                             32 ; absolute external ram data
-                             33 ;--------------------------------------------------------
-                             34 	.area _DABS (ABS)
-                             35 ;--------------------------------------------------------
-                             36 ; global & static initialisations
-                             37 ;--------------------------------------------------------
-                             38 	.area _HOME
-                             39 	.area _GSINIT
-                             40 	.area _GSFINAL
-                             41 	.area _GSINIT
-                             42 ;--------------------------------------------------------
-                             43 ; Home
-                             44 ;--------------------------------------------------------
-                             45 	.area _HOME
-                             46 	.area _HOME
-                             47 ;--------------------------------------------------------
-                             48 ; code
+                             32 	.area _DATA
+   7E43                      33 _player_defense_value::
+   7E43                      34 	.ds 1
+   7E44                      35 _player_attack_value::
+   7E44                      36 	.ds 1
+   7E45                      37 _player_health_points::
+   7E45                      38 	.ds 1
+   7E46                      39 _player_is_dead::
+   7E46                      40 	.ds 1
+   7E47                      41 _player_has_key::
+   7E47                      42 	.ds 1
+   7E48                      43 _player_potion_count::
+   7E48                      44 	.ds 1
+   7E49                      45 _player_scroll_count::
+   7E49                      46 	.ds 1
+   7E4A                      47 _player_directionIndex::
+   7E4A                      48 	.ds 1
                              49 ;--------------------------------------------------------
-                             50 	.area _CODE
-                             51 ;src/Player.c:17: void player_turn_left(){
-                             52 ;	---------------------------------
-                             53 ; Function player_turn_left
-                             54 ; ---------------------------------
-   0E31                      55 _player_turn_left::
-                             56 ;src/Player.c:18: (player_directionIndex)=(player_directionIndex+2)&7;
-   0E31 3A 2A 5B      [13]   57 	ld	a,(#_player_directionIndex + 0)
-   0E34 C6 02         [ 7]   58 	add	a, #0x02
-   0E36 E6 07         [ 7]   59 	and	a, #0x07
-   0E38 32 2A 5B      [13]   60 	ld	(#_player_directionIndex + 0),a
-                             61 ;src/Player.c:19: *(i8*)&(player_direction.x) = movement_directionArray[(player_directionIndex)];
-   0E3B 11 B6 06      [10]   62 	ld	de,#_movement_directionArray+0
-   0E3E 2A 2A 5B      [16]   63 	ld	hl,(_player_directionIndex)
-   0E41 26 00         [ 7]   64 	ld	h,#0x00
-   0E43 19            [11]   65 	add	hl,de
-   0E44 4E            [ 7]   66 	ld	c,(hl)
-   0E45 21 5C 0E      [10]   67 	ld	hl,#_player_direction
-   0E48 71            [ 7]   68 	ld	(hl),c
-                             69 ;src/Player.c:20: *(i8*)&(player_direction.y) = movement_directionArray[((player_directionIndex)+1)];
-   0E49 01 5D 0E      [10]   70 	ld	bc,#_player_direction+1
-   0E4C FD 21 2A 5B   [14]   71 	ld	iy,#_player_directionIndex
-   0E50 FD 6E 00      [19]   72 	ld	l,0 (iy)
-   0E53 2C            [ 4]   73 	inc	l
-   0E54 26 00         [ 7]   74 	ld	h,#0x00
-   0E56 19            [11]   75 	add	hl,de
-   0E57 7E            [ 7]   76 	ld	a,(hl)
-   0E58 02            [ 7]   77 	ld	(bc),a
-   0E59 C9            [10]   78 	ret
-   0E5A                      79 _player_position:
-   0E5A 01                   80 	.db #0x01	; 1
-   0E5B 01                   81 	.db #0x01	; 1
-   0E5C                      82 _player_direction:
-   0E5C 01                   83 	.db #0x01	;  1
-   0E5D 00                   84 	.db #0x00	;  0
-                             85 ;src/Player.c:23: void player_turn_right(){
-                             86 ;	---------------------------------
-                             87 ; Function player_turn_right
-                             88 ; ---------------------------------
-   0E5E                      89 _player_turn_right::
-                             90 ;src/Player.c:25: (player_directionIndex)=(player_directionIndex-2)&7;
-   0E5E 3A 2A 5B      [13]   91 	ld	a,(#_player_directionIndex + 0)
-   0E61 C6 FE         [ 7]   92 	add	a,#0xFE
-   0E63 E6 07         [ 7]   93 	and	a, #0x07
-   0E65 32 2A 5B      [13]   94 	ld	(#_player_directionIndex + 0),a
-                             95 ;src/Player.c:26: *(i8*)&(player_direction.x) = movement_directionArray[(player_directionIndex)];
-   0E68 11 B6 06      [10]   96 	ld	de,#_movement_directionArray+0
-   0E6B 2A 2A 5B      [16]   97 	ld	hl,(_player_directionIndex)
-   0E6E 26 00         [ 7]   98 	ld	h,#0x00
-   0E70 19            [11]   99 	add	hl,de
-   0E71 4E            [ 7]  100 	ld	c,(hl)
-   0E72 21 5C 0E      [10]  101 	ld	hl,#_player_direction
-   0E75 71            [ 7]  102 	ld	(hl),c
-                            103 ;src/Player.c:27: *(i8*)&(player_direction.y) = movement_directionArray[((player_directionIndex)+1)];
-   0E76 01 5D 0E      [10]  104 	ld	bc,#_player_direction+1
-   0E79 FD 21 2A 5B   [14]  105 	ld	iy,#_player_directionIndex
-   0E7D FD 6E 00      [19]  106 	ld	l,0 (iy)
-   0E80 2C            [ 4]  107 	inc	l
-   0E81 26 00         [ 7]  108 	ld	h,#0x00
-   0E83 19            [11]  109 	add	hl,de
-   0E84 7E            [ 7]  110 	ld	a,(hl)
-   0E85 02            [ 7]  111 	ld	(bc),a
-   0E86 C9            [10]  112 	ret
-                            113 ;src/Player.c:30: void player_move_forward(){
-                            114 ;	---------------------------------
-                            115 ; Function player_move_forward
-                            116 ; ---------------------------------
-   0E87                     117 _player_move_forward::
-                            118 ;src/Player.c:31: *(i8*)&(player_position.x) = player_position.x + player_direction.x;
-   0E87 21 5A 0E      [10]  119 	ld	hl,#_player_position+0
-   0E8A 4D            [ 4]  120 	ld	c, l
-   0E8B 44            [ 4]  121 	ld	b, h
-   0E8C 56            [ 7]  122 	ld	d,(hl)
-   0E8D 21 5C 0E      [10]  123 	ld	hl,#_player_direction+0
-   0E90 5E            [ 7]  124 	ld	e,(hl)
-   0E91 7A            [ 4]  125 	ld	a,d
-   0E92 83            [ 4]  126 	add	a, e
-   0E93 02            [ 7]  127 	ld	(bc),a
-                            128 ;src/Player.c:32: *(i8*)&(player_position.y) = player_position.y + player_direction.y;
-   0E94 21 5B 0E      [10]  129 	ld	hl,#_player_position+1
-   0E97 4D            [ 4]  130 	ld	c, l
-   0E98 44            [ 4]  131 	ld	b, h
-   0E99 56            [ 7]  132 	ld	d,(hl)
-   0E9A 21 5D 0E      [10]  133 	ld	hl,#_player_direction+1
-   0E9D 5E            [ 7]  134 	ld	e,(hl)
-   0E9E 7A            [ 4]  135 	ld	a,d
-   0E9F 83            [ 4]  136 	add	a, e
-   0EA0 02            [ 7]  137 	ld	(bc),a
-   0EA1 C9            [10]  138 	ret
-                            139 ;src/Player.c:35: u8 player_get_direction_index(){
-                            140 ;	---------------------------------
-                            141 ; Function player_get_direction_index
-                            142 ; ---------------------------------
-   0EA2                     143 _player_get_direction_index::
-                            144 ;src/Player.c:36: return player_directionIndex;
-   0EA2 FD 21 2A 5B   [14]  145 	ld	iy,#_player_directionIndex
-   0EA6 FD 6E 00      [19]  146 	ld	l,0 (iy)
-   0EA9 C9            [10]  147 	ret
-                            148 	.area _CODE
-                            149 	.area _INITIALIZER
-                            150 	.area _CABS (ABS)
+                             50 ; ram data
+                             51 ;--------------------------------------------------------
+                             52 	.area _INITIALIZED
+                             53 ;--------------------------------------------------------
+                             54 ; absolute external ram data
+                             55 ;--------------------------------------------------------
+                             56 	.area _DABS (ABS)
+                             57 ;--------------------------------------------------------
+                             58 ; global & static initialisations
+                             59 ;--------------------------------------------------------
+                             60 	.area _HOME
+                             61 	.area _GSINIT
+                             62 	.area _GSFINAL
+                             63 	.area _GSINIT
+                             64 ;--------------------------------------------------------
+                             65 ; Home
+                             66 ;--------------------------------------------------------
+                             67 	.area _HOME
+                             68 	.area _HOME
+                             69 ;--------------------------------------------------------
+                             70 ; code
+                             71 ;--------------------------------------------------------
+                             72 	.area _CODE
+                             73 ;src/Player.c:30: void player_init(){
+                             74 ;	---------------------------------
+                             75 ; Function player_init
+                             76 ; ---------------------------------
+   1808                      77 _player_init::
+                             78 ;src/Player.c:31: player_attack_value = 52;
+   1808 21 44 7E      [10]   79 	ld	hl,#_player_attack_value + 0
+   180B 36 34         [10]   80 	ld	(hl), #0x34
+                             81 ;src/Player.c:32: player_defense_value = 8;
+   180D 21 43 7E      [10]   82 	ld	hl,#_player_defense_value + 0
+   1810 36 08         [10]   83 	ld	(hl), #0x08
+                             84 ;src/Player.c:33: player_is_dead=0;
+   1812 21 46 7E      [10]   85 	ld	hl,#_player_is_dead + 0
+   1815 36 00         [10]   86 	ld	(hl), #0x00
+                             87 ;src/Player.c:35: player_health_points = PLAYER_MAX_HP;
+   1817 21 45 7E      [10]   88 	ld	hl,#_player_health_points + 0
+   181A 36 FF         [10]   89 	ld	(hl), #0xFF
+                             90 ;src/Player.c:36: player_has_key=0;
+   181C 21 47 7E      [10]   91 	ld	hl,#_player_has_key + 0
+   181F 36 00         [10]   92 	ld	(hl), #0x00
+                             93 ;src/Player.c:37: player_potion_count=0;
+   1821 21 48 7E      [10]   94 	ld	hl,#_player_potion_count + 0
+   1824 36 00         [10]   95 	ld	(hl), #0x00
+                             96 ;src/Player.c:38: player_scroll_count=0;
+   1826 21 49 7E      [10]   97 	ld	hl,#_player_scroll_count + 0
+   1829 36 00         [10]   98 	ld	(hl), #0x00
+   182B C9            [10]   99 	ret
+   182C                     100 _player_position:
+   182C 01                  101 	.db #0x01	; 1
+   182D 01                  102 	.db #0x01	; 1
+   182E                     103 _player_direction:
+   182E 01                  104 	.db #0x01	;  1
+   182F 00                  105 	.db #0x00	;  0
+                            106 ;src/Player.c:42: void player_turn_left(){
+                            107 ;	---------------------------------
+                            108 ; Function player_turn_left
+                            109 ; ---------------------------------
+   1830                     110 _player_turn_left::
+                            111 ;src/Player.c:43: (player_directionIndex)=(player_directionIndex+2)&7;
+   1830 3A 4A 7E      [13]  112 	ld	a,(#_player_directionIndex + 0)
+   1833 C6 02         [ 7]  113 	add	a, #0x02
+   1835 E6 07         [ 7]  114 	and	a, #0x07
+   1837 32 4A 7E      [13]  115 	ld	(#_player_directionIndex + 0),a
+                            116 ;src/Player.c:44: *(i8*)&(player_direction.x) = movement_directionArray[(player_directionIndex)];
+   183A 11 F8 0B      [10]  117 	ld	de,#_movement_directionArray+0
+   183D 2A 4A 7E      [16]  118 	ld	hl,(_player_directionIndex)
+   1840 26 00         [ 7]  119 	ld	h,#0x00
+   1842 19            [11]  120 	add	hl,de
+   1843 4E            [ 7]  121 	ld	c,(hl)
+   1844 21 2E 18      [10]  122 	ld	hl,#_player_direction
+   1847 71            [ 7]  123 	ld	(hl),c
+                            124 ;src/Player.c:45: *(i8*)&(player_direction.y) = movement_directionArray[((player_directionIndex)+1)];
+   1848 01 2F 18      [10]  125 	ld	bc,#_player_direction+1
+   184B FD 21 4A 7E   [14]  126 	ld	iy,#_player_directionIndex
+   184F FD 6E 00      [19]  127 	ld	l,0 (iy)
+   1852 2C            [ 4]  128 	inc	l
+   1853 26 00         [ 7]  129 	ld	h,#0x00
+   1855 19            [11]  130 	add	hl,de
+   1856 7E            [ 7]  131 	ld	a,(hl)
+   1857 02            [ 7]  132 	ld	(bc),a
+   1858 C9            [10]  133 	ret
+                            134 ;src/Player.c:48: void player_turn_right(){
+                            135 ;	---------------------------------
+                            136 ; Function player_turn_right
+                            137 ; ---------------------------------
+   1859                     138 _player_turn_right::
+                            139 ;src/Player.c:50: (player_directionIndex)=(player_directionIndex-2)&7;
+   1859 3A 4A 7E      [13]  140 	ld	a,(#_player_directionIndex + 0)
+   185C C6 FE         [ 7]  141 	add	a,#0xFE
+   185E E6 07         [ 7]  142 	and	a, #0x07
+   1860 32 4A 7E      [13]  143 	ld	(#_player_directionIndex + 0),a
+                            144 ;src/Player.c:51: *(i8*)&(player_direction.x) = movement_directionArray[(player_directionIndex)];
+   1863 11 F8 0B      [10]  145 	ld	de,#_movement_directionArray+0
+   1866 2A 4A 7E      [16]  146 	ld	hl,(_player_directionIndex)
+   1869 26 00         [ 7]  147 	ld	h,#0x00
+   186B 19            [11]  148 	add	hl,de
+   186C 4E            [ 7]  149 	ld	c,(hl)
+   186D 21 2E 18      [10]  150 	ld	hl,#_player_direction
+   1870 71            [ 7]  151 	ld	(hl),c
+                            152 ;src/Player.c:52: *(i8*)&(player_direction.y) = movement_directionArray[((player_directionIndex)+1)];
+   1871 01 2F 18      [10]  153 	ld	bc,#_player_direction+1
+   1874 FD 21 4A 7E   [14]  154 	ld	iy,#_player_directionIndex
+   1878 FD 6E 00      [19]  155 	ld	l,0 (iy)
+   187B 2C            [ 4]  156 	inc	l
+   187C 26 00         [ 7]  157 	ld	h,#0x00
+   187E 19            [11]  158 	add	hl,de
+   187F 7E            [ 7]  159 	ld	a,(hl)
+   1880 02            [ 7]  160 	ld	(bc),a
+   1881 C9            [10]  161 	ret
+                            162 ;src/Player.c:55: void player_move_forward(){
+                            163 ;	---------------------------------
+                            164 ; Function player_move_forward
+                            165 ; ---------------------------------
+   1882                     166 _player_move_forward::
+                            167 ;src/Player.c:56: *(i8*)&(player_position.x) = player_position.x + player_direction.x;
+   1882 21 2C 18      [10]  168 	ld	hl,#_player_position+0
+   1885 4D            [ 4]  169 	ld	c, l
+   1886 44            [ 4]  170 	ld	b, h
+   1887 56            [ 7]  171 	ld	d,(hl)
+   1888 21 2E 18      [10]  172 	ld	hl,#_player_direction+0
+   188B 5E            [ 7]  173 	ld	e,(hl)
+   188C 7A            [ 4]  174 	ld	a,d
+   188D 83            [ 4]  175 	add	a, e
+   188E 02            [ 7]  176 	ld	(bc),a
+                            177 ;src/Player.c:57: *(i8*)&(player_position.y) = player_position.y + player_direction.y;
+   188F 21 2D 18      [10]  178 	ld	hl,#_player_position+1
+   1892 4D            [ 4]  179 	ld	c, l
+   1893 44            [ 4]  180 	ld	b, h
+   1894 56            [ 7]  181 	ld	d,(hl)
+   1895 21 2F 18      [10]  182 	ld	hl,#_player_direction+1
+   1898 5E            [ 7]  183 	ld	e,(hl)
+   1899 7A            [ 4]  184 	ld	a,d
+   189A 83            [ 4]  185 	add	a, e
+   189B 02            [ 7]  186 	ld	(bc),a
+   189C C9            [10]  187 	ret
+                            188 ;src/Player.c:60: u8 player_get_direction_index(){
+                            189 ;	---------------------------------
+                            190 ; Function player_get_direction_index
+                            191 ; ---------------------------------
+   189D                     192 _player_get_direction_index::
+                            193 ;src/Player.c:61: return player_directionIndex;
+   189D FD 21 4A 7E   [14]  194 	ld	iy,#_player_directionIndex
+   18A1 FD 6E 00      [19]  195 	ld	l,0 (iy)
+   18A4 C9            [10]  196 	ret
+                            197 	.area _CODE
+                            198 	.area _INITIALIZER
+                            199 	.area _CABS (ABS)

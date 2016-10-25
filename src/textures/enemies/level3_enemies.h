@@ -3,8 +3,8 @@
 
 #include <types.h>
 
-#define level3_enemies_LENGTH 331
+#define level3_enemies_LENGTH 183
 
-extern const u8 const level3_enemies[331];
+extern const u8 const level3_enemies[183];
 
 #endif

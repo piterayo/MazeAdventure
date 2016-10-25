@@ -1,0 +1,596 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.5 #9498 (Linux)
+                              4 ;--------------------------------------------------------
+                              5 	.module State_LoadGame
+                              6 	.optsdcc -mz80
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _ui_loadgame_render_all
+                             12 	.globl _ui_loadgame_unselect_entry
+                             13 	.globl _ui_loadgame_select_entry
+                             14 	.globl _ui_loadgame_previous_entry
+                             15 	.globl _ui_loadgame_next_entry
+                             16 	.globl _ui_loadgame_is_selected
+                             17 	.globl _ui_loadgame_get_entry
+                             18 	.globl _ui_loadgame_init
+                             19 	.globl _ui_stringinput_remove_char
+                             20 	.globl _ui_stringinput_get_string
+                             21 	.globl _ui_stringinput_add_char
+                             22 	.globl _ui_stringinput_init
+                             23 	.globl _savegame_Load
+                             24 	.globl _statemanager_input_accepted
+                             25 	.globl _statemanager_close_state
+                             26 	.globl _cpct_drawSolidBox
+                             27 	.globl _cpct_isKeyPressed
+                             28 	.globl _state_loadgame_enter
+                             29 	.globl _state_loadgame_return
+                             30 	.globl _state_loadgame_input
+                             31 	.globl _state_loadgame_update
+                             32 	.globl _state_loadgame_render
+                             33 	.globl _state_loadgame_exit
+                             34 ;--------------------------------------------------------
+                             35 ; special function registers
+                             36 ;--------------------------------------------------------
+                             37 ;--------------------------------------------------------
+                             38 ; ram data
+                             39 ;--------------------------------------------------------
+                             40 	.area _DATA
+                             41 ;--------------------------------------------------------
+                             42 ; ram data
+                             43 ;--------------------------------------------------------
+                             44 	.area _INITIALIZED
+                             45 ;--------------------------------------------------------
+                             46 ; absolute external ram data
+                             47 ;--------------------------------------------------------
+                             48 	.area _DABS (ABS)
+                             49 ;--------------------------------------------------------
+                             50 ; global & static initialisations
+                             51 ;--------------------------------------------------------
+                             52 	.area _HOME
+                             53 	.area _GSINIT
+                             54 	.area _GSFINAL
+                             55 	.area _GSINIT
+                             56 ;--------------------------------------------------------
+                             57 ; Home
+                             58 ;--------------------------------------------------------
+                             59 	.area _HOME
+                             60 	.area _HOME
+                             61 ;--------------------------------------------------------
+                             62 ; code
+                             63 ;--------------------------------------------------------
+                             64 	.area _CODE
+                             65 ;src/State_LoadGame.c:17: void state_loadgame_enter(){
+                             66 ;	---------------------------------
+                             67 ; Function state_loadgame_enter
+                             68 ; ---------------------------------
+   0000                      69 _state_loadgame_enter::
+                             70 ;src/State_LoadGame.c:18: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 18, 79), g_colors[4], 44, 42);
+   0000 21r04r00      [10]   71 	ld	hl, #_g_colors + 4
+   0003 46            [ 7]   72 	ld	b,(hl)
+   0004 21 2C 2A      [10]   73 	ld	hl,#0x2A2C
+   0007 E5            [11]   74 	push	hl
+   0008 C5            [11]   75 	push	bc
+   0009 33            [ 6]   76 	inc	sp
+   000A 21 E2 FA      [10]   77 	ld	hl,#0xFAE2
+   000D E5            [11]   78 	push	hl
+   000E CDr00r00      [17]   79 	call	_cpct_drawSolidBox
+   0011 F1            [10]   80 	pop	af
+   0012 F1            [10]   81 	pop	af
+   0013 33            [ 6]   82 	inc	sp
+                             83 ;src/State_LoadGame.c:19: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 19, 83), g_colors[1], 42, 34);
+   0014 21r01r00      [10]   84 	ld	hl, #_g_colors + 1
+   0017 46            [ 7]   85 	ld	b,(hl)
+   0018 21 2A 22      [10]   86 	ld	hl,#0x222A
+   001B E5            [11]   87 	push	hl
+   001C C5            [11]   88 	push	bc
+   001D 33            [ 6]   89 	inc	sp
+   001E 21 33 DB      [10]   90 	ld	hl,#0xDB33
+   0021 E5            [11]   91 	push	hl
+   0022 CDr00r00      [17]   92 	call	_cpct_drawSolidBox
+   0025 F1            [10]   93 	pop	af
+   0026 F1            [10]   94 	pop	af
+   0027 33            [ 6]   95 	inc	sp
+                             96 ;src/State_LoadGame.c:20: ui_loadgame_init();
+   0028 CDr00r00      [17]   97 	call	_ui_loadgame_init
+                             98 ;src/State_LoadGame.c:21: ui_stringinput_init();
+   002B CDr00r00      [17]   99 	call	_ui_stringinput_init
+                            100 ;src/State_LoadGame.c:22: ui_loadgame_render_all();
+   002E C3r00r00      [10]  101 	jp  _ui_loadgame_render_all
+                            102 ;src/State_LoadGame.c:25: void state_loadgame_return(){
+                            103 ;	---------------------------------
+                            104 ; Function state_loadgame_return
+                            105 ; ---------------------------------
+   0031                     106 _state_loadgame_return::
+                            107 ;src/State_LoadGame.c:27: }
+   0031 C9            [10]  108 	ret
+                            109 ;src/State_LoadGame.c:30: void state_loadgame_input(){
+                            110 ;	---------------------------------
+                            111 ; Function state_loadgame_input
+                            112 ; ---------------------------------
+   0032                     113 _state_loadgame_input::
+                            114 ;src/State_LoadGame.c:33: if(cpct_isKeyPressed(Key_CursorLeft)){
+   0032 21 01 01      [10]  115 	ld	hl,#0x0101
+   0035 CDr00r00      [17]  116 	call	_cpct_isKeyPressed
+   0038 7D            [ 4]  117 	ld	a,l
+   0039 B7            [ 4]  118 	or	a, a
+   003A 28 06         [12]  119 	jr	Z,00185$
+                            120 ;src/State_LoadGame.c:34: ui_loadgame_previous_entry();
+   003C CDr00r00      [17]  121 	call	_ui_loadgame_previous_entry
+                            122 ;src/State_LoadGame.c:35: statemanager_input_accepted();
+   003F C3r00r00      [10]  123 	jp  _statemanager_input_accepted
+   0042                     124 00185$:
+                            125 ;src/State_LoadGame.c:37: else if(cpct_isKeyPressed(Key_CursorRight)){
+   0042 21 00 02      [10]  126 	ld	hl,#0x0200
+   0045 CDr00r00      [17]  127 	call	_cpct_isKeyPressed
+   0048 7D            [ 4]  128 	ld	a,l
+   0049 B7            [ 4]  129 	or	a, a
+   004A 28 06         [12]  130 	jr	Z,00182$
+                            131 ;src/State_LoadGame.c:38: ui_loadgame_next_entry();
+   004C CDr00r00      [17]  132 	call	_ui_loadgame_next_entry
+                            133 ;src/State_LoadGame.c:39: statemanager_input_accepted();
+   004F C3r00r00      [10]  134 	jp  _statemanager_input_accepted
+   0052                     135 00182$:
+                            136 ;src/State_LoadGame.c:41: else if(cpct_isKeyPressed(Key_Return)){
+   0052 21 02 04      [10]  137 	ld	hl,#0x0402
+   0055 CDr00r00      [17]  138 	call	_cpct_isKeyPressed
+   0058 7D            [ 4]  139 	ld	a,l
+   0059 B7            [ 4]  140 	or	a, a
+   005A 28 06         [12]  141 	jr	Z,00179$
+                            142 ;src/State_LoadGame.c:42: ui_loadgame_select_entry();
+   005C CDr00r00      [17]  143 	call	_ui_loadgame_select_entry
+                            144 ;src/State_LoadGame.c:43: statemanager_input_accepted();
+   005F C3r00r00      [10]  145 	jp  _statemanager_input_accepted
+   0062                     146 00179$:
+                            147 ;src/State_LoadGame.c:45: else if(cpct_isKeyPressed(Key_0)){
+   0062 21 04 01      [10]  148 	ld	hl,#0x0104
+   0065 CDr00r00      [17]  149 	call	_cpct_isKeyPressed
+   0068 7D            [ 4]  150 	ld	a,l
+   0069 B7            [ 4]  151 	or	a, a
+   006A 28 0B         [12]  152 	jr	Z,00176$
+                            153 ;src/State_LoadGame.c:46: ui_stringinput_add_char('0');
+   006C 3E 30         [ 7]  154 	ld	a,#0x30
+   006E F5            [11]  155 	push	af
+   006F 33            [ 6]  156 	inc	sp
+   0070 CDr00r00      [17]  157 	call	_ui_stringinput_add_char
+   0073 33            [ 6]  158 	inc	sp
+                            159 ;src/State_LoadGame.c:47: statemanager_input_accepted();
+   0074 C3r00r00      [10]  160 	jp  _statemanager_input_accepted
+   0077                     161 00176$:
+                            162 ;src/State_LoadGame.c:49: else if(cpct_isKeyPressed(Key_1)){
+   0077 21 08 01      [10]  163 	ld	hl,#0x0108
+   007A CDr00r00      [17]  164 	call	_cpct_isKeyPressed
+   007D 7D            [ 4]  165 	ld	a,l
+   007E B7            [ 4]  166 	or	a, a
+   007F 28 0B         [12]  167 	jr	Z,00173$
+                            168 ;src/State_LoadGame.c:50: ui_stringinput_add_char('1');
+   0081 3E 31         [ 7]  169 	ld	a,#0x31
+   0083 F5            [11]  170 	push	af
+   0084 33            [ 6]  171 	inc	sp
+   0085 CDr00r00      [17]  172 	call	_ui_stringinput_add_char
+   0088 33            [ 6]  173 	inc	sp
+                            174 ;src/State_LoadGame.c:51: statemanager_input_accepted();
+   0089 C3r00r00      [10]  175 	jp  _statemanager_input_accepted
+   008C                     176 00173$:
+                            177 ;src/State_LoadGame.c:53: else if(cpct_isKeyPressed(Key_2)){
+   008C 21 08 02      [10]  178 	ld	hl,#0x0208
+   008F CDr00r00      [17]  179 	call	_cpct_isKeyPressed
+   0092 7D            [ 4]  180 	ld	a,l
+   0093 B7            [ 4]  181 	or	a, a
+   0094 28 0B         [12]  182 	jr	Z,00170$
+                            183 ;src/State_LoadGame.c:54: ui_stringinput_add_char('2');
+   0096 3E 32         [ 7]  184 	ld	a,#0x32
+   0098 F5            [11]  185 	push	af
+   0099 33            [ 6]  186 	inc	sp
+   009A CDr00r00      [17]  187 	call	_ui_stringinput_add_char
+   009D 33            [ 6]  188 	inc	sp
+                            189 ;src/State_LoadGame.c:55: statemanager_input_accepted();
+   009E C3r00r00      [10]  190 	jp  _statemanager_input_accepted
+   00A1                     191 00170$:
+                            192 ;src/State_LoadGame.c:57: else if(cpct_isKeyPressed(Key_3)){
+   00A1 21 07 02      [10]  193 	ld	hl,#0x0207
+   00A4 CDr00r00      [17]  194 	call	_cpct_isKeyPressed
+   00A7 7D            [ 4]  195 	ld	a,l
+   00A8 B7            [ 4]  196 	or	a, a
+   00A9 28 0B         [12]  197 	jr	Z,00167$
+                            198 ;src/State_LoadGame.c:58: ui_stringinput_add_char('3');
+   00AB 3E 33         [ 7]  199 	ld	a,#0x33
+   00AD F5            [11]  200 	push	af
+   00AE 33            [ 6]  201 	inc	sp
+   00AF CDr00r00      [17]  202 	call	_ui_stringinput_add_char
+   00B2 33            [ 6]  203 	inc	sp
+                            204 ;src/State_LoadGame.c:59: statemanager_input_accepted();
+   00B3 C3r00r00      [10]  205 	jp  _statemanager_input_accepted
+   00B6                     206 00167$:
+                            207 ;src/State_LoadGame.c:61: else if(cpct_isKeyPressed(Key_4)){
+   00B6 21 07 01      [10]  208 	ld	hl,#0x0107
+   00B9 CDr00r00      [17]  209 	call	_cpct_isKeyPressed
+   00BC 7D            [ 4]  210 	ld	a,l
+   00BD B7            [ 4]  211 	or	a, a
+   00BE 28 0B         [12]  212 	jr	Z,00164$
+                            213 ;src/State_LoadGame.c:62: ui_stringinput_add_char('4');
+   00C0 3E 34         [ 7]  214 	ld	a,#0x34
+   00C2 F5            [11]  215 	push	af
+   00C3 33            [ 6]  216 	inc	sp
+   00C4 CDr00r00      [17]  217 	call	_ui_stringinput_add_char
+   00C7 33            [ 6]  218 	inc	sp
+                            219 ;src/State_LoadGame.c:63: statemanager_input_accepted();
+   00C8 C3r00r00      [10]  220 	jp  _statemanager_input_accepted
+   00CB                     221 00164$:
+                            222 ;src/State_LoadGame.c:65: else if(cpct_isKeyPressed(Key_5)){
+   00CB 21 06 02      [10]  223 	ld	hl,#0x0206
+   00CE CDr00r00      [17]  224 	call	_cpct_isKeyPressed
+   00D1 7D            [ 4]  225 	ld	a,l
+   00D2 B7            [ 4]  226 	or	a, a
+   00D3 28 0B         [12]  227 	jr	Z,00161$
+                            228 ;src/State_LoadGame.c:66: ui_stringinput_add_char('5');
+   00D5 3E 35         [ 7]  229 	ld	a,#0x35
+   00D7 F5            [11]  230 	push	af
+   00D8 33            [ 6]  231 	inc	sp
+   00D9 CDr00r00      [17]  232 	call	_ui_stringinput_add_char
+   00DC 33            [ 6]  233 	inc	sp
+                            234 ;src/State_LoadGame.c:67: statemanager_input_accepted();
+   00DD C3r00r00      [10]  235 	jp  _statemanager_input_accepted
+   00E0                     236 00161$:
+                            237 ;src/State_LoadGame.c:69: else if(cpct_isKeyPressed(Key_6)){
+   00E0 21 06 01      [10]  238 	ld	hl,#0x0106
+   00E3 CDr00r00      [17]  239 	call	_cpct_isKeyPressed
+   00E6 7D            [ 4]  240 	ld	a,l
+   00E7 B7            [ 4]  241 	or	a, a
+   00E8 28 0B         [12]  242 	jr	Z,00158$
+                            243 ;src/State_LoadGame.c:70: ui_stringinput_add_char('6');
+   00EA 3E 36         [ 7]  244 	ld	a,#0x36
+   00EC F5            [11]  245 	push	af
+   00ED 33            [ 6]  246 	inc	sp
+   00EE CDr00r00      [17]  247 	call	_ui_stringinput_add_char
+   00F1 33            [ 6]  248 	inc	sp
+                            249 ;src/State_LoadGame.c:71: statemanager_input_accepted();
+   00F2 C3r00r00      [10]  250 	jp  _statemanager_input_accepted
+   00F5                     251 00158$:
+                            252 ;src/State_LoadGame.c:73: else if(cpct_isKeyPressed(Key_7)){
+   00F5 21 05 02      [10]  253 	ld	hl,#0x0205
+   00F8 CDr00r00      [17]  254 	call	_cpct_isKeyPressed
+   00FB 7D            [ 4]  255 	ld	a,l
+   00FC B7            [ 4]  256 	or	a, a
+   00FD 28 0B         [12]  257 	jr	Z,00155$
+                            258 ;src/State_LoadGame.c:74: ui_stringinput_add_char('7');
+   00FF 3E 37         [ 7]  259 	ld	a,#0x37
+   0101 F5            [11]  260 	push	af
+   0102 33            [ 6]  261 	inc	sp
+   0103 CDr00r00      [17]  262 	call	_ui_stringinput_add_char
+   0106 33            [ 6]  263 	inc	sp
+                            264 ;src/State_LoadGame.c:75: statemanager_input_accepted();
+   0107 C3r00r00      [10]  265 	jp  _statemanager_input_accepted
+   010A                     266 00155$:
+                            267 ;src/State_LoadGame.c:77: else if(cpct_isKeyPressed(Key_8)){
+   010A 21 05 01      [10]  268 	ld	hl,#0x0105
+   010D CDr00r00      [17]  269 	call	_cpct_isKeyPressed
+   0110 7D            [ 4]  270 	ld	a,l
+   0111 B7            [ 4]  271 	or	a, a
+   0112 28 0B         [12]  272 	jr	Z,00152$
+                            273 ;src/State_LoadGame.c:78: ui_stringinput_add_char('8');
+   0114 3E 38         [ 7]  274 	ld	a,#0x38
+   0116 F5            [11]  275 	push	af
+   0117 33            [ 6]  276 	inc	sp
+   0118 CDr00r00      [17]  277 	call	_ui_stringinput_add_char
+   011B 33            [ 6]  278 	inc	sp
+                            279 ;src/State_LoadGame.c:79: statemanager_input_accepted();
+   011C C3r00r00      [10]  280 	jp  _statemanager_input_accepted
+   011F                     281 00152$:
+                            282 ;src/State_LoadGame.c:81: else if(cpct_isKeyPressed(Key_9)){
+   011F 21 04 02      [10]  283 	ld	hl,#0x0204
+   0122 CDr00r00      [17]  284 	call	_cpct_isKeyPressed
+   0125 7D            [ 4]  285 	ld	a,l
+   0126 B7            [ 4]  286 	or	a, a
+   0127 28 0B         [12]  287 	jr	Z,00149$
+                            288 ;src/State_LoadGame.c:82: ui_stringinput_add_char('9');
+   0129 3E 39         [ 7]  289 	ld	a,#0x39
+   012B F5            [11]  290 	push	af
+   012C 33            [ 6]  291 	inc	sp
+   012D CDr00r00      [17]  292 	call	_ui_stringinput_add_char
+   0130 33            [ 6]  293 	inc	sp
+                            294 ;src/State_LoadGame.c:83: statemanager_input_accepted();
+   0131 C3r00r00      [10]  295 	jp  _statemanager_input_accepted
+   0134                     296 00149$:
+                            297 ;src/State_LoadGame.c:85: else if(cpct_isKeyPressed(Key_A)){
+   0134 21 08 20      [10]  298 	ld	hl,#0x2008
+   0137 CDr00r00      [17]  299 	call	_cpct_isKeyPressed
+   013A 7D            [ 4]  300 	ld	a,l
+   013B B7            [ 4]  301 	or	a, a
+   013C 28 0B         [12]  302 	jr	Z,00146$
+                            303 ;src/State_LoadGame.c:86: ui_stringinput_add_char('A');
+   013E 3E 41         [ 7]  304 	ld	a,#0x41
+   0140 F5            [11]  305 	push	af
+   0141 33            [ 6]  306 	inc	sp
+   0142 CDr00r00      [17]  307 	call	_ui_stringinput_add_char
+   0145 33            [ 6]  308 	inc	sp
+                            309 ;src/State_LoadGame.c:87: statemanager_input_accepted();
+   0146 C3r00r00      [10]  310 	jp  _statemanager_input_accepted
+   0149                     311 00146$:
+                            312 ;src/State_LoadGame.c:89: else if(cpct_isKeyPressed(Key_B)){
+   0149 21 06 40      [10]  313 	ld	hl,#0x4006
+   014C CDr00r00      [17]  314 	call	_cpct_isKeyPressed
+   014F 7D            [ 4]  315 	ld	a,l
+   0150 B7            [ 4]  316 	or	a, a
+   0151 28 0B         [12]  317 	jr	Z,00143$
+                            318 ;src/State_LoadGame.c:90: ui_stringinput_add_char('B');
+   0153 3E 42         [ 7]  319 	ld	a,#0x42
+   0155 F5            [11]  320 	push	af
+   0156 33            [ 6]  321 	inc	sp
+   0157 CDr00r00      [17]  322 	call	_ui_stringinput_add_char
+   015A 33            [ 6]  323 	inc	sp
+                            324 ;src/State_LoadGame.c:91: statemanager_input_accepted();
+   015B C3r00r00      [10]  325 	jp  _statemanager_input_accepted
+   015E                     326 00143$:
+                            327 ;src/State_LoadGame.c:93: else if(cpct_isKeyPressed(Key_C)){
+   015E 21 07 40      [10]  328 	ld	hl,#0x4007
+   0161 CDr00r00      [17]  329 	call	_cpct_isKeyPressed
+   0164 7D            [ 4]  330 	ld	a,l
+   0165 B7            [ 4]  331 	or	a, a
+   0166 28 0B         [12]  332 	jr	Z,00140$
+                            333 ;src/State_LoadGame.c:94: ui_stringinput_add_char('C');
+   0168 3E 43         [ 7]  334 	ld	a,#0x43
+   016A F5            [11]  335 	push	af
+   016B 33            [ 6]  336 	inc	sp
+   016C CDr00r00      [17]  337 	call	_ui_stringinput_add_char
+   016F 33            [ 6]  338 	inc	sp
+                            339 ;src/State_LoadGame.c:95: statemanager_input_accepted();
+   0170 C3r00r00      [10]  340 	jp  _statemanager_input_accepted
+   0173                     341 00140$:
+                            342 ;src/State_LoadGame.c:97: else if(cpct_isKeyPressed(Key_D)){
+   0173 21 07 20      [10]  343 	ld	hl,#0x2007
+   0176 CDr00r00      [17]  344 	call	_cpct_isKeyPressed
+   0179 7D            [ 4]  345 	ld	a,l
+   017A B7            [ 4]  346 	or	a, a
+   017B 28 0B         [12]  347 	jr	Z,00137$
+                            348 ;src/State_LoadGame.c:98: ui_stringinput_add_char('D');
+   017D 3E 44         [ 7]  349 	ld	a,#0x44
+   017F F5            [11]  350 	push	af
+   0180 33            [ 6]  351 	inc	sp
+   0181 CDr00r00      [17]  352 	call	_ui_stringinput_add_char
+   0184 33            [ 6]  353 	inc	sp
+                            354 ;src/State_LoadGame.c:99: statemanager_input_accepted();
+   0185 C3r00r00      [10]  355 	jp  _statemanager_input_accepted
+   0188                     356 00137$:
+                            357 ;src/State_LoadGame.c:101: else if(cpct_isKeyPressed(Key_E)){
+   0188 21 07 04      [10]  358 	ld	hl,#0x0407
+   018B CDr00r00      [17]  359 	call	_cpct_isKeyPressed
+   018E 7D            [ 4]  360 	ld	a,l
+   018F B7            [ 4]  361 	or	a, a
+   0190 28 0B         [12]  362 	jr	Z,00134$
+                            363 ;src/State_LoadGame.c:102: ui_stringinput_add_char('E');
+   0192 3E 45         [ 7]  364 	ld	a,#0x45
+   0194 F5            [11]  365 	push	af
+   0195 33            [ 6]  366 	inc	sp
+   0196 CDr00r00      [17]  367 	call	_ui_stringinput_add_char
+   0199 33            [ 6]  368 	inc	sp
+                            369 ;src/State_LoadGame.c:103: statemanager_input_accepted();
+   019A C3r00r00      [10]  370 	jp  _statemanager_input_accepted
+   019D                     371 00134$:
+                            372 ;src/State_LoadGame.c:105: else if(cpct_isKeyPressed(Key_F)){
+   019D 21 06 20      [10]  373 	ld	hl,#0x2006
+   01A0 CDr00r00      [17]  374 	call	_cpct_isKeyPressed
+   01A3 7D            [ 4]  375 	ld	a,l
+   01A4 B7            [ 4]  376 	or	a, a
+   01A5 28 0B         [12]  377 	jr	Z,00131$
+                            378 ;src/State_LoadGame.c:106: ui_stringinput_add_char('F');
+   01A7 3E 46         [ 7]  379 	ld	a,#0x46
+   01A9 F5            [11]  380 	push	af
+   01AA 33            [ 6]  381 	inc	sp
+   01AB CDr00r00      [17]  382 	call	_ui_stringinput_add_char
+   01AE 33            [ 6]  383 	inc	sp
+                            384 ;src/State_LoadGame.c:107: statemanager_input_accepted();
+   01AF C3r00r00      [10]  385 	jp  _statemanager_input_accepted
+   01B2                     386 00131$:
+                            387 ;src/State_LoadGame.c:109: else if(cpct_isKeyPressed(Key_M)){
+   01B2 21 04 40      [10]  388 	ld	hl,#0x4004
+   01B5 CDr00r00      [17]  389 	call	_cpct_isKeyPressed
+   01B8 7D            [ 4]  390 	ld	a,l
+   01B9 B7            [ 4]  391 	or	a, a
+   01BA 28 0B         [12]  392 	jr	Z,00128$
+                            393 ;src/State_LoadGame.c:110: ui_stringinput_add_char('M');
+   01BC 3E 4D         [ 7]  394 	ld	a,#0x4D
+   01BE F5            [11]  395 	push	af
+   01BF 33            [ 6]  396 	inc	sp
+   01C0 CDr00r00      [17]  397 	call	_ui_stringinput_add_char
+   01C3 33            [ 6]  398 	inc	sp
+                            399 ;src/State_LoadGame.c:111: statemanager_input_accepted();
+   01C4 C3r00r00      [10]  400 	jp  _statemanager_input_accepted
+   01C7                     401 00128$:
+                            402 ;src/State_LoadGame.c:113: else if(cpct_isKeyPressed(Key_I)){
+   01C7 21 04 08      [10]  403 	ld	hl,#0x0804
+   01CA CDr00r00      [17]  404 	call	_cpct_isKeyPressed
+   01CD 7D            [ 4]  405 	ld	a,l
+   01CE B7            [ 4]  406 	or	a, a
+   01CF 28 0B         [12]  407 	jr	Z,00125$
+                            408 ;src/State_LoadGame.c:114: ui_stringinput_add_char('I');
+   01D1 3E 49         [ 7]  409 	ld	a,#0x49
+   01D3 F5            [11]  410 	push	af
+   01D4 33            [ 6]  411 	inc	sp
+   01D5 CDr00r00      [17]  412 	call	_ui_stringinput_add_char
+   01D8 33            [ 6]  413 	inc	sp
+                            414 ;src/State_LoadGame.c:115: statemanager_input_accepted();
+   01D9 C3r00r00      [10]  415 	jp  _statemanager_input_accepted
+   01DC                     416 00125$:
+                            417 ;src/State_LoadGame.c:117: else if(cpct_isKeyPressed(Key_L)){
+   01DC 21 04 10      [10]  418 	ld	hl,#0x1004
+   01DF CDr00r00      [17]  419 	call	_cpct_isKeyPressed
+   01E2 7D            [ 4]  420 	ld	a,l
+   01E3 B7            [ 4]  421 	or	a, a
+   01E4 28 0B         [12]  422 	jr	Z,00122$
+                            423 ;src/State_LoadGame.c:118: ui_stringinput_add_char('L');
+   01E6 3E 4C         [ 7]  424 	ld	a,#0x4C
+   01E8 F5            [11]  425 	push	af
+   01E9 33            [ 6]  426 	inc	sp
+   01EA CDr00r00      [17]  427 	call	_ui_stringinput_add_char
+   01ED 33            [ 6]  428 	inc	sp
+                            429 ;src/State_LoadGame.c:119: statemanager_input_accepted();
+   01EE C3r00r00      [10]  430 	jp  _statemanager_input_accepted
+   01F1                     431 00122$:
+                            432 ;src/State_LoadGame.c:121: else if(cpct_isKeyPressed(Key_O)){
+   01F1 21 04 04      [10]  433 	ld	hl,#0x0404
+   01F4 CDr00r00      [17]  434 	call	_cpct_isKeyPressed
+   01F7 7D            [ 4]  435 	ld	a,l
+   01F8 B7            [ 4]  436 	or	a, a
+   01F9 28 0B         [12]  437 	jr	Z,00119$
+                            438 ;src/State_LoadGame.c:122: ui_stringinput_add_char('O');
+   01FB 3E 4F         [ 7]  439 	ld	a,#0x4F
+   01FD F5            [11]  440 	push	af
+   01FE 33            [ 6]  441 	inc	sp
+   01FF CDr00r00      [17]  442 	call	_ui_stringinput_add_char
+   0202 33            [ 6]  443 	inc	sp
+                            444 ;src/State_LoadGame.c:123: statemanager_input_accepted();
+   0203 C3r00r00      [10]  445 	jp  _statemanager_input_accepted
+   0206                     446 00119$:
+                            447 ;src/State_LoadGame.c:125: else if(cpct_isKeyPressed(Key_T)){
+   0206 21 06 08      [10]  448 	ld	hl,#0x0806
+   0209 CDr00r00      [17]  449 	call	_cpct_isKeyPressed
+   020C 7D            [ 4]  450 	ld	a,l
+   020D B7            [ 4]  451 	or	a, a
+   020E 28 0B         [12]  452 	jr	Z,00116$
+                            453 ;src/State_LoadGame.c:126: ui_stringinput_add_char('T');
+   0210 3E 54         [ 7]  454 	ld	a,#0x54
+   0212 F5            [11]  455 	push	af
+   0213 33            [ 6]  456 	inc	sp
+   0214 CDr00r00      [17]  457 	call	_ui_stringinput_add_char
+   0217 33            [ 6]  458 	inc	sp
+                            459 ;src/State_LoadGame.c:127: statemanager_input_accepted();
+   0218 C3r00r00      [10]  460 	jp  _statemanager_input_accepted
+   021B                     461 00116$:
+                            462 ;src/State_LoadGame.c:129: else if(cpct_isKeyPressed(Key_W)){
+   021B 21 07 08      [10]  463 	ld	hl,#0x0807
+   021E CDr00r00      [17]  464 	call	_cpct_isKeyPressed
+   0221 7D            [ 4]  465 	ld	a,l
+   0222 B7            [ 4]  466 	or	a, a
+   0223 28 0B         [12]  467 	jr	Z,00113$
+                            468 ;src/State_LoadGame.c:130: ui_stringinput_add_char('W');
+   0225 3E 57         [ 7]  469 	ld	a,#0x57
+   0227 F5            [11]  470 	push	af
+   0228 33            [ 6]  471 	inc	sp
+   0229 CDr00r00      [17]  472 	call	_ui_stringinput_add_char
+   022C 33            [ 6]  473 	inc	sp
+                            474 ;src/State_LoadGame.c:131: statemanager_input_accepted();
+   022D C3r00r00      [10]  475 	jp  _statemanager_input_accepted
+   0230                     476 00113$:
+                            477 ;src/State_LoadGame.c:133: else if(cpct_isKeyPressed(Key_R)){
+   0230 21 06 04      [10]  478 	ld	hl,#0x0406
+   0233 CDr00r00      [17]  479 	call	_cpct_isKeyPressed
+   0236 7D            [ 4]  480 	ld	a,l
+   0237 B7            [ 4]  481 	or	a, a
+   0238 28 0B         [12]  482 	jr	Z,00110$
+                            483 ;src/State_LoadGame.c:134: ui_stringinput_add_char('R');
+   023A 3E 52         [ 7]  484 	ld	a,#0x52
+   023C F5            [11]  485 	push	af
+   023D 33            [ 6]  486 	inc	sp
+   023E CDr00r00      [17]  487 	call	_ui_stringinput_add_char
+   0241 33            [ 6]  488 	inc	sp
+                            489 ;src/State_LoadGame.c:135: statemanager_input_accepted();
+   0242 C3r00r00      [10]  490 	jp  _statemanager_input_accepted
+   0245                     491 00110$:
+                            492 ;src/State_LoadGame.c:137: else if(cpct_isKeyPressed(Key_S)){
+   0245 21 07 10      [10]  493 	ld	hl,#0x1007
+   0248 CDr00r00      [17]  494 	call	_cpct_isKeyPressed
+   024B 7D            [ 4]  495 	ld	a,l
+   024C B7            [ 4]  496 	or	a, a
+   024D 28 0B         [12]  497 	jr	Z,00107$
+                            498 ;src/State_LoadGame.c:138: ui_stringinput_add_char('S');
+   024F 3E 53         [ 7]  499 	ld	a,#0x53
+   0251 F5            [11]  500 	push	af
+   0252 33            [ 6]  501 	inc	sp
+   0253 CDr00r00      [17]  502 	call	_ui_stringinput_add_char
+   0256 33            [ 6]  503 	inc	sp
+                            504 ;src/State_LoadGame.c:139: statemanager_input_accepted();
+   0257 C3r00r00      [10]  505 	jp  _statemanager_input_accepted
+   025A                     506 00107$:
+                            507 ;src/State_LoadGame.c:141: else if(cpct_isKeyPressed(Key_Space)){
+   025A 21 05 80      [10]  508 	ld	hl,#0x8005
+   025D CDr00r00      [17]  509 	call	_cpct_isKeyPressed
+   0260 7D            [ 4]  510 	ld	a,l
+   0261 B7            [ 4]  511 	or	a, a
+   0262 28 0B         [12]  512 	jr	Z,00104$
+                            513 ;src/State_LoadGame.c:142: ui_stringinput_add_char(' ');
+   0264 3E 20         [ 7]  514 	ld	a,#0x20
+   0266 F5            [11]  515 	push	af
+   0267 33            [ 6]  516 	inc	sp
+   0268 CDr00r00      [17]  517 	call	_ui_stringinput_add_char
+   026B 33            [ 6]  518 	inc	sp
+                            519 ;src/State_LoadGame.c:143: statemanager_input_accepted();
+   026C C3r00r00      [10]  520 	jp  _statemanager_input_accepted
+   026F                     521 00104$:
+                            522 ;src/State_LoadGame.c:145: else if(cpct_isKeyPressed(Key_Del)){
+   026F 21 09 80      [10]  523 	ld	hl,#0x8009
+   0272 CDr00r00      [17]  524 	call	_cpct_isKeyPressed
+   0275 7D            [ 4]  525 	ld	a,l
+   0276 B7            [ 4]  526 	or	a, a
+   0277 C8            [11]  527 	ret	Z
+                            528 ;src/State_LoadGame.c:146: ui_stringinput_remove_char();
+   0278 CDr00r00      [17]  529 	call	_ui_stringinput_remove_char
+                            530 ;src/State_LoadGame.c:147: statemanager_input_accepted();
+   027B C3r00r00      [10]  531 	jp  _statemanager_input_accepted
+                            532 ;src/State_LoadGame.c:151: void state_loadgame_update(){
+                            533 ;	---------------------------------
+                            534 ; Function state_loadgame_update
+                            535 ; ---------------------------------
+   027E                     536 _state_loadgame_update::
+                            537 ;src/State_LoadGame.c:152: if(ui_loadgame_is_selected()){
+   027E CDr00r00      [17]  538 	call	_ui_loadgame_is_selected
+   0281 7D            [ 4]  539 	ld	a,l
+   0282 B7            [ 4]  540 	or	a, a
+   0283 CAr00r00      [10]  541 	jp	Z,_ui_loadgame_unselect_entry
+                            542 ;src/State_LoadGame.c:153: ui_loadgame_render_all();
+   0286 CDr00r00      [17]  543 	call	_ui_loadgame_render_all
+                            544 ;src/State_LoadGame.c:154: switch(ui_loadgame_get_entry()){
+   0289 CDr00r00      [17]  545 	call	_ui_loadgame_get_entry
+   028C 7D            [ 4]  546 	ld	a,l
+   028D B7            [ 4]  547 	or	a, a
+   028E 28 06         [12]  548 	jr	Z,00101$
+   0290 2D            [ 4]  549 	dec	l
+   0291 28 0E         [12]  550 	jr	Z,00102$
+   0293 C3r00r00      [10]  551 	jp	_ui_loadgame_unselect_entry
+                            552 ;src/State_LoadGame.c:155: case 0:{
+   0296                     553 00101$:
+                            554 ;src/State_LoadGame.c:156: savegame_Load(ui_stringinput_get_string());
+   0296 CDr00r00      [17]  555 	call	_ui_stringinput_get_string
+   0299 E5            [11]  556 	push	hl
+   029A CDr00r00      [17]  557 	call	_savegame_Load
+   029D F1            [10]  558 	pop	af
+                            559 ;src/State_LoadGame.c:157: break;
+   029E C3r00r00      [10]  560 	jp	_ui_loadgame_unselect_entry
+                            561 ;src/State_LoadGame.c:159: case 1:{//Try
+   02A1                     562 00102$:
+                            563 ;src/State_LoadGame.c:160: statemanager_close_state();
+   02A1 CDr00r00      [17]  564 	call	_statemanager_close_state
+                            565 ;src/State_LoadGame.c:163: }
+                            566 ;src/State_LoadGame.c:165: ui_loadgame_unselect_entry();
+   02A4 C3r00r00      [10]  567 	jp  _ui_loadgame_unselect_entry
+                            568 ;src/State_LoadGame.c:168: void state_loadgame_render(){
+                            569 ;	---------------------------------
+                            570 ; Function state_loadgame_render
+                            571 ; ---------------------------------
+   02A7                     572 _state_loadgame_render::
+                            573 ;src/State_LoadGame.c:169: ui_loadgame_render_all();
+   02A7 C3r00r00      [10]  574 	jp  _ui_loadgame_render_all
+                            575 ;src/State_LoadGame.c:172: void state_loadgame_exit(){
+                            576 ;	---------------------------------
+                            577 ; Function state_loadgame_exit
+                            578 ; ---------------------------------
+   02AA                     579 _state_loadgame_exit::
+                            580 ;src/State_LoadGame.c:173: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 18, 79), g_colors[1], 44, 42);
+   02AA 21r01r00      [10]  581 	ld	hl, #(_g_colors + 0x0001) + 0
+   02AD 46            [ 7]  582 	ld	b,(hl)
+   02AE 21 2C 2A      [10]  583 	ld	hl,#0x2A2C
+   02B1 E5            [11]  584 	push	hl
+   02B2 C5            [11]  585 	push	bc
+   02B3 33            [ 6]  586 	inc	sp
+   02B4 21 E2 FA      [10]  587 	ld	hl,#0xFAE2
+   02B7 E5            [11]  588 	push	hl
+   02B8 CDr00r00      [17]  589 	call	_cpct_drawSolidBox
+   02BB F1            [10]  590 	pop	af
+   02BC F1            [10]  591 	pop	af
+   02BD 33            [ 6]  592 	inc	sp
+   02BE C9            [10]  593 	ret
+                            594 	.area _CODE
+                            595 	.area _INITIALIZER
+                            596 	.area _CABS (ABS)

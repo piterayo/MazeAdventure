@@ -1,0 +1,35 @@
+XL2
+H 9 areas 2 global symbols
+M camelot_enemy
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 7B flags 0 addr 0
+S _camelot_enemy Def0000
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 F0 F0 F0 F0 F0 F0 F0 F0 13 11 43 D0 33 01
+R 00 00 00 00
+T 0E 00 23 B0 21 00 23 01 40 21 30 01 10 41 00 01
+R 00 00 00 00
+T 1C 00 13 41 13 01 23 11 00 11 23 01 63 01 23 01
+R 00 00 00 00
+T 2A 00 23 31 03 01 23 01 13 01 23 01 23 01 40 11
+R 00 00 00 00
+T 38 00 43 01 03 31 03 01 13 01 50 11 03 01 23 01
+R 00 00 00 00
+T 46 00 13 01 23 01 23 01 50 11 23 01 63 01 23 01
+R 00 00 00 00
+T 54 00 23 11 10 41 00 01 13 41 13 01 23 11 20 21
+R 00 00 00 00
+T 62 00 00 23 01 40 21 30 01 60 33 01 23 F0 00 13
+R 00 00 00 00
+T 70 00 11 43 F0 F0 F0 F0 F0 F0 F0 F0 F0
+R 00 00 00 00

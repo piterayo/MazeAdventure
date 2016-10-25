@@ -8,21 +8,30 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
     _movement_directionArray                                       **** GX
-  0 _player_direction                                              002B GR
-  1 _player_directionIndex                                         0000 GR
-  0 _player_get_direction_index                                    0071 GR
-  0 _player_move_forward                                           0056 GR
-  0 _player_position                                               0029 GR
-  0 _player_turn_left                                              0000 GR
-  0 _player_turn_right                                             002D GR
+  1 _player_attack_value                                           0001 GR
+  1 _player_defense_value                                          0000 GR
+  0 _player_direction                                              0026 GR
+  1 _player_directionIndex                                         0007 GR
+  0 _player_get_direction_index                                    0095 GR
+  1 _player_has_key                                                0004 GR
+  1 _player_health_points                                          0002 GR
+  0 _player_init                                                   0000 GR
+  1 _player_is_dead                                                0003 GR
+  0 _player_move_forward                                           007A GR
+  0 _player_position                                               0024 GR
+  1 _player_potion_count                                           0005 GR
+  1 _player_scroll_count                                           0006 GR
+  0 _player_turn_left                                              0028 GR
+  0 _player_turn_right                                             0051 GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   79   flags    0
-   1 _DATA                                      size    1   flags    0
+   0 _CODE                                      size   9D   flags    0
+   1 _DATA                                      size    8   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

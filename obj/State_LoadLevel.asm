@@ -8,15 +8,19 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _savegame_Save
 	.globl _enemy_init_enemies
 	.globl _level_load_level
+	.globl _level_get_level
 	.globl _generate_level
+	.globl _generate_level_with_seed
 	.globl _print_transparent_text
 	.globl _draw_minimap_to_buffer
 	.globl _render_draw_to_buffer
 	.globl _statemanager_input_accepted
 	.globl _statemanager_set_state
 	.globl _cpct_memset
+	.globl _level_seed
 	.globl _state_loadlevel_enter
 	.globl _state_loadlevel_return
 	.globl _state_loadlevel_input
@@ -30,6 +34,8 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _DATA
+_level_seed::
+	.ds 2
 ;--------------------------------------------------------
 ; ram data
 ;--------------------------------------------------------
@@ -54,12 +60,17 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/State_LoadLevel.c:11: void state_loadlevel_enter(){
+;src/State_LoadLevel.c:16: void state_loadlevel_enter(){
 ;	---------------------------------
 ; Function state_loadlevel_enter
 ; ---------------------------------
 _state_loadlevel_enter::
-;src/State_LoadLevel.c:13: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+;src/State_LoadLevel.c:18: if(level_get_level()<=(KING_LEVEL)){
+	call	_level_get_level
+	ld	a,#0x20
+	sub	a, l
+	ret	C
+;src/State_LoadLevel.c:19: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
 	ld	hl,#_g_colors+1
 	ld	b,(hl)
 	ld	hl,#0x4000
@@ -69,7 +80,7 @@ _state_loadlevel_enter::
 	ld	h, #0xC0
 	push	hl
 	call	_cpct_memset
-;src/State_LoadLevel.c:15: print_transparent_text("LOADING", 0xe391, 3);
+;src/State_LoadLevel.c:21: print_transparent_text("LOADING", 0xe391, 3);
 	ld	a,#0x03
 	push	af
 	inc	sp
@@ -81,55 +92,91 @@ _state_loadlevel_enter::
 	pop	af
 	pop	af
 	inc	sp
-;src/State_LoadLevel.c:17: generate_level();
+;src/State_LoadLevel.c:23: if(level_seed) generate_level_with_seed(level_seed);
+	ld	a,(#_level_seed + 1)
+	ld	hl,#_level_seed + 0
+	or	a,(hl)
+	jr	Z,00102$
+	ld	hl,(_level_seed)
+	push	hl
+	call	_generate_level_with_seed
+	pop	af
+	jr	00103$
+00102$:
+;src/State_LoadLevel.c:24: else generate_level();
 	call	_generate_level
-;src/State_LoadLevel.c:18: level_load_level();
+00103$:
+;src/State_LoadLevel.c:25: level_load_level();
 	call	_level_load_level
-;src/State_LoadLevel.c:20: enemy_init_enemies();
+;src/State_LoadLevel.c:27: enemy_init_enemies();
 	call	_enemy_init_enemies
-;src/State_LoadLevel.c:22: render_draw_to_buffer();
+;src/State_LoadLevel.c:28: item_init_items();
+	call	_item_init_items
+;src/State_LoadLevel.c:30: savegame_Save();
+	call	_savegame_Save
+;src/State_LoadLevel.c:32: render_draw_to_buffer();
 	call	_render_draw_to_buffer
-;src/State_LoadLevel.c:23: draw_minimap_to_buffer();
+;src/State_LoadLevel.c:33: draw_minimap_to_buffer();
 	call	_draw_minimap_to_buffer
+;src/State_LoadLevel.c:34: level_seed=0;
+	ld	hl,#0x0000
+	ld	(_level_seed),hl
 	ret
 ___str_0:
 	.ascii "LOADING"
 	.db 0x00
-;src/State_LoadLevel.c:27: void state_loadlevel_return(){
+;src/State_LoadLevel.c:39: void state_loadlevel_return(){
 ;	---------------------------------
 ; Function state_loadlevel_return
 ; ---------------------------------
 _state_loadlevel_return::
-;src/State_LoadLevel.c:29: }
+;src/State_LoadLevel.c:41: }
 	ret
-;src/State_LoadLevel.c:32: void state_loadlevel_input() {
+;src/State_LoadLevel.c:44: void state_loadlevel_input() {
 ;	---------------------------------
 ; Function state_loadlevel_input
 ; ---------------------------------
 _state_loadlevel_input::
-;src/State_LoadLevel.c:33: statemanager_input_accepted();
+;src/State_LoadLevel.c:45: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
-;src/State_LoadLevel.c:36: void state_loadlevel_update(){
+;src/State_LoadLevel.c:48: void state_loadlevel_update(){
 ;	---------------------------------
 ; Function state_loadlevel_update
 ; ---------------------------------
 _state_loadlevel_update::
-;src/State_LoadLevel.c:37: statemanager_set_state(STATE_INGAME);
-	ld	l,#0x01
-	jp  _statemanager_set_state
-;src/State_LoadLevel.c:40: void state_loadlevel_render(){
+;src/State_LoadLevel.c:49: if(level_get_level()<=(KING_LEVEL)){
+	call	_level_get_level
+	ld	a,#0x20
+	sub	a, l
+	jr	C,00102$
+;src/State_LoadLevel.c:50: statemanager_set_state(STATE_INGAME);
+	ld	a,#0x01
+	push	af
+	inc	sp
+	call	_statemanager_set_state
+	inc	sp
+	ret
+00102$:
+;src/State_LoadLevel.c:53: statemanager_set_state(STATE_VICTORY);
+	ld	a,#0x07
+	push	af
+	inc	sp
+	call	_statemanager_set_state
+	inc	sp
+	ret
+;src/State_LoadLevel.c:57: void state_loadlevel_render(){
 ;	---------------------------------
 ; Function state_loadlevel_render
 ; ---------------------------------
 _state_loadlevel_render::
-;src/State_LoadLevel.c:42: }
+;src/State_LoadLevel.c:59: }
 	ret
-;src/State_LoadLevel.c:44: void state_loadlevel_exit(){
+;src/State_LoadLevel.c:61: void state_loadlevel_exit(){
 ;	---------------------------------
 ; Function state_loadlevel_exit
 ; ---------------------------------
 _state_loadlevel_exit::
-;src/State_LoadLevel.c:46: }
+;src/State_LoadLevel.c:63: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

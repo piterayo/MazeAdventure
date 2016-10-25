@@ -51,8 +51,11 @@ _main::
 ;src/main.c:29: game_init();
 	call	_game_init
 ;src/main.c:31: statemanager_set_state(STATE_MAINMENU);
-	ld	l,#0x00
+	xor	a, a
+	push	af
+	inc	sp
 	call	_statemanager_set_state
+	inc	sp
 ;src/main.c:33: statemanager_main_loop();
 	jp  _statemanager_main_loop
 	.area _CODE

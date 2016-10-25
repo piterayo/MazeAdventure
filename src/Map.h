@@ -7,9 +7,9 @@
 
 //extern const u8 rand_seed;
 
-extern u8 map_get_seed();
+extern u16 map_get_seed();
 
-extern void generate_level_with_seed(u8 seed) __z88dk_fastcall;
+extern void generate_level_with_seed(u16 seed) ;
 
 extern void generate_level();
 

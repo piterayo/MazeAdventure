@@ -8,6 +8,11 @@
 
 u16 r_counter;
 
+u8 music_on;
+u8 textures_on;
+
+u8 camelot_warriors_mode;
+
 void game_interrupt_handler(){
     ++r_counter;
 }
@@ -27,6 +32,12 @@ void game_init(){
     level_init_palettes();
     cpct_setPalette(g_palette,16);
     cpct_setBorder(g_palette[1]);
+    
+    music_on = 1;
+    textures_on = 1;
+    
+    
+    camelot_warriors_mode=0;
     
     // *((u8*)0x0000)=0xC9; //Set 0x0000 memory to always return
 }

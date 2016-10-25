@@ -5,7 +5,9 @@
 #include "Player.h"
 #include "Textures.h"
 #include "Enemy.h"
+#include "Item.h"
 
+#include "GameFunctions.h"
 
 
 #define CELLS_IN_VIEW_DEPTH 6
@@ -39,8 +41,6 @@ const u8 const g_colors[16]={
 const u8 const g_pixelMask[2]={
     0b10101010, 0b01010101
 };
-
-const u8 g_texturedWalls = 1;
 
 u8* const cells_in_view_array = (u8*)CELLS_IN_VIEW_ARRAY;
 
@@ -145,7 +145,67 @@ void draw_column_to_buffer_untextured(const u8 column, u8 lineHeight, u8 wall_co
 }
 
 void draw_column_to_buffer_object(u8 column, u8 lineHeight, u8 index, u8 texture_column){
+    u8* pvmem;
     
+    u8 color;
+    u8 pixMask;
+    
+    u8 val;
+    
+    u8* texture;
+    
+    u8 j;
+    
+    u8 item_top_height;
+    u8 ground_height;
+    
+        
+    u16 texture_line_add;// = (256*TEXTURE_HEIGHT)/lineHeight;
+    u16 texture_line=0;
+    
+    
+    if(texture_column>=8 && texture_column<24){
+        
+        index = index>>4;
+    
+                       // START POSITION          TEXTURE INDEX OFFSET           X POSITION OFFSET
+        texture = (u8*)(UNCOMPRESSED_OBJECT_TEXTURES + ((ITEM_SPRITE_WIDTH*ITEM_SPRITE_HEIGHT)*(item_get_at(index-1)->type)) + ((texture_column-8)*ITEM_SPRITE_WIDTH));
+        
+        pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
+        
+        pixMask = g_pixelMask[column&1];
+        
+        lineHeight = (lineHeight)/2;
+        ground_height  = (SCREEN_TEXTURE_HEIGHT>>1) + (lineHeight/2);
+        item_top_height = ground_height - lineHeight;
+        
+        texture_line_add = (256*ITEM_SPRITE_HEIGHT)/lineHeight;
+        j=lineHeight;
+        
+        // if(lineHeight>SCREEN_TEXTURE_HEIGHT){
+            // j=90;
+        // }
+            
+        pvmem += SCREEN_TEXTURE_WIDTH_BYTES * item_top_height;
+        
+        for(j;j;--j){
+            
+            color= *(texture+(texture_line/256));
+            
+            if(color){
+                val =  ((*pvmem)&(~pixMask));
+                
+                color = (color&pixMask);
+                            
+                *pvmem = val|color;
+            }
+            
+            texture_line += texture_line_add;
+                
+            pvmem+=SCREEN_TEXTURE_WIDTH_BYTES;
+        }
+        
+    }
 }
 
 
@@ -395,7 +455,7 @@ void render_draw_to_buffer(){//TODO Optimize
     
     calculate_cells_in_view();
     
-    if(g_texturedWalls){
+    if(textures_on){
             
         do{
             
@@ -504,7 +564,7 @@ void render_draw_to_buffer(){//TODO Optimize
                                 draw_column_to_buffer_enemy(x/2, zHeight, currentCellID , (xCellCount)*TEXTURE_WIDTH/zHeight);
                             }
                             else if(currentCellID&CELL_ITEM_MASK){
-                                
+                                draw_column_to_buffer_object(x/2, zHeight, currentCellID , (xCellCount)*TEXTURE_WIDTH/zHeight);
                             }
                         }
                 }
@@ -622,7 +682,7 @@ void render_draw_to_buffer(){//TODO Optimize
                                 draw_column_to_buffer_enemy(x/2, zHeight, currentCellID , (zHeight-xCellCount)*TEXTURE_WIDTH/zHeight);
                             }
                             else if(currentCellID&CELL_ITEM_MASK){
-                                
+                                draw_column_to_buffer_object(x/2, zHeight, currentCellID , (zHeight-xCellCount)*TEXTURE_WIDTH/zHeight);
                             }
                         }
                 }
@@ -766,7 +826,7 @@ void render_draw_to_buffer(){//TODO Optimize
                                 draw_column_to_buffer_enemy(x/2, zHeight, currentCellID , (xCellCount)*TEXTURE_WIDTH/zHeight);
                             }
                             else if(currentCellID&CELL_ITEM_MASK){
-                                
+                                draw_column_to_buffer_object(x/2, zHeight, currentCellID , (xCellCount)*TEXTURE_WIDTH/zHeight);
                             }
                         }
                 }
@@ -876,7 +936,7 @@ void render_draw_to_buffer(){//TODO Optimize
                                 draw_column_to_buffer_enemy(x/2, zHeight, currentCellID ,(zHeight-xCellCount)*TEXTURE_WIDTH/zHeight);
                             }
                             else if(currentCellID&CELL_ITEM_MASK){
-                                
+                                draw_column_to_buffer_object(x/2, zHeight, currentCellID ,(zHeight-xCellCount)*TEXTURE_WIDTH/zHeight);
                             }
                         }
                 }
@@ -952,6 +1012,14 @@ void draw_minimap_to_buffer(){
                             *ptr=g_colors[MINIMAP_WALL_COLOR];
                             *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_WALL_COLOR];
                     }
+                    else if(val&CELL_ENEMY_MASK){
+                            *ptr=g_colors[MINIMAP_ENEMY_COLOR];
+                            *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_ENEMY_COLOR];
+                    }
+                    // else if(val&CELL_ITEM_MASK){//DEBUG
+                            // *ptr=g_colors[0];
+                            // *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[0];
+                    // }
                     else{
                             *ptr=g_colors[MINIMAP_FLOOR_COLOR];
                             *(ptr+MINIMAP_WIDTH_BYTES)=g_colors[MINIMAP_FLOOR_COLOR];

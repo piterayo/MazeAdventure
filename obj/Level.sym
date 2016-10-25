@@ -13,12 +13,15 @@ Symbol Table
   1 _current_level                                                 0000 GR
     _g_palette                                                     **** GX
   0 _level_get_level                                               0000 GR
-  0 _level_init_palettes                                           0034 GR
-  0 _level_load_level                                              0094 GR
-  0 _level_palettes                                                0008 GR
-  0 _level_set_level                                               002C GR
-  0 _setLevelPalette                                               0061 GR
+  0 _level_init_palettes                                           003E GR
+  0 _level_load_level                                              00C4 GR
+  0 _level_palettes                                                0011 GR
+  0 _level_set_level                                               0035 GR
+  0 _menu_palette                                                  0008 GR
+  0 _setLevelPalette                                               0091 GR
+  0 _setMenuPalette                                                0076 GR
     _uncompress_enemy_textures                                     **** GX
+    _uncompress_item_textures                                      **** GX
     _uncompress_theme_textures                                     **** GX
 
 
@@ -27,7 +30,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   AF   flags    0
+   0 _CODE                                      size   F1   flags    0
    1 _DATA                                      size    1   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

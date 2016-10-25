@@ -10,30 +10,30 @@ Symbol Table
     __divsint                                                      **** GX
     __mulint                                                       **** GX
   0 _calculate_cells_in_view                                       0000 GR
-  0 _cells_in_view_array                                           01CF GR
+  0 _cells_in_view_array                                           01D3 GR
     _cpct_memset                                                   **** GX
-  0 _draw_column_to_buffer                                         0390 GR
-  0 _draw_column_to_buffer_enemy                                   024D GR
-  0 _draw_column_to_buffer_object                                  024C GR
-  0 _draw_column_to_buffer_untextured                              01D6 GR
-  0 _draw_minimap_to_buffer                                        1022 GR
+  0 _draw_column_to_buffer                                         0493 GR
+  0 _draw_column_to_buffer_enemy                                   034D GR
+  0 _draw_column_to_buffer_object                                  0252 GR
+  0 _draw_column_to_buffer_untextured                              01DA GR
+  0 _draw_minimap_to_buffer                                        118A GR
     _enemy_get_at                                                  **** GX
-  0 _g_colors                                                      01BC GR
-  0 _g_palette                                                     01AC GR
-  0 _g_pixelMask                                                   01CC GR
-  0 _g_texturedWalls                                               01CE GR
-  0 _offsets_cells_in_view                                         01D1 GR
+  0 _g_colors                                                      01C1 GR
+  0 _g_palette                                                     01B1 GR
+  0 _g_pixelMask                                                   01D1 GR
+    _item_get_at                                                   **** GX
+  0 _offsets_cells_in_view                                         01D5 GR
     _player_direction                                              **** GX
     _player_position                                               **** GX
-  0 _render_draw_to_buffer                                         04C8 GR
-
+  0 _render_draw_to_buffer                                         05C4 GR
+    _textures_on                                                   **** GX
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size 1158   flags    0
+   0 _CODE                                      size 12D3   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

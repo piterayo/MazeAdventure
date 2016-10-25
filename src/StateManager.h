@@ -6,7 +6,7 @@
 
 extern void statemanager_close_state();
 
-extern void statemanager_set_state(u8 state) __z88dk_fastcall;
+extern void statemanager_set_state(u8 state) ;
 
 extern void statemanager_main_loop();
 

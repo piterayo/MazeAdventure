@@ -19,6 +19,8 @@ void state_pausemenu_enter(){
 }
 
 void state_pausemenu_return() {
+    cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 28), g_colors[4], 34, 144);
+    cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 24, 32), g_colors[1], 32, 136);
     ui_pausemenu_render_all();
 }
 
@@ -48,11 +50,11 @@ void state_pausemenu_update(){
                 break;
             }
             case 1:{
-                
+                statemanager_set_state(STATE_OPTIONS);
                 break;
             }
             case 2:{
-                
+                statemanager_set_state(STATE_SAVEEXIT);
                 break;
             }
             case 3:{

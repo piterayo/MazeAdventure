@@ -7,6 +7,9 @@
 #include "StringUtils.h"
 #include "Renderer.h"
 
+#define UI_GAMEMENU_LEVEL_TEXT_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,0,0)
+#define UI_GAMEMENU_LEVEL_NUMBER_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,12,0)
+
 #define UI_GAMEMENU_BUTTON_ROTATE_LEFT_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,0,176)
 #define UI_GAMEMENU_BUTTON_ROTATE_RIGHT_POSITION cpctm_screenPtr((u16)CPCT_VMEM_START,22,176)
 
@@ -60,7 +63,7 @@ const void* const ui_gamemenu_entriesTextPosition[UI_GAMEMENU_ENTRIES]={
 };
 
 const char* const ui_gamemenu_action_buttonText[3]={
-    "NEXT LEVEL","  ATTACK","   PICK UP",
+    "NEXT LEVEL","  ATTACK","  PICK UP",
 };
 
 const char* const ui_gamemenu_buttonText[UI_GAMEMENU_ENTRIES]={
@@ -136,6 +139,9 @@ void ui_gamemenu_render_refresh(){
     
     ui_gamemenu_render_button(ui_gamemenu_entryIndex);
     ui_gamemenu_render_button(ui_gamemenu_lastEntry);
+    
+    ui_gamemenu_render_button(0);
+    ui_gamemenu_render_button(3);
         
         
     ui_gamemenu_lastEntry=ui_gamemenu_entryIndex;
@@ -145,6 +151,8 @@ void ui_gamemenu_render_refresh(){
 void ui_gamemenu_render_all(){
     u8 n=UI_GAMEMENU_ENTRIES;
     
+    print_transparent_text("LEVEL ",UI_GAMEMENU_LEVEL_TEXT_POSITION, 3);
+    print_transparent_text(integer_to_string(level_get_level(),'d'),UI_GAMEMENU_LEVEL_NUMBER_POSITION, 3);
     
     while(n){
         --n;
@@ -172,26 +180,26 @@ void ui_gamemenu_update_action(){
     ui_gamemenu_action=0;
     *((char**)ui_gamemenu_buttonText)="";
     
+    if(forward&CELL_ITEM_MASK){
+        ui_gamemenu_action=3;
+        *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[2];
+    } 
     if(forward&CELL_WALL_MASK){
         if(forward==CELLTYPE_DOOR){
-            ui_gamemenu_action=1;
-            *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[0];
+            if(player_has_key){
+                ui_gamemenu_action=1;
+                *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[0];
+            }
         }
     } 
     else if(forward&CELL_ENEMY_MASK){
         ui_gamemenu_action=2;
         *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[1];
-    } 
-    else if(forward&CELL_ITEM_MASK){
-        ui_gamemenu_action=3;
-        *((char**)ui_gamemenu_buttonText)=ui_gamemenu_action_buttonText[2];
-    } 
+    }
     else{
         ui_gamemenu_can_move=1;
         *(char**)(ui_gamemenu_buttonText+3)="MOVE";
     }
-    ui_gamemenu_render_button(0);
-    ui_gamemenu_render_button(3);
 }
 
 u8 ui_gamemenu_get_movement(){

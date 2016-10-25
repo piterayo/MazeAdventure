@@ -7,38 +7,36 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 __str_0                                                        002E R
-  0 __str_1                                                        0037 R
-  0 __str_2                                                        0041 R
-  0 __str_3                                                        0049 R
-  0 __str_4                                                        0051 R
+  0 __str_0                                                        0028 R
+  0 __str_1                                                        0031 R
+  0 __str_2                                                        003B R
+  0 __str_3                                                        0043 R
     _cpct_drawSolidBox                                             **** GX
     _g_colors                                                      **** GX
     _print_transparent_text                                        **** GX
-  0 _ui_mainmenu_buttonText                                        0024 GR
+  0 _ui_mainmenu_buttonText                                        0020 GR
   0 _ui_mainmenu_entriesPosition                                   0010 GR
-  0 _ui_mainmenu_entriesTextPosition                               001A GR
+  0 _ui_mainmenu_entriesTextPosition                               0018 GR
   1 _ui_mainmenu_entryIndex                                        0001 GR
   1 _ui_mainmenu_entrySelected                                     0002 GR
-  0 _ui_mainmenu_get_entry                                         011B GR
+  0 _ui_mainmenu_get_entry                                         0110 GR
   0 _ui_mainmenu_init                                              0000 GR
-  0 _ui_mainmenu_is_selected                                       0123 GR
+  0 _ui_mainmenu_is_selected                                       0118 GR
   1 _ui_mainmenu_lastEntry                                         0000 GR
-  0 _ui_mainmenu_next_entry                                        0056 GR
-  0 _ui_mainmenu_previous_entry                                    0064 GR
-  0 _ui_mainmenu_render_all                                        0103 GR
-  0 _ui_mainmenu_render_button                                     0080 GR
-  0 _ui_mainmenu_render_refresh                                    00EA GR
-  0 _ui_mainmenu_select_entry                                      007A GR
-  0 _ui_mainmenu_unselect_entry                                    0074 GR
-
+  0 _ui_mainmenu_next_entry                                        004B GR
+  0 _ui_mainmenu_previous_entry                                    0059 GR
+  0 _ui_mainmenu_render_all                                        00F8 GR
+  0 _ui_mainmenu_render_button                                     0075 GR
+  0 _ui_mainmenu_render_refresh                                    00DF GR
+  0 _ui_mainmenu_select_entry                                      006F GR
+  0 _ui_mainmenu_unselect_entry                                    0069 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  12B   flags    0
+   0 _CODE                                      size  120   flags    0
    1 _DATA                                      size    3   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

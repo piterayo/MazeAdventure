@@ -7,10 +7,9 @@
 
 extern void ui_log_init();
 
-extern void ui_log_add_log(const char* const newLog);
+extern void ui_log_add_log(const char* const newLog, u8 color);
 
-extern void ui_log_render_refresh();
-extern void ui_log_render_all();
+extern void ui_log_render();
 
 
 

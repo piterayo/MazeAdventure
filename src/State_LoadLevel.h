@@ -4,6 +4,8 @@
 
 #include <cpctelera.h>
 
+extern u16 level_seed;
+
 extern void state_loadlevel_enter();
 
 extern void state_loadlevel_return();

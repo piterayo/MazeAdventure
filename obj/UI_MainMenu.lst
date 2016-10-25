@@ -63,244 +63,238 @@
                              63 ; code
                              64 ;--------------------------------------------------------
                              65 	.area _CODE
-                             66 ;src/UI_MainMenu.c:55: void ui_mainmenu_init(){
+                             66 ;src/UI_MainMenu.c:53: void ui_mainmenu_init(){
                              67 ;	---------------------------------
                              68 ; Function ui_mainmenu_init
                              69 ; ---------------------------------
    0000                      70 _ui_mainmenu_init::
-                             71 ;src/UI_MainMenu.c:56: ui_mainmenu_lastEntry=0;
+                             71 ;src/UI_MainMenu.c:54: ui_mainmenu_lastEntry=0;
    0000 21r00r00      [10]   72 	ld	hl,#_ui_mainmenu_lastEntry + 0
    0003 36 00         [10]   73 	ld	(hl), #0x00
-                             74 ;src/UI_MainMenu.c:57: ui_mainmenu_entryIndex=0;
+                             74 ;src/UI_MainMenu.c:55: ui_mainmenu_entryIndex=0;
    0005 21r01r00      [10]   75 	ld	hl,#_ui_mainmenu_entryIndex + 0
    0008 36 00         [10]   76 	ld	(hl), #0x00
-                             77 ;src/UI_MainMenu.c:58: ui_mainmenu_entrySelected=0;
+                             77 ;src/UI_MainMenu.c:56: ui_mainmenu_entrySelected=0;
    000A 21r02r00      [10]   78 	ld	hl,#_ui_mainmenu_entrySelected + 0
    000D 36 00         [10]   79 	ld	(hl), #0x00
    000F C9            [10]   80 	ret
    0010                      81 _ui_mainmenu_entriesPosition:
-   0010 2E C4                82 	.dw #0xC42E
-   0012 CE E4                83 	.dw #0xE4CE
-   0014 BE C5                84 	.dw #0xC5BE
-   0016 5E E6                85 	.dw #0xE65E
-   0018 4E C7                86 	.dw #0xC74E
-   001A                      87 _ui_mainmenu_entriesTextPosition:
-   001A 30 EC                88 	.dw #0xEC30
-   001C 1F CD                89 	.dw #0xCD1F
-   001E C1 ED                90 	.dw #0xEDC1
-   0020 B1 CE                91 	.dw #0xCEB1
-   0022 54 EF                92 	.dw #0xEF54
-   0024                      93 _ui_mainmenu_buttonText:
-   0024r2Er00                94 	.dw __str_0
-   0026r37r00                95 	.dw __str_1
-   0028r41r00                96 	.dw __str_2
-   002Ar49r00                97 	.dw __str_3
-   002Cr51r00                98 	.dw __str_4
-   002E                      99 __str_0:
-   002E 4E 45 57 20 47 41   100 	.ascii "NEW GAME"
+   0010 1E E0                82 	.dw #0xE01E
+   0012 0E C1                83 	.dw #0xC10E
+   0014 AE E1                84 	.dw #0xE1AE
+   0016 9E C2                85 	.dw #0xC29E
+   0018                      86 _ui_mainmenu_entriesTextPosition:
+   0018 70 C8                87 	.dw #0xC870
+   001A 0F E9                88 	.dw #0xE90F
+   001C 01 CA                89 	.dw #0xCA01
+   001E A1 EA                90 	.dw #0xEAA1
+   0020                      91 _ui_mainmenu_buttonText:
+   0020r28r00                92 	.dw __str_0
+   0022r31r00                93 	.dw __str_1
+   0024r3Br00                94 	.dw __str_2
+   0026r43r00                95 	.dw __str_3
+   0028                      96 __str_0:
+   0028 4E 45 57 20 47 41    97 	.ascii "NEW GAME"
         4D 45
-   0036 00                  101 	.db 0x00
-   0037                     102 __str_1:
-   0037 4C 4F 41 44 20 47   103 	.ascii "LOAD GAME"
+   0030 00                   98 	.db 0x00
+   0031                      99 __str_1:
+   0031 4C 4F 41 44 20 47   100 	.ascii "LOAD GAME"
         41 4D 45
-   0040 00                  104 	.db 0x00
-   0041                     105 __str_2:
-   0041 4F 50 54 49 4F 4E   106 	.ascii "OPTIONS"
+   003A 00                  101 	.db 0x00
+   003B                     102 __str_2:
+   003B 4F 50 54 49 4F 4E   103 	.ascii "OPTIONS"
         53
-   0048 00                  107 	.db 0x00
-   0049                     108 __str_3:
-   0049 43 52 45 44 49 54   109 	.ascii "CREDITS"
+   0042 00                  104 	.db 0x00
+   0043                     105 __str_3:
+   0043 43 52 45 44 49 54   106 	.ascii "CREDITS"
         53
-   0050 00                  110 	.db 0x00
-   0051                     111 __str_4:
-   0051 45 58 49 54         112 	.ascii "EXIT"
-   0055 00                  113 	.db 0x00
-                            114 ;src/UI_MainMenu.c:61: void ui_mainmenu_next_entry(){
-                            115 ;	---------------------------------
-                            116 ; Function ui_mainmenu_next_entry
-                            117 ; ---------------------------------
-   0056                     118 _ui_mainmenu_next_entry::
-                            119 ;src/UI_MainMenu.c:62: if(ui_mainmenu_entryIndex<(UI_MAINMENU_ENTRIES-1)){
-                            120 ;src/UI_MainMenu.c:63: ui_mainmenu_lastEntry=ui_mainmenu_entryIndex;
-   0056 3Ar01r00      [13]  121 	ld	a,(#_ui_mainmenu_entryIndex + 0)
-   0059 FE 04         [ 7]  122 	cp	a,#0x04
-   005B D0            [11]  123 	ret	NC
-   005C 32r00r00      [13]  124 	ld	(#_ui_mainmenu_lastEntry + 0),a
-                            125 ;src/UI_MainMenu.c:64: ++ui_mainmenu_entryIndex;
-   005F 21r01r00      [10]  126 	ld	hl, #_ui_mainmenu_entryIndex+0
-   0062 34            [11]  127 	inc	(hl)
-   0063 C9            [10]  128 	ret
-                            129 ;src/UI_MainMenu.c:68: void ui_mainmenu_previous_entry(){
-                            130 ;	---------------------------------
-                            131 ; Function ui_mainmenu_previous_entry
-                            132 ; ---------------------------------
-   0064                     133 _ui_mainmenu_previous_entry::
-                            134 ;src/UI_MainMenu.c:69: if(ui_mainmenu_entryIndex>0){
-   0064 3Ar01r00      [13]  135 	ld	a,(#_ui_mainmenu_entryIndex + 0)
-   0067 B7            [ 4]  136 	or	a, a
-   0068 C8            [11]  137 	ret	Z
-                            138 ;src/UI_MainMenu.c:70: ui_mainmenu_lastEntry=ui_mainmenu_entryIndex;
-   0069 3Ar01r00      [13]  139 	ld	a,(#_ui_mainmenu_entryIndex + 0)
-   006C 32r00r00      [13]  140 	ld	(#_ui_mainmenu_lastEntry + 0),a
-                            141 ;src/UI_MainMenu.c:71: --ui_mainmenu_entryIndex;
-   006F 21r01r00      [10]  142 	ld	hl, #_ui_mainmenu_entryIndex+0
-   0072 35            [11]  143 	dec	(hl)
-   0073 C9            [10]  144 	ret
-                            145 ;src/UI_MainMenu.c:75: void ui_mainmenu_unselect_entry(){
-                            146 ;	---------------------------------
-                            147 ; Function ui_mainmenu_unselect_entry
-                            148 ; ---------------------------------
-   0074                     149 _ui_mainmenu_unselect_entry::
-                            150 ;src/UI_MainMenu.c:76: ui_mainmenu_entrySelected=0;
-   0074 21r02r00      [10]  151 	ld	hl,#_ui_mainmenu_entrySelected + 0
-   0077 36 00         [10]  152 	ld	(hl), #0x00
-   0079 C9            [10]  153 	ret
-                            154 ;src/UI_MainMenu.c:79: void ui_mainmenu_select_entry(){
-                            155 ;	---------------------------------
-                            156 ; Function ui_mainmenu_select_entry
-                            157 ; ---------------------------------
-   007A                     158 _ui_mainmenu_select_entry::
-                            159 ;src/UI_MainMenu.c:80: ui_mainmenu_entrySelected=1;
-   007A 21r02r00      [10]  160 	ld	hl,#_ui_mainmenu_entrySelected + 0
-   007D 36 01         [10]  161 	ld	(hl), #0x01
-   007F C9            [10]  162 	ret
-                            163 ;src/UI_MainMenu.c:83: void ui_mainmenu_render_button(u8 n){
-                            164 ;	---------------------------------
-                            165 ; Function ui_mainmenu_render_button
-                            166 ; ---------------------------------
-   0080                     167 _ui_mainmenu_render_button::
-   0080 DD E5         [15]  168 	push	ix
-   0082 DD 21 00 00   [14]  169 	ld	ix,#0
-   0086 DD 39         [15]  170 	add	ix,sp
-   0088 3B            [ 6]  171 	dec	sp
-                            172 ;src/UI_MainMenu.c:85: color = (n==ui_mainmenu_entryIndex)?((ui_mainmenu_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
-   0089 DD 7E 04      [19]  173 	ld	a,4 (ix)
-   008C FD 21r01r00   [14]  174 	ld	iy,#_ui_mainmenu_entryIndex
-   0090 FD 96 00      [19]  175 	sub	a, 0 (iy)
-   0093 20 10         [12]  176 	jr	NZ,00103$
-   0095 3Ar02r00      [13]  177 	ld	a,(#_ui_mainmenu_entrySelected + 0)
-   0098 B7            [ 4]  178 	or	a, a
-   0099 28 05         [12]  179 	jr	Z,00105$
-   009B 3Ar04r00      [13]  180 	ld	a, (#(_g_colors + 0x0004) + 0)
-   009E 18 08         [12]  181 	jr	00104$
-   00A0                     182 00105$:
-   00A0 3Ar06r00      [13]  183 	ld	a, (#(_g_colors + 0x0006) + 0)
-   00A3 18 03         [12]  184 	jr	00104$
-   00A5                     185 00103$:
-   00A5 3Ar02r00      [13]  186 	ld	a, (#(_g_colors + 0x0002) + 0)
-   00A8                     187 00104$:
-   00A8 DD 77 FF      [19]  188 	ld	-1 (ix),a
-                            189 ;src/UI_MainMenu.c:86: cpct_drawSolidBox(ui_mainmenu_entriesPosition[n],color, UI_MAINMENU_BUTTON_WIDTH, UI_MAINMENU_BUTTON_HEIGHT);
-   00AB DD 6E 04      [19]  190 	ld	l,4 (ix)
-   00AE 26 00         [ 7]  191 	ld	h,#0x00
-   00B0 29            [11]  192 	add	hl, hl
-   00B1 4D            [ 4]  193 	ld	c, l
-   00B2 44            [ 4]  194 	ld	b, h
-   00B3 21r10r00      [10]  195 	ld	hl,#_ui_mainmenu_entriesPosition
-   00B6 09            [11]  196 	add	hl,bc
-   00B7 5E            [ 7]  197 	ld	e,(hl)
-   00B8 23            [ 6]  198 	inc	hl
-   00B9 56            [ 7]  199 	ld	d,(hl)
-   00BA C5            [11]  200 	push	bc
-   00BB 21 14 10      [10]  201 	ld	hl,#0x1014
-   00BE E5            [11]  202 	push	hl
-   00BF DD 7E FF      [19]  203 	ld	a,-1 (ix)
-   00C2 F5            [11]  204 	push	af
-   00C3 33            [ 6]  205 	inc	sp
-   00C4 D5            [11]  206 	push	de
-   00C5 CDr00r00      [17]  207 	call	_cpct_drawSolidBox
-   00C8 F1            [10]  208 	pop	af
-   00C9 F1            [10]  209 	pop	af
-   00CA 33            [ 6]  210 	inc	sp
-   00CB C1            [10]  211 	pop	bc
-                            212 ;src/UI_MainMenu.c:87: print_transparent_text(ui_mainmenu_buttonText[n], ui_mainmenu_entriesTextPosition[n], 3);
-   00CC 21r1Ar00      [10]  213 	ld	hl,#_ui_mainmenu_entriesTextPosition
-   00CF 09            [11]  214 	add	hl,bc
-   00D0 5E            [ 7]  215 	ld	e,(hl)
-   00D1 23            [ 6]  216 	inc	hl
-   00D2 56            [ 7]  217 	ld	d,(hl)
-   00D3 21r24r00      [10]  218 	ld	hl,#_ui_mainmenu_buttonText
-   00D6 09            [11]  219 	add	hl,bc
-   00D7 4E            [ 7]  220 	ld	c,(hl)
-   00D8 23            [ 6]  221 	inc	hl
-   00D9 46            [ 7]  222 	ld	b,(hl)
-   00DA 3E 03         [ 7]  223 	ld	a,#0x03
-   00DC F5            [11]  224 	push	af
-   00DD 33            [ 6]  225 	inc	sp
-   00DE D5            [11]  226 	push	de
-   00DF C5            [11]  227 	push	bc
-   00E0 CDr00r00      [17]  228 	call	_print_transparent_text
-   00E3 F1            [10]  229 	pop	af
-   00E4 F1            [10]  230 	pop	af
-   00E5 33            [ 6]  231 	inc	sp
-   00E6 33            [ 6]  232 	inc	sp
-   00E7 DD E1         [14]  233 	pop	ix
-   00E9 C9            [10]  234 	ret
-                            235 ;src/UI_MainMenu.c:90: void ui_mainmenu_render_refresh(){
-                            236 ;	---------------------------------
-                            237 ; Function ui_mainmenu_render_refresh
-                            238 ; ---------------------------------
-   00EA                     239 _ui_mainmenu_render_refresh::
-                            240 ;src/UI_MainMenu.c:92: ui_mainmenu_render_button(ui_mainmenu_entryIndex);
-   00EA 3Ar01r00      [13]  241 	ld	a,(_ui_mainmenu_entryIndex)
-   00ED F5            [11]  242 	push	af
-   00EE 33            [ 6]  243 	inc	sp
-   00EF CDr80r00      [17]  244 	call	_ui_mainmenu_render_button
-   00F2 33            [ 6]  245 	inc	sp
-                            246 ;src/UI_MainMenu.c:93: ui_mainmenu_render_button(ui_mainmenu_lastEntry);
-   00F3 3Ar00r00      [13]  247 	ld	a,(_ui_mainmenu_lastEntry)
-   00F6 F5            [11]  248 	push	af
-   00F7 33            [ 6]  249 	inc	sp
-   00F8 CDr80r00      [17]  250 	call	_ui_mainmenu_render_button
-   00FB 33            [ 6]  251 	inc	sp
-                            252 ;src/UI_MainMenu.c:95: ui_mainmenu_lastEntry=ui_mainmenu_entryIndex;
-   00FC 3Ar01r00      [13]  253 	ld	a,(#_ui_mainmenu_entryIndex + 0)
-   00FF 32r00r00      [13]  254 	ld	(#_ui_mainmenu_lastEntry + 0),a
-   0102 C9            [10]  255 	ret
-                            256 ;src/UI_MainMenu.c:99: void ui_mainmenu_render_all(){
-                            257 ;	---------------------------------
-                            258 ; Function ui_mainmenu_render_all
-                            259 ; ---------------------------------
-   0103                     260 _ui_mainmenu_render_all::
-                            261 ;src/UI_MainMenu.c:103: while(n){
-   0103 06 05         [ 7]  262 	ld	b,#0x05
-   0105                     263 00101$:
-   0105 78            [ 4]  264 	ld	a,b
-   0106 B7            [ 4]  265 	or	a, a
-   0107 28 0B         [12]  266 	jr	Z,00103$
-                            267 ;src/UI_MainMenu.c:104: --n;
-   0109 05            [ 4]  268 	dec	b
-                            269 ;src/UI_MainMenu.c:105: ui_mainmenu_render_button(n);
-   010A C5            [11]  270 	push	bc
-   010B C5            [11]  271 	push	bc
-   010C 33            [ 6]  272 	inc	sp
-   010D CDr80r00      [17]  273 	call	_ui_mainmenu_render_button
-   0110 33            [ 6]  274 	inc	sp
-   0111 C1            [10]  275 	pop	bc
-   0112 18 F1         [12]  276 	jr	00101$
-   0114                     277 00103$:
-                            278 ;src/UI_MainMenu.c:108: ui_mainmenu_lastEntry=ui_mainmenu_entryIndex;
-   0114 3Ar01r00      [13]  279 	ld	a,(#_ui_mainmenu_entryIndex + 0)
-   0117 32r00r00      [13]  280 	ld	(#_ui_mainmenu_lastEntry + 0),a
-   011A C9            [10]  281 	ret
-                            282 ;src/UI_MainMenu.c:111: u8 ui_mainmenu_get_entry(){
-                            283 ;	---------------------------------
-                            284 ; Function ui_mainmenu_get_entry
-                            285 ; ---------------------------------
-   011B                     286 _ui_mainmenu_get_entry::
-                            287 ;src/UI_MainMenu.c:112: return ui_mainmenu_entryIndex;
-   011B FD 21r01r00   [14]  288 	ld	iy,#_ui_mainmenu_entryIndex
-   011F FD 6E 00      [19]  289 	ld	l,0 (iy)
-   0122 C9            [10]  290 	ret
-                            291 ;src/UI_MainMenu.c:115: u8 ui_mainmenu_is_selected(){
-                            292 ;	---------------------------------
-                            293 ; Function ui_mainmenu_is_selected
-                            294 ; ---------------------------------
-   0123                     295 _ui_mainmenu_is_selected::
-                            296 ;src/UI_MainMenu.c:116: return ui_mainmenu_entrySelected;
-   0123 FD 21r02r00   [14]  297 	ld	iy,#_ui_mainmenu_entrySelected
-   0127 FD 6E 00      [19]  298 	ld	l,0 (iy)
-   012A C9            [10]  299 	ret
-                            300 	.area _CODE
-                            301 	.area _INITIALIZER
-                            302 	.area _CABS (ABS)
+   004A 00                  107 	.db 0x00
+                            108 ;src/UI_MainMenu.c:59: void ui_mainmenu_next_entry(){
+                            109 ;	---------------------------------
+                            110 ; Function ui_mainmenu_next_entry
+                            111 ; ---------------------------------
+   004B                     112 _ui_mainmenu_next_entry::
+                            113 ;src/UI_MainMenu.c:60: if(ui_mainmenu_entryIndex<(UI_MAINMENU_ENTRIES-1)){
+                            114 ;src/UI_MainMenu.c:61: ui_mainmenu_lastEntry=ui_mainmenu_entryIndex;
+   004B 3Ar01r00      [13]  115 	ld	a,(#_ui_mainmenu_entryIndex + 0)
+   004E FE 03         [ 7]  116 	cp	a,#0x03
+   0050 D0            [11]  117 	ret	NC
+   0051 32r00r00      [13]  118 	ld	(#_ui_mainmenu_lastEntry + 0),a
+                            119 ;src/UI_MainMenu.c:62: ++ui_mainmenu_entryIndex;
+   0054 21r01r00      [10]  120 	ld	hl, #_ui_mainmenu_entryIndex+0
+   0057 34            [11]  121 	inc	(hl)
+   0058 C9            [10]  122 	ret
+                            123 ;src/UI_MainMenu.c:66: void ui_mainmenu_previous_entry(){
+                            124 ;	---------------------------------
+                            125 ; Function ui_mainmenu_previous_entry
+                            126 ; ---------------------------------
+   0059                     127 _ui_mainmenu_previous_entry::
+                            128 ;src/UI_MainMenu.c:67: if(ui_mainmenu_entryIndex>0){
+   0059 3Ar01r00      [13]  129 	ld	a,(#_ui_mainmenu_entryIndex + 0)
+   005C B7            [ 4]  130 	or	a, a
+   005D C8            [11]  131 	ret	Z
+                            132 ;src/UI_MainMenu.c:68: ui_mainmenu_lastEntry=ui_mainmenu_entryIndex;
+   005E 3Ar01r00      [13]  133 	ld	a,(#_ui_mainmenu_entryIndex + 0)
+   0061 32r00r00      [13]  134 	ld	(#_ui_mainmenu_lastEntry + 0),a
+                            135 ;src/UI_MainMenu.c:69: --ui_mainmenu_entryIndex;
+   0064 21r01r00      [10]  136 	ld	hl, #_ui_mainmenu_entryIndex+0
+   0067 35            [11]  137 	dec	(hl)
+   0068 C9            [10]  138 	ret
+                            139 ;src/UI_MainMenu.c:73: void ui_mainmenu_unselect_entry(){
+                            140 ;	---------------------------------
+                            141 ; Function ui_mainmenu_unselect_entry
+                            142 ; ---------------------------------
+   0069                     143 _ui_mainmenu_unselect_entry::
+                            144 ;src/UI_MainMenu.c:74: ui_mainmenu_entrySelected=0;
+   0069 21r02r00      [10]  145 	ld	hl,#_ui_mainmenu_entrySelected + 0
+   006C 36 00         [10]  146 	ld	(hl), #0x00
+   006E C9            [10]  147 	ret
+                            148 ;src/UI_MainMenu.c:77: void ui_mainmenu_select_entry(){
+                            149 ;	---------------------------------
+                            150 ; Function ui_mainmenu_select_entry
+                            151 ; ---------------------------------
+   006F                     152 _ui_mainmenu_select_entry::
+                            153 ;src/UI_MainMenu.c:78: ui_mainmenu_entrySelected=1;
+   006F 21r02r00      [10]  154 	ld	hl,#_ui_mainmenu_entrySelected + 0
+   0072 36 01         [10]  155 	ld	(hl), #0x01
+   0074 C9            [10]  156 	ret
+                            157 ;src/UI_MainMenu.c:81: void ui_mainmenu_render_button(u8 n){
+                            158 ;	---------------------------------
+                            159 ; Function ui_mainmenu_render_button
+                            160 ; ---------------------------------
+   0075                     161 _ui_mainmenu_render_button::
+   0075 DD E5         [15]  162 	push	ix
+   0077 DD 21 00 00   [14]  163 	ld	ix,#0
+   007B DD 39         [15]  164 	add	ix,sp
+   007D 3B            [ 6]  165 	dec	sp
+                            166 ;src/UI_MainMenu.c:83: color = (n==ui_mainmenu_entryIndex)?((ui_mainmenu_entrySelected)? g_colors[BUTTON_COLOR_SELECTED]: g_colors[BUTTON_COLOR_HIGHLIGHT]): g_colors[BUTTON_COLOR_BACKGROUND];
+   007E DD 7E 04      [19]  167 	ld	a,4 (ix)
+   0081 FD 21r01r00   [14]  168 	ld	iy,#_ui_mainmenu_entryIndex
+   0085 FD 96 00      [19]  169 	sub	a, 0 (iy)
+   0088 20 10         [12]  170 	jr	NZ,00103$
+   008A 3Ar02r00      [13]  171 	ld	a,(#_ui_mainmenu_entrySelected + 0)
+   008D B7            [ 4]  172 	or	a, a
+   008E 28 05         [12]  173 	jr	Z,00105$
+   0090 3Ar04r00      [13]  174 	ld	a, (#(_g_colors + 0x0004) + 0)
+   0093 18 08         [12]  175 	jr	00104$
+   0095                     176 00105$:
+   0095 3Ar06r00      [13]  177 	ld	a, (#(_g_colors + 0x0006) + 0)
+   0098 18 03         [12]  178 	jr	00104$
+   009A                     179 00103$:
+   009A 3Ar02r00      [13]  180 	ld	a, (#(_g_colors + 0x0002) + 0)
+   009D                     181 00104$:
+   009D DD 77 FF      [19]  182 	ld	-1 (ix),a
+                            183 ;src/UI_MainMenu.c:84: cpct_drawSolidBox(ui_mainmenu_entriesPosition[n],color, UI_MAINMENU_BUTTON_WIDTH, UI_MAINMENU_BUTTON_HEIGHT);
+   00A0 DD 6E 04      [19]  184 	ld	l,4 (ix)
+   00A3 26 00         [ 7]  185 	ld	h,#0x00
+   00A5 29            [11]  186 	add	hl, hl
+   00A6 4D            [ 4]  187 	ld	c, l
+   00A7 44            [ 4]  188 	ld	b, h
+   00A8 21r10r00      [10]  189 	ld	hl,#_ui_mainmenu_entriesPosition
+   00AB 09            [11]  190 	add	hl,bc
+   00AC 5E            [ 7]  191 	ld	e,(hl)
+   00AD 23            [ 6]  192 	inc	hl
+   00AE 56            [ 7]  193 	ld	d,(hl)
+   00AF C5            [11]  194 	push	bc
+   00B0 21 14 10      [10]  195 	ld	hl,#0x1014
+   00B3 E5            [11]  196 	push	hl
+   00B4 DD 7E FF      [19]  197 	ld	a,-1 (ix)
+   00B7 F5            [11]  198 	push	af
+   00B8 33            [ 6]  199 	inc	sp
+   00B9 D5            [11]  200 	push	de
+   00BA CDr00r00      [17]  201 	call	_cpct_drawSolidBox
+   00BD F1            [10]  202 	pop	af
+   00BE F1            [10]  203 	pop	af
+   00BF 33            [ 6]  204 	inc	sp
+   00C0 C1            [10]  205 	pop	bc
+                            206 ;src/UI_MainMenu.c:85: print_transparent_text(ui_mainmenu_buttonText[n], ui_mainmenu_entriesTextPosition[n], 3);
+   00C1 21r18r00      [10]  207 	ld	hl,#_ui_mainmenu_entriesTextPosition
+   00C4 09            [11]  208 	add	hl,bc
+   00C5 5E            [ 7]  209 	ld	e,(hl)
+   00C6 23            [ 6]  210 	inc	hl
+   00C7 56            [ 7]  211 	ld	d,(hl)
+   00C8 21r20r00      [10]  212 	ld	hl,#_ui_mainmenu_buttonText
+   00CB 09            [11]  213 	add	hl,bc
+   00CC 4E            [ 7]  214 	ld	c,(hl)
+   00CD 23            [ 6]  215 	inc	hl
+   00CE 46            [ 7]  216 	ld	b,(hl)
+   00CF 3E 03         [ 7]  217 	ld	a,#0x03
+   00D1 F5            [11]  218 	push	af
+   00D2 33            [ 6]  219 	inc	sp
+   00D3 D5            [11]  220 	push	de
+   00D4 C5            [11]  221 	push	bc
+   00D5 CDr00r00      [17]  222 	call	_print_transparent_text
+   00D8 F1            [10]  223 	pop	af
+   00D9 F1            [10]  224 	pop	af
+   00DA 33            [ 6]  225 	inc	sp
+   00DB 33            [ 6]  226 	inc	sp
+   00DC DD E1         [14]  227 	pop	ix
+   00DE C9            [10]  228 	ret
+                            229 ;src/UI_MainMenu.c:88: void ui_mainmenu_render_refresh(){
+                            230 ;	---------------------------------
+                            231 ; Function ui_mainmenu_render_refresh
+                            232 ; ---------------------------------
+   00DF                     233 _ui_mainmenu_render_refresh::
+                            234 ;src/UI_MainMenu.c:90: ui_mainmenu_render_button(ui_mainmenu_entryIndex);
+   00DF 3Ar01r00      [13]  235 	ld	a,(_ui_mainmenu_entryIndex)
+   00E2 F5            [11]  236 	push	af
+   00E3 33            [ 6]  237 	inc	sp
+   00E4 CDr75r00      [17]  238 	call	_ui_mainmenu_render_button
+   00E7 33            [ 6]  239 	inc	sp
+                            240 ;src/UI_MainMenu.c:91: ui_mainmenu_render_button(ui_mainmenu_lastEntry);
+   00E8 3Ar00r00      [13]  241 	ld	a,(_ui_mainmenu_lastEntry)
+   00EB F5            [11]  242 	push	af
+   00EC 33            [ 6]  243 	inc	sp
+   00ED CDr75r00      [17]  244 	call	_ui_mainmenu_render_button
+   00F0 33            [ 6]  245 	inc	sp
+                            246 ;src/UI_MainMenu.c:93: ui_mainmenu_lastEntry=ui_mainmenu_entryIndex;
+   00F1 3Ar01r00      [13]  247 	ld	a,(#_ui_mainmenu_entryIndex + 0)
+   00F4 32r00r00      [13]  248 	ld	(#_ui_mainmenu_lastEntry + 0),a
+   00F7 C9            [10]  249 	ret
+                            250 ;src/UI_MainMenu.c:97: void ui_mainmenu_render_all(){
+                            251 ;	---------------------------------
+                            252 ; Function ui_mainmenu_render_all
+                            253 ; ---------------------------------
+   00F8                     254 _ui_mainmenu_render_all::
+                            255 ;src/UI_MainMenu.c:101: while(n){
+   00F8 06 04         [ 7]  256 	ld	b,#0x04
+   00FA                     257 00101$:
+   00FA 78            [ 4]  258 	ld	a,b
+   00FB B7            [ 4]  259 	or	a, a
+   00FC 28 0B         [12]  260 	jr	Z,00103$
+                            261 ;src/UI_MainMenu.c:102: --n;
+   00FE 05            [ 4]  262 	dec	b
+                            263 ;src/UI_MainMenu.c:103: ui_mainmenu_render_button(n);
+   00FF C5            [11]  264 	push	bc
+   0100 C5            [11]  265 	push	bc
+   0101 33            [ 6]  266 	inc	sp
+   0102 CDr75r00      [17]  267 	call	_ui_mainmenu_render_button
+   0105 33            [ 6]  268 	inc	sp
+   0106 C1            [10]  269 	pop	bc
+   0107 18 F1         [12]  270 	jr	00101$
+   0109                     271 00103$:
+                            272 ;src/UI_MainMenu.c:106: ui_mainmenu_lastEntry=ui_mainmenu_entryIndex;
+   0109 3Ar01r00      [13]  273 	ld	a,(#_ui_mainmenu_entryIndex + 0)
+   010C 32r00r00      [13]  274 	ld	(#_ui_mainmenu_lastEntry + 0),a
+   010F C9            [10]  275 	ret
+                            276 ;src/UI_MainMenu.c:109: u8 ui_mainmenu_get_entry(){
+                            277 ;	---------------------------------
+                            278 ; Function ui_mainmenu_get_entry
+                            279 ; ---------------------------------
+   0110                     280 _ui_mainmenu_get_entry::
+                            281 ;src/UI_MainMenu.c:110: return ui_mainmenu_entryIndex;
+   0110 FD 21r01r00   [14]  282 	ld	iy,#_ui_mainmenu_entryIndex
+   0114 FD 6E 00      [19]  283 	ld	l,0 (iy)
+   0117 C9            [10]  284 	ret
+                            285 ;src/UI_MainMenu.c:113: u8 ui_mainmenu_is_selected(){
+                            286 ;	---------------------------------
+                            287 ; Function ui_mainmenu_is_selected
+                            288 ; ---------------------------------
+   0118                     289 _ui_mainmenu_is_selected::
+                            290 ;src/UI_MainMenu.c:114: return ui_mainmenu_entrySelected;
+   0118 FD 21r02r00   [14]  291 	ld	iy,#_ui_mainmenu_entrySelected
+   011C FD 6E 00      [19]  292 	ld	l,0 (iy)
+   011F C9            [10]  293 	ret
+                            294 	.area _CODE
+                            295 	.area _INITIALIZER
+                            296 	.area _CABS (ABS)

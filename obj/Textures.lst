@@ -47,7 +47,7 @@
                              47 ; code
                              48 ;--------------------------------------------------------
                              49 	.area _CODE
-                             50 ;src/Textures.c:33: void uncompress_texture_rle(u8* position, u8* texture_set, u16 length){
+                             50 ;src/Textures.c:40: void uncompress_texture_rle(u8* position, u8* texture_set, u16 length){
                              51 ;	---------------------------------
                              52 ; Function uncompress_texture_rle
                              53 ; ---------------------------------
@@ -56,7 +56,7 @@
    0002 DD 21 00 00   [14]   56 	ld	ix,#0
    0006 DD 39         [15]   57 	add	ix,sp
    0008 3B            [ 6]   58 	dec	sp
-                             59 ;src/Textures.c:36: while(length){
+                             59 ;src/Textures.c:43: while(length){
    0009 DD 4E 06      [19]   60 	ld	c,6 (ix)
    000C DD 46 07      [19]   61 	ld	b,7 (ix)
    000F DD 5E 08      [19]   62 	ld	e,8 (ix)
@@ -65,12 +65,12 @@
    0015 7A            [ 4]   65 	ld	a,d
    0016 B3            [ 4]   66 	or	a,e
    0017 28 47         [12]   67 	jr	Z,00107$
-                             68 ;src/Textures.c:37: value = (*texture_set)&0x0F;
+                             68 ;src/Textures.c:44: value = (*texture_set)&0x0F;
    0019 0A            [ 7]   69 	ld	a,(bc)
    001A 67            [ 4]   70 	ld	h,a
    001B E6 0F         [ 7]   71 	and	a, #0x0F
    001D 6F            [ 4]   72 	ld	l,a
-                             73 ;src/Textures.c:38: counter = ((*texture_set)>>4)+1;
+                             73 ;src/Textures.c:45: counter = ((*texture_set)>>4)+1;
    001E 7C            [ 4]   74 	ld	a,h
    001F 07            [ 4]   75 	rlca
    0020 07            [ 4]   76 	rlca
@@ -79,7 +79,7 @@
    0023 E6 0F         [ 7]   79 	and	a,#0x0F
    0025 3C            [ 4]   80 	inc	a
    0026 DD 77 FF      [19]   81 	ld	-1 (ix),a
-                             82 ;src/Textures.c:39: while(counter){
+                             82 ;src/Textures.c:46: while(counter){
    0029 3Er00         [ 7]   83 	ld	a,#<(_g_colors)
    002B 85            [ 4]   84 	add	a, l
    002C 6F            [ 4]   85 	ld	l,a
@@ -96,12 +96,12 @@
    003D DD 7E FF      [19]   96 	ld	a,-1 (ix)
    0040 B7            [ 4]   97 	or	a, a
    0041 28 0B         [12]   98 	jr	Z,00113$
-                             99 ;src/Textures.c:40: *position=g_colors[value];
+                             99 ;src/Textures.c:47: *position=g_colors[value];
    0043 7E            [ 7]  100 	ld	a,(hl)
    0044 FD 77 00      [19]  101 	ld	0 (iy), a
-                            102 ;src/Textures.c:41: ++position;
+                            102 ;src/Textures.c:48: ++position;
    0047 FD 23         [10]  103 	inc	iy
-                            104 ;src/Textures.c:42: --counter;
+                            104 ;src/Textures.c:49: --counter;
    0049 DD 35 FF      [23]  105 	dec	-1 (ix)
    004C 18 EF         [12]  106 	jr	00101$
    004E                     107 00113$:
@@ -113,9 +113,9 @@
    0057 F1            [10]  113 	pop	af
    0058 33            [ 6]  114 	inc	sp
    0059 DD 77 04      [19]  115 	ld	4 (ix),a
-                            116 ;src/Textures.c:44: ++texture_set;
+                            116 ;src/Textures.c:51: ++texture_set;
    005C 03            [ 6]  117 	inc	bc
-                            118 ;src/Textures.c:45: --length;
+                            118 ;src/Textures.c:52: --length;
    005D 1B            [ 6]  119 	dec	de
    005E 18 B5         [12]  120 	jr	00104$
    0060                     121 00107$:
@@ -129,7 +129,7 @@
    006Ar00r00               129 	.dw _level3_walls
    006C                     130 _theme_textures_length:
    006C BD 05               131 	.dw #0x05BD
-   006E 3C 08               132 	.dw #0x083C
+   006E 55 08               132 	.dw #0x0855
    0070 2E 08               133 	.dw #0x082E
    0072 F7 06               134 	.dw #0x06F7
    0074                     135 _enemy_textures:
@@ -137,78 +137,138 @@
    0076r00r00               137 	.dw _level1_enemies
    0078r00r00               138 	.dw _level2_enemies
    007Ar00r00               139 	.dw _level3_enemies
-   007C                     140 _enemy_textures_length:
-   007C 88 02               141 	.dw #0x0288
-   007E 4B 01               142 	.dw #0x014B
-   0080 4B 01               143 	.dw #0x014B
-   0082 4B 01               144 	.dw #0x014B
-                            145 ;src/Textures.c:49: void uncompress_theme_textures(u8 level) __z88dk_fastcall{//TODO implement
-                            146 ;	---------------------------------
-                            147 ; Function uncompress_theme_textures
-                            148 ; ---------------------------------
-   0084                     149 _uncompress_theme_textures::
-                            150 ;src/Textures.c:50: uncompress_texture_rle((u8*)UNCOMPRESSED_TEXTURES, theme_textures[level], theme_textures_length[level]);    
-   0084 11r6Cr00      [10]  151 	ld	de,#_theme_textures_length+0
-   0087 26 00         [ 7]  152 	ld	h,#0x00
-   0089 29            [11]  153 	add	hl, hl
-   008A 4D            [ 4]  154 	ld	c, l
-   008B 44            [ 4]  155 	ld	b, h
-   008C EB            [ 4]  156 	ex	de,hl
-   008D 09            [11]  157 	add	hl,bc
-   008E 5E            [ 7]  158 	ld	e,(hl)
-   008F 23            [ 6]  159 	inc	hl
-   0090 56            [ 7]  160 	ld	d,(hl)
-   0091 21r64r00      [10]  161 	ld	hl,#_theme_textures+0
-   0094 09            [11]  162 	add	hl,bc
-   0095 4E            [ 7]  163 	ld	c,(hl)
-   0096 23            [ 6]  164 	inc	hl
-   0097 46            [ 7]  165 	ld	b,(hl)
-   0098 D5            [11]  166 	push	de
-   0099 C5            [11]  167 	push	bc
-   009A 21 00 74      [10]  168 	ld	hl,#0x7400
-   009D E5            [11]  169 	push	hl
-   009E CDr00r00      [17]  170 	call	_uncompress_texture_rle
-   00A1 21 06 00      [10]  171 	ld	hl,#6
-   00A4 39            [11]  172 	add	hl,sp
-   00A5 F9            [ 6]  173 	ld	sp,hl
-   00A6 C9            [10]  174 	ret
-                            175 ;src/Textures.c:54: void uncompress_enemy_textures(u8 level) __z88dk_fastcall{
-                            176 ;	---------------------------------
-                            177 ; Function uncompress_enemy_textures
-                            178 ; ---------------------------------
-   00A7                     179 _uncompress_enemy_textures::
-                            180 ;src/Textures.c:55: uncompress_texture_rle((u8*)UNCOMPRESSED_ENEMY_TEXTURES,enemy_textures[level],enemy_textures_length[level]);
-   00A7 11r7Cr00      [10]  181 	ld	de,#_enemy_textures_length+0
-   00AA 26 00         [ 7]  182 	ld	h,#0x00
-   00AC 29            [11]  183 	add	hl, hl
-   00AD 4D            [ 4]  184 	ld	c, l
-   00AE 44            [ 4]  185 	ld	b, h
-   00AF EB            [ 4]  186 	ex	de,hl
-   00B0 09            [11]  187 	add	hl,bc
-   00B1 5E            [ 7]  188 	ld	e,(hl)
-   00B2 23            [ 6]  189 	inc	hl
-   00B3 56            [ 7]  190 	ld	d,(hl)
-   00B4 21r74r00      [10]  191 	ld	hl,#_enemy_textures+0
-   00B7 09            [11]  192 	add	hl,bc
-   00B8 4E            [ 7]  193 	ld	c,(hl)
-   00B9 23            [ 6]  194 	inc	hl
-   00BA 46            [ 7]  195 	ld	b,(hl)
-   00BB D5            [11]  196 	push	de
-   00BC C5            [11]  197 	push	bc
-   00BD 21 00 88      [10]  198 	ld	hl,#0x8800
-   00C0 E5            [11]  199 	push	hl
-   00C1 CDr00r00      [17]  200 	call	_uncompress_texture_rle
-   00C4 21 06 00      [10]  201 	ld	hl,#6
-   00C7 39            [11]  202 	add	hl,sp
-   00C8 F9            [ 6]  203 	ld	sp,hl
-   00C9 C9            [10]  204 	ret
-                            205 ;src/Textures.c:58: void uncompress_item_textures(){
-                            206 ;	---------------------------------
-                            207 ; Function uncompress_item_textures
-                            208 ; ---------------------------------
-   00CA                     209 _uncompress_item_textures::
-                            210 ;src/Textures.c:60: }
-   00CA C9            [10]  211 	ret
-                            212 	.area _CODE
-                            213 	.area _INITIALIZER
-                            214 	.area _CABS (ABS)
+   007Cr00r00               140 	.dw _king_enemy
+   007E                     141 _enemy_textures_length:
+   007E 84 00               142 	.dw #0x0084
+   0080 AB 00               143 	.dw #0x00AB
+   0082 7B 00               144 	.dw #0x007B
+   0084 B7 00               145 	.dw #0x00B7
+   0086 B8 00               146 	.dw #0x00B8
+                            147 ;src/Textures.c:56: void uncompress_theme_textures(u8 level) {//TODO implement
+                            148 ;	---------------------------------
+                            149 ; Function uncompress_theme_textures
+                            150 ; ---------------------------------
+   0088                     151 _uncompress_theme_textures::
+   0088 DD E5         [15]  152 	push	ix
+   008A DD 21 00 00   [14]  153 	ld	ix,#0
+   008E DD 39         [15]  154 	add	ix,sp
+                            155 ;src/Textures.c:57: uncompress_texture_rle((u8*)UNCOMPRESSED_TEXTURES, theme_textures[level], theme_textures_length[level]);    
+   0090 DD 6E 04      [19]  156 	ld	l,4 (ix)
+   0093 26 00         [ 7]  157 	ld	h,#0x00
+   0095 29            [11]  158 	add	hl, hl
+   0096 4D            [ 4]  159 	ld	c, l
+   0097 44            [ 4]  160 	ld	b, h
+   0098 21r6Cr00      [10]  161 	ld	hl,#_theme_textures_length
+   009B 09            [11]  162 	add	hl,bc
+   009C 5E            [ 7]  163 	ld	e,(hl)
+   009D 23            [ 6]  164 	inc	hl
+   009E 56            [ 7]  165 	ld	d,(hl)
+   009F 21r64r00      [10]  166 	ld	hl,#_theme_textures+0
+   00A2 09            [11]  167 	add	hl,bc
+   00A3 4E            [ 7]  168 	ld	c,(hl)
+   00A4 23            [ 6]  169 	inc	hl
+   00A5 46            [ 7]  170 	ld	b,(hl)
+   00A6 D5            [11]  171 	push	de
+   00A7 C5            [11]  172 	push	bc
+   00A8 21 D0 8C      [10]  173 	ld	hl,#0x8CD0
+   00AB E5            [11]  174 	push	hl
+   00AC CDr00r00      [17]  175 	call	_uncompress_texture_rle
+   00AF 21 06 00      [10]  176 	ld	hl,#6
+   00B2 39            [11]  177 	add	hl,sp
+   00B3 F9            [ 6]  178 	ld	sp,hl
+   00B4 DD E1         [14]  179 	pop	ix
+   00B6 C9            [10]  180 	ret
+                            181 ;src/Textures.c:61: void uncompress_enemy_textures(u8 level) {
+                            182 ;	---------------------------------
+                            183 ; Function uncompress_enemy_textures
+                            184 ; ---------------------------------
+   00B7                     185 _uncompress_enemy_textures::
+   00B7 DD E5         [15]  186 	push	ix
+   00B9 DD 21 00 00   [14]  187 	ld	ix,#0
+   00BD DD 39         [15]  188 	add	ix,sp
+                            189 ;src/Textures.c:62: if(camelot_warriors_mode){
+   00BF 3Ar00r00      [13]  190 	ld	a,(#_camelot_warriors_mode + 0)
+   00C2 B7            [ 4]  191 	or	a, a
+   00C3 28 2A         [12]  192 	jr	Z,00102$
+                            193 ;src/Textures.c:63: uncompress_texture_rle((u8*)UNCOMPRESSED_RAT_TEXTURE,camelot_enemy,camelot_enemy_LENGTH);
+   00C5 21 7B 00      [10]  194 	ld	hl,#0x007B
+   00C8 E5            [11]  195 	push	hl
+   00C9 21r00r00      [10]  196 	ld	hl,#_camelot_enemy
+   00CC E5            [11]  197 	push	hl
+   00CD 21 D0 A0      [10]  198 	ld	hl,#0xA0D0
+   00D0 E5            [11]  199 	push	hl
+   00D1 CDr00r00      [17]  200 	call	_uncompress_texture_rle
+   00D4 21 06 00      [10]  201 	ld	hl,#6
+   00D7 39            [11]  202 	add	hl,sp
+   00D8 F9            [ 6]  203 	ld	sp,hl
+                            204 ;src/Textures.c:64: uncompress_texture_rle((u8*)UNCOMPRESSED_ENEMY_TEXTURE,camelot_enemy,camelot_enemy_LENGTH);
+   00D9 21 7B 00      [10]  205 	ld	hl,#0x007B
+   00DC E5            [11]  206 	push	hl
+   00DD 21r00r00      [10]  207 	ld	hl,#_camelot_enemy
+   00E0 E5            [11]  208 	push	hl
+   00E1 21 10 A3      [10]  209 	ld	hl,#0xA310
+   00E4 E5            [11]  210 	push	hl
+   00E5 CDr00r00      [17]  211 	call	_uncompress_texture_rle
+   00E8 21 06 00      [10]  212 	ld	hl,#6
+   00EB 39            [11]  213 	add	hl,sp
+   00EC F9            [ 6]  214 	ld	sp,hl
+   00ED 18 38         [12]  215 	jr	00104$
+   00EF                     216 00102$:
+                            217 ;src/Textures.c:67: uncompress_texture_rle((u8*)UNCOMPRESSED_RAT_TEXTURE,rat_enemy,rat_enemy_LENGTH);
+   00EF 21 6C 00      [10]  218 	ld	hl,#0x006C
+   00F2 E5            [11]  219 	push	hl
+   00F3 21r00r00      [10]  220 	ld	hl,#_rat_enemy
+   00F6 E5            [11]  221 	push	hl
+   00F7 21 D0 A0      [10]  222 	ld	hl,#0xA0D0
+   00FA E5            [11]  223 	push	hl
+   00FB CDr00r00      [17]  224 	call	_uncompress_texture_rle
+   00FE 21 06 00      [10]  225 	ld	hl,#6
+   0101 39            [11]  226 	add	hl,sp
+   0102 F9            [ 6]  227 	ld	sp,hl
+                            228 ;src/Textures.c:68: uncompress_texture_rle((u8*)UNCOMPRESSED_ENEMY_TEXTURE,enemy_textures[level],enemy_textures_length[level]);
+   0103 DD 6E 04      [19]  229 	ld	l,4 (ix)
+   0106 26 00         [ 7]  230 	ld	h,#0x00
+   0108 29            [11]  231 	add	hl, hl
+   0109 4D            [ 4]  232 	ld	c, l
+   010A 44            [ 4]  233 	ld	b, h
+   010B 21r7Er00      [10]  234 	ld	hl,#_enemy_textures_length
+   010E 09            [11]  235 	add	hl,bc
+   010F 5E            [ 7]  236 	ld	e,(hl)
+   0110 23            [ 6]  237 	inc	hl
+   0111 56            [ 7]  238 	ld	d,(hl)
+   0112 21r74r00      [10]  239 	ld	hl,#_enemy_textures+0
+   0115 09            [11]  240 	add	hl,bc
+   0116 4E            [ 7]  241 	ld	c,(hl)
+   0117 23            [ 6]  242 	inc	hl
+   0118 46            [ 7]  243 	ld	b,(hl)
+   0119 D5            [11]  244 	push	de
+   011A C5            [11]  245 	push	bc
+   011B 21 10 A3      [10]  246 	ld	hl,#0xA310
+   011E E5            [11]  247 	push	hl
+   011F CDr00r00      [17]  248 	call	_uncompress_texture_rle
+   0122 21 06 00      [10]  249 	ld	hl,#6
+   0125 39            [11]  250 	add	hl,sp
+   0126 F9            [ 6]  251 	ld	sp,hl
+   0127                     252 00104$:
+   0127 DD E1         [14]  253 	pop	ix
+   0129 C9            [10]  254 	ret
+                            255 ;src/Textures.c:72: void uncompress_item_textures(){
+                            256 ;	---------------------------------
+                            257 ; Function uncompress_item_textures
+                            258 ; ---------------------------------
+   012A                     259 _uncompress_item_textures::
+                            260 ;src/Textures.c:73: uncompress_texture_rle((u8*)UNCOMPRESSED_OBJECT_TEXTURES, items_tileset, items_tileset_LENGTH);
+   012A 21 4A 01      [10]  261 	ld	hl,#0x014A
+   012D E5            [11]  262 	push	hl
+   012E 21r00r00      [10]  263 	ld	hl,#_items_tileset
+   0131 E5            [11]  264 	push	hl
+   0132 21 50 A5      [10]  265 	ld	hl,#0xA550
+   0135 E5            [11]  266 	push	hl
+   0136 CDr00r00      [17]  267 	call	_uncompress_texture_rle
+   0139 21 06 00      [10]  268 	ld	hl,#6
+   013C 39            [11]  269 	add	hl,sp
+   013D F9            [ 6]  270 	ld	sp,hl
+   013E C9            [10]  271 	ret
+                            272 	.area _CODE
+                            273 	.area _INITIALIZER
+                            274 	.area _CABS (ABS)

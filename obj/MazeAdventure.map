@@ -18,316 +18,492 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  s__CABS                         
      00000000  s__DABS                         
      00000040  s__CODE                         
-     000000F2  l__DATA                         
-     00005A4F  l__CODE                         
-     00005A8F  s__DATA                         
-     00005B81  s__GSFINAL                      
-     00005B81  s__GSINIT                       
-     00005B81  s__HOME                         
-     00005B81  s__INITIALIZED                  
-     00005B81  s__INITIALIZER                  
+     00000148  l__DATA                         
+     00007D5D  l__CODE                         
+     00007D9D  s__DATA                         
+     00007EE5  s__GSFINAL                      
+     00007EE5  s__GSINIT                       
+     00007EE5  s__HOME                         
+     00007EE5  s__INITIALIZED                  
+     00007EE5  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00005A4F =       23119. bytes (REL,CON)
+_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
      00000040  _enemy_get_at                      Enemy
-     0000004E  _enemy_init_enemies                Enemy
-     0000006C  _abs                               Enemy
-     00000073  _dist                              Enemy
-     000000E4  _enemy_can_view                    Enemy
-     0000025B  _enemy_new_enemy                   Enemy
-     000002CB  _enemy_try_new_spawn               Enemy
-     00000358  _enemy_roam                        Enemy
-     00000623  _enemy_AI_passive                  Enemy
-     00000636  _enemy_AI_aggressive               Enemy
-     00000637  _enemy_AI_tactical                 Enemy
-     00000638  _enemy_AI_shy                      Enemy
-     00000639  _enemy_update                      Enemy
-     00000677  _game_interrupt_handler            GameFunctions
-     00000681  _game_init                         GameFunctions
-     000006B6  _movement_directionArray           GameFunctions
-     000006BE  _level_get_level                   Level
-     000006C6  _level_palettes                    Level
-     000006EA  _level_set_level                   Level
-     000006F2  _level_init_palettes               Level
-     0000071F  _setLevelPalette                   Level
-     00000752  _level_load_level                  Level
-     0000076D  _main                              main
-     00000778  _map_get_seed                      Map
-     00000780  _get_random_wall                   Map
-     0000079D  _generate_map                      Map
-     00000C52  _generate_exit_door                Map
-     00000E06  _generate_level                    Map
-     00000E10  _generate_level_with_seed          Map
-     00000E31  _player_turn_left                  Player
-     00000E5A  _player_position                   Player
-     00000E5C  _player_direction                  Player
-     00000E5E  _player_turn_right                 Player
-     00000E87  _player_move_forward               Player
-     00000EA2  _player_get_direction_index        Player
-     00000EAA  _calculate_cells_in_view           Renderer
-     00001056  _g_palette                         Renderer
-     00001066  _g_colors                          Renderer
-     00001076  _g_pixelMask                       Renderer
-     00001078  _g_texturedWalls                   Renderer
-     00001079  _cells_in_view_array               Renderer
-     0000107B  _offsets_cells_in_view             Renderer
-     00001080  _draw_column_to_buffer_untexture   Renderer
-     000010F6  _draw_column_to_buffer_object      Renderer
-     000010F7  _draw_column_to_buffer_enemy       Renderer
-     0000123A  _draw_column_to_buffer             Renderer
-     00001372  _render_draw_to_buffer             Renderer
-     00001ECC  _draw_minimap_to_buffer            Renderer
-     00002002  _state_ingame_enter                State_InGame
-     0000201F  _state_ingame_return               State_InGame
+     00000057  _enemy_init_enemies                Enemy
+     000000B0  _abs                               Enemy
+     000000CD  _dist                              Enemy
+     000000FC  _enemy_can_view                    Enemy
+     000002AA  _enemy_is_adjacent_to_player       Enemy
+     000002EE  _enemy_new_enemy                   Enemy
+     000003BC  _enemy_try_new_spawn               Enemy
+     0000044B  _enemy_collision_at_dir            Enemy
+     000004CE  _enemy_get_distance_to_obstacle    Enemy
+     0000055F  _enemy_remove                      Enemy
+     00000598  _enemy_move                        Enemy
+     0000064A  _enemy_attack_enemy                Enemy
+     000006F5  _enemy_attack                      Enemy
+     0000077A  _enemy_go_to_player                Enemy
+     00000856  _enemy_flee                        Enemy
+     0000097B  _enemy_roam                        Enemy
+     00000A73  _enemy_AI_passive                  Enemy
+     00000B04  _enemy_AI_aggressive               Enemy
+     00000B6F  _enemy_update                      Enemy
+     00000BAA  _game_interrupt_handler            GameFunctions
+     00000BB4  _game_init                         GameFunctions
+     00000BF8  _movement_directionArray           GameFunctions
+     00000C00  _item_get_at                       Item
+     00000C19  _item_init_items                   Item
+     00000C32  _item_try_new_spawn                Item
+     00000C65  _item_new_item                     Item
+     00000E12  _item_try_new_spawn_at             Item
+     00000E15  _item_pick_item                    Item
+     00000EFE  _item_destroy_item                 Item
+     00000F38  _item_use_potion                   Item
+     00000F60  _item_use_scroll                   Item
+     00000FA7  _level_get_level                   Level
+     00000FAF  _menu_palette                      Level
+     00000FB8  _level_palettes                    Level
+     00000FDC  _level_set_level                   Level
+     00000FE5  _level_init_palettes               Level
+     0000101D  _setMenuPalette                    Level
+     00001038  _setLevelPalette                   Level
+     0000106B  _level_load_level                  Level
+     00001098  _main                              main
+     000010A5  _map_get_seed                      Map
+     000010A9  _get_random_wall                   Map
+     000010C6  _generate_final_map                Map
+     00001158  _generate_map                      Map
+     00001610  _generate_exit_door                Map
+     000017C3  _generate_level                    Map
+     000017CC  _generate_level_with_seed          Map
+     00001808  _player_init                       Player
+     0000182C  _player_position                   Player
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00005A4F =       23119. bytes (REL,CON)
+_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00002025  _state_ingame_input                State_InGame
-     000020AA  _state_ingame_update               State_InGame
-     0000216A  _state_ingame_render               State_InGame
-     00002195  _state_ingame_exit                 State_InGame
-     00002196  _state_loadlevel_enter             State_LoadLevel
-     000021D0  _state_loadlevel_return            State_LoadLevel
-     000021D1  _state_loadlevel_input             State_LoadLevel
-     000021D4  _state_loadlevel_update            State_LoadLevel
-     000021D9  _state_loadlevel_render            State_LoadLevel
-     000021DA  _state_loadlevel_exit              State_LoadLevel
-     000021DB  _state_mainmenu_enter              State_MainMenu
-     0000220E  _state_mainmenu_return             State_MainMenu
-     00002211  _state_mainmenu_input              State_MainMenu
-     00002240  _state_mainmenu_update             State_MainMenu
-     00002281  _state_mainmenu_render             State_MainMenu
-     00002284  _state_mainmenu_exit               State_MainMenu
-     00002285  _statemanager_drop_state           StateManager
-     000022DB  _stateArray                        StateManager
-     00002313  _closeState                        StateManager
-     00002314  _currentState                      StateManager
-     00002315  _changeToState                     StateManager
-     00002316  _inputReceived                     StateManager
-     00002317  _gameRunning                       StateManager
-     00002318  _last_keyboardStatusBuffer         StateManager
-     00002322  _statemanager_change_state         StateManager
-     0000236B  _statemanager_input_accepted       StateManager
-     00002371  _statemanager_set_state            StateManager
-     00002378  _scan_input                        StateManager
-     000023D5  _statemanager_manage_input         StateManager
-     00002402  _statemanager_render_state         StateManager
-     00002421  _statemanager_close_state          StateManager
-     00002427  _statemanager_update_state         StateManager
-     00002443  _statemanager_exit_game            StateManager
-     00002449  _statemanager_main_loop            StateManager
-     0000245F  _state_options_enter               State_Options
-     00002460  _state_options_return              State_Options
-     00002461  _state_options_input               State_Options
-     00002462  _state_options_update              State_Options
-     00002463  _state_options_render              State_Options
-     00002464  _state_options_exit                State_Options
-     00002465  _state_pausemenu_enter             State_PauseMenu
-     00002493  _state_pausemenu_return            State_PauseMenu
-     00002496  _state_pausemenu_input             State_PauseMenu
-     000024C5  _state_pausemenu_update            State_PauseMenu
-     00002503  _state_pausemenu_render            State_PauseMenu
-     00002506  _state_pausemenu_exit              State_PauseMenu
-     0000251B  _integer_to_string                 StringUtils
-     000025F9  _charArray                         StringUtils
-     00002679  _i_to_s_buffer                     StringUtils
-     00002682  _print_text                        StringUtils
-     00002859  _print_transparent_text            StringUtils
+     0000182E  _player_direction                  Player
+     00001830  _player_turn_left                  Player
+     00001859  _player_turn_right                 Player
+     00001882  _player_move_forward               Player
+     0000189D  _player_get_direction_index        Player
+     000018A5  _calculate_cells_in_view           Renderer
+     00001A56  _g_palette                         Renderer
+     00001A66  _g_colors                          Renderer
+     00001A76  _g_pixelMask                       Renderer
+     00001A78  _cells_in_view_array               Renderer
+     00001A7A  _offsets_cells_in_view             Renderer
+     00001A7F  _draw_column_to_buffer_untexture   Renderer
+     00001AF7  _draw_column_to_buffer_object      Renderer
+     00001BF2  _draw_column_to_buffer_enemy       Renderer
+     00001D38  _draw_column_to_buffer             Renderer
+     00001E69  _render_draw_to_buffer             Renderer
+     00002A2F  _draw_minimap_to_buffer            Renderer
+     00002B78  _str_cmp                           SaveGame
+     00002B9D  _saveArray                         SaveGame
+     00002B9F  _savegame_string_to_save           SaveGame
+     00002BFB  _savegame_checksave                SaveGame
+     00002C25  _savegame_to_string                SaveGame
+     00002C6C  _savegame_Save                     SaveGame
+     00002CD8  _savegame_decrypt_save             SaveGame
+     00002CEB  _savegame_Load                     SaveGame
+     00002D84  _savegame_get_saveString           SaveGame
+     00002D88  _state_credits_enter               State_Credits
+     00002EAB  _state_credits_return              State_Credits
+     00002EAC  _state_credits_input               State_Credits
+     00002EB5  _state_credits_update              State_Credits
+     00002EB8  _state_credits_render              State_Credits
+     00002EB9  _state_credits_exit                State_Credits
+     00002ECE  _state_gameover_enter              State_GameOver
+     00002F34  _state_gameover_return             State_GameOver
+     00002F35  _state_gameover_input              State_GameOver
+     00002F3E  _state_gameover_update             State_GameOver
+     00002F46  _state_gameover_render             State_GameOver
+     00002F47  _state_gameover_exit               State_GameOver
+     00002F48  _state_ingame_enter                State_InGame
+     00002F70  _state_ingame_update_turn          State_InGame
+     00002F95  _state_ingame_update_buffers       State_InGame
+     00002F9B  _state_ingame_return               State_InGame
+     00002FB7  _state_ingame_input                State_InGame
+     00003029  _state_ingame_update               State_InGame
+     00003172  _state_ingame_render               State_InGame
+     00003197  _state_ingame_exit                 State_InGame
+     00003198  _state_inventory_enter             State_Inventory
+     000031CC  _state_inventory_return            State_Inventory
+     000031CD  _state_inventory_object_used       State_Inventory
+     000031D5  _state_inventory_input             State_Inventory
+     00003204  _state_inventory_update            State_Inventory
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00005A4F =       23119. bytes (REL,CON)
+_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000029B0  _uncompress_texture_rle            Textures
-     00002A14  _theme_textures                    Textures
-     00002A1C  _theme_textures_length             Textures
-     00002A24  _enemy_textures                    Textures
-     00002A2C  _enemy_textures_length             Textures
-     00002A34  _uncompress_theme_textures         Textures
-     00002A57  _uncompress_enemy_textures         Textures
-     00002A7A  _uncompress_item_textures          Textures
-     00002A7B  _renderCompass                     UI_Compass
-     00002A97  _ui_gamemenu_init                  UI_GameMenu
-     00002AA9  _ui_gamemenu_entriesPosition       UI_GameMenu
-     00002AB7  _ui_gamemenu_entriesTextPosition   UI_GameMenu
-     00002AC5  _ui_gamemenu_action_buttonText     UI_GameMenu
-     00002ACB  _ui_gamemenu_buttonText            UI_GameMenu
-     00002AD9  _ui_gamemenu_buttonWidths          UI_GameMenu
-     00002B19  _ui_gamemenu_above_entry           UI_GameMenu
-     00002B3A  _ui_gamemenu_below_entry           UI_GameMenu
-     00002B51  _ui_gamemenu_next_entry            UI_GameMenu
-     00002B5E  _ui_gamemenu_previous_entry        UI_GameMenu
-     00002B6E  _ui_gamemenu_unselect_entry        UI_GameMenu
-     00002B74  _ui_gamemenu_select_entry          UI_GameMenu
-     00002B7A  _ui_gamemenu_render_button         UI_GameMenu
-     00002BF1  _ui_gamemenu_render_refresh        UI_GameMenu
-     00002C0A  _ui_gamemenu_render_all            UI_GameMenu
-     00002C22  _ui_gamemenu_get_entry             UI_GameMenu
-     00002C2A  _ui_gamemenu_is_selected           UI_GameMenu
-     00002C32  _ui_gamemenu_update_action         UI_GameMenu
-     00002CD2  _ui_gamemenu_get_movement          UI_GameMenu
-     00002CDA  _ui_gamemenu_get_action            UI_GameMenu
-     00002CE2  _ui_log_init                       UI_Log
-     00002D24  _ui_log_add_log                    UI_Log
-     00002D57  _ui_log_render                     UI_Log
-     00002DA6  _ui_mainmenu_init                  UI_MainMenu
-     00002DB6  _ui_mainmenu_entriesPosition       UI_MainMenu
-     00002DC0  _ui_mainmenu_entriesTextPosition   UI_MainMenu
-     00002DCA  _ui_mainmenu_buttonText            UI_MainMenu
-     00002DFC  _ui_mainmenu_next_entry            UI_MainMenu
-     00002E0A  _ui_mainmenu_previous_entry        UI_MainMenu
-     00002E1A  _ui_mainmenu_unselect_entry        UI_MainMenu
-     00002E20  _ui_mainmenu_select_entry          UI_MainMenu
-     00002E26  _ui_mainmenu_render_button         UI_MainMenu
-     00002E90  _ui_mainmenu_render_refresh        UI_MainMenu
-     00002EA9  _ui_mainmenu_render_all            UI_MainMenu
-     00002EC1  _ui_mainmenu_get_entry             UI_MainMenu
-     00002EC9  _ui_mainmenu_is_selected           UI_MainMenu
-     00002ED1  _ui_pausemenu_init                 UI_PauseMenu
-     00002EE1  _ui_pausemenu_entriesPosition      UI_PauseMenu
-     00002EE9  _ui_pausemenu_entriesTextPositio   UI_PauseMenu
-     00002EF1  _ui_pausemenu_buttonText           UI_PauseMenu
-     00002F1D  _ui_pausemenu_get_entry            UI_PauseMenu
-     00002F25  _ui_pausemenu_is_selected          UI_PauseMenu
+     00003237  _state_inventory_render            State_Inventory
+     0000323A  _state_inventory_exit              State_Inventory
+     0000324F  _state_loadgame_enter              State_LoadGame
+     00003280  _state_loadgame_return             State_LoadGame
+     00003281  _state_loadgame_input              State_LoadGame
+     000034CD  _state_loadgame_update             State_LoadGame
+     000034F6  _state_loadgame_render             State_LoadGame
+     000034F9  _state_loadgame_exit               State_LoadGame
+     0000350E  _state_loadlevel_enter             State_LoadLevel
+     0000356E  _state_loadlevel_return            State_LoadLevel
+     0000356F  _state_loadlevel_input             State_LoadLevel
+     00003572  _state_loadlevel_update            State_LoadLevel
+     0000358C  _state_loadlevel_render            State_LoadLevel
+     0000358D  _state_loadlevel_exit              State_LoadLevel
+     0000358E  _dec_main_bg                       State_MainMenu
+     00003653  _draw_main_bg                      State_MainMenu
+     00003672  _state_mainmenu_enter              State_MainMenu
+     00003697  _state_mainmenu_return             State_MainMenu
+     000036AE  _state_mainmenu_input              State_MainMenu
+     000036DD  _state_mainmenu_update             State_MainMenu
+     00003744  _state_mainmenu_render             State_MainMenu
+     00003747  _state_mainmenu_exit               State_MainMenu
+     00003748  _statemanager_drop_state           StateManager
+     0000379E  _stateArray                        StateManager
+     00003838  _closeState                        StateManager
+     00003839  _currentState                      StateManager
+     0000383A  _changeToState                     StateManager
+     0000383B  _inputReceived                     StateManager
+     0000383C  _gameRunning                       StateManager
+     0000383D  _last_keyboardStatusBuffer         StateManager
+     00003847  _statemanager_change_state         StateManager
+     00003890  _statemanager_input_accepted       StateManager
+     00003896  _statemanager_set_state            StateManager
+     000038A1  _scan_input                        StateManager
+     000038ED  _statemanager_manage_input         StateManager
+     0000391A  _statemanager_render_state         StateManager
+     00003939  _statemanager_close_state          StateManager
+     0000393F  _statemanager_update_state         StateManager
+     0000395B  _statemanager_exit_game            StateManager
+     00003961  _statemanager_main_loop            StateManager
+     00003977  _state_options_enter               State_Options
+     000039A5  _state_options_return              State_Options
+     000039A6  _state_options_input               State_Options
+     000039D5  _state_options_update              State_Options
+     00003A24  _state_options_render              State_Options
+     00003A27  _state_options_exit                State_Options
+     00003A3C  _state_pausemenu_enter             State_PauseMenu
+     00003A6A  _state_pausemenu_return            State_PauseMenu
+     00003A95  _state_pausemenu_input             State_PauseMenu
+     00003AC4  _state_pausemenu_update            State_PauseMenu
+     00003B0F  _state_pausemenu_render            State_PauseMenu
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00005A4F =       23119. bytes (REL,CON)
+_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00002F2D  _ui_pausemenu_next_entry           UI_PauseMenu
-     00002F3B  _ui_pausemenu_previous_entry       UI_PauseMenu
-     00002F4B  _ui_pausemenu_select_entry         UI_PauseMenu
-     00002F51  _ui_pausemenu_unselect_entry       UI_PauseMenu
-     00002F57  _ui_pausemenu_render_button        UI_PauseMenu
-     00002FC1  _ui_pausemenu_render_refresh       UI_PauseMenu
-     00002FDA  _ui_pausemenu_render_all           UI_PauseMenu
-     00002FF2  _ui_playerstats_render             UI_PlayerStats
-     0000308A  _strings                           UI_PlayerStats
-     000030C0  _compass_tileset                   compass
-     000030C8  _compass_compass_0                 compass
-     00003148  _compass_compass_1                 compass
-     000031C8  _compass_compass_2                 compass
-     00003248  _compass_compass_3                 compass
-     000032C8  _level0_enemies                    level0_enemies
-     00003550  _level1_enemies                    level1_enemies
-     0000369B  _level2_enemies                    level2_enemies
-     000037E6  _level3_enemies                    level3_enemies
-     00003931  _typography_4x6_monospaced         typography_4x6_monospaced
-     000039C7  _level0_walls                      level0_walls
-     00003F84  _level1_walls                      level1_walls
-     000047C0  _level2_walls                      level2_walls
-     00004FEE  _level3_walls                      level3_walls
-     000056E5  _cpct_scanKeyboard_f               cpct_keyboard
-     000056E5  cpct_scanKeyboard_f_asm            cpct_keyboard
-     0000574F  _cpct_isKeyPressed                 cpct_keyboard
-     0000574F  cpct_isKeyPressed_asm              cpct_keyboard
-     0000575B  _cpct_setPalette                   cpct_video
-     00005772  _cpct_setPALColour                 cpct_video
-     0000577E  _cpct_drawSprite                   cpct_sprites
-     00005823  __moduchar                         
-     0000582F  __moduint                          
-     0000583A  __divuint                          
-     00005842  __divuchar                         
-     00005849  __divu8                            
-     0000584C  __divu16                           
-     0000587B  _cpct_fw2hw                        cpct_video
-     0000588E  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00005898  __mulint                           
-     000058A0  __mul16                            
-     000058B4  _cpct_setSeed_mxor                 cpct_random
-     000058B4  cpct_setSeed_mxor_asm              cpct_random
-     000058BC  _cpct_restoreState_mxor_u8         cpct_random
-     000058BC  cpct_restoreState_mxor_u8_asm      cpct_random
-     000058C2  _cpct_getRandom_mxor_u8            cpct_random
-     000058C2  cpct_getRandom_mxor_u8             cpct_random
-     000058C3  cpct_randomIdx_mxor_u8             cpct_random
-     000058E7  _cpct_nextRandom_mxor_u32          cpct_random
-     000058E7  cpct_nextRandom_mxor_u32_asm       cpct_random
-     0000590A  ___sdcc_call_hl                    
-     0000590B  cpct_firmware2hw_colour            
+     00003B12  _state_pausemenu_exit              State_PauseMenu
+     00003B27  _state_saveexit_enter              State_SaveExit
+     00003B84  _state_saveexit_return             State_SaveExit
+     00003B85  _state_saveexit_input              State_SaveExit
+     00003B95  _state_saveexit_update             State_SaveExit
+     00003B96  _state_saveexit_render             State_SaveExit
+     00003B97  _state_saveexit_exit               State_SaveExit
+     00003B98  _state_victory_enter               State_Victory
+     00003BFF  _state_victory_return              State_Victory
+     00003C00  _state_victory_input               State_Victory
+     00003C09  _state_victory_update              State_Victory
+     00003C11  _state_victory_render              State_Victory
+     00003C12  _state_victory_exit                State_Victory
+     00003C13  _ui_stringinput_init               StringInput
+     00003C27  _ui_stringinput_add_char           StringInput
+     00003C45  _ui_stringinput_get_string         StringInput
+     00003C49  _ui_stringinput_remove_char        StringInput
+     00003C5E  _integer_to_string                 StringUtils
+     00003D3C  _charArray                         StringUtils
+     00003DBC  _i_to_s_buffer                     StringUtils
+     00003DC5  _print_text                        StringUtils
+     00003FA0  _print_transparent_text            StringUtils
+     000040F7  _uncompress_texture_rle            Textures
+     0000415B  _theme_textures                    Textures
+     00004163  _theme_textures_length             Textures
+     0000416B  _enemy_textures                    Textures
+     00004175  _enemy_textures_length             Textures
+     0000417F  _uncompress_theme_textures         Textures
+     000041AE  _uncompress_enemy_textures         Textures
+     00004221  _uncompress_item_textures          Textures
+     00004236  _renderCompass                     UI_Compass
+     00004252  _ui_gamemenu_init                  UI_GameMenu
+     00004264  _ui_gamemenu_entriesPosition       UI_GameMenu
+     00004272  _ui_gamemenu_entriesTextPosition   UI_GameMenu
+     00004280  _ui_gamemenu_action_buttonText     UI_GameMenu
+     00004286  _ui_gamemenu_buttonText            UI_GameMenu
+     00004294  _ui_gamemenu_buttonWidths          UI_GameMenu
+     000042D3  _ui_gamemenu_above_entry           UI_GameMenu
+     000042F4  _ui_gamemenu_below_entry           UI_GameMenu
+     0000430B  _ui_gamemenu_next_entry            UI_GameMenu
+     00004318  _ui_gamemenu_previous_entry        UI_GameMenu
+     00004328  _ui_gamemenu_unselect_entry        UI_GameMenu
+     0000432E  _ui_gamemenu_select_entry          UI_GameMenu
+     00004334  _ui_gamemenu_render_button         UI_GameMenu
+     000043AB  _ui_gamemenu_render_refresh        UI_GameMenu
+     000043D3  _ui_gamemenu_render_all            UI_GameMenu
+     00004423  _ui_gamemenu_get_entry             UI_GameMenu
+     0000442B  _ui_gamemenu_is_selected           UI_GameMenu
+     00004433  _ui_gamemenu_update_action         UI_GameMenu
+     000044C4  _ui_gamemenu_get_movement          UI_GameMenu
+     000044CC  _ui_gamemenu_get_action            UI_GameMenu
 ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000040    00005A4F =       23119. bytes (REL,CON)
+_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00005926  _cpct_waitVSYNC                    cpct_video
-     00005926  cpct_waitVSYNC_asm                 cpct_video
-     0000592E  _cpct_setVideoMode                 cpct_video
-     0000593C  _cpct_memcpy                       cpct_memutils
-     00005944  _cpct_memset                       cpct_memutils
-     00005952  _cpct_disableFirmware              cpct_firmware
-     00005952  _cpct_removeInterruptHandler       cpct_firmware
-     00005952  cpct_disableFirmware_asm           cpct_firmware
-     00005952  cpct_removeInterruptHandler_asm    cpct_firmware
-     00005962  _cpct_drawSolidBox                 cpct_sprites
-     00005A1A  _cpct_mode_rom_status              cpct_firmware
-     00005A1B  __divsint                          
-     00005A24  __divschar                         
-     00005A2B  __div8                             
-     00005A2F  __div_signexte                     
-     00005A33  __div16                            
-     00005A59  __get_remainder                    
-     00005A63  _cpct_setInterruptHandler          cpct_firmware
-     00005A63  cpct_setInterruptHandler_asm       cpct_firmware
-     00005A74  cpct_safeInterruptHandlerHook      cpct_firmware
-     00005A8B  _cpct_mxor32_seed                  cpct_random
-
+     000044D4  _ui_inventory_init                 UI_Inventory
+     000044E4  _ui_inventory_entriesPosition      UI_Inventory
+     000044EA  _ui_inventory_entriesTextPositio   UI_Inventory
+     000044F0  _ui_inventory_buttonText           UI_Inventory
+     000044FF  _ui_inventory_get_entry            UI_Inventory
+     00004507  _ui_inventory_is_selected          UI_Inventory
+     0000450F  _ui_inventory_next_entry           UI_Inventory
+     0000451D  _ui_inventory_previous_entry       UI_Inventory
+     0000452D  _ui_inventory_select_entry         UI_Inventory
+     00004533  _ui_inventory_unselect_entry       UI_Inventory
+     00004539  _ui_inventory_render_button        UI_Inventory
+     000045A3  _ui_inventory_render_refresh       UI_Inventory
+     000045BC  _ui_inventory_render_all           UI_Inventory
+     00004606  _ui_loadgame_init                  UI_LoadGame
+     00004616  _ui_loadgame_entriesPosition       UI_LoadGame
+     0000461A  _ui_loadgame_entriesTextPosition   UI_LoadGame
+     0000461E  _ui_loadgame_buttonText            UI_LoadGame
+     0000462C  _ui_loadgame_get_entry             UI_LoadGame
+     00004634  _ui_loadgame_is_selected           UI_LoadGame
+     0000463C  _ui_loadgame_next_entry            UI_LoadGame
+     00004650  _ui_loadgame_previous_entry        UI_LoadGame
+     00004661  _ui_loadgame_select_entry          UI_LoadGame
+     00004667  _ui_loadgame_unselect_entry        UI_LoadGame
+     0000466D  _ui_loadgame_render_button         UI_LoadGame
+     000046D7  _ui_loadgame_render_all            UI_LoadGame
+     00004719  _ui_log_init                       UI_Log
+     0000475B  _ui_log_add_log                    UI_Log
+     000047A6  _ui_log_render                     UI_Log
+     00004819  _ui_mainmenu_init                  UI_MainMenu
+     00004829  _ui_mainmenu_entriesPosition       UI_MainMenu
+     00004831  _ui_mainmenu_entriesTextPosition   UI_MainMenu
+     00004839  _ui_mainmenu_buttonText            UI_MainMenu
+     00004864  _ui_mainmenu_next_entry            UI_MainMenu
+     00004872  _ui_mainmenu_previous_entry        UI_MainMenu
+     00004882  _ui_mainmenu_unselect_entry        UI_MainMenu
+     00004888  _ui_mainmenu_select_entry          UI_MainMenu
+     0000488E  _ui_mainmenu_render_button         UI_MainMenu
+     000048F8  _ui_mainmenu_render_refresh        UI_MainMenu
+     00004911  _ui_mainmenu_render_all            UI_MainMenu
+     00004929  _ui_mainmenu_get_entry             UI_MainMenu
+     00004931  _ui_mainmenu_is_selected           UI_MainMenu
+     00004939  _ui_options_set_strings            UI_Options
+     00004961  _ui_options_entriesPosition        UI_Options
+     00004967  _ui_options_entriesTextPosition    UI_Options
+     0000496D  _ui_options_on_off                 UI_Options
+     00004971  _ui_options_buttonText             UI_Options
+     00004984  _ui_options_init                   UI_Options
+     00004996  _ui_options_get_entry              UI_Options
+     0000499E  _ui_options_is_selected            UI_Options
+     000049A6  _ui_options_next_entry             UI_Options
+     000049B4  _ui_options_previous_entry         UI_Options
 ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               00005A8F    000000F2 =         242. bytes (REL,CON)
+_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00005A8F  _activeEnemies                     Enemy
-     00005A90  _enemyArray                        Enemy
-     00005B26  _r_counter                         GameFunctions
-     00005B28  _current_level                     Level
-     00005B29  _rand_seed                         Map
-     00005B2A  _player_directionIndex             Player
-     00005B2B  _updateRenderBuffer                State_InGame
-     00005B2C  _action                            State_InGame
-     00005B2D  _ui_gamemenu_lastEntry             UI_GameMenu
-     00005B2E  _ui_gamemenu_entryIndex            UI_GameMenu
-     00005B2F  _ui_gamemenu_entrySelected         UI_GameMenu
-     00005B30  _ui_gamemenu_can_move              UI_GameMenu
-     00005B31  _ui_gamemenu_action                UI_GameMenu
-     00005B32  _ui_log_currentString              UI_Log
-     00005B33  _ui_log_textStrings                UI_Log
-     00005B7B  _ui_mainmenu_lastEntry             UI_MainMenu
-     00005B7C  _ui_mainmenu_entryIndex            UI_MainMenu
-     00005B7D  _ui_mainmenu_entrySelected         UI_MainMenu
-     00005B7E  _ui_pausemenu_lastEntry            UI_PauseMenu
-     00005B7F  _ui_pausemenu_entryIndex           UI_PauseMenu
-     00005B80  _ui_pausemenu_entrySelected        UI_PauseMenu
+     000049C4  _ui_options_select_entry           UI_Options
+     000049CA  _ui_options_unselect_entry         UI_Options
+     000049D0  _ui_options_render_button          UI_Options
+     00004A3A  _ui_options_render_refresh         UI_Options
+     00004A53  _ui_options_render_all             UI_Options
+     00004A9E  _ui_pausemenu_init                 UI_PauseMenu
+     00004AAE  _ui_pausemenu_entriesPosition      UI_PauseMenu
+     00004AB6  _ui_pausemenu_entriesTextPositio   UI_PauseMenu
+     00004ABE  _ui_pausemenu_buttonText           UI_PauseMenu
+     00004AEA  _ui_pausemenu_get_entry            UI_PauseMenu
+     00004AF2  _ui_pausemenu_is_selected          UI_PauseMenu
+     00004AFA  _ui_pausemenu_next_entry           UI_PauseMenu
+     00004B08  _ui_pausemenu_previous_entry       UI_PauseMenu
+     00004B18  _ui_pausemenu_select_entry         UI_PauseMenu
+     00004B1E  _ui_pausemenu_unselect_entry       UI_PauseMenu
+     00004B24  _ui_pausemenu_render_button        UI_PauseMenu
+     00004B8E  _ui_pausemenu_render_refresh       UI_PauseMenu
+     00004BA7  _ui_pausemenu_render_all           UI_PauseMenu
+     00004BBF  _ui_playerstats_render_all         UI_PlayerStats
+     00004BE5  _strings                           UI_PlayerStats
+     00004BFF  _ui_playerstats_render_hp          UI_PlayerStats
+     00004C60  _ui_playerstats_render_attack      UI_PlayerStats
+     00004C96  _ui_playerstats_render_defense     UI_PlayerStats
+     00004CCC  _ui_playerstats_render_potions     UI_PlayerStats
+     00004D02  _ui_playerstats_render_scrolls     UI_PlayerStats
+     00004D38  _ui_playerstats_render_key         UI_PlayerStats
+     00004D84  _compass_tileset                   compass
+     00004D8C  _compass_compass_0                 compass
+     00004E0C  _compass_compass_1                 compass
+     00004E8C  _compass_compass_2                 compass
+     00004F0C  _compass_compass_3                 compass
+     00004F8C  _items_tileset                     items_tileset
+     000050D6  _menu_bg                           menu_bg
+     000057A5  _camelot_enemy                     camelot_enemy
+     00005820  _king_enemy                        king_enemy
+     000058D8  _level0_enemies                    level0_enemies
+     0000595C  _level1_enemies                    level1_enemies
+     00005A07  _level2_enemies                    level2_enemies
+     00005A82  _level3_enemies                    level3_enemies
+     00005B39  _rat_enemy                         rat_enemy
+     00005BA5  _typography_4x6_monospaced         typography_4x6_monospaced
+     00005C3B  _level0_walls                      level0_walls
+     000061F8  _level1_walls                      level1_walls
+     00006A4D  _level2_walls                      level2_walls
+     0000727B  _level3_walls                      level3_walls
+     00007972  __divuint                          
+     0000797A  __divuchar                         
+     00007981  __divu8                            
+     00007984  __divu16                           
+     000079B3  _cpct_scanKeyboard_f               cpct_keyboard
+     000079B3  cpct_scanKeyboard_f_asm            cpct_keyboard
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000040    00007D5D =       32093. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00007A1D  _cpct_isKeyPressed                 cpct_keyboard
+     00007A1D  cpct_isKeyPressed_asm              cpct_keyboard
+     00007A29  _cpct_setPalette                   cpct_video
+     00007A40  _cpct_setPALColour                 cpct_video
+     00007A4C  _cpct_drawSprite                   cpct_sprites
+     00007AF1  __moduchar                         
+     00007AFD  __moduint                          
+     00007B08  _cpct_fw2hw                        cpct_video
+     00007B1B  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00007B25  __mulint                           
+     00007B2D  __mul16                            
+     00007B41  _cpct_setSeed_mxor                 cpct_random
+     00007B41  cpct_setSeed_mxor_asm              cpct_random
+     00007B49  _cpct_restoreState_mxor_u8         cpct_random
+     00007B49  cpct_restoreState_mxor_u8_asm      cpct_random
+     00007B4F  _cpct_getRandom_mxor_u8            cpct_random
+     00007B4F  cpct_getRandom_mxor_u8             cpct_random
+     00007B50  cpct_randomIdx_mxor_u8             cpct_random
+     00007B74  _cpct_nextRandom_mxor_u32          cpct_random
+     00007B74  cpct_nextRandom_mxor_u32_asm       cpct_random
+     00007B97  ___sdcc_call_hl                    
+     00007B98  _cpct_getRandom_mxor_u16           cpct_random
+     00007B98  cpct_getRandom_mxor_u16            cpct_random
+     00007BBA  cpct_firmware2hw_colour            
+     00007BD5  _cpct_hflipSpriteM0                cpct_sprites
+     00007C19  _cpct_waitVSYNC                    cpct_video
+     00007C19  cpct_waitVSYNC_asm                 cpct_video
+     00007C21  _cpct_isAnyKeyPressed_f            cpct_keyboard
+     00007C21  cpct_isAnyKeyPressed_f_asm         cpct_keyboard
+     00007C3C  _cpct_setVideoMode                 cpct_video
+     00007C4A  _cpct_memcpy                       cpct_memutils
+     00007C52  _cpct_memset                       cpct_memutils
+     00007C60  _cpct_disableFirmware              cpct_firmware
+     00007C60  _cpct_removeInterruptHandler       cpct_firmware
+     00007C60  cpct_disableFirmware_asm           cpct_firmware
+     00007C60  cpct_removeInterruptHandler_asm    cpct_firmware
+     00007C70  _cpct_drawSolidBox                 cpct_sprites
+     00007D28  _cpct_mode_rom_status              cpct_firmware
+     00007D29  __divsint                          
+     00007D32  __divschar                         
+     00007D39  __div8                             
+     00007D3D  __div_signexte                     
+     00007D41  __div16                            
+     00007D67  __get_remainder                    
+     00007D71  _cpct_setInterruptHandler          cpct_firmware
+     00007D71  cpct_setInterruptHandler_asm       cpct_firmware
+     00007D82  cpct_safeInterruptHandlerHook      cpct_firmware
+     00007D99  _cpct_mxor32_seed                  cpct_random
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_DATA                               00007D9D    00000148 =         328. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00007D9D  _activeEnemies                     Enemy
+     00007D9E  _enemyArray                        Enemy
+     00007E16  _r_counter                         GameFunctions
+     00007E18  _music_on                          GameFunctions
+     00007E19  _textures_on                       GameFunctions
+     00007E1A  _camelot_warriors_mode             GameFunctions
+     00007E1B  _activeItems                       Item
+     00007E1C  _item_spawnedKey                   Item
+     00007E1D  _itemArray                         Item
+     00007E40  _current_level                     Level
+     00007E41  _rand_seed                         Map
+     00007E43  _player_defense_value              Player
+     00007E44  _player_attack_value               Player
+     00007E45  _player_health_points              Player
+     00007E46  _player_is_dead                    Player
+     00007E47  _player_has_key                    Player
+     00007E48  _player_potion_count               Player
+     00007E49  _player_scroll_count               Player
+     00007E4A  _player_directionIndex             Player
+     00007E4B  _save                              SaveGame
+     00007E54  _saveString                        SaveGame
+     00007E67  _updateRenderBuffer                State_InGame
+     00007E68  _action                            State_InGame
+     00007E69  _object_used                       State_Inventory
+     00007E6A  _level_seed                        State_LoadLevel
+     00007E6C  _inputString                       StringInput
+     00007E7F  _currentPos                        StringInput
+     00007E80  _ui_gamemenu_lastEntry             UI_GameMenu
+     00007E81  _ui_gamemenu_entryIndex            UI_GameMenu
+     00007E82  _ui_gamemenu_entrySelected         UI_GameMenu
+     00007E83  _ui_gamemenu_can_move              UI_GameMenu
+     00007E84  _ui_gamemenu_action                UI_GameMenu
+     00007E85  _ui_inventory_lastEntry            UI_Inventory
+     00007E86  _ui_inventory_entryIndex           UI_Inventory
+     00007E87  _ui_inventory_entrySelected        UI_Inventory
+     00007E88  _ui_loadgame_lastEntry             UI_LoadGame
+     00007E89  _ui_loadgame_entryIndex            UI_LoadGame
+     00007E8A  _ui_loadgame_entrySelected         UI_LoadGame
+     00007E8B  _ui_log_currentString              UI_Log
+     00007E8C  _ui_log_textStrings                UI_Log
+     00007EDC  _ui_mainmenu_lastEntry             UI_MainMenu
+     00007EDD  _ui_mainmenu_entryIndex            UI_MainMenu
+     00007EDE  _ui_mainmenu_entrySelected         UI_MainMenu
+     00007EDF  _ui_options_lastEntry              UI_Options
+     00007EE0  _ui_options_entryIndex             UI_Options
+     00007EE1  _ui_options_entrySelected          UI_Options
+     00007EE2  _ui_pausemenu_lastEntry            UI_PauseMenu
+     00007EE3  _ui_pausemenu_entryIndex           UI_PauseMenu
+     00007EE4  _ui_pausemenu_entrySelected        UI_PauseMenu
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
 
 Files Linked                              [ module(s) ]
 
@@ -335,32 +511,46 @@ obj/Enemy.rel                             [ Enemy ]
 obj/GameFunctions.rel                     [ GameFunctions ]
 obj/Item.rel                              [ Item ]
 obj/Level.rel                             [ Level ]
+obj/LoadGame.rel                          [ LoadGame ]
 obj/main.rel                              [ main ]
 obj/Map.rel                               [ Map ]
 obj/Player.rel                            [ Player ]
 obj/Renderer.rel                          [ Renderer ]
+obj/SaveGame.rel                          [ SaveGame ]
 obj/State_Credits.rel                     [ State_Credits ]
+obj/State_GameOver.rel                    [ State_GameOver ]
 obj/State_InGame.rel                      [ State_InGame ]
-obj/State_Intro.rel                       [ State_Intro ]
+obj/State_Inventory.rel                   [ State_Inventory ]
+obj/State_LoadGame.rel                    [ State_LoadGame ]
 obj/State_LoadLevel.rel                   [ State_LoadLevel ]
 obj/State_MainMenu.rel                    [ State_MainMenu ]
 obj/StateManager.rel                      [ StateManager ]
 obj/State_Options.rel                     [ State_Options ]
 obj/State_PauseMenu.rel                   [ State_PauseMenu ]
+obj/State_SaveExit.rel                    [ State_SaveExit ]
+obj/State_Victory.rel                     [ State_Victory ]
+obj/StringInput.rel                       [ StringInput ]
 obj/StringUtils.rel                       [ StringUtils ]
 obj/Textures.rel                          [ Textures ]
 obj/UI_Compass.rel                        [ UI_Compass ]
-obj/UI_EnemyStats.rel                     [ UI_EnemyStats ]
 obj/UI_GameMenu.rel                       [ UI_GameMenu ]
+obj/UI_Inventory.rel                      [ UI_Inventory ]
+obj/UI_LoadGame.rel                       [ UI_LoadGame ]
 obj/UI_Log.rel                            [ UI_Log ]
 obj/UI_MainMenu.rel                       [ UI_MainMenu ]
+obj/UI_Options.rel                        [ UI_Options ]
 obj/UI_PauseMenu.rel                      [ UI_PauseMenu ]
 obj/UI_PlayerStats.rel                    [ UI_PlayerStats ]
 obj/textures/compass.rel                  [ compass ]
+obj/textures/items_tileset.rel            [ items_tileset ]
+obj/textures/menu_bg.rel                  [ menu_bg ]
+obj/textures/enemies/camelot_enemy.rel    [ camelot_enemy ]
+obj/textures/enemies/king_enemy.rel       [ king_enemy ]
 obj/textures/enemies/level0_enemies.rel   [ level0_enemies ]
 obj/textures/enemies/level1_enemies.rel   [ level1_enemies ]
 obj/textures/enemies/level2_enemies.rel   [ level2_enemies ]
 obj/textures/enemies/level3_enemies.rel   [ level3_enemies ]
+obj/textures/enemies/rat_enemy.rel        [ rat_enemy ]
 obj/textures/typography/typography_4x6_monospaced.rel
                                           [ typography_4x6_monospaced ]
 obj/textures/walls/level0_walls.rel       [ level0_walls ]
@@ -371,6 +561,8 @@ obj/textures/walls/level3_walls.rel       [ level3_walls ]
 
 Libraries Linked                          [ object file ]
 
+/home/albert/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ divunsigned.rel ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_scanKeyboard_f.rel ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
@@ -383,8 +575,6 @@ Libraries Linked                          [ object file ]
                                           [ cpct_drawSprite_cbindings.rel ]
 /home/albert/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
                                           [ modunsigned.rel ]
-/home/albert/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
-                                          [ divunsigned.rel ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_fw2hw_cbindings.rel ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
@@ -402,9 +592,15 @@ Libraries Linked                          [ object file ]
 /home/albert/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80/z80.lib
                                           [ __sdcc_call_hl.rel ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getRandom_mxor_u16.rel ]
+/home/albert/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_firmware2hw_colour_table.re ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_hflipSpriteM0_cbindings.rel ]
+/home/albert/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_waitVSYNC.rel ]
+/home/albert/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_isAnyKeyPressed_f.rel ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setVideoMode_cbindings.rel ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
@@ -424,7 +620,7 @@ Libraries Linked                          [ object file ]
 /home/albert/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_mxor32_seed.rel ]
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
 
 User Base Address Definitions
 

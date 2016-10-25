@@ -7,27 +7,48 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 _abs                                                           002C GR
+  0 ___str_0                                                       06A4 R
+  0 ___str_1                                                       06AC R
+  0 ___str_2                                                       072A R
+  0 ___str_3                                                       0731 R
+    __moduchar                                                     **** GX
+  0 _abs                                                           0070 GR
   1 _activeEnemies                                                 0000 GR
     _cpct_getRandom_mxor_u8                                        **** GX
+    _cpct_memcpy                                                   **** GX
     _cpct_memset                                                   **** GX
-  0 _dist                                                          0033 GR
+  0 _dist                                                          008D GR
   1 _enemyArray                                                    0001 GR
-  0 _enemy_AI_aggressive                                           05F6 GR
-  0 _enemy_AI_passive                                              05E3 GR
-  0 _enemy_AI_shy                                                  05F8 GR
-  0 _enemy_AI_tactical                                             05F7 GR
-  0 _enemy_can_view                                                00A4 GR
+  0 _enemy_AI_aggressive                                           0AC4 GR
+  0 _enemy_AI_passive                                              0A33 GR
+  0 _enemy_attack                                                  06B5 GR
+  0 _enemy_attack_enemy                                            060A GR
+  0 _enemy_can_view                                                00BC GR
+  0 _enemy_collision_at_dir                                        040B GR
+  0 _enemy_flee                                                    0816 GR
   0 _enemy_get_at                                                  0000 GR
-  0 _enemy_init_enemies                                            000E GR
-  0 _enemy_new_enemy                                               021B GR
-  0 _enemy_roam                                                    0318 GR
-  0 _enemy_try_new_spawn                                           028B GR
-  0 _enemy_update                                                  05F9 GR
+  0 _enemy_get_distance_to_obstacle                                048E GR
+  0 _enemy_go_to_player                                            073A GR
+  0 _enemy_init_enemies                                            0017 GR
+  0 _enemy_is_adjacent_to_player                                   026A GR
+  0 _enemy_move                                                    0558 GR
+  0 _enemy_new_enemy                                               02AE GR
+  0 _enemy_remove                                                  051F GR
+  0 _enemy_roam                                                    093B GR
+  0 _enemy_try_new_spawn                                           037C GR
+  0 _enemy_update                                                  0B2F GR
     _integer_to_string                                             **** GX
+    _item_try_new_spawn_at                                         **** GX
+    _level_get_level                                               **** GX
     _movement_directionArray                                       **** GX
+    _player_attack_value                                           **** GX
+    _player_defense_value                                          **** GX
+    _player_health_points                                          **** GX
+    _player_is_dead                                                **** GX
     _player_position                                               **** GX
     _ui_log_add_log                                                **** GX
+    _ui_log_render                                                 **** GX
+    _ui_playerstats_render_hp                                      **** GX
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -35,8 +56,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  637   flags    0
-   1 _DATA                                      size   97   flags    0
+   0 _CODE                                      size  B6A   flags    0
+   1 _DATA                                      size   79   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

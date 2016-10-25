@@ -8,130 +8,177 @@
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
-                             11 	.globl _enemy_init_enemies
-                             12 	.globl _level_load_level
-                             13 	.globl _generate_level
-                             14 	.globl _print_transparent_text
-                             15 	.globl _draw_minimap_to_buffer
-                             16 	.globl _render_draw_to_buffer
-                             17 	.globl _statemanager_input_accepted
-                             18 	.globl _statemanager_set_state
-                             19 	.globl _cpct_memset
-                             20 	.globl _state_loadlevel_enter
-                             21 	.globl _state_loadlevel_return
-                             22 	.globl _state_loadlevel_input
-                             23 	.globl _state_loadlevel_update
-                             24 	.globl _state_loadlevel_render
-                             25 	.globl _state_loadlevel_exit
-                             26 ;--------------------------------------------------------
-                             27 ; special function registers
-                             28 ;--------------------------------------------------------
-                             29 ;--------------------------------------------------------
-                             30 ; ram data
-                             31 ;--------------------------------------------------------
-                             32 	.area _DATA
+                             11 	.globl _savegame_Save
+                             12 	.globl _enemy_init_enemies
+                             13 	.globl _level_load_level
+                             14 	.globl _level_get_level
+                             15 	.globl _generate_level
+                             16 	.globl _generate_level_with_seed
+                             17 	.globl _print_transparent_text
+                             18 	.globl _draw_minimap_to_buffer
+                             19 	.globl _render_draw_to_buffer
+                             20 	.globl _statemanager_input_accepted
+                             21 	.globl _statemanager_set_state
+                             22 	.globl _cpct_memset
+                             23 	.globl _level_seed
+                             24 	.globl _state_loadlevel_enter
+                             25 	.globl _state_loadlevel_return
+                             26 	.globl _state_loadlevel_input
+                             27 	.globl _state_loadlevel_update
+                             28 	.globl _state_loadlevel_render
+                             29 	.globl _state_loadlevel_exit
+                             30 ;--------------------------------------------------------
+                             31 ; special function registers
+                             32 ;--------------------------------------------------------
                              33 ;--------------------------------------------------------
                              34 ; ram data
                              35 ;--------------------------------------------------------
-                             36 	.area _INITIALIZED
-                             37 ;--------------------------------------------------------
-                             38 ; absolute external ram data
+                             36 	.area _DATA
+   7E6A                      37 _level_seed::
+   7E6A                      38 	.ds 2
                              39 ;--------------------------------------------------------
-                             40 	.area _DABS (ABS)
+                             40 ; ram data
                              41 ;--------------------------------------------------------
-                             42 ; global & static initialisations
+                             42 	.area _INITIALIZED
                              43 ;--------------------------------------------------------
-                             44 	.area _HOME
-                             45 	.area _GSINIT
-                             46 	.area _GSFINAL
-                             47 	.area _GSINIT
-                             48 ;--------------------------------------------------------
-                             49 ; Home
-                             50 ;--------------------------------------------------------
-                             51 	.area _HOME
-                             52 	.area _HOME
-                             53 ;--------------------------------------------------------
-                             54 ; code
-                             55 ;--------------------------------------------------------
-                             56 	.area _CODE
-                             57 ;src/State_LoadLevel.c:11: void state_loadlevel_enter(){
-                             58 ;	---------------------------------
-                             59 ; Function state_loadlevel_enter
-                             60 ; ---------------------------------
-   2196                      61 _state_loadlevel_enter::
-                             62 ;src/State_LoadLevel.c:13: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
-   2196 21 67 10      [10]   63 	ld	hl,#_g_colors+1
-   2199 46            [ 7]   64 	ld	b,(hl)
-   219A 21 00 40      [10]   65 	ld	hl,#0x4000
-   219D E5            [11]   66 	push	hl
-   219E C5            [11]   67 	push	bc
-   219F 33            [ 6]   68 	inc	sp
-   21A0 26 C0         [ 7]   69 	ld	h, #0xC0
-   21A2 E5            [11]   70 	push	hl
-   21A3 CD 44 59      [17]   71 	call	_cpct_memset
-                             72 ;src/State_LoadLevel.c:15: print_transparent_text("LOADING", 0xe391, 3);
-   21A6 3E 03         [ 7]   73 	ld	a,#0x03
-   21A8 F5            [11]   74 	push	af
-   21A9 33            [ 6]   75 	inc	sp
-   21AA 21 91 E3      [10]   76 	ld	hl,#0xE391
-   21AD E5            [11]   77 	push	hl
-   21AE 21 C8 21      [10]   78 	ld	hl,#___str_0
-   21B1 E5            [11]   79 	push	hl
-   21B2 CD 59 28      [17]   80 	call	_print_transparent_text
-   21B5 F1            [10]   81 	pop	af
-   21B6 F1            [10]   82 	pop	af
-   21B7 33            [ 6]   83 	inc	sp
-                             84 ;src/State_LoadLevel.c:17: generate_level();
-   21B8 CD 06 0E      [17]   85 	call	_generate_level
-                             86 ;src/State_LoadLevel.c:18: level_load_level();
-   21BB CD 52 07      [17]   87 	call	_level_load_level
-                             88 ;src/State_LoadLevel.c:20: enemy_init_enemies();
-   21BE CD 4E 00      [17]   89 	call	_enemy_init_enemies
-                             90 ;src/State_LoadLevel.c:22: render_draw_to_buffer();
-   21C1 CD 72 13      [17]   91 	call	_render_draw_to_buffer
-                             92 ;src/State_LoadLevel.c:23: draw_minimap_to_buffer();
-   21C4 CD CC 1E      [17]   93 	call	_draw_minimap_to_buffer
-   21C7 C9            [10]   94 	ret
-   21C8                      95 ___str_0:
-   21C8 4C 4F 41 44 49 4E    96 	.ascii "LOADING"
+                             44 ; absolute external ram data
+                             45 ;--------------------------------------------------------
+                             46 	.area _DABS (ABS)
+                             47 ;--------------------------------------------------------
+                             48 ; global & static initialisations
+                             49 ;--------------------------------------------------------
+                             50 	.area _HOME
+                             51 	.area _GSINIT
+                             52 	.area _GSFINAL
+                             53 	.area _GSINIT
+                             54 ;--------------------------------------------------------
+                             55 ; Home
+                             56 ;--------------------------------------------------------
+                             57 	.area _HOME
+                             58 	.area _HOME
+                             59 ;--------------------------------------------------------
+                             60 ; code
+                             61 ;--------------------------------------------------------
+                             62 	.area _CODE
+                             63 ;src/State_LoadLevel.c:16: void state_loadlevel_enter(){
+                             64 ;	---------------------------------
+                             65 ; Function state_loadlevel_enter
+                             66 ; ---------------------------------
+   350E                      67 _state_loadlevel_enter::
+                             68 ;src/State_LoadLevel.c:18: if(level_get_level()<=(KING_LEVEL)){
+   350E CD A7 0F      [17]   69 	call	_level_get_level
+   3511 3E 20         [ 7]   70 	ld	a,#0x20
+   3513 95            [ 4]   71 	sub	a, l
+   3514 D8            [11]   72 	ret	C
+                             73 ;src/State_LoadLevel.c:19: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+   3515 21 67 1A      [10]   74 	ld	hl,#_g_colors+1
+   3518 46            [ 7]   75 	ld	b,(hl)
+   3519 21 00 40      [10]   76 	ld	hl,#0x4000
+   351C E5            [11]   77 	push	hl
+   351D C5            [11]   78 	push	bc
+   351E 33            [ 6]   79 	inc	sp
+   351F 26 C0         [ 7]   80 	ld	h, #0xC0
+   3521 E5            [11]   81 	push	hl
+   3522 CD 52 7C      [17]   82 	call	_cpct_memset
+                             83 ;src/State_LoadLevel.c:21: print_transparent_text("LOADING", 0xe391, 3);
+   3525 3E 03         [ 7]   84 	ld	a,#0x03
+   3527 F5            [11]   85 	push	af
+   3528 33            [ 6]   86 	inc	sp
+   3529 21 91 E3      [10]   87 	ld	hl,#0xE391
+   352C E5            [11]   88 	push	hl
+   352D 21 66 35      [10]   89 	ld	hl,#___str_0
+   3530 E5            [11]   90 	push	hl
+   3531 CD A0 3F      [17]   91 	call	_print_transparent_text
+   3534 F1            [10]   92 	pop	af
+   3535 F1            [10]   93 	pop	af
+   3536 33            [ 6]   94 	inc	sp
+                             95 ;src/State_LoadLevel.c:23: if(level_seed) generate_level_with_seed(level_seed);
+   3537 3A 6B 7E      [13]   96 	ld	a,(#_level_seed + 1)
+   353A 21 6A 7E      [10]   97 	ld	hl,#_level_seed + 0
+   353D B6            [ 7]   98 	or	a,(hl)
+   353E 28 0A         [12]   99 	jr	Z,00102$
+   3540 2A 6A 7E      [16]  100 	ld	hl,(_level_seed)
+   3543 E5            [11]  101 	push	hl
+   3544 CD CC 17      [17]  102 	call	_generate_level_with_seed
+   3547 F1            [10]  103 	pop	af
+   3548 18 03         [12]  104 	jr	00103$
+   354A                     105 00102$:
+                            106 ;src/State_LoadLevel.c:24: else generate_level();
+   354A CD C3 17      [17]  107 	call	_generate_level
+   354D                     108 00103$:
+                            109 ;src/State_LoadLevel.c:25: level_load_level();
+   354D CD 6B 10      [17]  110 	call	_level_load_level
+                            111 ;src/State_LoadLevel.c:27: enemy_init_enemies();
+   3550 CD 57 00      [17]  112 	call	_enemy_init_enemies
+                            113 ;src/State_LoadLevel.c:28: item_init_items();
+   3553 CD 19 0C      [17]  114 	call	_item_init_items
+                            115 ;src/State_LoadLevel.c:30: savegame_Save();
+   3556 CD 6C 2C      [17]  116 	call	_savegame_Save
+                            117 ;src/State_LoadLevel.c:32: render_draw_to_buffer();
+   3559 CD 69 1E      [17]  118 	call	_render_draw_to_buffer
+                            119 ;src/State_LoadLevel.c:33: draw_minimap_to_buffer();
+   355C CD 2F 2A      [17]  120 	call	_draw_minimap_to_buffer
+                            121 ;src/State_LoadLevel.c:34: level_seed=0;
+   355F 21 00 00      [10]  122 	ld	hl,#0x0000
+   3562 22 6A 7E      [16]  123 	ld	(_level_seed),hl
+   3565 C9            [10]  124 	ret
+   3566                     125 ___str_0:
+   3566 4C 4F 41 44 49 4E   126 	.ascii "LOADING"
         47
-   21CF 00                   97 	.db 0x00
-                             98 ;src/State_LoadLevel.c:27: void state_loadlevel_return(){
-                             99 ;	---------------------------------
-                            100 ; Function state_loadlevel_return
-                            101 ; ---------------------------------
-   21D0                     102 _state_loadlevel_return::
-                            103 ;src/State_LoadLevel.c:29: }
-   21D0 C9            [10]  104 	ret
-                            105 ;src/State_LoadLevel.c:32: void state_loadlevel_input() {
-                            106 ;	---------------------------------
-                            107 ; Function state_loadlevel_input
-                            108 ; ---------------------------------
-   21D1                     109 _state_loadlevel_input::
-                            110 ;src/State_LoadLevel.c:33: statemanager_input_accepted();
-   21D1 C3 6B 23      [10]  111 	jp  _statemanager_input_accepted
-                            112 ;src/State_LoadLevel.c:36: void state_loadlevel_update(){
-                            113 ;	---------------------------------
-                            114 ; Function state_loadlevel_update
-                            115 ; ---------------------------------
-   21D4                     116 _state_loadlevel_update::
-                            117 ;src/State_LoadLevel.c:37: statemanager_set_state(STATE_INGAME);
-   21D4 2E 01         [ 7]  118 	ld	l,#0x01
-   21D6 C3 71 23      [10]  119 	jp  _statemanager_set_state
-                            120 ;src/State_LoadLevel.c:40: void state_loadlevel_render(){
-                            121 ;	---------------------------------
-                            122 ; Function state_loadlevel_render
-                            123 ; ---------------------------------
-   21D9                     124 _state_loadlevel_render::
-                            125 ;src/State_LoadLevel.c:42: }
-   21D9 C9            [10]  126 	ret
-                            127 ;src/State_LoadLevel.c:44: void state_loadlevel_exit(){
-                            128 ;	---------------------------------
-                            129 ; Function state_loadlevel_exit
-                            130 ; ---------------------------------
-   21DA                     131 _state_loadlevel_exit::
-                            132 ;src/State_LoadLevel.c:46: }
-   21DA C9            [10]  133 	ret
-                            134 	.area _CODE
-                            135 	.area _INITIALIZER
-                            136 	.area _CABS (ABS)
+   356D 00                  127 	.db 0x00
+                            128 ;src/State_LoadLevel.c:39: void state_loadlevel_return(){
+                            129 ;	---------------------------------
+                            130 ; Function state_loadlevel_return
+                            131 ; ---------------------------------
+   356E                     132 _state_loadlevel_return::
+                            133 ;src/State_LoadLevel.c:41: }
+   356E C9            [10]  134 	ret
+                            135 ;src/State_LoadLevel.c:44: void state_loadlevel_input() {
+                            136 ;	---------------------------------
+                            137 ; Function state_loadlevel_input
+                            138 ; ---------------------------------
+   356F                     139 _state_loadlevel_input::
+                            140 ;src/State_LoadLevel.c:45: statemanager_input_accepted();
+   356F C3 90 38      [10]  141 	jp  _statemanager_input_accepted
+                            142 ;src/State_LoadLevel.c:48: void state_loadlevel_update(){
+                            143 ;	---------------------------------
+                            144 ; Function state_loadlevel_update
+                            145 ; ---------------------------------
+   3572                     146 _state_loadlevel_update::
+                            147 ;src/State_LoadLevel.c:49: if(level_get_level()<=(KING_LEVEL)){
+   3572 CD A7 0F      [17]  148 	call	_level_get_level
+   3575 3E 20         [ 7]  149 	ld	a,#0x20
+   3577 95            [ 4]  150 	sub	a, l
+   3578 38 09         [12]  151 	jr	C,00102$
+                            152 ;src/State_LoadLevel.c:50: statemanager_set_state(STATE_INGAME);
+   357A 3E 01         [ 7]  153 	ld	a,#0x01
+   357C F5            [11]  154 	push	af
+   357D 33            [ 6]  155 	inc	sp
+   357E CD 96 38      [17]  156 	call	_statemanager_set_state
+   3581 33            [ 6]  157 	inc	sp
+   3582 C9            [10]  158 	ret
+   3583                     159 00102$:
+                            160 ;src/State_LoadLevel.c:53: statemanager_set_state(STATE_VICTORY);
+   3583 3E 07         [ 7]  161 	ld	a,#0x07
+   3585 F5            [11]  162 	push	af
+   3586 33            [ 6]  163 	inc	sp
+   3587 CD 96 38      [17]  164 	call	_statemanager_set_state
+   358A 33            [ 6]  165 	inc	sp
+   358B C9            [10]  166 	ret
+                            167 ;src/State_LoadLevel.c:57: void state_loadlevel_render(){
+                            168 ;	---------------------------------
+                            169 ; Function state_loadlevel_render
+                            170 ; ---------------------------------
+   358C                     171 _state_loadlevel_render::
+                            172 ;src/State_LoadLevel.c:59: }
+   358C C9            [10]  173 	ret
+                            174 ;src/State_LoadLevel.c:61: void state_loadlevel_exit(){
+                            175 ;	---------------------------------
+                            176 ; Function state_loadlevel_exit
+                            177 ; ---------------------------------
+   358D                     178 _state_loadlevel_exit::
+                            179 ;src/State_LoadLevel.c:63: }
+   358D C9            [10]  180 	ret
+                            181 	.area _CODE
+                            182 	.area _INITIALIZER
+                            183 	.area _CABS (ABS)

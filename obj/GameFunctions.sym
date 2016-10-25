@@ -7,6 +7,7 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
+  1 _camelot_warriors_mode                                         0004 GR
     _cpct_disableFirmware                                          **** GX
     _cpct_fw2hw                                                    **** GX
     _cpct_setInterruptHandler                                      **** GX
@@ -17,8 +18,10 @@ Symbol Table
   0 _game_init                                                     000A GR
   0 _game_interrupt_handler                                        0000 GR
     _level_init_palettes                                           **** GX
-  0 _movement_directionArray                                       003F GR
+  0 _movement_directionArray                                       004E GR
+  1 _music_on                                                      0002 GR
   1 _r_counter                                                     0000 GR
+  1 _textures_on                                                   0003 GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -26,8 +29,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   47   flags    0
-   1 _DATA                                      size    2   flags    0
+   0 _CODE                                      size   56   flags    0
+   1 _DATA                                      size    5   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

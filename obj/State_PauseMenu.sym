@@ -11,11 +11,11 @@ Symbol Table
     _cpct_isKeyPressed                                             **** GX
     _g_colors                                                      **** GX
   0 _state_pausemenu_enter                                         0000 GR
-  0 _state_pausemenu_exit                                          00A1 GR
-  0 _state_pausemenu_input                                         0031 GR
-  0 _state_pausemenu_render                                        009E GR
+  0 _state_pausemenu_exit                                          00D6 GR
+  0 _state_pausemenu_input                                         0059 GR
+  0 _state_pausemenu_render                                        00D3 GR
   0 _state_pausemenu_return                                        002E GR
-  0 _state_pausemenu_update                                        0060 GR
+  0 _state_pausemenu_update                                        0088 GR
     _statemanager_close_state                                      **** GX
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
@@ -35,7 +35,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   B6   flags    0
+   0 _CODE                                      size   EB   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

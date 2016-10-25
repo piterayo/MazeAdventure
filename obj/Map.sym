@@ -12,13 +12,15 @@ Symbol Table
     _cpct_memset                                                   **** GX
     _cpct_restoreState_mxor_u8                                     **** GX
     _cpct_setSeed_mxor                                             **** GX
-  0 _generate_exit_door                                            04DA GR
-  0 _generate_level                                                068E GR
-  0 _generate_level_with_seed                                      0698 GR
-  0 _generate_map                                                  0025 GR
-  0 _get_random_wall                                               0008 GR
+  0 _generate_exit_door                                            056B GR
+  0 _generate_final_map                                            0021 GR
+  0 _generate_level                                                071E GR
+  0 _generate_level_with_seed                                      0727 GR
+  0 _generate_map                                                  00B3 GR
+  0 _get_random_wall                                               0004 GR
     _level_get_level                                               **** GX
   0 _map_get_seed                                                  0000 GR
+    _player_get_direction_index                                    **** GX
     _player_position                                               **** GX
     _player_turn_left                                              **** GX
     _r_counter                                                     **** GX
@@ -30,8 +32,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  6B9   flags    0
-   1 _DATA                                      size    1   flags    0
+   0 _CODE                                      size  763   flags    0
+   1 _DATA                                      size    2   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

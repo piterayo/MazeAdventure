@@ -8,186 +8,226 @@
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
-                             11 	.globl _ui_log_render
-                             12 	.globl _print_text
+                             11 	.globl _print_text
+                             12 	.globl _cpct_drawSolidBox
                              13 	.globl _cpct_memcpy
                              14 	.globl _ui_log_textStrings
                              15 	.globl _ui_log_currentString
                              16 	.globl _ui_log_init
                              17 	.globl _ui_log_add_log
-                             18 ;--------------------------------------------------------
-                             19 ; special function registers
-                             20 ;--------------------------------------------------------
+                             18 	.globl _ui_log_render
+                             19 ;--------------------------------------------------------
+                             20 ; special function registers
                              21 ;--------------------------------------------------------
-                             22 ; ram data
-                             23 ;--------------------------------------------------------
-                             24 	.area _DATA
-   0000                      25 _ui_log_currentString::
-   0000                      26 	.ds 1
-   0001                      27 _ui_log_textStrings::
-   0001                      28 	.ds 72
-                             29 ;--------------------------------------------------------
-                             30 ; ram data
-                             31 ;--------------------------------------------------------
-                             32 	.area _INITIALIZED
-                             33 ;--------------------------------------------------------
-                             34 ; absolute external ram data
-                             35 ;--------------------------------------------------------
-                             36 	.area _DABS (ABS)
-                             37 ;--------------------------------------------------------
-                             38 ; global & static initialisations
-                             39 ;--------------------------------------------------------
-                             40 	.area _HOME
-                             41 	.area _GSINIT
-                             42 	.area _GSFINAL
-                             43 	.area _GSINIT
-                             44 ;--------------------------------------------------------
-                             45 ; Home
-                             46 ;--------------------------------------------------------
-                             47 	.area _HOME
+                             22 ;--------------------------------------------------------
+                             23 ; ram data
+                             24 ;--------------------------------------------------------
+                             25 	.area _DATA
+   0000                      26 _ui_log_currentString::
+   0000                      27 	.ds 1
+   0001                      28 _ui_log_textStrings::
+   0001                      29 	.ds 80
+                             30 ;--------------------------------------------------------
+                             31 ; ram data
+                             32 ;--------------------------------------------------------
+                             33 	.area _INITIALIZED
+                             34 ;--------------------------------------------------------
+                             35 ; absolute external ram data
+                             36 ;--------------------------------------------------------
+                             37 	.area _DABS (ABS)
+                             38 ;--------------------------------------------------------
+                             39 ; global & static initialisations
+                             40 ;--------------------------------------------------------
+                             41 	.area _HOME
+                             42 	.area _GSINIT
+                             43 	.area _GSFINAL
+                             44 	.area _GSINIT
+                             45 ;--------------------------------------------------------
+                             46 ; Home
+                             47 ;--------------------------------------------------------
                              48 	.area _HOME
-                             49 ;--------------------------------------------------------
-                             50 ; code
-                             51 ;--------------------------------------------------------
-                             52 	.area _CODE
-                             53 ;src/UI_Log.c:16: void ui_log_init(){
-                             54 ;	---------------------------------
-                             55 ; Function ui_log_init
-                             56 ; ---------------------------------
-   0000                      57 _ui_log_init::
-                             58 ;src/UI_Log.c:18: ui_log_currentString=0;
-   0000 21r00r00      [10]   59 	ld	hl,#_ui_log_currentString + 0
-   0003 36 00         [10]   60 	ld	(hl), #0x00
-                             61 ;src/UI_Log.c:19: print_text("LOG", UI_LOG_TITLE_POSITION, UI_LOG_BG_COLOR, UI_LOG_FG_COLOR);
-   0005 21 01 03      [10]   62 	ld	hl,#0x0301
-   0008 E5            [11]   63 	push	hl
-   0009 21 E6 C0      [10]   64 	ld	hl,#0xC0E6
-   000C E5            [11]   65 	push	hl
-   000D 21r3Er00      [10]   66 	ld	hl,#___str_0
-   0010 E5            [11]   67 	push	hl
-   0011 CDr00r00      [17]   68 	call	_print_text
-   0014 21 06 00      [10]   69 	ld	hl,#6
-   0017 39            [11]   70 	add	hl,sp
-   0018 F9            [ 6]   71 	ld	sp,hl
-                             72 ;src/UI_Log.c:20: while(n){
-   0019 0E 08         [ 7]   73 	ld	c,#0x08
-   001B 11 48 00      [10]   74 	ld	de,#0x0048
-   001E                      75 00101$:
-   001E 79            [ 4]   76 	ld	a,c
-   001F B7            [ 4]   77 	or	a, a
-   0020 C8            [11]   78 	ret	Z
-                             79 ;src/UI_Log.c:21: --n;
-   0021 7B            [ 4]   80 	ld	a,e
-   0022 C6 F7         [ 7]   81 	add	a,#0xF7
-   0024 5F            [ 4]   82 	ld	e,a
-   0025 7A            [ 4]   83 	ld	a,d
-   0026 CE FF         [ 7]   84 	adc	a,#0xFF
-   0028 57            [ 4]   85 	ld	d,a
-   0029 0D            [ 4]   86 	dec	c
-                             87 ;src/UI_Log.c:22: ui_log_textStrings[n][0]=0;
-   002A 21r01r00      [10]   88 	ld	hl,#_ui_log_textStrings
-   002D 19            [11]   89 	add	hl,de
-   002E 36 00         [10]   90 	ld	(hl),#0x00
-                             91 ;src/UI_Log.c:23: ui_log_textStrings[n][8]=0;
-   0030 21r01r00      [10]   92 	ld	hl,#_ui_log_textStrings
-   0033 19            [11]   93 	add	hl,de
-   0034 D5            [11]   94 	push	de
-   0035 11 08 00      [10]   95 	ld	de,#0x0008
-   0038 19            [11]   96 	add	hl, de
-   0039 D1            [10]   97 	pop	de
-   003A 36 00         [10]   98 	ld	(hl),#0x00
-   003C 18 E0         [12]   99 	jr	00101$
-   003E                     100 ___str_0:
-   003E 4C 4F 47            101 	.ascii "LOG"
-   0041 00                  102 	.db 0x00
-                            103 ;src/UI_Log.c:27: void ui_log_add_log(const char* const newLog){
-                            104 ;	---------------------------------
-                            105 ; Function ui_log_add_log
-                            106 ; ---------------------------------
-   0042                     107 _ui_log_add_log::
-   0042 DD E5         [15]  108 	push	ix
-   0044 DD 21 00 00   [14]  109 	ld	ix,#0
-   0048 DD 39         [15]  110 	add	ix,sp
-                            111 ;src/UI_Log.c:29: ui_log_currentString = (ui_log_currentString+1) & 7;
-   004A 3Ar00r00      [13]  112 	ld	a,(#_ui_log_currentString + 0)
-   004D 3C            [ 4]  113 	inc	a
-   004E E6 07         [ 7]  114 	and	a, #0x07
-   0050 32r00r00      [13]  115 	ld	(#_ui_log_currentString + 0),a
-                            116 ;src/UI_Log.c:31: cpct_memcpy(ui_log_textStrings[ui_log_currentString], newLog, 8);
-   0053 DD 4E 04      [19]  117 	ld	c,4 (ix)
-   0056 DD 46 05      [19]  118 	ld	b,5 (ix)
-   0059 ED 5Br00r00   [20]  119 	ld	de,(_ui_log_currentString)
-   005D 16 00         [ 7]  120 	ld	d,#0x00
-   005F 6B            [ 4]  121 	ld	l, e
-   0060 62            [ 4]  122 	ld	h, d
-   0061 29            [11]  123 	add	hl, hl
-   0062 29            [11]  124 	add	hl, hl
-   0063 29            [11]  125 	add	hl, hl
-   0064 19            [11]  126 	add	hl, de
-   0065 11r01r00      [10]  127 	ld	de,#_ui_log_textStrings
-   0068 19            [11]  128 	add	hl,de
-   0069 11 08 00      [10]  129 	ld	de,#0x0008
-   006C D5            [11]  130 	push	de
-   006D C5            [11]  131 	push	bc
-   006E E5            [11]  132 	push	hl
-   006F CDr00r00      [17]  133 	call	_cpct_memcpy
-   0072 DD E1         [14]  134 	pop	ix
-   0074 C9            [10]  135 	ret
-                            136 ;src/UI_Log.c:35: void ui_log_render(){
-                            137 ;	---------------------------------
-                            138 ; Function ui_log_render
-                            139 ; ---------------------------------
-   0075                     140 _ui_log_render::
-   0075 DD E5         [15]  141 	push	ix
-   0077 DD 21 00 00   [14]  142 	ld	ix,#0
-   007B DD 39         [15]  143 	add	ix,sp
-   007D 3B            [ 6]  144 	dec	sp
-                            145 ;src/UI_Log.c:39: while(i){
-   007E 01 80 C1      [10]  146 	ld	bc,#0xC180
-   0081 DD 36 FF 08   [19]  147 	ld	-1 (ix),#0x08
-   0085                     148 00101$:
-   0085 DD 7E FF      [19]  149 	ld	a,-1 (ix)
-   0088 B7            [ 4]  150 	or	a, a
-   0089 28 35         [12]  151 	jr	Z,00104$
-                            152 ;src/UI_Log.c:40: ui_log_currentString=((ui_log_currentString+1)&7);
-   008B 3Ar00r00      [13]  153 	ld	a,(#_ui_log_currentString + 0)
-   008E 3C            [ 4]  154 	inc	a
-   008F E6 07         [ 7]  155 	and	a, #0x07
-   0091 32r00r00      [13]  156 	ld	(#_ui_log_currentString + 0),a
-                            157 ;src/UI_Log.c:41: print_text(ui_log_textStrings[ui_log_currentString], pos, UI_LOG_BG_COLOR, UI_LOG_FG_COLOR);
-   0094 ED 5Br00r00   [20]  158 	ld	de,(_ui_log_currentString)
-   0098 16 00         [ 7]  159 	ld	d,#0x00
-   009A 6B            [ 4]  160 	ld	l, e
-   009B 62            [ 4]  161 	ld	h, d
-   009C 29            [11]  162 	add	hl, hl
-   009D 29            [11]  163 	add	hl, hl
-   009E 29            [11]  164 	add	hl, hl
-   009F 19            [11]  165 	add	hl, de
-   00A0 11r01r00      [10]  166 	ld	de,#_ui_log_textStrings
-   00A3 19            [11]  167 	add	hl,de
-   00A4 EB            [ 4]  168 	ex	de,hl
-   00A5 C5            [11]  169 	push	bc
-   00A6 21 01 03      [10]  170 	ld	hl,#0x0301
-   00A9 E5            [11]  171 	push	hl
-   00AA C5            [11]  172 	push	bc
-   00AB D5            [11]  173 	push	de
-   00AC CDr00r00      [17]  174 	call	_print_text
-   00AF 21 06 00      [10]  175 	ld	hl,#6
-   00B2 39            [11]  176 	add	hl,sp
-   00B3 F9            [ 6]  177 	ld	sp,hl
-   00B4 C1            [10]  178 	pop	bc
-                            179 ;src/UI_Log.c:42: pos+=80;
-   00B5 21 50 00      [10]  180 	ld	hl,#0x0050
-   00B8 09            [11]  181 	add	hl,bc
-   00B9 4D            [ 4]  182 	ld	c,l
-   00BA 44            [ 4]  183 	ld	b,h
-                            184 ;src/UI_Log.c:43: --i;
-   00BB DD 35 FF      [23]  185 	dec	-1 (ix)
-   00BE 18 C5         [12]  186 	jr	00101$
-   00C0                     187 00104$:
-   00C0 33            [ 6]  188 	inc	sp
-   00C1 DD E1         [14]  189 	pop	ix
-   00C3 C9            [10]  190 	ret
-                            191 	.area _CODE
-                            192 	.area _INITIALIZER
-                            193 	.area _CABS (ABS)
+                             49 	.area _HOME
+                             50 ;--------------------------------------------------------
+                             51 ; code
+                             52 ;--------------------------------------------------------
+                             53 	.area _CODE
+                             54 ;src/UI_Log.c:18: void ui_log_init(){
+                             55 ;	---------------------------------
+                             56 ; Function ui_log_init
+                             57 ; ---------------------------------
+   0000                      58 _ui_log_init::
+                             59 ;src/UI_Log.c:20: ui_log_currentString=0;
+   0000 21r00r00      [10]   60 	ld	hl,#_ui_log_currentString + 0
+   0003 36 00         [10]   61 	ld	(hl), #0x00
+                             62 ;src/UI_Log.c:21: print_text("LOG", UI_LOG_TITLE_POSITION, UI_LOG_BG_COLOR, 3);
+   0005 21 01 03      [10]   63 	ld	hl,#0x0301
+   0008 E5            [11]   64 	push	hl
+   0009 21 E6 C0      [10]   65 	ld	hl,#0xC0E6
+   000C E5            [11]   66 	push	hl
+   000D 21r3Er00      [10]   67 	ld	hl,#___str_0
+   0010 E5            [11]   68 	push	hl
+   0011 CDr00r00      [17]   69 	call	_print_text
+   0014 21 06 00      [10]   70 	ld	hl,#6
+   0017 39            [11]   71 	add	hl,sp
+   0018 F9            [ 6]   72 	ld	sp,hl
+                             73 ;src/UI_Log.c:22: while(n){
+   0019 0E 08         [ 7]   74 	ld	c,#0x08
+   001B 11 50 00      [10]   75 	ld	de,#0x0050
+   001E                      76 00101$:
+   001E 79            [ 4]   77 	ld	a,c
+   001F B7            [ 4]   78 	or	a, a
+   0020 C8            [11]   79 	ret	Z
+                             80 ;src/UI_Log.c:23: --n;
+   0021 7B            [ 4]   81 	ld	a,e
+   0022 C6 F6         [ 7]   82 	add	a,#0xF6
+   0024 5F            [ 4]   83 	ld	e,a
+   0025 7A            [ 4]   84 	ld	a,d
+   0026 CE FF         [ 7]   85 	adc	a,#0xFF
+   0028 57            [ 4]   86 	ld	d,a
+   0029 0D            [ 4]   87 	dec	c
+                             88 ;src/UI_Log.c:24: ui_log_textStrings[n][0]=0;
+   002A 21r01r00      [10]   89 	ld	hl,#_ui_log_textStrings
+   002D 19            [11]   90 	add	hl,de
+   002E 36 00         [10]   91 	ld	(hl),#0x00
+                             92 ;src/UI_Log.c:25: ui_log_textStrings[n][8]=0;
+   0030 21r01r00      [10]   93 	ld	hl,#_ui_log_textStrings
+   0033 19            [11]   94 	add	hl,de
+   0034 D5            [11]   95 	push	de
+   0035 11 08 00      [10]   96 	ld	de,#0x0008
+   0038 19            [11]   97 	add	hl, de
+   0039 D1            [10]   98 	pop	de
+   003A 36 00         [10]   99 	ld	(hl),#0x00
+   003C 18 E0         [12]  100 	jr	00101$
+   003E                     101 ___str_0:
+   003E 4C 4F 47            102 	.ascii "LOG"
+   0041 00                  103 	.db 0x00
+                            104 ;src/UI_Log.c:29: void ui_log_add_log(const char* const newLog, u8 color){
+                            105 ;	---------------------------------
+                            106 ; Function ui_log_add_log
+                            107 ; ---------------------------------
+   0042                     108 _ui_log_add_log::
+   0042 DD E5         [15]  109 	push	ix
+   0044 DD 21 00 00   [14]  110 	ld	ix,#0
+   0048 DD 39         [15]  111 	add	ix,sp
+                            112 ;src/UI_Log.c:31: ui_log_currentString = (ui_log_currentString+1) & 7;
+   004A 3Ar00r00      [13]  113 	ld	a,(#_ui_log_currentString + 0)
+   004D 3C            [ 4]  114 	inc	a
+   004E E6 07         [ 7]  115 	and	a, #0x07
+   0050 32r00r00      [13]  116 	ld	(#_ui_log_currentString + 0),a
+                            117 ;src/UI_Log.c:33: cpct_memcpy(ui_log_textStrings[ui_log_currentString], newLog, 8);
+   0053 DD 4E 04      [19]  118 	ld	c,4 (ix)
+   0056 DD 46 05      [19]  119 	ld	b,5 (ix)
+   0059 ED 5Br00r00   [20]  120 	ld	de,(_ui_log_currentString)
+   005D 16 00         [ 7]  121 	ld	d,#0x00
+   005F 6B            [ 4]  122 	ld	l, e
+   0060 62            [ 4]  123 	ld	h, d
+   0061 29            [11]  124 	add	hl, hl
+   0062 29            [11]  125 	add	hl, hl
+   0063 19            [11]  126 	add	hl, de
+   0064 29            [11]  127 	add	hl, hl
+   0065 11r01r00      [10]  128 	ld	de,#_ui_log_textStrings
+   0068 19            [11]  129 	add	hl,de
+   0069 11 08 00      [10]  130 	ld	de,#0x0008
+   006C D5            [11]  131 	push	de
+   006D C5            [11]  132 	push	bc
+   006E E5            [11]  133 	push	hl
+   006F CDr00r00      [17]  134 	call	_cpct_memcpy
+                            135 ;src/UI_Log.c:34: ui_log_textStrings[ui_log_currentString][9] = color;
+   0072 ED 4Br00r00   [20]  136 	ld	bc,(_ui_log_currentString)
+   0076 06 00         [ 7]  137 	ld	b,#0x00
+   0078 69            [ 4]  138 	ld	l, c
+   0079 60            [ 4]  139 	ld	h, b
+   007A 29            [11]  140 	add	hl, hl
+   007B 29            [11]  141 	add	hl, hl
+   007C 09            [11]  142 	add	hl, bc
+   007D 29            [11]  143 	add	hl, hl
+   007E 11r01r00      [10]  144 	ld	de,#_ui_log_textStrings
+   0081 19            [11]  145 	add	hl,de
+   0082 01 09 00      [10]  146 	ld	bc,#0x0009
+   0085 09            [11]  147 	add	hl,bc
+   0086 DD 7E 06      [19]  148 	ld	a,6 (ix)
+   0089 77            [ 7]  149 	ld	(hl),a
+   008A DD E1         [14]  150 	pop	ix
+   008C C9            [10]  151 	ret
+                            152 ;src/UI_Log.c:38: void ui_log_render(){
+                            153 ;	---------------------------------
+                            154 ; Function ui_log_render
+                            155 ; ---------------------------------
+   008D                     156 _ui_log_render::
+   008D DD E5         [15]  157 	push	ix
+   008F DD 21 00 00   [14]  158 	ld	ix,#0
+   0093 DD 39         [15]  159 	add	ix,sp
+   0095 3B            [ 6]  160 	dec	sp
+                            161 ;src/UI_Log.c:41: cpct_drawSolidBox(UI_LOG_POSITION, g_colors[1], 16, 64);
+   0096 21r01r00      [10]  162 	ld	hl,#_g_colors+1
+   0099 46            [ 7]  163 	ld	b,(hl)
+   009A 21 10 40      [10]  164 	ld	hl,#0x4010
+   009D E5            [11]  165 	push	hl
+   009E C5            [11]  166 	push	bc
+   009F 33            [ 6]  167 	inc	sp
+   00A0 21 80 C1      [10]  168 	ld	hl,#0xC180
+   00A3 E5            [11]  169 	push	hl
+   00A4 CDr00r00      [17]  170 	call	_cpct_drawSolidBox
+   00A7 F1            [10]  171 	pop	af
+   00A8 F1            [10]  172 	pop	af
+   00A9 33            [ 6]  173 	inc	sp
+                            174 ;src/UI_Log.c:42: while(i){
+   00AA 01 80 C1      [10]  175 	ld	bc,#0xC180
+   00AD DD 36 FF 08   [19]  176 	ld	-1 (ix),#0x08
+   00B1                     177 00101$:
+   00B1 DD 7E FF      [19]  178 	ld	a,-1 (ix)
+   00B4 B7            [ 4]  179 	or	a, a
+   00B5 28 45         [12]  180 	jr	Z,00104$
+                            181 ;src/UI_Log.c:43: ui_log_currentString=((ui_log_currentString+1)&7);
+   00B7 3Ar00r00      [13]  182 	ld	a,(#_ui_log_currentString + 0)
+   00BA 3C            [ 4]  183 	inc	a
+   00BB E6 07         [ 7]  184 	and	a, #0x07
+   00BD 32r00r00      [13]  185 	ld	(#_ui_log_currentString + 0),a
+                            186 ;src/UI_Log.c:44: print_text(ui_log_textStrings[ui_log_currentString], pos, UI_LOG_BG_COLOR, ui_log_textStrings[ui_log_currentString][9]);
+   00C0 ED 5Br00r00   [20]  187 	ld	de,(_ui_log_currentString)
+   00C4 16 00         [ 7]  188 	ld	d,#0x00
+   00C6 6B            [ 4]  189 	ld	l, e
+   00C7 62            [ 4]  190 	ld	h, d
+   00C8 29            [11]  191 	add	hl, hl
+   00C9 29            [11]  192 	add	hl, hl
+   00CA 19            [11]  193 	add	hl, de
+   00CB 29            [11]  194 	add	hl, hl
+   00CC 5D            [ 4]  195 	ld	e,l
+   00CD 54            [ 4]  196 	ld	d,h
+   00CE FD 21r01r00   [14]  197 	ld	iy,#_ui_log_textStrings
+   00D2 FD 19         [15]  198 	add	iy, de
+   00D4 FD 66 09      [19]  199 	ld	h,9 (iy)
+   00D7 3Er01         [ 7]  200 	ld	a,#<(_ui_log_textStrings)
+   00D9 83            [ 4]  201 	add	a, e
+   00DA 5F            [ 4]  202 	ld	e,a
+   00DB 3Es00         [ 7]  203 	ld	a,#>(_ui_log_textStrings)
+   00DD 8A            [ 4]  204 	adc	a, d
+   00DE 57            [ 4]  205 	ld	d,a
+   00DF C5            [11]  206 	push	bc
+   00E0 E5            [11]  207 	push	hl
+   00E1 33            [ 6]  208 	inc	sp
+   00E2 3E 01         [ 7]  209 	ld	a,#0x01
+   00E4 F5            [11]  210 	push	af
+   00E5 33            [ 6]  211 	inc	sp
+   00E6 C5            [11]  212 	push	bc
+   00E7 D5            [11]  213 	push	de
+   00E8 CDr00r00      [17]  214 	call	_print_text
+   00EB 21 06 00      [10]  215 	ld	hl,#6
+   00EE 39            [11]  216 	add	hl,sp
+   00EF F9            [ 6]  217 	ld	sp,hl
+   00F0 C1            [10]  218 	pop	bc
+                            219 ;src/UI_Log.c:45: pos+=80;
+   00F1 21 50 00      [10]  220 	ld	hl,#0x0050
+   00F4 09            [11]  221 	add	hl,bc
+   00F5 4D            [ 4]  222 	ld	c,l
+   00F6 44            [ 4]  223 	ld	b,h
+                            224 ;src/UI_Log.c:46: --i;
+   00F7 DD 35 FF      [23]  225 	dec	-1 (ix)
+   00FA 18 B5         [12]  226 	jr	00101$
+   00FC                     227 00104$:
+   00FC 33            [ 6]  228 	inc	sp
+   00FD DD E1         [14]  229 	pop	ix
+   00FF C9            [10]  230 	ret
+                            231 	.area _CODE
+                            232 	.area _INITIALIZER
+                            233 	.area _CABS (ABS)

@@ -1,18 +1,26 @@
 XL2
-H 9 areas 9 global symbols
+H 9 areas 11 global symbols
 M Player
 O -mz80
 S .__.ABS. Def0000
 S _movement_directionArray Ref0000
-A _CODE size 79 flags 0 addr 0
-S _player_position Def0029
-S _player_direction Def002B
-S _player_turn_right Def002D
-S _player_move_forward Def0056
-S _player_turn_left Def0000
-S _player_get_direction_index Def0071
-A _DATA size 1 flags 0 addr 0
-S _player_directionIndex Def0000
+A _CODE size 9D flags 0 addr 0
+S _player_position Def0024
+S _player_direction Def0026
+S _player_turn_right Def0051
+S _player_move_forward Def007A
+S _player_turn_left Def0028
+S _player_get_direction_index Def0095
+S _player_init Def0000
+A _DATA size 8 flags 0 addr 0
+S _player_directionIndex Def0007
+S _player_is_dead Def0003
+S _player_defense_value Def0000
+S _player_scroll_count Def0006
+S _player_potion_count Def0005
+S _player_has_key Def0004
+S _player_health_points Def0002
+S _player_attack_value Def0001
 A _INITIALIZED size 0 flags 0 addr 0
 A _DABS size 0 flags 8 addr 0
 A _HOME size 0 flags 0 addr 0
@@ -24,37 +32,73 @@ T 00 00
 R 00 00 01 00
 T 00 00
 R 00 00 01 00
+T 01 00
+R 00 00 01 00
+T 01 00
+R 00 00 01 00
+T 02 00
+R 00 00 01 00
+T 02 00
+R 00 00 01 00
+T 03 00
+R 00 00 01 00
+T 03 00
+R 00 00 01 00
+T 04 00
+R 00 00 01 00
+T 04 00
+R 00 00 01 00
+T 05 00
+R 00 00 01 00
+T 05 00
+R 00 00 01 00
+T 06 00
+R 00 00 01 00
+T 06 00
+R 00 00 01 00
+T 07 00
+R 00 00 01 00
+T 07 00
+R 00 00 01 00
 T 00 00
 R 00 00 00 00
-T 00 00 3A 00 00 C6 02 E6 07 32 00 00 11 00 00 2A
+T 00 00 21 01 00 36 34 21 00 00 36 08 21 03 00 36
+R 00 00 00 00 00 03 01 00 00 08 01 00 00 0D 01 00
+T 0E 00 00 21 02 00 36 FF 21 04 00 36 00 21 05 00
+R 00 00 00 00 00 04 01 00 00 09 01 00 00 0E 01 00
+T 1C 00 36 00 21 06 00 36 00 C9
+R 00 00 00 00 00 05 01 00
+T 24 00
+R 00 00 00 00
+T 24 00 01 01
+R 00 00 00 00
+T 26 00
+R 00 00 00 00
+T 26 00 01 00
+R 00 00 00 00
+T 28 00
+R 00 00 00 00
+T 28 00 3A 07 00 C6 02 E6 07 32 07 00 11 00 00 2A
 R 00 00 00 00 00 03 01 00 00 0A 01 00 02 0D 01 00
-T 0E 00 00 00 26 00 19 4E 21 2B 00 71 01 2C 00 FD
+T 36 00 07 00 26 00 19 4E 21 26 00 71 01 27 00 FD
 R 00 00 00 00 00 02 01 00 00 09 00 00 00 0D 00 00
-T 1C 00 21 00 00 FD 6E 00 2C 26 00 19 7E 02 C9
+T 44 00 21 07 00 FD 6E 00 2C 26 00 19 7E 02 C9
 R 00 00 00 00 00 03 01 00
-T 29 00
+T 51 00
 R 00 00 00 00
-T 29 00 01 01
-R 00 00 00 00
-T 2B 00
-R 00 00 00 00
-T 2B 00 01 00
-R 00 00 00 00
-T 2D 00
-R 00 00 00 00
-T 2D 00 3A 00 00 C6 FE E6 07 32 00 00 11 00 00 2A
+T 51 00 3A 07 00 C6 FE E6 07 32 07 00 11 00 00 2A
 R 00 00 00 00 00 03 01 00 00 0A 01 00 02 0D 01 00
-T 3B 00 00 00 26 00 19 4E 21 2B 00 71 01 2C 00 FD
+T 5F 00 07 00 26 00 19 4E 21 26 00 71 01 27 00 FD
 R 00 00 00 00 00 02 01 00 00 09 00 00 00 0D 00 00
-T 49 00 21 00 00 FD 6E 00 2C 26 00 19 7E 02 C9
+T 6D 00 21 07 00 FD 6E 00 2C 26 00 19 7E 02 C9
 R 00 00 00 00 00 03 01 00
-T 56 00
+T 7A 00
 R 00 00 00 00
-T 56 00 21 29 00 4D 44 56 21 2B 00 5E 7A 83 02 21
+T 7A 00 21 24 00 4D 44 56 21 26 00 5E 7A 83 02 21
 R 00 00 00 00 00 03 00 00 00 09 00 00
-T 64 00 2A 00 4D 44 56 21 2C 00 5E 7A 83 02 C9
+T 88 00 25 00 4D 44 56 21 27 00 5E 7A 83 02 C9
 R 00 00 00 00 00 02 00 00 00 08 00 00
-T 71 00
+T 95 00
 R 00 00 00 00
-T 71 00 FD 21 00 00 FD 6E 00 C9
+T 95 00 FD 21 07 00 FD 6E 00 C9
 R 00 00 00 00 00 04 01 00
