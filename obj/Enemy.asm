@@ -224,26 +224,26 @@ _enemy_can_view::
 	ld	c,(hl)
 ;src/Enemy.c:90: y0 = player_position.y;
 	ld	a,(#_player_position+1)
-	ld	-15 (ix),a
+	ld	-14 (ix),a
 ;src/Enemy.c:92: x1 = e->position.x;
 	ld	e,4 (ix)
 	ld	d,5 (ix)
 	push	de
 	pop	iy
 	ld	a,3 (iy)
-	ld	-14 (ix),a
+	ld	-13 (ix),a
 ;src/Enemy.c:93: y1 = e->position.y;
 	push	de
 	pop	iy
 	ld	a,4 (iy)
-	ld	-11 (ix),a
+	ld	-15 (ix),a
 ;src/Enemy.c:95: mask = (CELL_WALL_MASK|CELL_ENEMY_MASK)^(e->id+1);
 	ld	a,(de)
 	inc	a
 	xor	a, #0x8F
-	ld	-12 (ix),a
+	ld	-10 (ix),a
 ;src/Enemy.c:97: dx = abs(x1-x0);
-	ld	a,-14 (ix)
+	ld	a,-13 (ix)
 	sub	a, c
 	ld	b,a
 	push	bc
@@ -254,8 +254,8 @@ _enemy_can_view::
 	pop	bc
 	ld	-7 (ix),l
 ;src/Enemy.c:98: dy = abs(y1-y0);
-	ld	a,-11 (ix)
-	sub	a, -15 (ix)
+	ld	a,-15 (ix)
+	sub	a, -14 (ix)
 	ld	b,a
 	push	bc
 	push	bc
@@ -266,7 +266,7 @@ _enemy_can_view::
 	ld	-9 (ix),l
 ;src/Enemy.c:100: sx = (x0<x1)?1:-1;
 	ld	a,c
-	sub	a, -14 (ix)
+	sub	a, -13 (ix)
 	jp	PO, 00168$
 	xor	a, #0x80
 00168$:
@@ -278,8 +278,8 @@ _enemy_can_view::
 00118$:
 	ld	-8 (ix),b
 ;src/Enemy.c:101: sy = (y0<y1)?1:-1;
-	ld	a,-15 (ix)
-	sub	a, -11 (ix)
+	ld	a,-14 (ix)
+	sub	a, -15 (ix)
 	jp	PO, 00169$
 	xor	a, #0x80
 00169$:
@@ -289,22 +289,22 @@ _enemy_can_view::
 00119$:
 	ld	e,#0xFF
 00120$:
-	ld	-10 (ix),e
+	ld	-11 (ix),e
 ;src/Enemy.c:103: e1 = ((dx>dy)?dx:-dy)/2;
 	ld	a,-7 (ix)
-	ld	-2 (ix),a
+	ld	-6 (ix),a
 	ld	a,-7 (ix)
 	rla
 	sbc	a, a
-	ld	-1 (ix),a
+	ld	-5 (ix),a
 	ld	a,-9 (ix)
 	sub	a, -7 (ix)
 	jp	PO, 00170$
 	xor	a, #0x80
 00170$:
 	jp	P,00121$
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	jr	00122$
 00121$:
 	ld	e,-9 (ix)
@@ -332,13 +332,13 @@ _enemy_can_view::
 ;src/Enemy.c:105: while(1){
 00113$:
 ;src/Enemy.c:106: e2 = e1;
-	ld	-13 (ix),b
+	ld	-12 (ix),b
 ;src/Enemy.c:107: if (e2 >-dx) {
 	xor	a, a
-	sub	a, -2 (ix)
+	sub	a, -6 (ix)
 	ld	e,a
 	ld	a, #0x00
-	sbc	a, -1 (ix)
+	sbc	a, -5 (ix)
 	ld	d,a
 	ld	a,b
 	ld	l,a
@@ -363,7 +363,7 @@ _enemy_can_view::
 	ld	c,a
 00102$:
 ;src/Enemy.c:111: if (e2 < dy) {
-	ld	a,-13 (ix)
+	ld	a,-12 (ix)
 	sub	a, -9 (ix)
 	jp	PO, 00172$
 	xor	a, #0x80
@@ -374,9 +374,9 @@ _enemy_can_view::
 	add	a, -7 (ix)
 	ld	b,a
 ;src/Enemy.c:113: y0 += sy;
-	ld	a,-15 (ix)
-	add	a, -10 (ix)
-	ld	-15 (ix),a
+	ld	a,-14 (ix)
+	add	a, -11 (ix)
+	ld	-14 (ix),a
 00104$:
 ;src/Enemy.c:116: if((*(u8*)(MAP_MEM+(x0+(y0*MAP_WIDTH)))&(mask))||(
 	ld	a,c
@@ -384,15 +384,15 @@ _enemy_can_view::
 	rla
 	sbc	a, a
 	ld	d,a
-	ld	a,-15 (ix)
-	ld	-6 (ix),a
-	ld	a,-15 (ix)
+	ld	a,-14 (ix)
+	ld	-2 (ix),a
+	ld	a,-14 (ix)
 	rla
 	sbc	a, a
-	ld	-5 (ix),a
-	ld	a,-6 (ix)
+	ld	-1 (ix),a
+	ld	a,-2 (ix)
 	ld	-4 (ix),a
-	ld	a,-5 (ix)
+	ld	a,-1 (ix)
 	ld	-3 (ix),a
 	ld	a,#0x05+1
 	jr	00174$
@@ -410,19 +410,19 @@ _enemy_can_view::
 	add	hl, de
 	pop	de
 	ld	a,(hl)
-	and	a, -12 (ix)
+	and	a, -10 (ix)
 	or	a, a
 	jr	NZ,00105$
 ;src/Enemy.c:117: (*(u8*)(MAP_MEM+((x0)+((y0-sy)*MAP_WIDTH)))&(mask))&&
-	ld	l,-10 (ix)
-	ld	a,-10 (ix)
+	ld	l,-11 (ix)
+	ld	a,-11 (ix)
 	rla
 	sbc	a, a
 	ld	h,a
-	ld	a,-6 (ix)
+	ld	a,-2 (ix)
 	sub	a, l
 	ld	l,a
-	ld	a,-5 (ix)
+	ld	a,-1 (ix)
 	sbc	a, h
 	ld	h,a
 	add	hl, hl
@@ -436,7 +436,7 @@ _enemy_can_view::
 	add	hl, de
 	pop	de
 	ld	a,(hl)
-	and	a, -12 (ix)
+	and	a, -10 (ix)
 	or	a, a
 	jr	Z,00106$
 ;src/Enemy.c:118: (*(u8*)(MAP_MEM+((x0-sx)+(y0*MAP_WIDTH)))&(mask))
@@ -457,7 +457,7 @@ _enemy_can_view::
 	ld	de,#0x88D0
 	add	hl,de
 	ld	a,(hl)
-	and	a, -12 (ix)
+	and	a, -10 (ix)
 	or	a, a
 	jr	Z,00106$
 00105$:
@@ -466,11 +466,11 @@ _enemy_can_view::
 	jr	00115$
 00106$:
 ;src/Enemy.c:123: if ((x0==x1 && y0==y1)){
-	ld	a,-14 (ix)
+	ld	a,-13 (ix)
 	sub	a, c
 	jp	NZ,00113$
-	ld	a,-15 (ix)
-	sub	a, -11 (ix)
+	ld	a,-14 (ix)
+	sub	a, -15 (ix)
 	jp	NZ,00113$
 ;src/Enemy.c:128: return 1;
 	ld	l,#0x01
@@ -538,13 +538,13 @@ _enemy_new_enemy::
 	ld	l,4 (ix)
 	ld	h,5 (ix)
 	ld	a,(hl)
-	ld	-2 (ix),a
+	ld	-5 (ix),a
 ;src/Enemy.c:142: y=position->y;
 	inc	hl
 	ld	a,(hl)
 	ld	-1 (ix),a
 ;src/Enemy.c:144: memPos = (MAP_MEM+x+(y*MAP_WIDTH));
-	ld	e,-2 (ix)
+	ld	e,-5 (ix)
 	ld	d,#0x00
 	ld	hl,#0x88D0
 	add	hl,de
@@ -557,17 +557,16 @@ _enemy_new_enemy::
 	add	hl, hl
 	add	hl, hl
 	add	hl,de
-	inc	sp
-	inc	sp
-	push	hl
+	ld	-3 (ix),l
+	ld	-2 (ix),h
 ;src/Enemy.c:146: while(i){
-	ld	-3 (ix),#0x0F
+	ld	-4 (ix),#0x0F
 00103$:
-	ld	a,-3 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jp	Z,00106$
 ;src/Enemy.c:147: --i;
-	dec	-3 (ix)
+	dec	-4 (ix)
 ;src/Enemy.c:148: --enemy;
 	ld	a,c
 	add	a,#0xF8
@@ -583,7 +582,7 @@ _enemy_new_enemy::
 	or	a, a
 	jr	NZ,00103$
 ;src/Enemy.c:150: enemy->id=i;
-	ld	a,-3 (ix)
+	ld	a,-4 (ix)
 	ld	(bc),a
 ;src/Enemy.c:152: enemy->type=cpct_getRandom_mxor_u8()&1;
 	ld	l, c
@@ -658,21 +657,21 @@ _enemy_new_enemy::
 	inc	bc
 	inc	bc
 	inc	bc
-	ld	a,-2 (ix)
+	ld	a,-5 (ix)
 	ld	(bc),a
 ;src/Enemy.c:162: enemy->position.y = y;
 	inc	bc
 	ld	a,-1 (ix)
 	ld	(bc),a
 ;src/Enemy.c:164: *memPos=(i+1)|(*memPos);
-	ld	c,-3 (ix)
+	ld	c,-4 (ix)
 	inc	c
-	pop	hl
-	push	hl
+	ld	l,-3 (ix)
+	ld	h,-2 (ix)
 	ld	a,(hl)
 	or	a, c
-	pop	hl
-	push	hl
+	ld	l,-3 (ix)
+	ld	h,-2 (ix)
 	ld	(hl),a
 ;src/Enemy.c:166: ++activeEnemies;
 	ld	hl, #_activeEnemies+0
@@ -723,14 +722,14 @@ _enemy_try_new_spawn::
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	a,(hl)
-	ld	-5 (ix), a
+	ld	-4 (ix), a
 	ld	e, a
 	ld	d,#0x00
 	ld	hl,#0x88D0
 	add	hl,de
 	ex	de,hl
 	ld	a,(bc)
-	ld	-4 (ix),a
+	ld	-5 (ix),a
 	ld	l,-3 (ix)
 	ld	h,#0x00
 	add	hl, hl
@@ -747,8 +746,8 @@ _enemy_try_new_spawn::
 	ld	c,(hl)
 	ld	hl, #_player_position + 0
 	ld	e,(hl)
-	ld	h,-4 (ix)
-	ld	l,-5 (ix)
+	ld	h,-5 (ix)
+	ld	l,-4 (ix)
 	push	hl
 	ld	d, c
 	push	de
@@ -883,7 +882,7 @@ _enemy_get_distance_to_obstacle::
 	ld	h,#0x00
 	add	hl,bc
 	ld	a,(hl)
-	ld	-7 (ix),a
+	ld	-5 (ix),a
 ;src/Enemy.c:251: dy = movement_directionArray[direction+1];
 	ld	e,6 (ix)
 	inc	e
@@ -891,9 +890,9 @@ _enemy_get_distance_to_obstacle::
 	ld	h,#0x00
 	add	hl,bc
 	ld	a,(hl)
-	ld	-3 (ix),a
+	ld	-7 (ix),a
 ;src/Enemy.c:254: position.x = e->position.x;
-	ld	hl,#0x0002
+	ld	hl,#0x0003
 	add	hl,sp
 	ld	c,l
 	ld	b,h
@@ -907,7 +906,7 @@ _enemy_get_distance_to_obstacle::
 	ld	a,(hl)
 	ld	(bc),a
 ;src/Enemy.c:255: position.y = e->position.y;
-	ld	hl,#0x0002
+	ld	hl,#0x0003
 	add	hl,sp
 	ld	-2 (ix),l
 	ld	-1 (ix),h
@@ -945,13 +944,13 @@ _enemy_get_distance_to_obstacle::
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	a, (hl)
-	add	a, -7 (ix)
+	add	a, -5 (ix)
 	ld	l,-2 (ix)
 	ld	h,-1 (ix)
 	ld	(hl),a
 ;src/Enemy.c:262: position.y += dy;
 	ld	a,(bc)
-	add	a, -3 (ix)
+	add	a, -7 (ix)
 	ld	(bc),a
 	jr	00101$
 00103$:
@@ -1018,12 +1017,12 @@ _enemy_move::
 	ld	d,5 (ix)
 	ld	hl,#0x0003
 	add	hl,de
-	ld	-5 (ix),l
-	ld	-4 (ix),h
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
+	ld	-6 (ix),l
+	ld	-5 (ix),h
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	a,(hl)
-	ld	-6 (ix),a
+	ld	-1 (ix),a
 ;src/Enemy.c:288: y = e->position.y;
 	ld	hl,#0x0004
 	add	hl,de
@@ -1032,11 +1031,11 @@ _enemy_move::
 	ld	l,-3 (ix)
 	ld	h,-2 (ix)
 	ld	a,(hl)
-	ld	-1 (ix),a
+	ld	-4 (ix),a
 ;src/Enemy.c:291: (map[x + (y)*MAP_WIDTH]) &= (CELL_ITEM_MASK);
-	ld	c,-6 (ix)
+	ld	c,-1 (ix)
 	ld	b,#0x00
-	ld	l,-1 (ix)
+	ld	l,-4 (ix)
 	ld	h,#0x00
 	add	hl, hl
 	add	hl, hl
@@ -1055,7 +1054,7 @@ _enemy_move::
 	ld	h,#0x00
 	add	hl,bc
 	ld	a,(hl)
-	ld	-8 (ix),a
+	ld	-7 (ix),a
 ;src/Enemy.c:294: dy=movement_directionArray[d+1];
 	ld	l,6 (ix)
 	inc	l
@@ -1063,13 +1062,13 @@ _enemy_move::
 	add	hl,bc
 	ld	b,(hl)
 ;src/Enemy.c:297: x+=dx;
-	ld	a, -6 (ix)
-	add	a, -8 (ix)
+	ld	a, -1 (ix)
+	add	a, -7 (ix)
 	ld	c,a
 ;src/Enemy.c:298: y+=dy;
-	ld	a, -1 (ix)
+	ld	a, -4 (ix)
 	add	a, b
-	ld	-7 (ix),a
+	ld	-8 (ix),a
 ;src/Enemy.c:300: e->direction = d;
 	ld	l, e
 	ld	h, d
@@ -1078,17 +1077,17 @@ _enemy_move::
 	ld	a,6 (ix)
 	ld	(hl),a
 ;src/Enemy.c:302: e->position.x = x;
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	(hl),c
 ;src/Enemy.c:303: e->position.y = y;
 	ld	l,-3 (ix)
 	ld	h,-2 (ix)
-	ld	a,-7 (ix)
+	ld	a,-8 (ix)
 	ld	(hl),a
 ;src/Enemy.c:306: (map[x + (y)*MAP_WIDTH]) |= ((e->id)+1);
 	ld	b,#0x00
-	ld	l,-7 (ix)
+	ld	l,-8 (ix)
 	ld	h,#0x00
 	add	hl, hl
 	add	hl, hl
@@ -1497,7 +1496,7 @@ _enemy_flee::
 	inc	sp
 	pop	de
 	pop	bc
-	ld	-7 (ix),l
+	ld	-6 (ix),l
 ;src/Enemy.c:399: distFromPlayY = abs(player_position.y - e->position.y);
 	ld	a,(#(_player_position + 0x0001) + 0)
 	ld	-1 (ix),a
@@ -1521,7 +1520,7 @@ _enemy_flee::
 	pop	bc
 ;src/Enemy.c:401: if(distFromPlayX>distFromPlayY){//Flee X
 	ld	a,l
-	sub	a, -7 (ix)
+	sub	a, -6 (ix)
 	jr	NC,00102$
 ;src/Enemy.c:402: fleeFromDir=(player_position.x<e->position.x)?MOVEMENT_EAST:MOVEMENT_WEST;
 	ld	a,(#_player_position + 0)
@@ -1556,19 +1555,19 @@ _enemy_flee::
 	add	a, #0x04
 	and	a, #0x07
 ;src/Enemy.c:409: dl = (df+2)&7;
-	ld	-6 (ix), a
+	ld	-5 (ix), a
 	add	a, #0x02
 	and	a, #0x07
-	ld	-4 (ix),a
+	ld	-7 (ix),a
 ;src/Enemy.c:410: dr = (df-2)&7;
-	ld	a,-6 (ix)
+	ld	a,-5 (ix)
 	add	a,#0xFE
 	and	a, #0x07
 	ld	e,a
 ;src/Enemy.c:412: distf = enemy_get_distance_to_obstacle(e, df);
 	push	bc
 	push	de
-	ld	a,-6 (ix)
+	ld	a,-5 (ix)
 	push	af
 	inc	sp
 	push	bc
@@ -1577,11 +1576,11 @@ _enemy_flee::
 	inc	sp
 	pop	de
 	pop	bc
-	ld	-5 (ix),l
+	ld	-4 (ix),l
 ;src/Enemy.c:413: distl = enemy_get_distance_to_obstacle(e, dl);
 	push	bc
 	push	de
-	ld	a,-4 (ix)
+	ld	a,-7 (ix)
 	push	af
 	inc	sp
 	ld	l,4 (ix)
@@ -1612,31 +1611,31 @@ _enemy_flee::
 	ld	d,a
 ;src/Enemy.c:416: if(distf>distl && distf>distr){
 	ld	a,l
-	sub	a, -5 (ix)
+	sub	a, -4 (ix)
 	jr	NC,00113$
 	ld	a,d
-	sub	a, -5 (ix)
+	sub	a, -4 (ix)
 	jr	NC,00113$
 ;src/Enemy.c:417: d = df;
-	ld	e,-6 (ix)
+	ld	e,-5 (ix)
 ;src/Enemy.c:418: dist = distf;
-	ld	l,-5 (ix)
+	ld	l,-4 (ix)
 	jr	00114$
 00113$:
 ;src/Enemy.c:420: else if(distl>distf && distl>distr){
-	ld	a,-5 (ix)
+	ld	a,-4 (ix)
 	sub	a, l
 	jr	NC,00109$
 	ld	a,d
 	sub	a, l
 	jr	NC,00109$
 ;src/Enemy.c:421: d=dl;
-	ld	e,-4 (ix)
+	ld	e,-7 (ix)
 ;src/Enemy.c:422: dist=distl;
 	jr	00114$
 00109$:
 ;src/Enemy.c:424: else if(distr>distf && distr>distl){
-	ld	a,-5 (ix)
+	ld	a,-4 (ix)
 	sub	a, d
 	jr	NC,00105$
 	ld	a,l
@@ -1648,9 +1647,9 @@ _enemy_flee::
 	jr	00114$
 00105$:
 ;src/Enemy.c:429: d=df;
-	ld	e,-6 (ix)
+	ld	e,-5 (ix)
 ;src/Enemy.c:430: dist=distf;
-	ld	l,-5 (ix)
+	ld	l,-4 (ix)
 00114$:
 ;src/Enemy.c:433: if(dist){
 	ld	a,l
@@ -1695,17 +1694,17 @@ _enemy_roam::
 ;src/Enemy.c:445: pos = &(e->position);
 	ld	a,-2 (ix)
 	add	a, #0x03
-	ld	-4 (ix),a
+	ld	-8 (ix),a
 	ld	a,-1 (ix)
 	adc	a, #0x00
-	ld	-3 (ix),a
+	ld	-7 (ix),a
 ;src/Enemy.c:447: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
 	push	bc
 	push	de
 	push	bc
 	inc	sp
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	push	hl
 	call	_enemy_collision_at_dir
 	pop	af
@@ -1716,7 +1715,7 @@ _enemy_roam::
 	or	a, a
 	jr	NZ,00102$
 ;src/Enemy.c:449: directions[nd]=d;
-	ld	hl,#0x0000
+	ld	hl,#0x0002
 	add	hl,sp
 	ld	(hl),b
 ;src/Enemy.c:450: ++nd;
@@ -1732,8 +1731,8 @@ _enemy_roam::
 	push	de
 	push	bc
 	inc	sp
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	push	hl
 	call	_enemy_collision_at_dir
 	pop	af
@@ -1744,7 +1743,7 @@ _enemy_roam::
 	or	a, a
 	jr	NZ,00104$
 ;src/Enemy.c:458: directions[nd]=d;
-	ld	hl,#0x0000
+	ld	hl,#0x0002
 	add	hl,sp
 	ld	a,l
 	add	a, c
@@ -1766,8 +1765,8 @@ _enemy_roam::
 	push	de
 	push	bc
 	inc	sp
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	push	hl
 	call	_enemy_collision_at_dir
 	pop	af
@@ -1778,7 +1777,7 @@ _enemy_roam::
 	or	a, a
 	jr	NZ,00106$
 ;src/Enemy.c:467: directions[nd]=d;
-	ld	hl,#0x0000
+	ld	hl,#0x0002
 	add	hl,sp
 	ld	a,l
 	add	a, c
@@ -1803,8 +1802,8 @@ _enemy_roam::
 	push	bc
 	push	bc
 	inc	sp
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	push	hl
 	call	_enemy_collision_at_dir
 	pop	af
@@ -1818,7 +1817,7 @@ _enemy_roam::
 	jr	00111$
 00110$:
 ;src/Enemy.c:483: d=directions[cpct_getRandom_mxor_u8()%(nd)];
-	ld	hl,#0x0000
+	ld	hl,#0x0002
 	add	hl,sp
 	push	hl
 	push	bc
@@ -1979,20 +1978,20 @@ _enemy_AI_aggressive::
 	push	bc
 	pop	iy
 	ld	a,3 (iy)
-	ld	-1 (ix),a
+	ld	-2 (ix),a
 ;src/Enemy.c:524: y = e->position.y;
 	push	bc
 	pop	iy
 	ld	a,4 (iy)
-	ld	-2 (ix),a
+	ld	-1 (ix),a
 ;src/Enemy.c:526: if(dist(player_position.x, player_position.y, x,y)<ENEMY_VIEW_DISTANCE){
 	ld	hl, #_player_position + 1
 	ld	d,(hl)
 	ld	hl, #_player_position + 0
 	ld	e,(hl)
 	push	bc
-	ld	h,-2 (ix)
-	ld	l,-1 (ix)
+	ld	h,-1 (ix)
+	ld	l,-2 (ix)
 	push	hl
 	push	de
 	call	_dist

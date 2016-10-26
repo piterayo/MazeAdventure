@@ -1,6 +1,6 @@
 -mjwx
 -i obj/MazeAdventure.ihx
--b _CODE = 0x0040
+-b _CODE = 0x0140
 -b _DATA = 0x0000
 -u
 -k /home/albert/cpctelera/cpctelera/tools/sdcc-3.5.5/bin/../share/sdcc/lib/z80
@@ -41,6 +41,7 @@ obj/UI_MainMenu.rel
 obj/UI_Options.rel
 obj/UI_PauseMenu.rel
 obj/UI_PlayerStats.rel
+obj/music/music.rel
 obj/textures/compass.rel
 obj/textures/items_tileset.rel
 obj/textures/menu_bg.rel

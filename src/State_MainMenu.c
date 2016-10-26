@@ -60,6 +60,7 @@ void draw_main_bg(){
 
 void state_mainmenu_enter(){
     
+    remove_music();
     cpct_memset(CPCT_VMEM_START, g_colors[7], 0x4000);
     setMenuPalette();
     dec_main_bg();

@@ -71,17 +71,17 @@
                              71 ;src/Renderer.c:56: if(player_direction.y!=0){
    0015 21r01r00      [10]   72 	ld	hl, #_player_direction + 1
    0018 7E            [ 7]   73 	ld	a,(hl)
-   0019 DD 77 FD      [19]   74 	ld	-3 (ix), a
+   0019 DD 77 FC      [19]   74 	ld	-4 (ix), a
    001C B7            [ 4]   75 	or	a, a
    001D 28 32         [12]   76 	jr	Z,00102$
                              77 ;src/Renderer.c:57: vert=1;
    001F DD 36 F2 01   [19]   78 	ld	-14 (ix),#0x01
                              79 ;src/Renderer.c:58: dy=player_direction.y;
-   0023 DD 4E FD      [19]   80 	ld	c,-3 (ix)
+   0023 DD 4E FC      [19]   80 	ld	c,-4 (ix)
    0026 DD 71 F4      [19]   81 	ld	-12 (ix),c
                              82 ;src/Renderer.c:59: dx=-player_direction.y;
    0029 AF            [ 4]   83 	xor	a, a
-   002A DD 96 FD      [19]   84 	sub	a, -3 (ix)
+   002A DD 96 FC      [19]   84 	sub	a, -4 (ix)
    002D DD 77 F5      [19]   85 	ld	-11 (ix), a
                              86 ;src/Renderer.c:61: x0 = player_position.x-(17*dx);
    0030 21r00r00      [10]   87 	ld	hl,#_player_position+0
@@ -113,10 +113,10 @@
                             113 ;src/Renderer.c:66: dy=player_direction.x;
    0055 21r00r00      [10]  114 	ld	hl, #_player_direction + 0
    0058 7E            [ 7]  115 	ld	a,(hl)
-   0059 DD 77 FD      [19]  116 	ld	-3 (ix), a
+   0059 DD 77 FC      [19]  116 	ld	-4 (ix), a
    005C DD 77 F4      [19]  117 	ld	-12 (ix),a
                             118 ;src/Renderer.c:67: dx=player_direction.x;
-   005F DD 7E FD      [19]  119 	ld	a,-3 (ix)
+   005F DD 7E FC      [19]  119 	ld	a,-4 (ix)
    0062 DD 77 F5      [19]  120 	ld	-11 (ix),a
                             121 ;src/Renderer.c:69: y0 = player_position.y-(17*dy);
    0065 21r01r00      [10]  122 	ld	hl, #_player_position + 1
@@ -134,7 +134,7 @@
                             134 ;src/Renderer.c:70: x0 = player_position.x+(6*dx);
    0075 21r00r00      [10]  135 	ld	hl, #_player_position + 0
    0078 46            [ 7]  136 	ld	b,(hl)
-   0079 DD 7E FD      [19]  137 	ld	a,-3 (ix)
+   0079 DD 7E FC      [19]  137 	ld	a,-4 (ix)
    007C 5F            [ 4]  138 	ld	e,a
    007D 87            [ 4]  139 	add	a, a
    007E 83            [ 4]  140 	add	a, e
@@ -152,7 +152,7 @@
    008C DD 7E F5      [19]  152 	ld	a,-11 (ix)
    008F 07            [ 4]  153 	rlca
    0090 E6 01         [ 7]  154 	and	a,#0x01
-   0092 DD 77 FD      [19]  155 	ld	-3 (ix),a
+   0092 DD 77 FC      [19]  155 	ld	-4 (ix),a
    0095 DD 7E F4      [19]  156 	ld	a,-12 (ix)
    0098 07            [ 4]  157 	rlca
    0099 E6 01         [ 7]  158 	and	a,#0x01
@@ -161,7 +161,7 @@
                             161 ;src/Renderer.c:79: for(i=offset;i<35-offset;++i){
    00A2                     162 00138$:
    00A2 DD 7E F9      [19]  163 	ld	a,-7 (ix)
-   00A5 DD 77 FE      [19]  164 	ld	-2 (ix),a
+   00A5 DD 77 FB      [19]  164 	ld	-5 (ix),a
    00A8 DD 7E FA      [19]  165 	ld	a,-6 (ix)
    00AB DD 77 F7      [19]  166 	ld	-9 (ix),a
    00AE                     167 00125$:
@@ -185,11 +185,11 @@
                             185 ;src/Renderer.c:82: cells_in_view_array[n]=*(u8*)(MAP_MEM+x+y*MAP_WIDTH);
    00CB 2ArD3r01      [16]  186 	ld	hl,(_cells_in_view_array)
    00CE 7D            [ 4]  187 	ld	a,l
-   00CF DD 86 FE      [19]  188 	add	a, -2 (ix)
-   00D2 DD 77 FB      [19]  189 	ld	-5 (ix),a
+   00CF DD 86 FB      [19]  188 	add	a, -5 (ix)
+   00D2 DD 77 FD      [19]  189 	ld	-3 (ix),a
    00D5 7C            [ 4]  190 	ld	a,h
    00D6 CE 00         [ 7]  191 	adc	a, #0x00
-   00D8 DD 77 FC      [19]  192 	ld	-4 (ix),a
+   00D8 DD 77 FE      [19]  192 	ld	-2 (ix),a
                             193 ;src/Renderer.c:81: if((x>=0 && x<MAP_WIDTH) && (y>=0 && y<MAP_HEIGHT)){
    00DB CB 7B         [ 8]  194 	bit	7, e
    00DD 20 41         [12]  195 	jr	NZ,00105$
@@ -232,14 +232,14 @@
    0114 8A            [ 4]  232 	adc	a, d
    0115 67            [ 4]  233 	ld	h,a
    0116 46            [ 7]  234 	ld	b,(hl)
-   0117 DD 6E FB      [19]  235 	ld	l,-5 (ix)
-   011A DD 66 FC      [19]  236 	ld	h,-4 (ix)
+   0117 DD 6E FD      [19]  235 	ld	l,-3 (ix)
+   011A DD 66 FE      [19]  236 	ld	h,-2 (ix)
    011D 70            [ 7]  237 	ld	(hl),b
    011E 18 08         [12]  238 	jr	00106$
    0120                     239 00105$:
                             240 ;src/Renderer.c:85: cells_in_view_array[n]=CELLTYPE_WALL1;
-   0120 DD 6E FB      [19]  241 	ld	l,-5 (ix)
-   0123 DD 66 FC      [19]  242 	ld	h,-4 (ix)
+   0120 DD 6E FD      [19]  241 	ld	l,-3 (ix)
+   0123 DD 66 FE      [19]  242 	ld	h,-2 (ix)
    0126 36 81         [10]  243 	ld	(hl),#0x81
    0128                     244 00106$:
                             245 ;src/Renderer.c:89: if(vert){
@@ -258,12 +258,12 @@
    013B DD 77 F3      [19]  258 	ld	-13 (ix),a
    013E                     259 00112$:
                             260 ;src/Renderer.c:95: ++n;
-   013E DD 34 FE      [23]  261 	inc	-2 (ix)
+   013E DD 34 FB      [23]  261 	inc	-5 (ix)
                             262 ;src/Renderer.c:79: for(i=offset;i<35-offset;++i){
    0141 DD 34 F7      [23]  263 	inc	-9 (ix)
    0144 C3rAEr00      [10]  264 	jp	00125$
    0147                     265 00143$:
-   0147 DD 7E FE      [19]  266 	ld	a,-2 (ix)
+   0147 DD 7E FB      [19]  266 	ld	a,-5 (ix)
    014A DD 77 F9      [19]  267 	ld	-7 (ix),a
                             268 ;src/Renderer.c:97: offset=offsets_cells_in_view[j];
    014D 3ErD5         [ 7]  269 	ld	a,#<(_offsets_cells_in_view)
@@ -275,7 +275,7 @@
    0158 7E            [ 7]  275 	ld	a,(hl)
                             276 ;src/Renderer.c:101: if(dx<0) x=x0-offset;
    0159 DD 77 FA      [19]  277 	ld	-6 (ix), a
-   015C DD 77 FB      [19]  278 	ld	-5 (ix),a
+   015C DD 77 FD      [19]  278 	ld	-3 (ix),a
                             279 ;src/Renderer.c:99: if(vert){
    015F DD 7E F2      [19]  280 	ld	a,-14 (ix)
    0162 B7            [ 4]  281 	or	a, a
@@ -285,17 +285,17 @@
    0168 DD 96 F4      [19]  285 	sub	a, -12 (ix)
    016B DD 77 F3      [19]  286 	ld	-13 (ix),a
                             287 ;src/Renderer.c:101: if(dx<0) x=x0-offset;
-   016E DD 7E FD      [19]  288 	ld	a,-3 (ix)
+   016E DD 7E FC      [19]  288 	ld	a,-4 (ix)
    0171 B7            [ 4]  289 	or	a, a
    0172 28 09         [12]  290 	jr	Z,00115$
    0174 DD 7E F6      [19]  291 	ld	a,-10 (ix)
-   0177 DD 96 FB      [19]  292 	sub	a, -5 (ix)
+   0177 DD 96 FD      [19]  292 	sub	a, -3 (ix)
    017A 5F            [ 4]  293 	ld	e,a
    017B 18 24         [12]  294 	jr	00128$
    017D                     295 00115$:
                             296 ;src/Renderer.c:102: else x=x0+offset;
    017D DD 7E F6      [19]  297 	ld	a,-10 (ix)
-   0180 DD 86 FB      [19]  298 	add	a, -5 (ix)
+   0180 DD 86 FD      [19]  298 	add	a, -3 (ix)
    0183 5F            [ 4]  299 	ld	e,a
    0184 18 1B         [12]  300 	jr	00128$
    0186                     301 00121$:
@@ -308,13 +308,13 @@
    018E B7            [ 4]  308 	or	a, a
    018F 28 09         [12]  309 	jr	Z,00118$
    0191 79            [ 4]  310 	ld	a,c
-   0192 DD 96 FB      [19]  311 	sub	a, -5 (ix)
+   0192 DD 96 FD      [19]  311 	sub	a, -3 (ix)
    0195 DD 77 F3      [19]  312 	ld	-13 (ix),a
    0198 18 07         [12]  313 	jr	00128$
    019A                     314 00118$:
                             315 ;src/Renderer.c:108: else y=y0+offset;
    019A 79            [ 4]  316 	ld	a,c
-   019B DD 86 FB      [19]  317 	add	a, -5 (ix)
+   019B DD 86 FD      [19]  317 	add	a, -3 (ix)
    019E DD 77 F3      [19]  318 	ld	-13 (ix),a
    01A1                     319 00128$:
                             320 ;src/Renderer.c:77: for(j=0;j<6;++j){
@@ -517,8 +517,8 @@
    02A1 29            [11]  517 	add	hl, hl
    02A2 29            [11]  518 	add	hl, hl
    02A3 09            [11]  519 	add	hl,bc
-   02A4 DD 75 FB      [19]  520 	ld	-5 (ix),l
-   02A7 DD 74 FC      [19]  521 	ld	-4 (ix),h
+   02A4 DD 75 FC      [19]  520 	ld	-4 (ix),l
+   02A7 DD 74 FD      [19]  521 	ld	-3 (ix),h
                             522 ;src/Renderer.c:174: pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
    02AA DD 7E 04      [19]  523 	ld	a, 4 (ix)
    02AD CB 3F         [ 8]  524 	srl	a
@@ -535,7 +535,7 @@
    02C0 26 00         [ 7]  535 	ld	h,#0x00
    02C2 19            [11]  536 	add	hl,de
    02C3 7E            [ 7]  537 	ld	a,(hl)
-   02C4 DD 77 FD      [19]  538 	ld	-3 (ix),a
+   02C4 DD 77 FB      [19]  538 	ld	-5 (ix),a
                             539 ;src/Renderer.c:178: lineHeight = (lineHeight)/2;
    02C7 DD CB 05 3E   [23]  540 	srl	5 (ix)
                             541 ;src/Renderer.c:179: ground_height  = (SCREEN_TEXTURE_HEIGHT>>1) + (lineHeight/2);
@@ -577,7 +577,7 @@
    0300 4D            [ 4]  577 	ld	c,l
    0301 44            [ 4]  578 	ld	b,h
                             579 ;src/Renderer.c:191: for(j;j;--j){
-   0302 DD 7E FD      [19]  580 	ld	a,-3 (ix)
+   0302 DD 7E FB      [19]  580 	ld	a,-5 (ix)
    0305 2F            [ 4]  581 	cpl
    0306 DD 77 FF      [19]  582 	ld	-1 (ix),a
    0309                     583 00108$:
@@ -587,8 +587,8 @@
                             587 ;src/Renderer.c:193: color= *(texture+(texture_line/256));
    030F DD 5E F8      [19]  588 	ld	e,-8 (ix)
    0312 16 00         [ 7]  589 	ld	d,#0x00
-   0314 DD 6E FB      [19]  590 	ld	l,-5 (ix)
-   0317 DD 66 FC      [19]  591 	ld	h,-4 (ix)
+   0314 DD 6E FC      [19]  590 	ld	l,-4 (ix)
+   0317 DD 66 FD      [19]  591 	ld	h,-3 (ix)
    031A 19            [11]  592 	add	hl,de
    031B 5E            [ 7]  593 	ld	e,(hl)
                             594 ;src/Renderer.c:195: if(color){
@@ -601,7 +601,7 @@
    0324 6F            [ 4]  601 	ld	l,a
                             602 ;src/Renderer.c:198: color = (color&pixMask);
    0325 7B            [ 4]  603 	ld	a,e
-   0326 DD A6 FD      [19]  604 	and	a, -3 (ix)
+   0326 DD A6 FB      [19]  604 	and	a, -5 (ix)
                             605 ;src/Renderer.c:200: *pvmem = val|color;
    0329 B5            [ 4]  606 	or	a, l
    032A 02            [ 7]  607 	ld	(bc),a
@@ -2690,13 +2690,13 @@
    11AC D6 A0         [ 7] 2690 	sub	a, #0xA0
    11AE 3E 00         [ 7] 2691 	ld	a,#0x00
    11B0 17            [ 4] 2692 	rla
-   11B1 DD 77 FF      [19] 2693 	ld	-1 (ix),a
+   11B1 DD 77 F7      [19] 2693 	ld	-9 (ix),a
    11B4 DD 36 F6 00   [19] 2694 	ld	-10 (ix),#0x00
    11B8                    2695 00125$:
                            2696 ;src/Renderer.c:994: x=(player_position.x-MINIMAP_WIDTH_HALF);
    11B8 3Ar00r00      [13] 2697 	ld	a, (#_player_position + 0)
    11BB C6 F8         [ 7] 2698 	add	a,#0xF8
-   11BD DD 77 F7      [19] 2699 	ld	-9 (ix),a
+   11BD DD 77 FF      [19] 2699 	ld	-1 (ix),a
                            2700 ;src/Renderer.c:995: for(i=0;i<MINIMAP_WIDTH;++i){
    11C0 DD 36 F5 00   [19] 2701 	ld	-11 (ix),#0x00
    11C4                    2702 00123$:
@@ -2704,16 +2704,16 @@
    11C4 FD 21 10 00   [14] 2704 	ld	iy,#0x0010
    11C8 FD 09         [15] 2705 	add	iy, bc
                            2706 ;src/Renderer.c:996: if((x<0)||(x>=MAP_WIDTH)||(y<0)||(y>=MAP_HEIGHT)){
-   11CA DD CB F7 7E   [20] 2707 	bit	7, -9 (ix)
+   11CA DD CB FF 7E   [20] 2707 	bit	7, -1 (ix)
    11CE 20 15         [12] 2708 	jr	NZ,00114$
-   11D0 DD 7E F7      [19] 2709 	ld	a,-9 (ix)
+   11D0 DD 7E FF      [19] 2709 	ld	a,-1 (ix)
    11D3 EE 80         [ 7] 2710 	xor	a, #0x80
    11D5 D6 A0         [ 7] 2711 	sub	a, #0xA0
    11D7 30 0C         [12] 2712 	jr	NC,00114$
    11D9 DD 7E F8      [19] 2713 	ld	a,-8 (ix)
    11DC B7            [ 4] 2714 	or	a, a
    11DD 20 06         [12] 2715 	jr	NZ,00114$
-   11DF DD CB FF 46   [20] 2716 	bit	0,-1 (ix)
+   11DF DD CB F7 46   [20] 2716 	bit	0,-9 (ix)
    11E3 20 0D         [12] 2717 	jr	NZ,00115$
    11E5                    2718 00114$:
                            2719 ;src/Renderer.c:997: *ptr=g_colors[MINIMAP_WALL_COLOR];
@@ -2725,9 +2725,9 @@
    11EF C3rACr12      [10] 2725 	jp	00116$
    11F2                    2726 00115$:
                            2727 ;src/Renderer.c:1000: else if((x==player_position.x)&&(y==player_position.y)){
-   11F2 DD 7E F7      [19] 2728 	ld	a,-9 (ix)
+   11F2 DD 7E FF      [19] 2728 	ld	a,-1 (ix)
    11F5 DD 77 FD      [19] 2729 	ld	-3 (ix),a
-   11F8 DD 7E F7      [19] 2730 	ld	a,-9 (ix)
+   11F8 DD 7E FF      [19] 2730 	ld	a,-1 (ix)
    11FB 17            [ 4] 2731 	rla
    11FC 9F            [ 4] 2732 	sbc	a, a
    11FD DD 77 FE      [19] 2733 	ld	-2 (ix),a
@@ -2827,7 +2827,7 @@
    12A9 FD 77 00      [19] 2827 	ld	0 (iy), a
    12AC                    2828 00116$:
                            2829 ;src/Renderer.c:1028: ++x;
-   12AC DD 34 F7      [23] 2830 	inc	-9 (ix)
+   12AC DD 34 FF      [23] 2830 	inc	-1 (ix)
                            2831 ;src/Renderer.c:1029: ++ptr;
    12AF 03            [ 6] 2832 	inc	bc
                            2833 ;src/Renderer.c:995: for(i=0;i<MINIMAP_WIDTH;++i){

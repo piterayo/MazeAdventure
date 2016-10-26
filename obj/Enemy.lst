@@ -120,7 +120,7 @@
    0035 D6 0F         [ 7]  120 	sub	a, #0x0F
    0037 D0            [11]  121 	ret	NC
                             122 ;src/Enemy.c:45: enemy_try_new_spawn();  
-   0038 CDr7Cr03      [17]  123 	call	_enemy_try_new_spawn
+   0038 CDr87r03      [17]  123 	call	_enemy_try_new_spawn
    003B 18 F5         [12]  124 	jr	00101$
    003D                     125 00105$:
                             126 ;src/Enemy.c:49: activeEnemies=1;
@@ -224,26 +224,26 @@
    00CC 4E            [ 7]  224 	ld	c,(hl)
                             225 ;src/Enemy.c:90: y0 = player_position.y;
    00CD 3Ar01r00      [13]  226 	ld	a,(#_player_position+1)
-   00D0 DD 77 F1      [19]  227 	ld	-15 (ix),a
+   00D0 DD 77 F2      [19]  227 	ld	-14 (ix),a
                             228 ;src/Enemy.c:92: x1 = e->position.x;
    00D3 DD 5E 04      [19]  229 	ld	e,4 (ix)
    00D6 DD 56 05      [19]  230 	ld	d,5 (ix)
    00D9 D5            [11]  231 	push	de
    00DA FD E1         [14]  232 	pop	iy
    00DC FD 7E 03      [19]  233 	ld	a,3 (iy)
-   00DF DD 77 F2      [19]  234 	ld	-14 (ix),a
+   00DF DD 77 F3      [19]  234 	ld	-13 (ix),a
                             235 ;src/Enemy.c:93: y1 = e->position.y;
    00E2 D5            [11]  236 	push	de
    00E3 FD E1         [14]  237 	pop	iy
    00E5 FD 7E 04      [19]  238 	ld	a,4 (iy)
-   00E8 DD 77 F5      [19]  239 	ld	-11 (ix),a
+   00E8 DD 77 F1      [19]  239 	ld	-15 (ix),a
                             240 ;src/Enemy.c:95: mask = (CELL_WALL_MASK|CELL_ENEMY_MASK)^(e->id+1);
    00EB 1A            [ 7]  241 	ld	a,(de)
    00EC 3C            [ 4]  242 	inc	a
    00ED EE 8F         [ 7]  243 	xor	a, #0x8F
-   00EF DD 77 F4      [19]  244 	ld	-12 (ix),a
+   00EF DD 77 F6      [19]  244 	ld	-10 (ix),a
                             245 ;src/Enemy.c:97: dx = abs(x1-x0);
-   00F2 DD 7E F2      [19]  246 	ld	a,-14 (ix)
+   00F2 DD 7E F3      [19]  246 	ld	a,-13 (ix)
    00F5 91            [ 4]  247 	sub	a, c
    00F6 47            [ 4]  248 	ld	b,a
    00F7 C5            [11]  249 	push	bc
@@ -254,8 +254,8 @@
    00FE C1            [10]  254 	pop	bc
    00FF DD 75 F9      [19]  255 	ld	-7 (ix),l
                             256 ;src/Enemy.c:98: dy = abs(y1-y0);
-   0102 DD 7E F5      [19]  257 	ld	a,-11 (ix)
-   0105 DD 96 F1      [19]  258 	sub	a, -15 (ix)
+   0102 DD 7E F1      [19]  257 	ld	a,-15 (ix)
+   0105 DD 96 F2      [19]  258 	sub	a, -14 (ix)
    0108 47            [ 4]  259 	ld	b,a
    0109 C5            [11]  260 	push	bc
    010A C5            [11]  261 	push	bc
@@ -266,7 +266,7 @@
    0111 DD 75 F7      [19]  266 	ld	-9 (ix),l
                             267 ;src/Enemy.c:100: sx = (x0<x1)?1:-1;
    0114 79            [ 4]  268 	ld	a,c
-   0115 DD 96 F2      [19]  269 	sub	a, -14 (ix)
+   0115 DD 96 F3      [19]  269 	sub	a, -13 (ix)
    0118 E2r1Dr01      [10]  270 	jp	PO, 00168$
    011B EE 80         [ 7]  271 	xor	a, #0x80
    011D                     272 00168$:
@@ -278,8 +278,8 @@
    0126                     278 00118$:
    0126 DD 70 F8      [19]  279 	ld	-8 (ix),b
                             280 ;src/Enemy.c:101: sy = (y0<y1)?1:-1;
-   0129 DD 7E F1      [19]  281 	ld	a,-15 (ix)
-   012C DD 96 F5      [19]  282 	sub	a, -11 (ix)
+   0129 DD 7E F2      [19]  281 	ld	a,-14 (ix)
+   012C DD 96 F1      [19]  282 	sub	a, -15 (ix)
    012F E2r34r01      [10]  283 	jp	PO, 00169$
    0132 EE 80         [ 7]  284 	xor	a, #0x80
    0134                     285 00169$:
@@ -289,22 +289,22 @@
    013B                     289 00119$:
    013B 1E FF         [ 7]  290 	ld	e,#0xFF
    013D                     291 00120$:
-   013D DD 73 F6      [19]  292 	ld	-10 (ix),e
+   013D DD 73 F5      [19]  292 	ld	-11 (ix),e
                             293 ;src/Enemy.c:103: e1 = ((dx>dy)?dx:-dy)/2;
    0140 DD 7E F9      [19]  294 	ld	a,-7 (ix)
-   0143 DD 77 FE      [19]  295 	ld	-2 (ix),a
+   0143 DD 77 FA      [19]  295 	ld	-6 (ix),a
    0146 DD 7E F9      [19]  296 	ld	a,-7 (ix)
    0149 17            [ 4]  297 	rla
    014A 9F            [ 4]  298 	sbc	a, a
-   014B DD 77 FF      [19]  299 	ld	-1 (ix),a
+   014B DD 77 FB      [19]  299 	ld	-5 (ix),a
    014E DD 7E F7      [19]  300 	ld	a,-9 (ix)
    0151 DD 96 F9      [19]  301 	sub	a, -7 (ix)
    0154 E2r59r01      [10]  302 	jp	PO, 00170$
    0157 EE 80         [ 7]  303 	xor	a, #0x80
    0159                     304 00170$:
    0159 F2r64r01      [10]  305 	jp	P,00121$
-   015C DD 6E FE      [19]  306 	ld	l,-2 (ix)
-   015F DD 66 FF      [19]  307 	ld	h,-1 (ix)
+   015C DD 6E FA      [19]  306 	ld	l,-6 (ix)
+   015F DD 66 FB      [19]  307 	ld	h,-5 (ix)
    0162 18 10         [12]  308 	jr	00122$
    0164                     309 00121$:
    0164 DD 5E F7      [19]  310 	ld	e,-9 (ix)
@@ -332,13 +332,13 @@
                             332 ;src/Enemy.c:105: while(1){
    0181                     333 00113$:
                             334 ;src/Enemy.c:106: e2 = e1;
-   0181 DD 70 F3      [19]  335 	ld	-13 (ix),b
+   0181 DD 70 F4      [19]  335 	ld	-12 (ix),b
                             336 ;src/Enemy.c:107: if (e2 >-dx) {
    0184 AF            [ 4]  337 	xor	a, a
-   0185 DD 96 FE      [19]  338 	sub	a, -2 (ix)
+   0185 DD 96 FA      [19]  338 	sub	a, -6 (ix)
    0188 5F            [ 4]  339 	ld	e,a
    0189 3E 00         [ 7]  340 	ld	a, #0x00
-   018B DD 9E FF      [19]  341 	sbc	a, -1 (ix)
+   018B DD 9E FB      [19]  341 	sbc	a, -5 (ix)
    018E 57            [ 4]  342 	ld	d,a
    018F 78            [ 4]  343 	ld	a,b
    0190 6F            [ 4]  344 	ld	l,a
@@ -363,7 +363,7 @@
    01A9 4F            [ 4]  363 	ld	c,a
    01AA                     364 00102$:
                             365 ;src/Enemy.c:111: if (e2 < dy) {
-   01AA DD 7E F3      [19]  366 	ld	a,-13 (ix)
+   01AA DD 7E F4      [19]  366 	ld	a,-12 (ix)
    01AD DD 96 F7      [19]  367 	sub	a, -9 (ix)
    01B0 E2rB5r01      [10]  368 	jp	PO, 00172$
    01B3 EE 80         [ 7]  369 	xor	a, #0x80
@@ -374,9 +374,9 @@
    01B9 DD 86 F9      [19]  374 	add	a, -7 (ix)
    01BC 47            [ 4]  375 	ld	b,a
                             376 ;src/Enemy.c:113: y0 += sy;
-   01BD DD 7E F1      [19]  377 	ld	a,-15 (ix)
-   01C0 DD 86 F6      [19]  378 	add	a, -10 (ix)
-   01C3 DD 77 F1      [19]  379 	ld	-15 (ix),a
+   01BD DD 7E F2      [19]  377 	ld	a,-14 (ix)
+   01C0 DD 86 F5      [19]  378 	add	a, -11 (ix)
+   01C3 DD 77 F2      [19]  379 	ld	-14 (ix),a
    01C6                     380 00104$:
                             381 ;src/Enemy.c:116: if((*(u8*)(MAP_MEM+(x0+(y0*MAP_WIDTH)))&(mask))||(
    01C6 79            [ 4]  382 	ld	a,c
@@ -384,15 +384,15 @@
    01C8 17            [ 4]  384 	rla
    01C9 9F            [ 4]  385 	sbc	a, a
    01CA 57            [ 4]  386 	ld	d,a
-   01CB DD 7E F1      [19]  387 	ld	a,-15 (ix)
-   01CE DD 77 FA      [19]  388 	ld	-6 (ix),a
-   01D1 DD 7E F1      [19]  389 	ld	a,-15 (ix)
+   01CB DD 7E F2      [19]  387 	ld	a,-14 (ix)
+   01CE DD 77 FE      [19]  388 	ld	-2 (ix),a
+   01D1 DD 7E F2      [19]  389 	ld	a,-14 (ix)
    01D4 17            [ 4]  390 	rla
    01D5 9F            [ 4]  391 	sbc	a, a
-   01D6 DD 77 FB      [19]  392 	ld	-5 (ix),a
-   01D9 DD 7E FA      [19]  393 	ld	a,-6 (ix)
+   01D6 DD 77 FF      [19]  392 	ld	-1 (ix),a
+   01D9 DD 7E FE      [19]  393 	ld	a,-2 (ix)
    01DC DD 77 FC      [19]  394 	ld	-4 (ix),a
-   01DF DD 7E FB      [19]  395 	ld	a,-5 (ix)
+   01DF DD 7E FF      [19]  395 	ld	a,-1 (ix)
    01E2 DD 77 FD      [19]  396 	ld	-3 (ix),a
    01E5 3E 06         [ 7]  397 	ld	a,#0x05+1
    01E7 18 08         [12]  398 	jr	00174$
@@ -410,19 +410,19 @@
    01FF 19            [11]  410 	add	hl, de
    0200 D1            [10]  411 	pop	de
    0201 7E            [ 7]  412 	ld	a,(hl)
-   0202 DD A6 F4      [19]  413 	and	a, -12 (ix)
+   0202 DD A6 F6      [19]  413 	and	a, -10 (ix)
    0205 B7            [ 4]  414 	or	a, a
    0206 20 47         [12]  415 	jr	NZ,00105$
                             416 ;src/Enemy.c:117: (*(u8*)(MAP_MEM+((x0)+((y0-sy)*MAP_WIDTH)))&(mask))&&
-   0208 DD 6E F6      [19]  417 	ld	l,-10 (ix)
-   020B DD 7E F6      [19]  418 	ld	a,-10 (ix)
+   0208 DD 6E F5      [19]  417 	ld	l,-11 (ix)
+   020B DD 7E F5      [19]  418 	ld	a,-11 (ix)
    020E 17            [ 4]  419 	rla
    020F 9F            [ 4]  420 	sbc	a, a
    0210 67            [ 4]  421 	ld	h,a
-   0211 DD 7E FA      [19]  422 	ld	a,-6 (ix)
+   0211 DD 7E FE      [19]  422 	ld	a,-2 (ix)
    0214 95            [ 4]  423 	sub	a, l
    0215 6F            [ 4]  424 	ld	l,a
-   0216 DD 7E FB      [19]  425 	ld	a,-5 (ix)
+   0216 DD 7E FF      [19]  425 	ld	a,-1 (ix)
    0219 9C            [ 4]  426 	sbc	a, h
    021A 67            [ 4]  427 	ld	h,a
    021B 29            [11]  428 	add	hl, hl
@@ -436,7 +436,7 @@
    0225 19            [11]  436 	add	hl, de
    0226 D1            [10]  437 	pop	de
    0227 7E            [ 7]  438 	ld	a,(hl)
-   0228 DD A6 F4      [19]  439 	and	a, -12 (ix)
+   0228 DD A6 F6      [19]  439 	and	a, -10 (ix)
    022B B7            [ 4]  440 	or	a, a
    022C 28 25         [12]  441 	jr	Z,00106$
                             442 ;src/Enemy.c:118: (*(u8*)(MAP_MEM+((x0-sx)+(y0*MAP_WIDTH)))&(mask))
@@ -457,7 +457,7 @@
    0244 11 D0 88      [10]  457 	ld	de,#0x88D0
    0247 19            [11]  458 	add	hl,de
    0248 7E            [ 7]  459 	ld	a,(hl)
-   0249 DD A6 F4      [19]  460 	and	a, -12 (ix)
+   0249 DD A6 F6      [19]  460 	and	a, -10 (ix)
    024C B7            [ 4]  461 	or	a, a
    024D 28 04         [12]  462 	jr	Z,00106$
    024F                     463 00105$:
@@ -466,11 +466,11 @@
    0251 18 12         [12]  466 	jr	00115$
    0253                     467 00106$:
                             468 ;src/Enemy.c:123: if ((x0==x1 && y0==y1)){
-   0253 DD 7E F2      [19]  469 	ld	a,-14 (ix)
+   0253 DD 7E F3      [19]  469 	ld	a,-13 (ix)
    0256 91            [ 4]  470 	sub	a, c
    0257 C2r81r01      [10]  471 	jp	NZ,00113$
-   025A DD 7E F1      [19]  472 	ld	a,-15 (ix)
-   025D DD 96 F5      [19]  473 	sub	a, -11 (ix)
+   025A DD 7E F2      [19]  472 	ld	a,-14 (ix)
+   025D DD 96 F1      [19]  473 	sub	a, -15 (ix)
    0260 C2r81r01      [10]  474 	jp	NZ,00113$
                             475 ;src/Enemy.c:128: return 1;
    0263 2E 01         [ 7]  476 	ld	l,#0x01
@@ -538,13 +538,13 @@
    02BC DD 6E 04      [19]  538 	ld	l,4 (ix)
    02BF DD 66 05      [19]  539 	ld	h,5 (ix)
    02C2 7E            [ 7]  540 	ld	a,(hl)
-   02C3 DD 77 FE      [19]  541 	ld	-2 (ix),a
+   02C3 DD 77 FB      [19]  541 	ld	-5 (ix),a
                             542 ;src/Enemy.c:142: y=position->y;
    02C6 23            [ 6]  543 	inc	hl
    02C7 7E            [ 7]  544 	ld	a,(hl)
    02C8 DD 77 FF      [19]  545 	ld	-1 (ix),a
                             546 ;src/Enemy.c:144: memPos = (MAP_MEM+x+(y*MAP_WIDTH));
-   02CB DD 5E FE      [19]  547 	ld	e,-2 (ix)
+   02CB DD 5E FB      [19]  547 	ld	e,-5 (ix)
    02CE 16 00         [ 7]  548 	ld	d,#0x00
    02D0 21 D0 88      [10]  549 	ld	hl,#0x88D0
    02D3 19            [11]  550 	add	hl,de
@@ -557,1556 +557,1555 @@
    02DD 29            [11]  557 	add	hl, hl
    02DE 29            [11]  558 	add	hl, hl
    02DF 19            [11]  559 	add	hl,de
-   02E0 33            [ 6]  560 	inc	sp
-   02E1 33            [ 6]  561 	inc	sp
-   02E2 E5            [11]  562 	push	hl
-                            563 ;src/Enemy.c:146: while(i){
-   02E3 DD 36 FD 0F   [19]  564 	ld	-3 (ix),#0x0F
-   02E7                     565 00103$:
-   02E7 DD 7E FD      [19]  566 	ld	a,-3 (ix)
-   02EA B7            [ 4]  567 	or	a, a
-   02EB CAr77r03      [10]  568 	jp	Z,00106$
-                            569 ;src/Enemy.c:147: --i;
-   02EE DD 35 FD      [23]  570 	dec	-3 (ix)
-                            571 ;src/Enemy.c:148: --enemy;
-   02F1 79            [ 4]  572 	ld	a,c
-   02F2 C6 F8         [ 7]  573 	add	a,#0xF8
-   02F4 4F            [ 4]  574 	ld	c,a
-   02F5 78            [ 4]  575 	ld	a,b
-   02F6 CE FF         [ 7]  576 	adc	a,#0xFF
-   02F8 47            [ 4]  577 	ld	b,a
-                            578 ;src/Enemy.c:149: if(enemy->hitPoints==0){
-   02F9 21 05 00      [10]  579 	ld	hl,#0x0005
-   02FC 09            [11]  580 	add	hl,bc
-   02FD EB            [ 4]  581 	ex	de,hl
-   02FE 1A            [ 7]  582 	ld	a,(de)
-   02FF B7            [ 4]  583 	or	a, a
-   0300 20 E5         [12]  584 	jr	NZ,00103$
-                            585 ;src/Enemy.c:150: enemy->id=i;
-   0302 DD 7E FD      [19]  586 	ld	a,-3 (ix)
-   0305 02            [ 7]  587 	ld	(bc),a
-                            588 ;src/Enemy.c:152: enemy->type=cpct_getRandom_mxor_u8()&1;
-   0306 69            [ 4]  589 	ld	l, c
-   0307 60            [ 4]  590 	ld	h, b
-   0308 23            [ 6]  591 	inc	hl
-   0309 E5            [11]  592 	push	hl
-   030A C5            [11]  593 	push	bc
-   030B D5            [11]  594 	push	de
-   030C CDr00r00      [17]  595 	call	_cpct_getRandom_mxor_u8
-   030F 7D            [ 4]  596 	ld	a,l
-   0310 D1            [10]  597 	pop	de
-   0311 C1            [10]  598 	pop	bc
-   0312 E1            [10]  599 	pop	hl
-   0313 E6 01         [ 7]  600 	and	a, #0x01
-   0315 77            [ 7]  601 	ld	(hl),a
-                            602 ;src/Enemy.c:154: enemy->hitPoints=ENEMY_INITIAL_HP;
-   0316 3E FF         [ 7]  603 	ld	a,#0xFF
-   0318 12            [ 7]  604 	ld	(de),a
-                            605 ;src/Enemy.c:156: enemy->attackValue = (10)+level_get_level()+(cpct_getRandom_mxor_u8()&7);
-   0319 21 06 00      [10]  606 	ld	hl,#0x0006
-   031C 09            [11]  607 	add	hl,bc
-   031D E5            [11]  608 	push	hl
-   031E C5            [11]  609 	push	bc
-   031F CDr00r00      [17]  610 	call	_level_get_level
-   0322 7D            [ 4]  611 	ld	a,l
-   0323 C1            [10]  612 	pop	bc
-   0324 E1            [10]  613 	pop	hl
-   0325 C6 0A         [ 7]  614 	add	a, #0x0A
-   0327 5F            [ 4]  615 	ld	e,a
-   0328 E5            [11]  616 	push	hl
-   0329 C5            [11]  617 	push	bc
-   032A D5            [11]  618 	push	de
-   032B CDr00r00      [17]  619 	call	_cpct_getRandom_mxor_u8
-   032E 7D            [ 4]  620 	ld	a,l
-   032F D1            [10]  621 	pop	de
-   0330 C1            [10]  622 	pop	bc
-   0331 E1            [10]  623 	pop	hl
-   0332 E6 07         [ 7]  624 	and	a, #0x07
-   0334 83            [ 4]  625 	add	a,e
-   0335 77            [ 7]  626 	ld	(hl),a
-                            627 ;src/Enemy.c:157: enemy->defenseValue = level_get_level()+(cpct_getRandom_mxor_u8()&7);
-   0336 21 07 00      [10]  628 	ld	hl,#0x0007
-   0339 09            [11]  629 	add	hl,bc
-   033A E5            [11]  630 	push	hl
-   033B C5            [11]  631 	push	bc
-   033C CDr00r00      [17]  632 	call	_level_get_level
-   033F 5D            [ 4]  633 	ld	e,l
-   0340 D5            [11]  634 	push	de
-   0341 CDr00r00      [17]  635 	call	_cpct_getRandom_mxor_u8
-   0344 7D            [ 4]  636 	ld	a,l
-   0345 D1            [10]  637 	pop	de
-   0346 C1            [10]  638 	pop	bc
-   0347 E1            [10]  639 	pop	hl
-   0348 E6 07         [ 7]  640 	and	a, #0x07
-   034A 83            [ 4]  641 	add	a,e
-   034B 77            [ 7]  642 	ld	(hl),a
-                            643 ;src/Enemy.c:159: enemy->direction=(cpct_getRandom_mxor_u8()&3)*2;
-   034C 59            [ 4]  644 	ld	e, c
-   034D 50            [ 4]  645 	ld	d, b
-   034E 13            [ 6]  646 	inc	de
-   034F 13            [ 6]  647 	inc	de
-   0350 C5            [11]  648 	push	bc
-   0351 D5            [11]  649 	push	de
-   0352 CDr00r00      [17]  650 	call	_cpct_getRandom_mxor_u8
-   0355 D1            [10]  651 	pop	de
-   0356 C1            [10]  652 	pop	bc
-   0357 7D            [ 4]  653 	ld	a,l
-   0358 E6 03         [ 7]  654 	and	a, #0x03
-   035A 87            [ 4]  655 	add	a, a
-   035B 12            [ 7]  656 	ld	(de),a
-                            657 ;src/Enemy.c:161: enemy->position.x = x;
-   035C 03            [ 6]  658 	inc	bc
-   035D 03            [ 6]  659 	inc	bc
-   035E 03            [ 6]  660 	inc	bc
-   035F DD 7E FE      [19]  661 	ld	a,-2 (ix)
-   0362 02            [ 7]  662 	ld	(bc),a
-                            663 ;src/Enemy.c:162: enemy->position.y = y;
-   0363 03            [ 6]  664 	inc	bc
-   0364 DD 7E FF      [19]  665 	ld	a,-1 (ix)
-   0367 02            [ 7]  666 	ld	(bc),a
-                            667 ;src/Enemy.c:164: *memPos=(i+1)|(*memPos);
-   0368 DD 4E FD      [19]  668 	ld	c,-3 (ix)
-   036B 0C            [ 4]  669 	inc	c
-   036C E1            [10]  670 	pop	hl
-   036D E5            [11]  671 	push	hl
-   036E 7E            [ 7]  672 	ld	a,(hl)
-   036F B1            [ 4]  673 	or	a, c
-   0370 E1            [10]  674 	pop	hl
-   0371 E5            [11]  675 	push	hl
-   0372 77            [ 7]  676 	ld	(hl),a
-                            677 ;src/Enemy.c:166: ++activeEnemies;
-   0373 21r00r00      [10]  678 	ld	hl, #_activeEnemies+0
-   0376 34            [11]  679 	inc	(hl)
-                            680 ;src/Enemy.c:167: break;
-   0377                     681 00106$:
-   0377 DD F9         [10]  682 	ld	sp, ix
-   0379 DD E1         [14]  683 	pop	ix
-   037B C9            [10]  684 	ret
-                            685 ;src/Enemy.c:213: u8 enemy_try_new_spawn(){
-                            686 ;	---------------------------------
-                            687 ; Function enemy_try_new_spawn
-                            688 ; ---------------------------------
-   037C                     689 _enemy_try_new_spawn::
-   037C DD E5         [15]  690 	push	ix
-   037E DD 21 00 00   [14]  691 	ld	ix,#0
-   0382 DD 39         [15]  692 	add	ix,sp
-   0384 21 F9 FF      [10]  693 	ld	hl,#-7
-   0387 39            [11]  694 	add	hl,sp
-   0388 F9            [ 6]  695 	ld	sp,hl
-                            696 ;src/Enemy.c:216: if(activeEnemies<ENEMY_MAX_ENEMIES){
-   0389 3Ar00r00      [13]  697 	ld	a,(#_activeEnemies + 0)
-   038C D6 0F         [ 7]  698 	sub	a, #0x0F
-   038E 30 74         [12]  699 	jr	NC,00106$
-                            700 ;src/Enemy.c:217: pos.x=cpct_getRandom_mxor_u8()%MAP_WIDTH;
-   0390 21 00 00      [10]  701 	ld	hl,#0x0000
-   0393 39            [11]  702 	add	hl,sp
-   0394 E5            [11]  703 	push	hl
-   0395 CDr00r00      [17]  704 	call	_cpct_getRandom_mxor_u8
-   0398 7D            [ 4]  705 	ld	a,l
-   0399 E1            [10]  706 	pop	hl
-   039A E6 1F         [ 7]  707 	and	a, #0x1F
-   039C 77            [ 7]  708 	ld	(hl),a
-                            709 ;src/Enemy.c:218: pos.y=cpct_getRandom_mxor_u8()%MAP_HEIGHT;
-   039D 21 00 00      [10]  710 	ld	hl,#0x0000
-   03A0 39            [11]  711 	add	hl,sp
-   03A1 DD 75 FE      [19]  712 	ld	-2 (ix),l
-   03A4 DD 74 FF      [19]  713 	ld	-1 (ix),h
-   03A7 23            [ 6]  714 	inc	hl
-   03A8 E5            [11]  715 	push	hl
-   03A9 CDr00r00      [17]  716 	call	_cpct_getRandom_mxor_u8
-   03AC C1            [10]  717 	pop	bc
-   03AD 7D            [ 4]  718 	ld	a,l
-   03AE E6 1F         [ 7]  719 	and	a, #0x1F
-   03B0 DD 77 FD      [19]  720 	ld	-3 (ix), a
-   03B3 02            [ 7]  721 	ld	(bc),a
-                            722 ;src/Enemy.c:220: if((*(u8*)(MAP_MEM+pos.x+(pos.y*MAP_WIDTH))&(CELL_WALL_MASK|CELL_ENEMY_MASK))==0){
-   03B4 DD 6E FE      [19]  723 	ld	l,-2 (ix)
-   03B7 DD 66 FF      [19]  724 	ld	h,-1 (ix)
-   03BA 7E            [ 7]  725 	ld	a,(hl)
-   03BB DD 77 FB      [19]  726 	ld	-5 (ix), a
-   03BE 5F            [ 4]  727 	ld	e, a
-   03BF 16 00         [ 7]  728 	ld	d,#0x00
-   03C1 21 D0 88      [10]  729 	ld	hl,#0x88D0
-   03C4 19            [11]  730 	add	hl,de
-   03C5 EB            [ 4]  731 	ex	de,hl
-   03C6 0A            [ 7]  732 	ld	a,(bc)
-   03C7 DD 77 FC      [19]  733 	ld	-4 (ix),a
-   03CA DD 6E FD      [19]  734 	ld	l,-3 (ix)
-   03CD 26 00         [ 7]  735 	ld	h,#0x00
-   03CF 29            [11]  736 	add	hl, hl
-   03D0 29            [11]  737 	add	hl, hl
-   03D1 29            [11]  738 	add	hl, hl
-   03D2 29            [11]  739 	add	hl, hl
-   03D3 29            [11]  740 	add	hl, hl
-   03D4 19            [11]  741 	add	hl,de
-   03D5 7E            [ 7]  742 	ld	a,(hl)
-   03D6 E6 8F         [ 7]  743 	and	a, #0x8F
-   03D8 20 2A         [12]  744 	jr	NZ,00106$
-                            745 ;src/Enemy.c:221: if(dist(player_position.x, player_position.y, pos.x, pos.y)>ENEMY_VIEW_DISTANCE){
-   03DA 21r01r00      [10]  746 	ld	hl, #_player_position + 1
-   03DD 4E            [ 7]  747 	ld	c,(hl)
-   03DE 21r00r00      [10]  748 	ld	hl, #_player_position + 0
-   03E1 5E            [ 7]  749 	ld	e,(hl)
-   03E2 DD 66 FC      [19]  750 	ld	h,-4 (ix)
-   03E5 DD 6E FB      [19]  751 	ld	l,-5 (ix)
-   03E8 E5            [11]  752 	push	hl
-   03E9 51            [ 4]  753 	ld	d, c
-   03EA D5            [11]  754 	push	de
-   03EB CDr8Dr00      [17]  755 	call	_dist
-   03EE F1            [10]  756 	pop	af
-   03EF F1            [10]  757 	pop	af
-   03F0 3E 06         [ 7]  758 	ld	a,#0x06
-   03F2 95            [ 4]  759 	sub	a, l
-   03F3 30 0F         [12]  760 	jr	NC,00106$
-                            761 ;src/Enemy.c:222: enemy_new_enemy(&pos);
-   03F5 DD 4E FE      [19]  762 	ld	c,-2 (ix)
-   03F8 DD 46 FF      [19]  763 	ld	b,-1 (ix)
-   03FB C5            [11]  764 	push	bc
-   03FC CDrAEr02      [17]  765 	call	_enemy_new_enemy
-   03FF F1            [10]  766 	pop	af
-                            767 ;src/Enemy.c:223: return 1;
-   0400 2E 01         [ 7]  768 	ld	l,#0x01
-   0402 18 02         [12]  769 	jr	00107$
-   0404                     770 00106$:
-                            771 ;src/Enemy.c:227: return 0;
-   0404 2E 00         [ 7]  772 	ld	l,#0x00
-   0406                     773 00107$:
-   0406 DD F9         [10]  774 	ld	sp, ix
-   0408 DD E1         [14]  775 	pop	ix
-   040A C9            [10]  776 	ret
-                            777 ;src/Enemy.c:230: u8 enemy_collision_at_dir(Vec2u* pos, u8 dir){
-                            778 ;	---------------------------------
-                            779 ; Function enemy_collision_at_dir
-                            780 ; ---------------------------------
-   040B                     781 _enemy_collision_at_dir::
-   040B DD E5         [15]  782 	push	ix
-   040D DD 21 00 00   [14]  783 	ld	ix,#0
-   0411 DD 39         [15]  784 	add	ix,sp
-   0413 F5            [11]  785 	push	af
-   0414 3B            [ 6]  786 	dec	sp
-                            787 ;src/Enemy.c:235: dx = movement_directionArray[dir];
-   0415 01r00r00      [10]  788 	ld	bc,#_movement_directionArray+0
-   0418 DD 6E 06      [19]  789 	ld	l,6 (ix)
-   041B 26 00         [ 7]  790 	ld	h,#0x00
-   041D 09            [11]  791 	add	hl,bc
-   041E 5E            [ 7]  792 	ld	e,(hl)
-                            793 ;src/Enemy.c:236: dy = movement_directionArray[dir+1];
-   041F DD 56 06      [19]  794 	ld	d,6 (ix)
-   0422 14            [ 4]  795 	inc	d
-   0423 6A            [ 4]  796 	ld	l,d
-   0424 26 00         [ 7]  797 	ld	h,#0x00
-   0426 09            [11]  798 	add	hl,bc
-   0427 7E            [ 7]  799 	ld	a,(hl)
-   0428 DD 77 FD      [19]  800 	ld	-3 (ix),a
-                            801 ;src/Enemy.c:238: val = *(u8*)(MAP_MEM + (pos->x + dx) + ((pos->y + dy)*MAP_WIDTH));
-   042B DD 4E 04      [19]  802 	ld	c,4 (ix)
-   042E DD 46 05      [19]  803 	ld	b,5 (ix)
-   0431 0A            [ 7]  804 	ld	a,(bc)
-   0432 6F            [ 4]  805 	ld	l,a
-   0433 26 00         [ 7]  806 	ld	h,#0x00
-   0435 7B            [ 4]  807 	ld	a,e
-   0436 17            [ 4]  808 	rla
-   0437 9F            [ 4]  809 	sbc	a, a
-   0438 57            [ 4]  810 	ld	d,a
-   0439 19            [11]  811 	add	hl,de
-   043A DD 75 FE      [19]  812 	ld	-2 (ix),l
-   043D DD 74 FF      [19]  813 	ld	-1 (ix),h
-   0440 EB            [ 4]  814 	ex	de,hl
-   0441 21 D0 88      [10]  815 	ld	hl,#0x88D0
-   0444 19            [11]  816 	add	hl,de
-   0445 EB            [ 4]  817 	ex	de,hl
-   0446 69            [ 4]  818 	ld	l, c
-   0447 60            [ 4]  819 	ld	h, b
-   0448 23            [ 6]  820 	inc	hl
-   0449 4E            [ 7]  821 	ld	c,(hl)
-   044A 06 00         [ 7]  822 	ld	b,#0x00
-   044C DD 6E FD      [19]  823 	ld	l,-3 (ix)
-   044F DD 7E FD      [19]  824 	ld	a,-3 (ix)
-   0452 17            [ 4]  825 	rla
-   0453 9F            [ 4]  826 	sbc	a, a
-   0454 67            [ 4]  827 	ld	h,a
-   0455 09            [11]  828 	add	hl,bc
-   0456 4D            [ 4]  829 	ld	c,l
-   0457 44            [ 4]  830 	ld	b,h
-   0458 29            [11]  831 	add	hl, hl
-   0459 29            [11]  832 	add	hl, hl
-   045A 29            [11]  833 	add	hl, hl
-   045B 29            [11]  834 	add	hl, hl
-   045C 29            [11]  835 	add	hl, hl
-   045D 19            [11]  836 	add	hl,de
-   045E 7E            [ 7]  837 	ld	a,(hl)
-                            838 ;src/Enemy.c:240: if((val & (CELL_WALL_MASK|CELL_ENEMY_MASK)) || (((pos->x + dx) == player_position.x) && ((pos->y + dy) == player_position.y))) return 1;
-   045F E6 8F         [ 7]  839 	and	a, #0x8F
-   0461 20 20         [12]  840 	jr	NZ,00101$
-   0463 21r00r00      [10]  841 	ld	hl,#_player_position+0
-   0466 5E            [ 7]  842 	ld	e,(hl)
-   0467 16 00         [ 7]  843 	ld	d,#0x00
-   0469 DD 7E FE      [19]  844 	ld	a,-2 (ix)
-   046C 93            [ 4]  845 	sub	a, e
-   046D 20 18         [12]  846 	jr	NZ,00102$
-   046F DD 7E FF      [19]  847 	ld	a,-1 (ix)
-   0472 92            [ 4]  848 	sub	a, d
-   0473 20 12         [12]  849 	jr	NZ,00102$
-   0475 21r01r00      [10]  850 	ld	hl,#_player_position+1
-   0478 5E            [ 7]  851 	ld	e,(hl)
-   0479 16 00         [ 7]  852 	ld	d,#0x00
-   047B 79            [ 4]  853 	ld	a,c
-   047C 93            [ 4]  854 	sub	a, e
-   047D 20 08         [12]  855 	jr	NZ,00102$
-   047F 78            [ 4]  856 	ld	a,b
-   0480 92            [ 4]  857 	sub	a, d
-   0481 20 04         [12]  858 	jr	NZ,00102$
-   0483                     859 00101$:
-   0483 2E 01         [ 7]  860 	ld	l,#0x01
-   0485 18 02         [12]  861 	jr	00105$
-   0487                     862 00102$:
-                            863 ;src/Enemy.c:241: return 0;
-   0487 2E 00         [ 7]  864 	ld	l,#0x00
-   0489                     865 00105$:
-   0489 DD F9         [10]  866 	ld	sp, ix
-   048B DD E1         [14]  867 	pop	ix
-   048D C9            [10]  868 	ret
-                            869 ;src/Enemy.c:244: u8 enemy_get_distance_to_obstacle(Enemy* e, u8 direction){
-                            870 ;	---------------------------------
-                            871 ; Function enemy_get_distance_to_obstacle
-                            872 ; ---------------------------------
-   048E                     873 _enemy_get_distance_to_obstacle::
-   048E DD E5         [15]  874 	push	ix
-   0490 DD 21 00 00   [14]  875 	ld	ix,#0
-   0494 DD 39         [15]  876 	add	ix,sp
-   0496 21 F9 FF      [10]  877 	ld	hl,#-7
-   0499 39            [11]  878 	add	hl,sp
-   049A F9            [ 6]  879 	ld	sp,hl
-                            880 ;src/Enemy.c:250: dx = movement_directionArray[direction];
-   049B 01r00r00      [10]  881 	ld	bc,#_movement_directionArray+0
-   049E DD 6E 06      [19]  882 	ld	l,6 (ix)
-   04A1 26 00         [ 7]  883 	ld	h,#0x00
-   04A3 09            [11]  884 	add	hl,bc
-   04A4 7E            [ 7]  885 	ld	a,(hl)
-   04A5 DD 77 F9      [19]  886 	ld	-7 (ix),a
-                            887 ;src/Enemy.c:251: dy = movement_directionArray[direction+1];
-   04A8 DD 5E 06      [19]  888 	ld	e,6 (ix)
-   04AB 1C            [ 4]  889 	inc	e
-   04AC 6B            [ 4]  890 	ld	l,e
-   04AD 26 00         [ 7]  891 	ld	h,#0x00
-   04AF 09            [11]  892 	add	hl,bc
-   04B0 7E            [ 7]  893 	ld	a,(hl)
-   04B1 DD 77 FD      [19]  894 	ld	-3 (ix),a
-                            895 ;src/Enemy.c:254: position.x = e->position.x;
-   04B4 21 02 00      [10]  896 	ld	hl,#0x0002
-   04B7 39            [11]  897 	add	hl,sp
-   04B8 4D            [ 4]  898 	ld	c,l
-   04B9 44            [ 4]  899 	ld	b,h
-   04BA DD 5E 04      [19]  900 	ld	e,4 (ix)
-   04BD DD 56 05      [19]  901 	ld	d,5 (ix)
-   04C0 6B            [ 4]  902 	ld	l, e
-   04C1 62            [ 4]  903 	ld	h, d
-   04C2 23            [ 6]  904 	inc	hl
-   04C3 23            [ 6]  905 	inc	hl
-   04C4 23            [ 6]  906 	inc	hl
-   04C5 7E            [ 7]  907 	ld	a,(hl)
-   04C6 02            [ 7]  908 	ld	(bc),a
-                            909 ;src/Enemy.c:255: position.y = e->position.y;
-   04C7 21 02 00      [10]  910 	ld	hl,#0x0002
-   04CA 39            [11]  911 	add	hl,sp
-   04CB DD 75 FE      [19]  912 	ld	-2 (ix),l
-   04CE DD 74 FF      [19]  913 	ld	-1 (ix),h
-   04D1 23            [ 6]  914 	inc	hl
-   04D2 4D            [ 4]  915 	ld	c,l
-   04D3 44            [ 4]  916 	ld	b,h
-   04D4 D5            [11]  917 	push	de
-   04D5 FD E1         [14]  918 	pop	iy
-   04D7 FD 7E 04      [19]  919 	ld	a,4 (iy)
-   04DA 02            [ 7]  920 	ld	(bc),a
-                            921 ;src/Enemy.c:259: while(!(enemy_collision_at_dir(&position, direction))){
-   04DB DD 5E FE      [19]  922 	ld	e,-2 (ix)
-   04DE DD 56 FF      [19]  923 	ld	d,-1 (ix)
-   04E1 DD 36 FA 00   [19]  924 	ld	-6 (ix),#0x00
-   04E5                     925 00101$:
-   04E5 D5            [11]  926 	push	de
-   04E6 FD E1         [14]  927 	pop	iy
-   04E8 C5            [11]  928 	push	bc
-   04E9 D5            [11]  929 	push	de
-   04EA DD 7E 06      [19]  930 	ld	a,6 (ix)
-   04ED F5            [11]  931 	push	af
-   04EE 33            [ 6]  932 	inc	sp
-   04EF FD E5         [15]  933 	push	iy
-   04F1 CDr0Br04      [17]  934 	call	_enemy_collision_at_dir
-   04F4 F1            [10]  935 	pop	af
-   04F5 33            [ 6]  936 	inc	sp
-   04F6 D1            [10]  937 	pop	de
-   04F7 C1            [10]  938 	pop	bc
-   04F8 7D            [ 4]  939 	ld	a,l
-   04F9 B7            [ 4]  940 	or	a, a
-   04FA 20 1B         [12]  941 	jr	NZ,00103$
-                            942 ;src/Enemy.c:260: ++count;
-   04FC DD 34 FA      [23]  943 	inc	-6 (ix)
-                            944 ;src/Enemy.c:261: position.x += dx;
-   04FF DD 6E FE      [19]  945 	ld	l,-2 (ix)
-   0502 DD 66 FF      [19]  946 	ld	h,-1 (ix)
-   0505 7E            [ 7]  947 	ld	a, (hl)
-   0506 DD 86 F9      [19]  948 	add	a, -7 (ix)
-   0509 DD 6E FE      [19]  949 	ld	l,-2 (ix)
-   050C DD 66 FF      [19]  950 	ld	h,-1 (ix)
-   050F 77            [ 7]  951 	ld	(hl),a
-                            952 ;src/Enemy.c:262: position.y += dy;
-   0510 0A            [ 7]  953 	ld	a,(bc)
-   0511 DD 86 FD      [19]  954 	add	a, -3 (ix)
-   0514 02            [ 7]  955 	ld	(bc),a
-   0515 18 CE         [12]  956 	jr	00101$
-   0517                     957 00103$:
-                            958 ;src/Enemy.c:265: return count;
-   0517 DD 6E FA      [19]  959 	ld	l,-6 (ix)
-   051A DD F9         [10]  960 	ld	sp, ix
-   051C DD E1         [14]  961 	pop	ix
-   051E C9            [10]  962 	ret
-                            963 ;src/Enemy.c:268: void enemy_remove(Enemy* e){
-                            964 ;	---------------------------------
-                            965 ; Function enemy_remove
-                            966 ; ---------------------------------
-   051F                     967 _enemy_remove::
-   051F DD E5         [15]  968 	push	ix
-   0521 DD 21 00 00   [14]  969 	ld	ix,#0
-   0525 DD 39         [15]  970 	add	ix,sp
-                            971 ;src/Enemy.c:273: e->hitPoints=0;
-   0527 DD 5E 04      [19]  972 	ld	e,4 (ix)
-   052A DD 56 05      [19]  973 	ld	d,5 (ix)
-   052D 21 05 00      [10]  974 	ld	hl,#0x0005
-   0530 19            [11]  975 	add	hl,de
-   0531 36 00         [10]  976 	ld	(hl),#0x00
-                            977 ;src/Enemy.c:275: (map[e->position.x + (e->position.y)*MAP_WIDTH]) &= (CELL_ITEM_MASK);
-   0533 6B            [ 4]  978 	ld	l, e
-   0534 62            [ 4]  979 	ld	h, d
-   0535 23            [ 6]  980 	inc	hl
-   0536 23            [ 6]  981 	inc	hl
-   0537 23            [ 6]  982 	inc	hl
-   0538 4E            [ 7]  983 	ld	c,(hl)
-   0539 06 00         [ 7]  984 	ld	b,#0x00
-   053B D5            [11]  985 	push	de
-   053C FD E1         [14]  986 	pop	iy
-   053E FD 6E 04      [19]  987 	ld	l,4 (iy)
-   0541 26 00         [ 7]  988 	ld	h,#0x00
-   0543 29            [11]  989 	add	hl, hl
-   0544 29            [11]  990 	add	hl, hl
-   0545 29            [11]  991 	add	hl, hl
-   0546 29            [11]  992 	add	hl, hl
-   0547 29            [11]  993 	add	hl, hl
-   0548 09            [11]  994 	add	hl,bc
-   0549 01 D0 88      [10]  995 	ld	bc,#0x88D0
-   054C 09            [11]  996 	add	hl,bc
-   054D 7E            [ 7]  997 	ld	a,(hl)
-   054E E6 70         [ 7]  998 	and	a, #0x70
-   0550 77            [ 7]  999 	ld	(hl),a
-                           1000 ;src/Enemy.c:276: --activeEnemies;
-   0551 21r00r00      [10] 1001 	ld	hl, #_activeEnemies+0
-   0554 35            [11] 1002 	dec	(hl)
-   0555 DD E1         [14] 1003 	pop	ix
-   0557 C9            [10] 1004 	ret
-                           1005 ;src/Enemy.c:279: void enemy_move(Enemy* e, u8 d){
-                           1006 ;	---------------------------------
-                           1007 ; Function enemy_move
-                           1008 ; ---------------------------------
-   0558                    1009 _enemy_move::
-   0558 DD E5         [15] 1010 	push	ix
-   055A DD 21 00 00   [14] 1011 	ld	ix,#0
-   055E DD 39         [15] 1012 	add	ix,sp
-   0560 21 F8 FF      [10] 1013 	ld	hl,#-8
-   0563 39            [11] 1014 	add	hl,sp
-   0564 F9            [ 6] 1015 	ld	sp,hl
-                           1016 ;src/Enemy.c:287: x = e->position.x;
-   0565 DD 5E 04      [19] 1017 	ld	e,4 (ix)
-   0568 DD 56 05      [19] 1018 	ld	d,5 (ix)
-   056B 21 03 00      [10] 1019 	ld	hl,#0x0003
-   056E 19            [11] 1020 	add	hl,de
-   056F DD 75 FB      [19] 1021 	ld	-5 (ix),l
-   0572 DD 74 FC      [19] 1022 	ld	-4 (ix),h
-   0575 DD 6E FB      [19] 1023 	ld	l,-5 (ix)
-   0578 DD 66 FC      [19] 1024 	ld	h,-4 (ix)
-   057B 7E            [ 7] 1025 	ld	a,(hl)
-   057C DD 77 FA      [19] 1026 	ld	-6 (ix),a
-                           1027 ;src/Enemy.c:288: y = e->position.y;
-   057F 21 04 00      [10] 1028 	ld	hl,#0x0004
-   0582 19            [11] 1029 	add	hl,de
-   0583 DD 75 FD      [19] 1030 	ld	-3 (ix),l
-   0586 DD 74 FE      [19] 1031 	ld	-2 (ix),h
-   0589 DD 6E FD      [19] 1032 	ld	l,-3 (ix)
-   058C DD 66 FE      [19] 1033 	ld	h,-2 (ix)
-   058F 7E            [ 7] 1034 	ld	a,(hl)
-   0590 DD 77 FF      [19] 1035 	ld	-1 (ix),a
-                           1036 ;src/Enemy.c:291: (map[x + (y)*MAP_WIDTH]) &= (CELL_ITEM_MASK);
-   0593 DD 4E FA      [19] 1037 	ld	c,-6 (ix)
-   0596 06 00         [ 7] 1038 	ld	b,#0x00
-   0598 DD 6E FF      [19] 1039 	ld	l,-1 (ix)
-   059B 26 00         [ 7] 1040 	ld	h,#0x00
-   059D 29            [11] 1041 	add	hl, hl
-   059E 29            [11] 1042 	add	hl, hl
-   059F 29            [11] 1043 	add	hl, hl
-   05A0 29            [11] 1044 	add	hl, hl
-   05A1 29            [11] 1045 	add	hl, hl
-   05A2 09            [11] 1046 	add	hl,bc
-   05A3 01 D0 88      [10] 1047 	ld	bc,#0x88D0
-   05A6 09            [11] 1048 	add	hl,bc
-   05A7 7E            [ 7] 1049 	ld	a,(hl)
-   05A8 E6 70         [ 7] 1050 	and	a, #0x70
-   05AA 77            [ 7] 1051 	ld	(hl),a
-                           1052 ;src/Enemy.c:293: dx=movement_directionArray[d];
-   05AB 01r00r00      [10] 1053 	ld	bc,#_movement_directionArray+0
-   05AE DD 6E 06      [19] 1054 	ld	l,6 (ix)
-   05B1 26 00         [ 7] 1055 	ld	h,#0x00
-   05B3 09            [11] 1056 	add	hl,bc
-   05B4 7E            [ 7] 1057 	ld	a,(hl)
-   05B5 DD 77 F8      [19] 1058 	ld	-8 (ix),a
-                           1059 ;src/Enemy.c:294: dy=movement_directionArray[d+1];
-   05B8 DD 6E 06      [19] 1060 	ld	l,6 (ix)
-   05BB 2C            [ 4] 1061 	inc	l
-   05BC 26 00         [ 7] 1062 	ld	h,#0x00
-   05BE 09            [11] 1063 	add	hl,bc
-   05BF 46            [ 7] 1064 	ld	b,(hl)
-                           1065 ;src/Enemy.c:297: x+=dx;
-   05C0 DD 7E FA      [19] 1066 	ld	a, -6 (ix)
-   05C3 DD 86 F8      [19] 1067 	add	a, -8 (ix)
-   05C6 4F            [ 4] 1068 	ld	c,a
-                           1069 ;src/Enemy.c:298: y+=dy;
-   05C7 DD 7E FF      [19] 1070 	ld	a, -1 (ix)
-   05CA 80            [ 4] 1071 	add	a, b
-   05CB DD 77 F9      [19] 1072 	ld	-7 (ix),a
-                           1073 ;src/Enemy.c:300: e->direction = d;
-   05CE 6B            [ 4] 1074 	ld	l, e
-   05CF 62            [ 4] 1075 	ld	h, d
-   05D0 23            [ 6] 1076 	inc	hl
-   05D1 23            [ 6] 1077 	inc	hl
-   05D2 DD 7E 06      [19] 1078 	ld	a,6 (ix)
-   05D5 77            [ 7] 1079 	ld	(hl),a
-                           1080 ;src/Enemy.c:302: e->position.x = x;
-   05D6 DD 6E FB      [19] 1081 	ld	l,-5 (ix)
-   05D9 DD 66 FC      [19] 1082 	ld	h,-4 (ix)
-   05DC 71            [ 7] 1083 	ld	(hl),c
-                           1084 ;src/Enemy.c:303: e->position.y = y;
-   05DD DD 6E FD      [19] 1085 	ld	l,-3 (ix)
-   05E0 DD 66 FE      [19] 1086 	ld	h,-2 (ix)
-   05E3 DD 7E F9      [19] 1087 	ld	a,-7 (ix)
-   05E6 77            [ 7] 1088 	ld	(hl),a
-                           1089 ;src/Enemy.c:306: (map[x + (y)*MAP_WIDTH]) |= ((e->id)+1);
-   05E7 06 00         [ 7] 1090 	ld	b,#0x00
-   05E9 DD 6E F9      [19] 1091 	ld	l,-7 (ix)
-   05EC 26 00         [ 7] 1092 	ld	h,#0x00
-   05EE 29            [11] 1093 	add	hl, hl
-   05EF 29            [11] 1094 	add	hl, hl
-   05F0 29            [11] 1095 	add	hl, hl
-   05F1 29            [11] 1096 	add	hl, hl
-   05F2 29            [11] 1097 	add	hl, hl
-   05F3 09            [11] 1098 	add	hl, bc
-   05F4 E5            [11] 1099 	push	hl
-   05F5 FD E1         [14] 1100 	pop	iy
-   05F7 01 D0 88      [10] 1101 	ld	bc,#0x88D0
-   05FA FD 09         [15] 1102 	add	iy, bc
-   05FC FD 4E 00      [19] 1103 	ld	c, 0 (iy)
-   05FF 1A            [ 7] 1104 	ld	a,(de)
-   0600 3C            [ 4] 1105 	inc	a
-   0601 B1            [ 4] 1106 	or	a, c
-   0602 FD 77 00      [19] 1107 	ld	0 (iy), a
-   0605 DD F9         [10] 1108 	ld	sp, ix
-   0607 DD E1         [14] 1109 	pop	ix
-   0609 C9            [10] 1110 	ret
-                           1111 ;src/Enemy.c:309: u8 enemy_attack_enemy(Enemy* e){
-                           1112 ;	---------------------------------
-                           1113 ; Function enemy_attack_enemy
-                           1114 ; ---------------------------------
-   060A                    1115 _enemy_attack_enemy::
-   060A DD E5         [15] 1116 	push	ix
-   060C DD 21 00 00   [14] 1117 	ld	ix,#0
-   0610 DD 39         [15] 1118 	add	ix,sp
-   0612 3B            [ 6] 1119 	dec	sp
-                           1120 ;src/Enemy.c:311: const char* t = "    DMG";
-                           1121 ;src/Enemy.c:312: dmg = (player_attack_value - e->defenseValue);
-   0613 DD 4E 04      [19] 1122 	ld	c,4 (ix)
-   0616 DD 46 05      [19] 1123 	ld	b,5 (ix)
-   0619 C5            [11] 1124 	push	bc
-   061A FD E1         [14] 1125 	pop	iy
-   061C FD 5E 07      [19] 1126 	ld	e,7 (iy)
-   061F 3Ar00r00      [13] 1127 	ld	a,(#_player_attack_value + 0)
-   0622 93            [ 4] 1128 	sub	a, e
-                           1129 ;src/Enemy.c:313: if(dmg<1) dmg = 1;
-   0623 DD 77 FF      [19] 1130 	ld	-1 (ix), a
-   0626 EE 80         [ 7] 1131 	xor	a, #0x80
-   0628 D6 81         [ 7] 1132 	sub	a, #0x81
-   062A 30 04         [12] 1133 	jr	NC,00102$
-   062C DD 36 FF 01   [19] 1134 	ld	-1 (ix),#0x01
-   0630                    1135 00102$:
-                           1136 ;src/Enemy.c:315: cpct_memcpy(t,integer_to_string(dmg,'d'),3);
-   0630 C5            [11] 1137 	push	bc
-   0631 3E 64         [ 7] 1138 	ld	a,#0x64
-   0633 F5            [11] 1139 	push	af
-   0634 33            [ 6] 1140 	inc	sp
-   0635 DD 7E FF      [19] 1141 	ld	a,-1 (ix)
-   0638 F5            [11] 1142 	push	af
-   0639 33            [ 6] 1143 	inc	sp
-   063A CDr00r00      [17] 1144 	call	_integer_to_string
-   063D F1            [10] 1145 	pop	af
-   063E 11 03 00      [10] 1146 	ld	de,#0x0003
-   0641 D5            [11] 1147 	push	de
-   0642 E5            [11] 1148 	push	hl
-   0643 21rA4r06      [10] 1149 	ld	hl,#___str_0
-   0646 E5            [11] 1150 	push	hl
-   0647 CDr00r00      [17] 1151 	call	_cpct_memcpy
-   064A 3E 03         [ 7] 1152 	ld	a,#0x03
-   064C F5            [11] 1153 	push	af
-   064D 33            [ 6] 1154 	inc	sp
-   064E 21rACr06      [10] 1155 	ld	hl,#___str_1
-   0651 E5            [11] 1156 	push	hl
-   0652 CDr00r00      [17] 1157 	call	_ui_log_add_log
-   0655 F1            [10] 1158 	pop	af
-   0656 33            [ 6] 1159 	inc	sp
-   0657 3E 05         [ 7] 1160 	ld	a,#0x05
-   0659 F5            [11] 1161 	push	af
-   065A 33            [ 6] 1162 	inc	sp
-   065B 21rA4r06      [10] 1163 	ld	hl,#___str_0
-   065E E5            [11] 1164 	push	hl
-   065F CDr00r00      [17] 1165 	call	_ui_log_add_log
-   0662 F1            [10] 1166 	pop	af
-   0663 33            [ 6] 1167 	inc	sp
-   0664 CDr00r00      [17] 1168 	call	_ui_log_render
-   0667 C1            [10] 1169 	pop	bc
-                           1170 ;src/Enemy.c:320: if(e->hitPoints>(u8)dmg){
-   0668 21 05 00      [10] 1171 	ld	hl,#0x0005
-   066B 09            [11] 1172 	add	hl,bc
-   066C 5E            [ 7] 1173 	ld	e,(hl)
-   066D DD 7E FF      [19] 1174 	ld	a, -1 (ix)
-   0670 93            [ 4] 1175 	sub	a, e
-   0671 30 09         [12] 1176 	jr	NC,00107$
-                           1177 ;src/Enemy.c:321: e->hitPoints -= dmg;
-   0673 7B            [ 4] 1178 	ld	a,e
-   0674 DD 96 FF      [19] 1179 	sub	a, -1 (ix)
-   0677 77            [ 7] 1180 	ld	(hl),a
-                           1181 ;src/Enemy.c:322: return 0;
-   0678 2E 00         [ 7] 1182 	ld	l,#0x00
-   067A 18 24         [12] 1183 	jr	00109$
-   067C                    1184 00107$:
-                           1185 ;src/Enemy.c:326: enemy_remove(e);
-   067C C5            [11] 1186 	push	bc
-   067D C5            [11] 1187 	push	bc
-   067E CDr1Fr05      [17] 1188 	call	_enemy_remove
-   0681 F1            [10] 1189 	pop	af
-   0682 CDr00r00      [17] 1190 	call	_cpct_getRandom_mxor_u8
-   0685 C1            [10] 1191 	pop	bc
-   0686 CB 45         [ 8] 1192 	bit	0, l
-   0688 20 0A         [12] 1193 	jr	NZ,00103$
-   068A C5            [11] 1194 	push	bc
-   068B CDr00r00      [17] 1195 	call	_level_get_level
-   068E C1            [10] 1196 	pop	bc
-   068F 7D            [ 4] 1197 	ld	a,l
-   0690 D6 20         [ 7] 1198 	sub	a, #0x20
-   0692 20 0A         [12] 1199 	jr	NZ,00104$
-   0694                    1200 00103$:
-                           1201 ;src/Enemy.c:329: item_try_new_spawn_at(&(e->position));
-   0694 03            [ 6] 1202 	inc	bc
-   0695 03            [ 6] 1203 	inc	bc
-   0696 03            [ 6] 1204 	inc	bc
-   0697 60            [ 4] 1205 	ld	h,b
-   0698 69            [ 4] 1206 	ld	l, c
-   0699 E5            [11] 1207 	push	hl
-   069A CDr00r00      [17] 1208 	call	_item_try_new_spawn_at
-   069D F1            [10] 1209 	pop	af
-   069E                    1210 00104$:
-                           1211 ;src/Enemy.c:332: return 1;
-   069E 2E 01         [ 7] 1212 	ld	l,#0x01
-   06A0                    1213 00109$:
-   06A0 33            [ 6] 1214 	inc	sp
-   06A1 DD E1         [14] 1215 	pop	ix
-   06A3 C9            [10] 1216 	ret
-   06A4                    1217 ___str_0:
-   06A4 20 20 20 20 44 4D  1218 	.ascii "    DMG"
+   02E0 DD 75 FD      [19]  560 	ld	-3 (ix),l
+   02E3 DD 74 FE      [19]  561 	ld	-2 (ix),h
+                            562 ;src/Enemy.c:146: while(i){
+   02E6 DD 36 FC 0F   [19]  563 	ld	-4 (ix),#0x0F
+   02EA                     564 00103$:
+   02EA DD 7E FC      [19]  565 	ld	a,-4 (ix)
+   02ED B7            [ 4]  566 	or	a, a
+   02EE CAr82r03      [10]  567 	jp	Z,00106$
+                            568 ;src/Enemy.c:147: --i;
+   02F1 DD 35 FC      [23]  569 	dec	-4 (ix)
+                            570 ;src/Enemy.c:148: --enemy;
+   02F4 79            [ 4]  571 	ld	a,c
+   02F5 C6 F8         [ 7]  572 	add	a,#0xF8
+   02F7 4F            [ 4]  573 	ld	c,a
+   02F8 78            [ 4]  574 	ld	a,b
+   02F9 CE FF         [ 7]  575 	adc	a,#0xFF
+   02FB 47            [ 4]  576 	ld	b,a
+                            577 ;src/Enemy.c:149: if(enemy->hitPoints==0){
+   02FC 21 05 00      [10]  578 	ld	hl,#0x0005
+   02FF 09            [11]  579 	add	hl,bc
+   0300 EB            [ 4]  580 	ex	de,hl
+   0301 1A            [ 7]  581 	ld	a,(de)
+   0302 B7            [ 4]  582 	or	a, a
+   0303 20 E5         [12]  583 	jr	NZ,00103$
+                            584 ;src/Enemy.c:150: enemy->id=i;
+   0305 DD 7E FC      [19]  585 	ld	a,-4 (ix)
+   0308 02            [ 7]  586 	ld	(bc),a
+                            587 ;src/Enemy.c:152: enemy->type=cpct_getRandom_mxor_u8()&1;
+   0309 69            [ 4]  588 	ld	l, c
+   030A 60            [ 4]  589 	ld	h, b
+   030B 23            [ 6]  590 	inc	hl
+   030C E5            [11]  591 	push	hl
+   030D C5            [11]  592 	push	bc
+   030E D5            [11]  593 	push	de
+   030F CDr00r00      [17]  594 	call	_cpct_getRandom_mxor_u8
+   0312 7D            [ 4]  595 	ld	a,l
+   0313 D1            [10]  596 	pop	de
+   0314 C1            [10]  597 	pop	bc
+   0315 E1            [10]  598 	pop	hl
+   0316 E6 01         [ 7]  599 	and	a, #0x01
+   0318 77            [ 7]  600 	ld	(hl),a
+                            601 ;src/Enemy.c:154: enemy->hitPoints=ENEMY_INITIAL_HP;
+   0319 3E FF         [ 7]  602 	ld	a,#0xFF
+   031B 12            [ 7]  603 	ld	(de),a
+                            604 ;src/Enemy.c:156: enemy->attackValue = (10)+level_get_level()+(cpct_getRandom_mxor_u8()&7);
+   031C 21 06 00      [10]  605 	ld	hl,#0x0006
+   031F 09            [11]  606 	add	hl,bc
+   0320 E5            [11]  607 	push	hl
+   0321 C5            [11]  608 	push	bc
+   0322 CDr00r00      [17]  609 	call	_level_get_level
+   0325 7D            [ 4]  610 	ld	a,l
+   0326 C1            [10]  611 	pop	bc
+   0327 E1            [10]  612 	pop	hl
+   0328 C6 0A         [ 7]  613 	add	a, #0x0A
+   032A 5F            [ 4]  614 	ld	e,a
+   032B E5            [11]  615 	push	hl
+   032C C5            [11]  616 	push	bc
+   032D D5            [11]  617 	push	de
+   032E CDr00r00      [17]  618 	call	_cpct_getRandom_mxor_u8
+   0331 7D            [ 4]  619 	ld	a,l
+   0332 D1            [10]  620 	pop	de
+   0333 C1            [10]  621 	pop	bc
+   0334 E1            [10]  622 	pop	hl
+   0335 E6 07         [ 7]  623 	and	a, #0x07
+   0337 83            [ 4]  624 	add	a,e
+   0338 77            [ 7]  625 	ld	(hl),a
+                            626 ;src/Enemy.c:157: enemy->defenseValue = level_get_level()+(cpct_getRandom_mxor_u8()&7);
+   0339 21 07 00      [10]  627 	ld	hl,#0x0007
+   033C 09            [11]  628 	add	hl,bc
+   033D E5            [11]  629 	push	hl
+   033E C5            [11]  630 	push	bc
+   033F CDr00r00      [17]  631 	call	_level_get_level
+   0342 5D            [ 4]  632 	ld	e,l
+   0343 D5            [11]  633 	push	de
+   0344 CDr00r00      [17]  634 	call	_cpct_getRandom_mxor_u8
+   0347 7D            [ 4]  635 	ld	a,l
+   0348 D1            [10]  636 	pop	de
+   0349 C1            [10]  637 	pop	bc
+   034A E1            [10]  638 	pop	hl
+   034B E6 07         [ 7]  639 	and	a, #0x07
+   034D 83            [ 4]  640 	add	a,e
+   034E 77            [ 7]  641 	ld	(hl),a
+                            642 ;src/Enemy.c:159: enemy->direction=(cpct_getRandom_mxor_u8()&3)*2;
+   034F 59            [ 4]  643 	ld	e, c
+   0350 50            [ 4]  644 	ld	d, b
+   0351 13            [ 6]  645 	inc	de
+   0352 13            [ 6]  646 	inc	de
+   0353 C5            [11]  647 	push	bc
+   0354 D5            [11]  648 	push	de
+   0355 CDr00r00      [17]  649 	call	_cpct_getRandom_mxor_u8
+   0358 D1            [10]  650 	pop	de
+   0359 C1            [10]  651 	pop	bc
+   035A 7D            [ 4]  652 	ld	a,l
+   035B E6 03         [ 7]  653 	and	a, #0x03
+   035D 87            [ 4]  654 	add	a, a
+   035E 12            [ 7]  655 	ld	(de),a
+                            656 ;src/Enemy.c:161: enemy->position.x = x;
+   035F 03            [ 6]  657 	inc	bc
+   0360 03            [ 6]  658 	inc	bc
+   0361 03            [ 6]  659 	inc	bc
+   0362 DD 7E FB      [19]  660 	ld	a,-5 (ix)
+   0365 02            [ 7]  661 	ld	(bc),a
+                            662 ;src/Enemy.c:162: enemy->position.y = y;
+   0366 03            [ 6]  663 	inc	bc
+   0367 DD 7E FF      [19]  664 	ld	a,-1 (ix)
+   036A 02            [ 7]  665 	ld	(bc),a
+                            666 ;src/Enemy.c:164: *memPos=(i+1)|(*memPos);
+   036B DD 4E FC      [19]  667 	ld	c,-4 (ix)
+   036E 0C            [ 4]  668 	inc	c
+   036F DD 6E FD      [19]  669 	ld	l,-3 (ix)
+   0372 DD 66 FE      [19]  670 	ld	h,-2 (ix)
+   0375 7E            [ 7]  671 	ld	a,(hl)
+   0376 B1            [ 4]  672 	or	a, c
+   0377 DD 6E FD      [19]  673 	ld	l,-3 (ix)
+   037A DD 66 FE      [19]  674 	ld	h,-2 (ix)
+   037D 77            [ 7]  675 	ld	(hl),a
+                            676 ;src/Enemy.c:166: ++activeEnemies;
+   037E 21r00r00      [10]  677 	ld	hl, #_activeEnemies+0
+   0381 34            [11]  678 	inc	(hl)
+                            679 ;src/Enemy.c:167: break;
+   0382                     680 00106$:
+   0382 DD F9         [10]  681 	ld	sp, ix
+   0384 DD E1         [14]  682 	pop	ix
+   0386 C9            [10]  683 	ret
+                            684 ;src/Enemy.c:213: u8 enemy_try_new_spawn(){
+                            685 ;	---------------------------------
+                            686 ; Function enemy_try_new_spawn
+                            687 ; ---------------------------------
+   0387                     688 _enemy_try_new_spawn::
+   0387 DD E5         [15]  689 	push	ix
+   0389 DD 21 00 00   [14]  690 	ld	ix,#0
+   038D DD 39         [15]  691 	add	ix,sp
+   038F 21 F9 FF      [10]  692 	ld	hl,#-7
+   0392 39            [11]  693 	add	hl,sp
+   0393 F9            [ 6]  694 	ld	sp,hl
+                            695 ;src/Enemy.c:216: if(activeEnemies<ENEMY_MAX_ENEMIES){
+   0394 3Ar00r00      [13]  696 	ld	a,(#_activeEnemies + 0)
+   0397 D6 0F         [ 7]  697 	sub	a, #0x0F
+   0399 30 74         [12]  698 	jr	NC,00106$
+                            699 ;src/Enemy.c:217: pos.x=cpct_getRandom_mxor_u8()%MAP_WIDTH;
+   039B 21 00 00      [10]  700 	ld	hl,#0x0000
+   039E 39            [11]  701 	add	hl,sp
+   039F E5            [11]  702 	push	hl
+   03A0 CDr00r00      [17]  703 	call	_cpct_getRandom_mxor_u8
+   03A3 7D            [ 4]  704 	ld	a,l
+   03A4 E1            [10]  705 	pop	hl
+   03A5 E6 1F         [ 7]  706 	and	a, #0x1F
+   03A7 77            [ 7]  707 	ld	(hl),a
+                            708 ;src/Enemy.c:218: pos.y=cpct_getRandom_mxor_u8()%MAP_HEIGHT;
+   03A8 21 00 00      [10]  709 	ld	hl,#0x0000
+   03AB 39            [11]  710 	add	hl,sp
+   03AC DD 75 FE      [19]  711 	ld	-2 (ix),l
+   03AF DD 74 FF      [19]  712 	ld	-1 (ix),h
+   03B2 23            [ 6]  713 	inc	hl
+   03B3 E5            [11]  714 	push	hl
+   03B4 CDr00r00      [17]  715 	call	_cpct_getRandom_mxor_u8
+   03B7 C1            [10]  716 	pop	bc
+   03B8 7D            [ 4]  717 	ld	a,l
+   03B9 E6 1F         [ 7]  718 	and	a, #0x1F
+   03BB DD 77 FD      [19]  719 	ld	-3 (ix), a
+   03BE 02            [ 7]  720 	ld	(bc),a
+                            721 ;src/Enemy.c:220: if((*(u8*)(MAP_MEM+pos.x+(pos.y*MAP_WIDTH))&(CELL_WALL_MASK|CELL_ENEMY_MASK))==0){
+   03BF DD 6E FE      [19]  722 	ld	l,-2 (ix)
+   03C2 DD 66 FF      [19]  723 	ld	h,-1 (ix)
+   03C5 7E            [ 7]  724 	ld	a,(hl)
+   03C6 DD 77 FC      [19]  725 	ld	-4 (ix), a
+   03C9 5F            [ 4]  726 	ld	e, a
+   03CA 16 00         [ 7]  727 	ld	d,#0x00
+   03CC 21 D0 88      [10]  728 	ld	hl,#0x88D0
+   03CF 19            [11]  729 	add	hl,de
+   03D0 EB            [ 4]  730 	ex	de,hl
+   03D1 0A            [ 7]  731 	ld	a,(bc)
+   03D2 DD 77 FB      [19]  732 	ld	-5 (ix),a
+   03D5 DD 6E FD      [19]  733 	ld	l,-3 (ix)
+   03D8 26 00         [ 7]  734 	ld	h,#0x00
+   03DA 29            [11]  735 	add	hl, hl
+   03DB 29            [11]  736 	add	hl, hl
+   03DC 29            [11]  737 	add	hl, hl
+   03DD 29            [11]  738 	add	hl, hl
+   03DE 29            [11]  739 	add	hl, hl
+   03DF 19            [11]  740 	add	hl,de
+   03E0 7E            [ 7]  741 	ld	a,(hl)
+   03E1 E6 8F         [ 7]  742 	and	a, #0x8F
+   03E3 20 2A         [12]  743 	jr	NZ,00106$
+                            744 ;src/Enemy.c:221: if(dist(player_position.x, player_position.y, pos.x, pos.y)>ENEMY_VIEW_DISTANCE){
+   03E5 21r01r00      [10]  745 	ld	hl, #_player_position + 1
+   03E8 4E            [ 7]  746 	ld	c,(hl)
+   03E9 21r00r00      [10]  747 	ld	hl, #_player_position + 0
+   03EC 5E            [ 7]  748 	ld	e,(hl)
+   03ED DD 66 FB      [19]  749 	ld	h,-5 (ix)
+   03F0 DD 6E FC      [19]  750 	ld	l,-4 (ix)
+   03F3 E5            [11]  751 	push	hl
+   03F4 51            [ 4]  752 	ld	d, c
+   03F5 D5            [11]  753 	push	de
+   03F6 CDr8Dr00      [17]  754 	call	_dist
+   03F9 F1            [10]  755 	pop	af
+   03FA F1            [10]  756 	pop	af
+   03FB 3E 06         [ 7]  757 	ld	a,#0x06
+   03FD 95            [ 4]  758 	sub	a, l
+   03FE 30 0F         [12]  759 	jr	NC,00106$
+                            760 ;src/Enemy.c:222: enemy_new_enemy(&pos);
+   0400 DD 4E FE      [19]  761 	ld	c,-2 (ix)
+   0403 DD 46 FF      [19]  762 	ld	b,-1 (ix)
+   0406 C5            [11]  763 	push	bc
+   0407 CDrAEr02      [17]  764 	call	_enemy_new_enemy
+   040A F1            [10]  765 	pop	af
+                            766 ;src/Enemy.c:223: return 1;
+   040B 2E 01         [ 7]  767 	ld	l,#0x01
+   040D 18 02         [12]  768 	jr	00107$
+   040F                     769 00106$:
+                            770 ;src/Enemy.c:227: return 0;
+   040F 2E 00         [ 7]  771 	ld	l,#0x00
+   0411                     772 00107$:
+   0411 DD F9         [10]  773 	ld	sp, ix
+   0413 DD E1         [14]  774 	pop	ix
+   0415 C9            [10]  775 	ret
+                            776 ;src/Enemy.c:230: u8 enemy_collision_at_dir(Vec2u* pos, u8 dir){
+                            777 ;	---------------------------------
+                            778 ; Function enemy_collision_at_dir
+                            779 ; ---------------------------------
+   0416                     780 _enemy_collision_at_dir::
+   0416 DD E5         [15]  781 	push	ix
+   0418 DD 21 00 00   [14]  782 	ld	ix,#0
+   041C DD 39         [15]  783 	add	ix,sp
+   041E F5            [11]  784 	push	af
+   041F 3B            [ 6]  785 	dec	sp
+                            786 ;src/Enemy.c:235: dx = movement_directionArray[dir];
+   0420 01r00r00      [10]  787 	ld	bc,#_movement_directionArray+0
+   0423 DD 6E 06      [19]  788 	ld	l,6 (ix)
+   0426 26 00         [ 7]  789 	ld	h,#0x00
+   0428 09            [11]  790 	add	hl,bc
+   0429 5E            [ 7]  791 	ld	e,(hl)
+                            792 ;src/Enemy.c:236: dy = movement_directionArray[dir+1];
+   042A DD 56 06      [19]  793 	ld	d,6 (ix)
+   042D 14            [ 4]  794 	inc	d
+   042E 6A            [ 4]  795 	ld	l,d
+   042F 26 00         [ 7]  796 	ld	h,#0x00
+   0431 09            [11]  797 	add	hl,bc
+   0432 7E            [ 7]  798 	ld	a,(hl)
+   0433 DD 77 FD      [19]  799 	ld	-3 (ix),a
+                            800 ;src/Enemy.c:238: val = *(u8*)(MAP_MEM + (pos->x + dx) + ((pos->y + dy)*MAP_WIDTH));
+   0436 DD 4E 04      [19]  801 	ld	c,4 (ix)
+   0439 DD 46 05      [19]  802 	ld	b,5 (ix)
+   043C 0A            [ 7]  803 	ld	a,(bc)
+   043D 6F            [ 4]  804 	ld	l,a
+   043E 26 00         [ 7]  805 	ld	h,#0x00
+   0440 7B            [ 4]  806 	ld	a,e
+   0441 17            [ 4]  807 	rla
+   0442 9F            [ 4]  808 	sbc	a, a
+   0443 57            [ 4]  809 	ld	d,a
+   0444 19            [11]  810 	add	hl,de
+   0445 DD 75 FE      [19]  811 	ld	-2 (ix),l
+   0448 DD 74 FF      [19]  812 	ld	-1 (ix),h
+   044B EB            [ 4]  813 	ex	de,hl
+   044C 21 D0 88      [10]  814 	ld	hl,#0x88D0
+   044F 19            [11]  815 	add	hl,de
+   0450 EB            [ 4]  816 	ex	de,hl
+   0451 69            [ 4]  817 	ld	l, c
+   0452 60            [ 4]  818 	ld	h, b
+   0453 23            [ 6]  819 	inc	hl
+   0454 4E            [ 7]  820 	ld	c,(hl)
+   0455 06 00         [ 7]  821 	ld	b,#0x00
+   0457 DD 6E FD      [19]  822 	ld	l,-3 (ix)
+   045A DD 7E FD      [19]  823 	ld	a,-3 (ix)
+   045D 17            [ 4]  824 	rla
+   045E 9F            [ 4]  825 	sbc	a, a
+   045F 67            [ 4]  826 	ld	h,a
+   0460 09            [11]  827 	add	hl,bc
+   0461 4D            [ 4]  828 	ld	c,l
+   0462 44            [ 4]  829 	ld	b,h
+   0463 29            [11]  830 	add	hl, hl
+   0464 29            [11]  831 	add	hl, hl
+   0465 29            [11]  832 	add	hl, hl
+   0466 29            [11]  833 	add	hl, hl
+   0467 29            [11]  834 	add	hl, hl
+   0468 19            [11]  835 	add	hl,de
+   0469 7E            [ 7]  836 	ld	a,(hl)
+                            837 ;src/Enemy.c:240: if((val & (CELL_WALL_MASK|CELL_ENEMY_MASK)) || (((pos->x + dx) == player_position.x) && ((pos->y + dy) == player_position.y))) return 1;
+   046A E6 8F         [ 7]  838 	and	a, #0x8F
+   046C 20 20         [12]  839 	jr	NZ,00101$
+   046E 21r00r00      [10]  840 	ld	hl,#_player_position+0
+   0471 5E            [ 7]  841 	ld	e,(hl)
+   0472 16 00         [ 7]  842 	ld	d,#0x00
+   0474 DD 7E FE      [19]  843 	ld	a,-2 (ix)
+   0477 93            [ 4]  844 	sub	a, e
+   0478 20 18         [12]  845 	jr	NZ,00102$
+   047A DD 7E FF      [19]  846 	ld	a,-1 (ix)
+   047D 92            [ 4]  847 	sub	a, d
+   047E 20 12         [12]  848 	jr	NZ,00102$
+   0480 21r01r00      [10]  849 	ld	hl,#_player_position+1
+   0483 5E            [ 7]  850 	ld	e,(hl)
+   0484 16 00         [ 7]  851 	ld	d,#0x00
+   0486 79            [ 4]  852 	ld	a,c
+   0487 93            [ 4]  853 	sub	a, e
+   0488 20 08         [12]  854 	jr	NZ,00102$
+   048A 78            [ 4]  855 	ld	a,b
+   048B 92            [ 4]  856 	sub	a, d
+   048C 20 04         [12]  857 	jr	NZ,00102$
+   048E                     858 00101$:
+   048E 2E 01         [ 7]  859 	ld	l,#0x01
+   0490 18 02         [12]  860 	jr	00105$
+   0492                     861 00102$:
+                            862 ;src/Enemy.c:241: return 0;
+   0492 2E 00         [ 7]  863 	ld	l,#0x00
+   0494                     864 00105$:
+   0494 DD F9         [10]  865 	ld	sp, ix
+   0496 DD E1         [14]  866 	pop	ix
+   0498 C9            [10]  867 	ret
+                            868 ;src/Enemy.c:244: u8 enemy_get_distance_to_obstacle(Enemy* e, u8 direction){
+                            869 ;	---------------------------------
+                            870 ; Function enemy_get_distance_to_obstacle
+                            871 ; ---------------------------------
+   0499                     872 _enemy_get_distance_to_obstacle::
+   0499 DD E5         [15]  873 	push	ix
+   049B DD 21 00 00   [14]  874 	ld	ix,#0
+   049F DD 39         [15]  875 	add	ix,sp
+   04A1 21 F9 FF      [10]  876 	ld	hl,#-7
+   04A4 39            [11]  877 	add	hl,sp
+   04A5 F9            [ 6]  878 	ld	sp,hl
+                            879 ;src/Enemy.c:250: dx = movement_directionArray[direction];
+   04A6 01r00r00      [10]  880 	ld	bc,#_movement_directionArray+0
+   04A9 DD 6E 06      [19]  881 	ld	l,6 (ix)
+   04AC 26 00         [ 7]  882 	ld	h,#0x00
+   04AE 09            [11]  883 	add	hl,bc
+   04AF 7E            [ 7]  884 	ld	a,(hl)
+   04B0 DD 77 FB      [19]  885 	ld	-5 (ix),a
+                            886 ;src/Enemy.c:251: dy = movement_directionArray[direction+1];
+   04B3 DD 5E 06      [19]  887 	ld	e,6 (ix)
+   04B6 1C            [ 4]  888 	inc	e
+   04B7 6B            [ 4]  889 	ld	l,e
+   04B8 26 00         [ 7]  890 	ld	h,#0x00
+   04BA 09            [11]  891 	add	hl,bc
+   04BB 7E            [ 7]  892 	ld	a,(hl)
+   04BC DD 77 F9      [19]  893 	ld	-7 (ix),a
+                            894 ;src/Enemy.c:254: position.x = e->position.x;
+   04BF 21 03 00      [10]  895 	ld	hl,#0x0003
+   04C2 39            [11]  896 	add	hl,sp
+   04C3 4D            [ 4]  897 	ld	c,l
+   04C4 44            [ 4]  898 	ld	b,h
+   04C5 DD 5E 04      [19]  899 	ld	e,4 (ix)
+   04C8 DD 56 05      [19]  900 	ld	d,5 (ix)
+   04CB 6B            [ 4]  901 	ld	l, e
+   04CC 62            [ 4]  902 	ld	h, d
+   04CD 23            [ 6]  903 	inc	hl
+   04CE 23            [ 6]  904 	inc	hl
+   04CF 23            [ 6]  905 	inc	hl
+   04D0 7E            [ 7]  906 	ld	a,(hl)
+   04D1 02            [ 7]  907 	ld	(bc),a
+                            908 ;src/Enemy.c:255: position.y = e->position.y;
+   04D2 21 03 00      [10]  909 	ld	hl,#0x0003
+   04D5 39            [11]  910 	add	hl,sp
+   04D6 DD 75 FE      [19]  911 	ld	-2 (ix),l
+   04D9 DD 74 FF      [19]  912 	ld	-1 (ix),h
+   04DC 23            [ 6]  913 	inc	hl
+   04DD 4D            [ 4]  914 	ld	c,l
+   04DE 44            [ 4]  915 	ld	b,h
+   04DF D5            [11]  916 	push	de
+   04E0 FD E1         [14]  917 	pop	iy
+   04E2 FD 7E 04      [19]  918 	ld	a,4 (iy)
+   04E5 02            [ 7]  919 	ld	(bc),a
+                            920 ;src/Enemy.c:259: while(!(enemy_collision_at_dir(&position, direction))){
+   04E6 DD 5E FE      [19]  921 	ld	e,-2 (ix)
+   04E9 DD 56 FF      [19]  922 	ld	d,-1 (ix)
+   04EC DD 36 FA 00   [19]  923 	ld	-6 (ix),#0x00
+   04F0                     924 00101$:
+   04F0 D5            [11]  925 	push	de
+   04F1 FD E1         [14]  926 	pop	iy
+   04F3 C5            [11]  927 	push	bc
+   04F4 D5            [11]  928 	push	de
+   04F5 DD 7E 06      [19]  929 	ld	a,6 (ix)
+   04F8 F5            [11]  930 	push	af
+   04F9 33            [ 6]  931 	inc	sp
+   04FA FD E5         [15]  932 	push	iy
+   04FC CDr16r04      [17]  933 	call	_enemy_collision_at_dir
+   04FF F1            [10]  934 	pop	af
+   0500 33            [ 6]  935 	inc	sp
+   0501 D1            [10]  936 	pop	de
+   0502 C1            [10]  937 	pop	bc
+   0503 7D            [ 4]  938 	ld	a,l
+   0504 B7            [ 4]  939 	or	a, a
+   0505 20 1B         [12]  940 	jr	NZ,00103$
+                            941 ;src/Enemy.c:260: ++count;
+   0507 DD 34 FA      [23]  942 	inc	-6 (ix)
+                            943 ;src/Enemy.c:261: position.x += dx;
+   050A DD 6E FE      [19]  944 	ld	l,-2 (ix)
+   050D DD 66 FF      [19]  945 	ld	h,-1 (ix)
+   0510 7E            [ 7]  946 	ld	a, (hl)
+   0511 DD 86 FB      [19]  947 	add	a, -5 (ix)
+   0514 DD 6E FE      [19]  948 	ld	l,-2 (ix)
+   0517 DD 66 FF      [19]  949 	ld	h,-1 (ix)
+   051A 77            [ 7]  950 	ld	(hl),a
+                            951 ;src/Enemy.c:262: position.y += dy;
+   051B 0A            [ 7]  952 	ld	a,(bc)
+   051C DD 86 F9      [19]  953 	add	a, -7 (ix)
+   051F 02            [ 7]  954 	ld	(bc),a
+   0520 18 CE         [12]  955 	jr	00101$
+   0522                     956 00103$:
+                            957 ;src/Enemy.c:265: return count;
+   0522 DD 6E FA      [19]  958 	ld	l,-6 (ix)
+   0525 DD F9         [10]  959 	ld	sp, ix
+   0527 DD E1         [14]  960 	pop	ix
+   0529 C9            [10]  961 	ret
+                            962 ;src/Enemy.c:268: void enemy_remove(Enemy* e){
+                            963 ;	---------------------------------
+                            964 ; Function enemy_remove
+                            965 ; ---------------------------------
+   052A                     966 _enemy_remove::
+   052A DD E5         [15]  967 	push	ix
+   052C DD 21 00 00   [14]  968 	ld	ix,#0
+   0530 DD 39         [15]  969 	add	ix,sp
+                            970 ;src/Enemy.c:273: e->hitPoints=0;
+   0532 DD 5E 04      [19]  971 	ld	e,4 (ix)
+   0535 DD 56 05      [19]  972 	ld	d,5 (ix)
+   0538 21 05 00      [10]  973 	ld	hl,#0x0005
+   053B 19            [11]  974 	add	hl,de
+   053C 36 00         [10]  975 	ld	(hl),#0x00
+                            976 ;src/Enemy.c:275: (map[e->position.x + (e->position.y)*MAP_WIDTH]) &= (CELL_ITEM_MASK);
+   053E 6B            [ 4]  977 	ld	l, e
+   053F 62            [ 4]  978 	ld	h, d
+   0540 23            [ 6]  979 	inc	hl
+   0541 23            [ 6]  980 	inc	hl
+   0542 23            [ 6]  981 	inc	hl
+   0543 4E            [ 7]  982 	ld	c,(hl)
+   0544 06 00         [ 7]  983 	ld	b,#0x00
+   0546 D5            [11]  984 	push	de
+   0547 FD E1         [14]  985 	pop	iy
+   0549 FD 6E 04      [19]  986 	ld	l,4 (iy)
+   054C 26 00         [ 7]  987 	ld	h,#0x00
+   054E 29            [11]  988 	add	hl, hl
+   054F 29            [11]  989 	add	hl, hl
+   0550 29            [11]  990 	add	hl, hl
+   0551 29            [11]  991 	add	hl, hl
+   0552 29            [11]  992 	add	hl, hl
+   0553 09            [11]  993 	add	hl,bc
+   0554 01 D0 88      [10]  994 	ld	bc,#0x88D0
+   0557 09            [11]  995 	add	hl,bc
+   0558 7E            [ 7]  996 	ld	a,(hl)
+   0559 E6 70         [ 7]  997 	and	a, #0x70
+   055B 77            [ 7]  998 	ld	(hl),a
+                            999 ;src/Enemy.c:276: --activeEnemies;
+   055C 21r00r00      [10] 1000 	ld	hl, #_activeEnemies+0
+   055F 35            [11] 1001 	dec	(hl)
+   0560 DD E1         [14] 1002 	pop	ix
+   0562 C9            [10] 1003 	ret
+                           1004 ;src/Enemy.c:279: void enemy_move(Enemy* e, u8 d){
+                           1005 ;	---------------------------------
+                           1006 ; Function enemy_move
+                           1007 ; ---------------------------------
+   0563                    1008 _enemy_move::
+   0563 DD E5         [15] 1009 	push	ix
+   0565 DD 21 00 00   [14] 1010 	ld	ix,#0
+   0569 DD 39         [15] 1011 	add	ix,sp
+   056B 21 F8 FF      [10] 1012 	ld	hl,#-8
+   056E 39            [11] 1013 	add	hl,sp
+   056F F9            [ 6] 1014 	ld	sp,hl
+                           1015 ;src/Enemy.c:287: x = e->position.x;
+   0570 DD 5E 04      [19] 1016 	ld	e,4 (ix)
+   0573 DD 56 05      [19] 1017 	ld	d,5 (ix)
+   0576 21 03 00      [10] 1018 	ld	hl,#0x0003
+   0579 19            [11] 1019 	add	hl,de
+   057A DD 75 FA      [19] 1020 	ld	-6 (ix),l
+   057D DD 74 FB      [19] 1021 	ld	-5 (ix),h
+   0580 DD 6E FA      [19] 1022 	ld	l,-6 (ix)
+   0583 DD 66 FB      [19] 1023 	ld	h,-5 (ix)
+   0586 7E            [ 7] 1024 	ld	a,(hl)
+   0587 DD 77 FF      [19] 1025 	ld	-1 (ix),a
+                           1026 ;src/Enemy.c:288: y = e->position.y;
+   058A 21 04 00      [10] 1027 	ld	hl,#0x0004
+   058D 19            [11] 1028 	add	hl,de
+   058E DD 75 FD      [19] 1029 	ld	-3 (ix),l
+   0591 DD 74 FE      [19] 1030 	ld	-2 (ix),h
+   0594 DD 6E FD      [19] 1031 	ld	l,-3 (ix)
+   0597 DD 66 FE      [19] 1032 	ld	h,-2 (ix)
+   059A 7E            [ 7] 1033 	ld	a,(hl)
+   059B DD 77 FC      [19] 1034 	ld	-4 (ix),a
+                           1035 ;src/Enemy.c:291: (map[x + (y)*MAP_WIDTH]) &= (CELL_ITEM_MASK);
+   059E DD 4E FF      [19] 1036 	ld	c,-1 (ix)
+   05A1 06 00         [ 7] 1037 	ld	b,#0x00
+   05A3 DD 6E FC      [19] 1038 	ld	l,-4 (ix)
+   05A6 26 00         [ 7] 1039 	ld	h,#0x00
+   05A8 29            [11] 1040 	add	hl, hl
+   05A9 29            [11] 1041 	add	hl, hl
+   05AA 29            [11] 1042 	add	hl, hl
+   05AB 29            [11] 1043 	add	hl, hl
+   05AC 29            [11] 1044 	add	hl, hl
+   05AD 09            [11] 1045 	add	hl,bc
+   05AE 01 D0 88      [10] 1046 	ld	bc,#0x88D0
+   05B1 09            [11] 1047 	add	hl,bc
+   05B2 7E            [ 7] 1048 	ld	a,(hl)
+   05B3 E6 70         [ 7] 1049 	and	a, #0x70
+   05B5 77            [ 7] 1050 	ld	(hl),a
+                           1051 ;src/Enemy.c:293: dx=movement_directionArray[d];
+   05B6 01r00r00      [10] 1052 	ld	bc,#_movement_directionArray+0
+   05B9 DD 6E 06      [19] 1053 	ld	l,6 (ix)
+   05BC 26 00         [ 7] 1054 	ld	h,#0x00
+   05BE 09            [11] 1055 	add	hl,bc
+   05BF 7E            [ 7] 1056 	ld	a,(hl)
+   05C0 DD 77 F9      [19] 1057 	ld	-7 (ix),a
+                           1058 ;src/Enemy.c:294: dy=movement_directionArray[d+1];
+   05C3 DD 6E 06      [19] 1059 	ld	l,6 (ix)
+   05C6 2C            [ 4] 1060 	inc	l
+   05C7 26 00         [ 7] 1061 	ld	h,#0x00
+   05C9 09            [11] 1062 	add	hl,bc
+   05CA 46            [ 7] 1063 	ld	b,(hl)
+                           1064 ;src/Enemy.c:297: x+=dx;
+   05CB DD 7E FF      [19] 1065 	ld	a, -1 (ix)
+   05CE DD 86 F9      [19] 1066 	add	a, -7 (ix)
+   05D1 4F            [ 4] 1067 	ld	c,a
+                           1068 ;src/Enemy.c:298: y+=dy;
+   05D2 DD 7E FC      [19] 1069 	ld	a, -4 (ix)
+   05D5 80            [ 4] 1070 	add	a, b
+   05D6 DD 77 F8      [19] 1071 	ld	-8 (ix),a
+                           1072 ;src/Enemy.c:300: e->direction = d;
+   05D9 6B            [ 4] 1073 	ld	l, e
+   05DA 62            [ 4] 1074 	ld	h, d
+   05DB 23            [ 6] 1075 	inc	hl
+   05DC 23            [ 6] 1076 	inc	hl
+   05DD DD 7E 06      [19] 1077 	ld	a,6 (ix)
+   05E0 77            [ 7] 1078 	ld	(hl),a
+                           1079 ;src/Enemy.c:302: e->position.x = x;
+   05E1 DD 6E FA      [19] 1080 	ld	l,-6 (ix)
+   05E4 DD 66 FB      [19] 1081 	ld	h,-5 (ix)
+   05E7 71            [ 7] 1082 	ld	(hl),c
+                           1083 ;src/Enemy.c:303: e->position.y = y;
+   05E8 DD 6E FD      [19] 1084 	ld	l,-3 (ix)
+   05EB DD 66 FE      [19] 1085 	ld	h,-2 (ix)
+   05EE DD 7E F8      [19] 1086 	ld	a,-8 (ix)
+   05F1 77            [ 7] 1087 	ld	(hl),a
+                           1088 ;src/Enemy.c:306: (map[x + (y)*MAP_WIDTH]) |= ((e->id)+1);
+   05F2 06 00         [ 7] 1089 	ld	b,#0x00
+   05F4 DD 6E F8      [19] 1090 	ld	l,-8 (ix)
+   05F7 26 00         [ 7] 1091 	ld	h,#0x00
+   05F9 29            [11] 1092 	add	hl, hl
+   05FA 29            [11] 1093 	add	hl, hl
+   05FB 29            [11] 1094 	add	hl, hl
+   05FC 29            [11] 1095 	add	hl, hl
+   05FD 29            [11] 1096 	add	hl, hl
+   05FE 09            [11] 1097 	add	hl, bc
+   05FF E5            [11] 1098 	push	hl
+   0600 FD E1         [14] 1099 	pop	iy
+   0602 01 D0 88      [10] 1100 	ld	bc,#0x88D0
+   0605 FD 09         [15] 1101 	add	iy, bc
+   0607 FD 4E 00      [19] 1102 	ld	c, 0 (iy)
+   060A 1A            [ 7] 1103 	ld	a,(de)
+   060B 3C            [ 4] 1104 	inc	a
+   060C B1            [ 4] 1105 	or	a, c
+   060D FD 77 00      [19] 1106 	ld	0 (iy), a
+   0610 DD F9         [10] 1107 	ld	sp, ix
+   0612 DD E1         [14] 1108 	pop	ix
+   0614 C9            [10] 1109 	ret
+                           1110 ;src/Enemy.c:309: u8 enemy_attack_enemy(Enemy* e){
+                           1111 ;	---------------------------------
+                           1112 ; Function enemy_attack_enemy
+                           1113 ; ---------------------------------
+   0615                    1114 _enemy_attack_enemy::
+   0615 DD E5         [15] 1115 	push	ix
+   0617 DD 21 00 00   [14] 1116 	ld	ix,#0
+   061B DD 39         [15] 1117 	add	ix,sp
+   061D 3B            [ 6] 1118 	dec	sp
+                           1119 ;src/Enemy.c:311: const char* t = "    DMG";
+                           1120 ;src/Enemy.c:312: dmg = (player_attack_value - e->defenseValue);
+   061E DD 4E 04      [19] 1121 	ld	c,4 (ix)
+   0621 DD 46 05      [19] 1122 	ld	b,5 (ix)
+   0624 C5            [11] 1123 	push	bc
+   0625 FD E1         [14] 1124 	pop	iy
+   0627 FD 5E 07      [19] 1125 	ld	e,7 (iy)
+   062A 3Ar00r00      [13] 1126 	ld	a,(#_player_attack_value + 0)
+   062D 93            [ 4] 1127 	sub	a, e
+                           1128 ;src/Enemy.c:313: if(dmg<1) dmg = 1;
+   062E DD 77 FF      [19] 1129 	ld	-1 (ix), a
+   0631 EE 80         [ 7] 1130 	xor	a, #0x80
+   0633 D6 81         [ 7] 1131 	sub	a, #0x81
+   0635 30 04         [12] 1132 	jr	NC,00102$
+   0637 DD 36 FF 01   [19] 1133 	ld	-1 (ix),#0x01
+   063B                    1134 00102$:
+                           1135 ;src/Enemy.c:315: cpct_memcpy(t,integer_to_string(dmg,'d'),3);
+   063B C5            [11] 1136 	push	bc
+   063C 3E 64         [ 7] 1137 	ld	a,#0x64
+   063E F5            [11] 1138 	push	af
+   063F 33            [ 6] 1139 	inc	sp
+   0640 DD 7E FF      [19] 1140 	ld	a,-1 (ix)
+   0643 F5            [11] 1141 	push	af
+   0644 33            [ 6] 1142 	inc	sp
+   0645 CDr00r00      [17] 1143 	call	_integer_to_string
+   0648 F1            [10] 1144 	pop	af
+   0649 11 03 00      [10] 1145 	ld	de,#0x0003
+   064C D5            [11] 1146 	push	de
+   064D E5            [11] 1147 	push	hl
+   064E 21rAFr06      [10] 1148 	ld	hl,#___str_0
+   0651 E5            [11] 1149 	push	hl
+   0652 CDr00r00      [17] 1150 	call	_cpct_memcpy
+   0655 3E 03         [ 7] 1151 	ld	a,#0x03
+   0657 F5            [11] 1152 	push	af
+   0658 33            [ 6] 1153 	inc	sp
+   0659 21rB7r06      [10] 1154 	ld	hl,#___str_1
+   065C E5            [11] 1155 	push	hl
+   065D CDr00r00      [17] 1156 	call	_ui_log_add_log
+   0660 F1            [10] 1157 	pop	af
+   0661 33            [ 6] 1158 	inc	sp
+   0662 3E 05         [ 7] 1159 	ld	a,#0x05
+   0664 F5            [11] 1160 	push	af
+   0665 33            [ 6] 1161 	inc	sp
+   0666 21rAFr06      [10] 1162 	ld	hl,#___str_0
+   0669 E5            [11] 1163 	push	hl
+   066A CDr00r00      [17] 1164 	call	_ui_log_add_log
+   066D F1            [10] 1165 	pop	af
+   066E 33            [ 6] 1166 	inc	sp
+   066F CDr00r00      [17] 1167 	call	_ui_log_render
+   0672 C1            [10] 1168 	pop	bc
+                           1169 ;src/Enemy.c:320: if(e->hitPoints>(u8)dmg){
+   0673 21 05 00      [10] 1170 	ld	hl,#0x0005
+   0676 09            [11] 1171 	add	hl,bc
+   0677 5E            [ 7] 1172 	ld	e,(hl)
+   0678 DD 7E FF      [19] 1173 	ld	a, -1 (ix)
+   067B 93            [ 4] 1174 	sub	a, e
+   067C 30 09         [12] 1175 	jr	NC,00107$
+                           1176 ;src/Enemy.c:321: e->hitPoints -= dmg;
+   067E 7B            [ 4] 1177 	ld	a,e
+   067F DD 96 FF      [19] 1178 	sub	a, -1 (ix)
+   0682 77            [ 7] 1179 	ld	(hl),a
+                           1180 ;src/Enemy.c:322: return 0;
+   0683 2E 00         [ 7] 1181 	ld	l,#0x00
+   0685 18 24         [12] 1182 	jr	00109$
+   0687                    1183 00107$:
+                           1184 ;src/Enemy.c:326: enemy_remove(e);
+   0687 C5            [11] 1185 	push	bc
+   0688 C5            [11] 1186 	push	bc
+   0689 CDr2Ar05      [17] 1187 	call	_enemy_remove
+   068C F1            [10] 1188 	pop	af
+   068D CDr00r00      [17] 1189 	call	_cpct_getRandom_mxor_u8
+   0690 C1            [10] 1190 	pop	bc
+   0691 CB 45         [ 8] 1191 	bit	0, l
+   0693 20 0A         [12] 1192 	jr	NZ,00103$
+   0695 C5            [11] 1193 	push	bc
+   0696 CDr00r00      [17] 1194 	call	_level_get_level
+   0699 C1            [10] 1195 	pop	bc
+   069A 7D            [ 4] 1196 	ld	a,l
+   069B D6 20         [ 7] 1197 	sub	a, #0x20
+   069D 20 0A         [12] 1198 	jr	NZ,00104$
+   069F                    1199 00103$:
+                           1200 ;src/Enemy.c:329: item_try_new_spawn_at(&(e->position));
+   069F 03            [ 6] 1201 	inc	bc
+   06A0 03            [ 6] 1202 	inc	bc
+   06A1 03            [ 6] 1203 	inc	bc
+   06A2 60            [ 4] 1204 	ld	h,b
+   06A3 69            [ 4] 1205 	ld	l, c
+   06A4 E5            [11] 1206 	push	hl
+   06A5 CDr00r00      [17] 1207 	call	_item_try_new_spawn_at
+   06A8 F1            [10] 1208 	pop	af
+   06A9                    1209 00104$:
+                           1210 ;src/Enemy.c:332: return 1;
+   06A9 2E 01         [ 7] 1211 	ld	l,#0x01
+   06AB                    1212 00109$:
+   06AB 33            [ 6] 1213 	inc	sp
+   06AC DD E1         [14] 1214 	pop	ix
+   06AE C9            [10] 1215 	ret
+   06AF                    1216 ___str_0:
+   06AF 20 20 20 20 44 4D  1217 	.ascii "    DMG"
         47
-   06AB 00                 1219 	.db 0x00
-   06AC                    1220 ___str_1:
-   06AC 59 4F 55 20 4D 41  1221 	.ascii "YOU MAKE"
+   06B6 00                 1218 	.db 0x00
+   06B7                    1219 ___str_1:
+   06B7 59 4F 55 20 4D 41  1220 	.ascii "YOU MAKE"
         4B 45
-   06B4 00                 1222 	.db 0x00
-                           1223 ;src/Enemy.c:336: void enemy_attack(Enemy* e){
-                           1224 ;	---------------------------------
-                           1225 ; Function enemy_attack
-                           1226 ; ---------------------------------
-   06B5                    1227 _enemy_attack::
-   06B5 DD E5         [15] 1228 	push	ix
-   06B7 DD 21 00 00   [14] 1229 	ld	ix,#0
-   06BB DD 39         [15] 1230 	add	ix,sp
-                           1231 ;src/Enemy.c:338: const char* t = "    HP";
-                           1232 ;src/Enemy.c:339: dmg = (e->attackValue - player_defense_value);
-   06BD DD 6E 04      [19] 1233 	ld	l,4 (ix)
-   06C0 DD 66 05      [19] 1234 	ld	h,5 (ix)
-   06C3 11 06 00      [10] 1235 	ld	de, #0x0006
-   06C6 19            [11] 1236 	add	hl, de
-   06C7 4E            [ 7] 1237 	ld	c,(hl)
-   06C8 21r00r00      [10] 1238 	ld	hl,#_player_defense_value
-   06CB 79            [ 4] 1239 	ld	a,c
-   06CC 96            [ 7] 1240 	sub	a, (hl)
-                           1241 ;src/Enemy.c:340: if(dmg<1) dmg = 1;
-   06CD 47            [ 4] 1242 	ld	b,a
-   06CE EE 80         [ 7] 1243 	xor	a, #0x80
-   06D0 D6 81         [ 7] 1244 	sub	a, #0x81
-   06D2 30 02         [12] 1245 	jr	NC,00102$
-   06D4 06 01         [ 7] 1246 	ld	b,#0x01
-   06D6                    1247 00102$:
-                           1248 ;src/Enemy.c:342: cpct_memcpy(t,integer_to_string(dmg,'d'),3);
-   06D6 C5            [11] 1249 	push	bc
-   06D7 3E 64         [ 7] 1250 	ld	a,#0x64
-   06D9 F5            [11] 1251 	push	af
-   06DA 33            [ 6] 1252 	inc	sp
-   06DB C5            [11] 1253 	push	bc
-   06DC 33            [ 6] 1254 	inc	sp
-   06DD CDr00r00      [17] 1255 	call	_integer_to_string
-   06E0 F1            [10] 1256 	pop	af
-   06E1 11 03 00      [10] 1257 	ld	de,#0x0003
-   06E4 D5            [11] 1258 	push	de
-   06E5 E5            [11] 1259 	push	hl
-   06E6 21r2Ar07      [10] 1260 	ld	hl,#___str_2
-   06E9 E5            [11] 1261 	push	hl
-   06EA CDr00r00      [17] 1262 	call	_cpct_memcpy
-   06ED 3E 03         [ 7] 1263 	ld	a,#0x03
-   06EF F5            [11] 1264 	push	af
-   06F0 33            [ 6] 1265 	inc	sp
-   06F1 21r31r07      [10] 1266 	ld	hl,#___str_3
-   06F4 E5            [11] 1267 	push	hl
-   06F5 CDr00r00      [17] 1268 	call	_ui_log_add_log
-   06F8 F1            [10] 1269 	pop	af
-   06F9 33            [ 6] 1270 	inc	sp
-   06FA 3E 04         [ 7] 1271 	ld	a,#0x04
-   06FC F5            [11] 1272 	push	af
-   06FD 33            [ 6] 1273 	inc	sp
-   06FE 21r2Ar07      [10] 1274 	ld	hl,#___str_2
-   0701 E5            [11] 1275 	push	hl
-   0702 CDr00r00      [17] 1276 	call	_ui_log_add_log
-   0705 F1            [10] 1277 	pop	af
-   0706 33            [ 6] 1278 	inc	sp
-   0707 CDr00r00      [17] 1279 	call	_ui_log_render
-   070A C1            [10] 1280 	pop	bc
-                           1281 ;src/Enemy.c:347: if(player_health_points>(u8)dmg){
-   070B 78            [ 4] 1282 	ld	a, b
-   070C FD 21r00r00   [14] 1283 	ld	iy,#_player_health_points
-   0710 FD 96 00      [19] 1284 	sub	a, 0 (iy)
-   0713 30 0A         [12] 1285 	jr	NC,00104$
-                           1286 ;src/Enemy.c:348: player_health_points -= dmg;
-   0715 3Ar00r00      [13] 1287 	ld	a,(#_player_health_points + 0)
-   0718 21r00r00      [10] 1288 	ld	hl, #_player_health_points
-   071B 90            [ 4] 1289 	sub	a, b
-   071C 77            [ 7] 1290 	ld	(hl),a
-   071D 18 05         [12] 1291 	jr	00105$
-   071F                    1292 00104$:
-                           1293 ;src/Enemy.c:351: player_is_dead = 1;
-   071F 21r00r00      [10] 1294 	ld	hl,#_player_is_dead + 0
-   0722 36 01         [10] 1295 	ld	(hl), #0x01
-   0724                    1296 00105$:
-                           1297 ;src/Enemy.c:353: ui_playerstats_render_hp();
-   0724 CDr00r00      [17] 1298 	call	_ui_playerstats_render_hp
-   0727 DD E1         [14] 1299 	pop	ix
-   0729 C9            [10] 1300 	ret
-   072A                    1301 ___str_2:
-   072A 20 20 20 20 48 50  1302 	.ascii "    HP"
-   0730 00                 1303 	.db 0x00
-   0731                    1304 ___str_3:
-   0731 59 4F 55 20 4C 4F  1305 	.ascii "YOU LOSE"
+   06BF 00                 1221 	.db 0x00
+                           1222 ;src/Enemy.c:336: void enemy_attack(Enemy* e){
+                           1223 ;	---------------------------------
+                           1224 ; Function enemy_attack
+                           1225 ; ---------------------------------
+   06C0                    1226 _enemy_attack::
+   06C0 DD E5         [15] 1227 	push	ix
+   06C2 DD 21 00 00   [14] 1228 	ld	ix,#0
+   06C6 DD 39         [15] 1229 	add	ix,sp
+                           1230 ;src/Enemy.c:338: const char* t = "    HP";
+                           1231 ;src/Enemy.c:339: dmg = (e->attackValue - player_defense_value);
+   06C8 DD 6E 04      [19] 1232 	ld	l,4 (ix)
+   06CB DD 66 05      [19] 1233 	ld	h,5 (ix)
+   06CE 11 06 00      [10] 1234 	ld	de, #0x0006
+   06D1 19            [11] 1235 	add	hl, de
+   06D2 4E            [ 7] 1236 	ld	c,(hl)
+   06D3 21r00r00      [10] 1237 	ld	hl,#_player_defense_value
+   06D6 79            [ 4] 1238 	ld	a,c
+   06D7 96            [ 7] 1239 	sub	a, (hl)
+                           1240 ;src/Enemy.c:340: if(dmg<1) dmg = 1;
+   06D8 47            [ 4] 1241 	ld	b,a
+   06D9 EE 80         [ 7] 1242 	xor	a, #0x80
+   06DB D6 81         [ 7] 1243 	sub	a, #0x81
+   06DD 30 02         [12] 1244 	jr	NC,00102$
+   06DF 06 01         [ 7] 1245 	ld	b,#0x01
+   06E1                    1246 00102$:
+                           1247 ;src/Enemy.c:342: cpct_memcpy(t,integer_to_string(dmg,'d'),3);
+   06E1 C5            [11] 1248 	push	bc
+   06E2 3E 64         [ 7] 1249 	ld	a,#0x64
+   06E4 F5            [11] 1250 	push	af
+   06E5 33            [ 6] 1251 	inc	sp
+   06E6 C5            [11] 1252 	push	bc
+   06E7 33            [ 6] 1253 	inc	sp
+   06E8 CDr00r00      [17] 1254 	call	_integer_to_string
+   06EB F1            [10] 1255 	pop	af
+   06EC 11 03 00      [10] 1256 	ld	de,#0x0003
+   06EF D5            [11] 1257 	push	de
+   06F0 E5            [11] 1258 	push	hl
+   06F1 21r35r07      [10] 1259 	ld	hl,#___str_2
+   06F4 E5            [11] 1260 	push	hl
+   06F5 CDr00r00      [17] 1261 	call	_cpct_memcpy
+   06F8 3E 03         [ 7] 1262 	ld	a,#0x03
+   06FA F5            [11] 1263 	push	af
+   06FB 33            [ 6] 1264 	inc	sp
+   06FC 21r3Cr07      [10] 1265 	ld	hl,#___str_3
+   06FF E5            [11] 1266 	push	hl
+   0700 CDr00r00      [17] 1267 	call	_ui_log_add_log
+   0703 F1            [10] 1268 	pop	af
+   0704 33            [ 6] 1269 	inc	sp
+   0705 3E 04         [ 7] 1270 	ld	a,#0x04
+   0707 F5            [11] 1271 	push	af
+   0708 33            [ 6] 1272 	inc	sp
+   0709 21r35r07      [10] 1273 	ld	hl,#___str_2
+   070C E5            [11] 1274 	push	hl
+   070D CDr00r00      [17] 1275 	call	_ui_log_add_log
+   0710 F1            [10] 1276 	pop	af
+   0711 33            [ 6] 1277 	inc	sp
+   0712 CDr00r00      [17] 1278 	call	_ui_log_render
+   0715 C1            [10] 1279 	pop	bc
+                           1280 ;src/Enemy.c:347: if(player_health_points>(u8)dmg){
+   0716 78            [ 4] 1281 	ld	a, b
+   0717 FD 21r00r00   [14] 1282 	ld	iy,#_player_health_points
+   071B FD 96 00      [19] 1283 	sub	a, 0 (iy)
+   071E 30 0A         [12] 1284 	jr	NC,00104$
+                           1285 ;src/Enemy.c:348: player_health_points -= dmg;
+   0720 3Ar00r00      [13] 1286 	ld	a,(#_player_health_points + 0)
+   0723 21r00r00      [10] 1287 	ld	hl, #_player_health_points
+   0726 90            [ 4] 1288 	sub	a, b
+   0727 77            [ 7] 1289 	ld	(hl),a
+   0728 18 05         [12] 1290 	jr	00105$
+   072A                    1291 00104$:
+                           1292 ;src/Enemy.c:351: player_is_dead = 1;
+   072A 21r00r00      [10] 1293 	ld	hl,#_player_is_dead + 0
+   072D 36 01         [10] 1294 	ld	(hl), #0x01
+   072F                    1295 00105$:
+                           1296 ;src/Enemy.c:353: ui_playerstats_render_hp();
+   072F CDr00r00      [17] 1297 	call	_ui_playerstats_render_hp
+   0732 DD E1         [14] 1298 	pop	ix
+   0734 C9            [10] 1299 	ret
+   0735                    1300 ___str_2:
+   0735 20 20 20 20 48 50  1301 	.ascii "    HP"
+   073B 00                 1302 	.db 0x00
+   073C                    1303 ___str_3:
+   073C 59 4F 55 20 4C 4F  1304 	.ascii "YOU LOSE"
         53 45
-   0739 00                 1306 	.db 0x00
-                           1307 ;src/Enemy.c:356: void enemy_go_to_player(Enemy* e){//NOT WORKING
-                           1308 ;	---------------------------------
-                           1309 ; Function enemy_go_to_player
-                           1310 ; ---------------------------------
-   073A                    1311 _enemy_go_to_player::
-   073A DD E5         [15] 1312 	push	ix
-   073C DD 21 00 00   [14] 1313 	ld	ix,#0
-   0740 DD 39         [15] 1314 	add	ix,sp
-   0742 F5            [11] 1315 	push	af
-   0743 F5            [11] 1316 	push	af
-                           1317 ;src/Enemy.c:361: dx=player_position.x-e->position.x;
-   0744 21r00r00      [10] 1318 	ld	hl,#_player_position+0
-   0747 5E            [ 7] 1319 	ld	e,(hl)
-   0748 DD 4E 04      [19] 1320 	ld	c,4 (ix)
-   074B DD 46 05      [19] 1321 	ld	b,5 (ix)
-   074E 21 03 00      [10] 1322 	ld	hl,#0x0003
-   0751 09            [11] 1323 	add	hl,bc
-   0752 DD 75 FD      [19] 1324 	ld	-3 (ix),l
-   0755 DD 74 FE      [19] 1325 	ld	-2 (ix),h
-   0758 DD 6E FD      [19] 1326 	ld	l,-3 (ix)
-   075B DD 66 FE      [19] 1327 	ld	h,-2 (ix)
-   075E 56            [ 7] 1328 	ld	d,(hl)
-   075F 7B            [ 4] 1329 	ld	a,e
-   0760 92            [ 4] 1330 	sub	a, d
-   0761 DD 77 FC      [19] 1331 	ld	-4 (ix),a
-                           1332 ;src/Enemy.c:362: dy=player_position.y-e->position.y;
-   0764 21r01r00      [10] 1333 	ld	hl,#_player_position+1
-   0767 5E            [ 7] 1334 	ld	e,(hl)
-   0768 C5            [11] 1335 	push	bc
-   0769 FD E1         [14] 1336 	pop	iy
-   076B FD 56 04      [19] 1337 	ld	d,4 (iy)
-   076E 7B            [ 4] 1338 	ld	a,e
-   076F 92            [ 4] 1339 	sub	a, d
-   0770 6F            [ 4] 1340 	ld	l,a
-                           1341 ;src/Enemy.c:364: dirX = (dx>0)?MOVEMENT_EAST:MOVEMENT_WEST;
-   0771 AF            [ 4] 1342 	xor	a, a
-   0772 DD 96 FC      [19] 1343 	sub	a, -4 (ix)
-   0775 E2r7Ar07      [10] 1344 	jp	PO, 00136$
-   0778 EE 80         [ 7] 1345 	xor	a, #0x80
-   077A                    1346 00136$:
-   077A F2r81r07      [10] 1347 	jp	P,00112$
-   077D 1E 00         [ 7] 1348 	ld	e,#0x00
-   077F 18 02         [12] 1349 	jr	00113$
-   0781                    1350 00112$:
-   0781 1E 04         [ 7] 1351 	ld	e,#0x04
-   0783                    1352 00113$:
-                           1353 ;src/Enemy.c:365: dirY = (dy>0)?MOVEMENT_SOUTH:MOVEMENT_NORTH;
-   0783 AF            [ 4] 1354 	xor	a, a
-   0784 95            [ 4] 1355 	sub	a, l
-   0785 E2r8Ar07      [10] 1356 	jp	PO, 00137$
-   0788 EE 80         [ 7] 1357 	xor	a, #0x80
-   078A                    1358 00137$:
-   078A F2r91r07      [10] 1359 	jp	P,00114$
-   078D 16 06         [ 7] 1360 	ld	d,#0x06
-   078F 18 02         [12] 1361 	jr	00115$
-   0791                    1362 00114$:
-   0791 16 02         [ 7] 1363 	ld	d,#0x02
-   0793                    1364 00115$:
-                           1365 ;src/Enemy.c:367: if(abs(dx)>abs(dy)){
-   0793 E5            [11] 1366 	push	hl
-   0794 C5            [11] 1367 	push	bc
-   0795 D5            [11] 1368 	push	de
-   0796 DD 7E FC      [19] 1369 	ld	a,-4 (ix)
-   0799 F5            [11] 1370 	push	af
-   079A 33            [ 6] 1371 	inc	sp
-   079B CDr70r00      [17] 1372 	call	_abs
-   079E 33            [ 6] 1373 	inc	sp
-   079F DD 75 FF      [19] 1374 	ld	-1 (ix),l
-   07A2 D1            [10] 1375 	pop	de
-   07A3 C1            [10] 1376 	pop	bc
-   07A4 E1            [10] 1377 	pop	hl
-   07A5 C5            [11] 1378 	push	bc
-   07A6 D5            [11] 1379 	push	de
-   07A7 7D            [ 4] 1380 	ld	a,l
-   07A8 F5            [11] 1381 	push	af
-   07A9 33            [ 6] 1382 	inc	sp
-   07AA CDr70r00      [17] 1383 	call	_abs
-   07AD 33            [ 6] 1384 	inc	sp
-   07AE D1            [10] 1385 	pop	de
-   07AF C1            [10] 1386 	pop	bc
-   07B0 7D            [ 4] 1387 	ld	a,l
-   07B1 DD 96 FF      [19] 1388 	sub	a, -1 (ix)
-   07B4 E2rB9r07      [10] 1389 	jp	PO, 00138$
-   07B7 EE 80         [ 7] 1390 	xor	a, #0x80
-   07B9                    1391 00138$:
-   07B9 F2rE8r07      [10] 1392 	jp	P,00108$
-                           1393 ;src/Enemy.c:368: if(!enemy_collision_at_dir(&(e->position),dirX)){
-   07BC C5            [11] 1394 	push	bc
-   07BD D5            [11] 1395 	push	de
-   07BE 7B            [ 4] 1396 	ld	a,e
-   07BF F5            [11] 1397 	push	af
-   07C0 33            [ 6] 1398 	inc	sp
-   07C1 DD 6E FD      [19] 1399 	ld	l,-3 (ix)
-   07C4 DD 66 FE      [19] 1400 	ld	h,-2 (ix)
-   07C7 E5            [11] 1401 	push	hl
-   07C8 CDr0Br04      [17] 1402 	call	_enemy_collision_at_dir
-   07CB F1            [10] 1403 	pop	af
-   07CC 33            [ 6] 1404 	inc	sp
-   07CD D1            [10] 1405 	pop	de
-   07CE C1            [10] 1406 	pop	bc
-   07CF 7D            [ 4] 1407 	ld	a,l
-   07D0 B7            [ 4] 1408 	or	a, a
-   07D1 20 0B         [12] 1409 	jr	NZ,00102$
-                           1410 ;src/Enemy.c:371: enemy_move(e, dirX);
-   07D3 7B            [ 4] 1411 	ld	a,e
-   07D4 F5            [11] 1412 	push	af
-   07D5 33            [ 6] 1413 	inc	sp
-   07D6 C5            [11] 1414 	push	bc
-   07D7 CDr58r05      [17] 1415 	call	_enemy_move
-   07DA F1            [10] 1416 	pop	af
-   07DB 33            [ 6] 1417 	inc	sp
-   07DC 18 33         [12] 1418 	jr	00110$
-   07DE                    1419 00102$:
-                           1420 ;src/Enemy.c:376: enemy_move(e, dirY);
-   07DE D5            [11] 1421 	push	de
-   07DF 33            [ 6] 1422 	inc	sp
-   07E0 C5            [11] 1423 	push	bc
-   07E1 CDr58r05      [17] 1424 	call	_enemy_move
-   07E4 F1            [10] 1425 	pop	af
-   07E5 33            [ 6] 1426 	inc	sp
-   07E6 18 29         [12] 1427 	jr	00110$
-   07E8                    1428 00108$:
-                           1429 ;src/Enemy.c:380: if(!enemy_collision_at_dir(&(e->position),dirY)){
-   07E8 C5            [11] 1430 	push	bc
-   07E9 D5            [11] 1431 	push	de
-   07EA D5            [11] 1432 	push	de
-   07EB 33            [ 6] 1433 	inc	sp
-   07EC DD 6E FD      [19] 1434 	ld	l,-3 (ix)
-   07EF DD 66 FE      [19] 1435 	ld	h,-2 (ix)
-   07F2 E5            [11] 1436 	push	hl
-   07F3 CDr0Br04      [17] 1437 	call	_enemy_collision_at_dir
-   07F6 F1            [10] 1438 	pop	af
-   07F7 33            [ 6] 1439 	inc	sp
-   07F8 D1            [10] 1440 	pop	de
-   07F9 C1            [10] 1441 	pop	bc
-   07FA 7D            [ 4] 1442 	ld	a,l
-   07FB B7            [ 4] 1443 	or	a, a
-   07FC 20 0A         [12] 1444 	jr	NZ,00105$
-                           1445 ;src/Enemy.c:383: enemy_move(e, dirY);
-   07FE D5            [11] 1446 	push	de
-   07FF 33            [ 6] 1447 	inc	sp
-   0800 C5            [11] 1448 	push	bc
-   0801 CDr58r05      [17] 1449 	call	_enemy_move
-   0804 F1            [10] 1450 	pop	af
-   0805 33            [ 6] 1451 	inc	sp
-   0806 18 09         [12] 1452 	jr	00110$
-   0808                    1453 00105$:
-                           1454 ;src/Enemy.c:388: enemy_move(e, dirX);
-   0808 7B            [ 4] 1455 	ld	a,e
-   0809 F5            [11] 1456 	push	af
-   080A 33            [ 6] 1457 	inc	sp
-   080B C5            [11] 1458 	push	bc
-   080C CDr58r05      [17] 1459 	call	_enemy_move
-   080F F1            [10] 1460 	pop	af
-   0810 33            [ 6] 1461 	inc	sp
-   0811                    1462 00110$:
-   0811 DD F9         [10] 1463 	ld	sp, ix
-   0813 DD E1         [14] 1464 	pop	ix
-   0815 C9            [10] 1465 	ret
-                           1466 ;src/Enemy.c:394: void enemy_flee(Enemy* e) {
-                           1467 ;	---------------------------------
-                           1468 ; Function enemy_flee
-                           1469 ; ---------------------------------
-   0816                    1470 _enemy_flee::
-   0816 DD E5         [15] 1471 	push	ix
-   0818 DD 21 00 00   [14] 1472 	ld	ix,#0
-   081C DD 39         [15] 1473 	add	ix,sp
-   081E 21 F9 FF      [10] 1474 	ld	hl,#-7
-   0821 39            [11] 1475 	add	hl,sp
-   0822 F9            [ 6] 1476 	ld	sp,hl
-                           1477 ;src/Enemy.c:398: distFromPlayX = abs(player_position.x - e->position.x);
-   0823 3Ar00r00      [13] 1478 	ld	a,(#_player_position+0)
-   0826 DD 77 FF      [19] 1479 	ld	-1 (ix),a
-   0829 DD 4E 04      [19] 1480 	ld	c,4 (ix)
-   082C DD 46 05      [19] 1481 	ld	b,5 (ix)
-   082F 59            [ 4] 1482 	ld	e, c
-   0830 50            [ 4] 1483 	ld	d, b
-   0831 13            [ 6] 1484 	inc	de
-   0832 13            [ 6] 1485 	inc	de
-   0833 13            [ 6] 1486 	inc	de
-   0834 1A            [ 7] 1487 	ld	a,(de)
-   0835 6F            [ 4] 1488 	ld	l,a
-   0836 DD 7E FF      [19] 1489 	ld	a,-1 (ix)
-   0839 95            [ 4] 1490 	sub	a, l
-   083A 67            [ 4] 1491 	ld	h,a
-   083B C5            [11] 1492 	push	bc
-   083C D5            [11] 1493 	push	de
-   083D E5            [11] 1494 	push	hl
-   083E 33            [ 6] 1495 	inc	sp
-   083F CDr70r00      [17] 1496 	call	_abs
-   0842 33            [ 6] 1497 	inc	sp
-   0843 D1            [10] 1498 	pop	de
-   0844 C1            [10] 1499 	pop	bc
-   0845 DD 75 F9      [19] 1500 	ld	-7 (ix),l
-                           1501 ;src/Enemy.c:399: distFromPlayY = abs(player_position.y - e->position.y);
-   0848 3Ar01r00      [13] 1502 	ld	a,(#(_player_position + 0x0001) + 0)
-   084B DD 77 FF      [19] 1503 	ld	-1 (ix),a
-   084E 21 04 00      [10] 1504 	ld	hl,#0x0004
-   0851 09            [11] 1505 	add	hl,bc
-   0852 DD 75 FD      [19] 1506 	ld	-3 (ix),l
-   0855 DD 74 FE      [19] 1507 	ld	-2 (ix),h
-   0858 DD 6E FD      [19] 1508 	ld	l,-3 (ix)
-   085B DD 66 FE      [19] 1509 	ld	h,-2 (ix)
-   085E 6E            [ 7] 1510 	ld	l,(hl)
-   085F DD 7E FF      [19] 1511 	ld	a,-1 (ix)
-   0862 95            [ 4] 1512 	sub	a, l
-   0863 67            [ 4] 1513 	ld	h,a
-   0864 C5            [11] 1514 	push	bc
-   0865 D5            [11] 1515 	push	de
-   0866 E5            [11] 1516 	push	hl
-   0867 33            [ 6] 1517 	inc	sp
-   0868 CDr70r00      [17] 1518 	call	_abs
-   086B 33            [ 6] 1519 	inc	sp
-   086C D1            [10] 1520 	pop	de
-   086D C1            [10] 1521 	pop	bc
-                           1522 ;src/Enemy.c:401: if(distFromPlayX>distFromPlayY){//Flee X
-   086E 7D            [ 4] 1523 	ld	a,l
-   086F DD 96 F9      [19] 1524 	sub	a, -7 (ix)
-   0872 30 16         [12] 1525 	jr	NC,00102$
-                           1526 ;src/Enemy.c:402: fleeFromDir=(player_position.x<e->position.x)?MOVEMENT_EAST:MOVEMENT_WEST;
-   0874 3Ar00r00      [13] 1527 	ld	a,(#_player_position + 0)
-   0877 DD 77 FF      [19] 1528 	ld	-1 (ix),a
-   087A 1A            [ 7] 1529 	ld	a,(de)
-   087B 5F            [ 4] 1530 	ld	e,a
-   087C DD 7E FF      [19] 1531 	ld	a,-1 (ix)
-   087F 93            [ 4] 1532 	sub	a, e
-   0880 30 04         [12] 1533 	jr	NC,00120$
-   0882 3E 00         [ 7] 1534 	ld	a,#0x00
-   0884 18 19         [12] 1535 	jr	00103$
-   0886                    1536 00120$:
-   0886 3E 04         [ 7] 1537 	ld	a,#0x04
-   0888 18 15         [12] 1538 	jr	00103$
-   088A                    1539 00102$:
-                           1540 ;src/Enemy.c:405: fleeFromDir=(player_position.y<e->position.y)?MOVEMENT_NORTH:MOVEMENT_SOUTH;
-   088A 21r01r00      [10] 1541 	ld	hl, #(_player_position + 0x0001) + 0
-   088D 5E            [ 7] 1542 	ld	e,(hl)
-   088E DD 6E FD      [19] 1543 	ld	l,-3 (ix)
-   0891 DD 66 FE      [19] 1544 	ld	h,-2 (ix)
-   0894 56            [ 7] 1545 	ld	d,(hl)
-   0895 7B            [ 4] 1546 	ld	a,e
-   0896 92            [ 4] 1547 	sub	a, d
-   0897 30 04         [12] 1548 	jr	NC,00122$
-   0899 3E 02         [ 7] 1549 	ld	a,#0x02
-   089B 18 02         [12] 1550 	jr	00123$
-   089D                    1551 00122$:
-   089D 3E 06         [ 7] 1552 	ld	a,#0x06
-   089F                    1553 00123$:
-   089F                    1554 00103$:
-                           1555 ;src/Enemy.c:408: df = (fleeFromDir+4)&7;
-   089F C6 04         [ 7] 1556 	add	a, #0x04
-   08A1 E6 07         [ 7] 1557 	and	a, #0x07
-                           1558 ;src/Enemy.c:409: dl = (df+2)&7;
-   08A3 DD 77 FA      [19] 1559 	ld	-6 (ix), a
-   08A6 C6 02         [ 7] 1560 	add	a, #0x02
-   08A8 E6 07         [ 7] 1561 	and	a, #0x07
-   08AA DD 77 FC      [19] 1562 	ld	-4 (ix),a
-                           1563 ;src/Enemy.c:410: dr = (df-2)&7;
-   08AD DD 7E FA      [19] 1564 	ld	a,-6 (ix)
-   08B0 C6 FE         [ 7] 1565 	add	a,#0xFE
-   08B2 E6 07         [ 7] 1566 	and	a, #0x07
-   08B4 5F            [ 4] 1567 	ld	e,a
-                           1568 ;src/Enemy.c:412: distf = enemy_get_distance_to_obstacle(e, df);
-   08B5 C5            [11] 1569 	push	bc
-   08B6 D5            [11] 1570 	push	de
-   08B7 DD 7E FA      [19] 1571 	ld	a,-6 (ix)
-   08BA F5            [11] 1572 	push	af
-   08BB 33            [ 6] 1573 	inc	sp
-   08BC C5            [11] 1574 	push	bc
-   08BD CDr8Er04      [17] 1575 	call	_enemy_get_distance_to_obstacle
-   08C0 F1            [10] 1576 	pop	af
-   08C1 33            [ 6] 1577 	inc	sp
-   08C2 D1            [10] 1578 	pop	de
-   08C3 C1            [10] 1579 	pop	bc
-   08C4 DD 75 FB      [19] 1580 	ld	-5 (ix),l
-                           1581 ;src/Enemy.c:413: distl = enemy_get_distance_to_obstacle(e, dl);
-   08C7 C5            [11] 1582 	push	bc
-   08C8 D5            [11] 1583 	push	de
-   08C9 DD 7E FC      [19] 1584 	ld	a,-4 (ix)
-   08CC F5            [11] 1585 	push	af
-   08CD 33            [ 6] 1586 	inc	sp
-   08CE DD 6E 04      [19] 1587 	ld	l,4 (ix)
-   08D1 DD 66 05      [19] 1588 	ld	h,5 (ix)
-   08D4 E5            [11] 1589 	push	hl
-   08D5 CDr8Er04      [17] 1590 	call	_enemy_get_distance_to_obstacle
-   08D8 F1            [10] 1591 	pop	af
-   08D9 33            [ 6] 1592 	inc	sp
-   08DA D1            [10] 1593 	pop	de
-   08DB C1            [10] 1594 	pop	bc
-                           1595 ;src/Enemy.c:414: distr = enemy_get_distance_to_obstacle(e, dr);
-   08DC E5            [11] 1596 	push	hl
-   08DD C5            [11] 1597 	push	bc
-   08DE D5            [11] 1598 	push	de
-   08DF 7B            [ 4] 1599 	ld	a,e
-   08E0 F5            [11] 1600 	push	af
-   08E1 33            [ 6] 1601 	inc	sp
-   08E2 DD 6E 04      [19] 1602 	ld	l,4 (ix)
-   08E5 DD 66 05      [19] 1603 	ld	h,5 (ix)
-   08E8 E5            [11] 1604 	push	hl
-   08E9 CDr8Er04      [17] 1605 	call	_enemy_get_distance_to_obstacle
-   08EC F1            [10] 1606 	pop	af
-   08ED 33            [ 6] 1607 	inc	sp
-   08EE 7D            [ 4] 1608 	ld	a,l
-   08EF D1            [10] 1609 	pop	de
-   08F0 C1            [10] 1610 	pop	bc
-   08F1 E1            [10] 1611 	pop	hl
-   08F2 57            [ 4] 1612 	ld	d,a
-                           1613 ;src/Enemy.c:416: if(distf>distl && distf>distr){
-   08F3 7D            [ 4] 1614 	ld	a,l
-   08F4 DD 96 FB      [19] 1615 	sub	a, -5 (ix)
-   08F7 30 0E         [12] 1616 	jr	NC,00113$
-   08F9 7A            [ 4] 1617 	ld	a,d
-   08FA DD 96 FB      [19] 1618 	sub	a, -5 (ix)
-   08FD 30 08         [12] 1619 	jr	NC,00113$
-                           1620 ;src/Enemy.c:417: d = df;
-   08FF DD 5E FA      [19] 1621 	ld	e,-6 (ix)
-                           1622 ;src/Enemy.c:418: dist = distf;
-   0902 DD 6E FB      [19] 1623 	ld	l,-5 (ix)
-   0905 18 22         [12] 1624 	jr	00114$
-   0907                    1625 00113$:
-                           1626 ;src/Enemy.c:420: else if(distl>distf && distl>distr){
-   0907 DD 7E FB      [19] 1627 	ld	a,-5 (ix)
-   090A 95            [ 4] 1628 	sub	a, l
-   090B 30 09         [12] 1629 	jr	NC,00109$
-   090D 7A            [ 4] 1630 	ld	a,d
-   090E 95            [ 4] 1631 	sub	a, l
-   090F 30 05         [12] 1632 	jr	NC,00109$
-                           1633 ;src/Enemy.c:421: d=dl;
-   0911 DD 5E FC      [19] 1634 	ld	e,-4 (ix)
-                           1635 ;src/Enemy.c:422: dist=distl;
-   0914 18 13         [12] 1636 	jr	00114$
-   0916                    1637 00109$:
-                           1638 ;src/Enemy.c:424: else if(distr>distf && distr>distl){
-   0916 DD 7E FB      [19] 1639 	ld	a,-5 (ix)
-   0919 92            [ 4] 1640 	sub	a, d
-   091A 30 07         [12] 1641 	jr	NC,00105$
-   091C 7D            [ 4] 1642 	ld	a,l
-   091D 92            [ 4] 1643 	sub	a, d
-   091E 30 03         [12] 1644 	jr	NC,00105$
-                           1645 ;src/Enemy.c:425: d=dr;
-                           1646 ;src/Enemy.c:426: dist=distr;
-   0920 6A            [ 4] 1647 	ld	l,d
-   0921 18 06         [12] 1648 	jr	00114$
-   0923                    1649 00105$:
-                           1650 ;src/Enemy.c:429: d=df;
-   0923 DD 5E FA      [19] 1651 	ld	e,-6 (ix)
-                           1652 ;src/Enemy.c:430: dist=distf;
-   0926 DD 6E FB      [19] 1653 	ld	l,-5 (ix)
-   0929                    1654 00114$:
-                           1655 ;src/Enemy.c:433: if(dist){
-   0929 7D            [ 4] 1656 	ld	a,l
-   092A B7            [ 4] 1657 	or	a, a
-   092B 28 09         [12] 1658 	jr	Z,00118$
-                           1659 ;src/Enemy.c:434: enemy_move(e,d);
-   092D 7B            [ 4] 1660 	ld	a,e
-   092E F5            [11] 1661 	push	af
-   092F 33            [ 6] 1662 	inc	sp
-   0930 C5            [11] 1663 	push	bc
-   0931 CDr58r05      [17] 1664 	call	_enemy_move
-   0934 F1            [10] 1665 	pop	af
-   0935 33            [ 6] 1666 	inc	sp
-   0936                    1667 00118$:
-   0936 DD F9         [10] 1668 	ld	sp, ix
-   0938 DD E1         [14] 1669 	pop	ix
-   093A C9            [10] 1670 	ret
-                           1671 ;src/Enemy.c:439: void enemy_roam(Enemy* e) {
-                           1672 ;	---------------------------------
-                           1673 ; Function enemy_roam
-                           1674 ; ---------------------------------
-   093B                    1675 _enemy_roam::
-   093B DD E5         [15] 1676 	push	ix
-   093D DD 21 00 00   [14] 1677 	ld	ix,#0
-   0941 DD 39         [15] 1678 	add	ix,sp
-   0943 21 F8 FF      [10] 1679 	ld	hl,#-8
-   0946 39            [11] 1680 	add	hl,sp
-   0947 F9            [ 6] 1681 	ld	sp,hl
-                           1682 ;src/Enemy.c:440: u8 d, nd=0;
-   0948 0E 00         [ 7] 1683 	ld	c,#0x00
-                           1684 ;src/Enemy.c:444: d = e->direction;
-   094A DD 7E 04      [19] 1685 	ld	a,4 (ix)
-   094D DD 77 FE      [19] 1686 	ld	-2 (ix),a
-   0950 DD 7E 05      [19] 1687 	ld	a,5 (ix)
-   0953 DD 77 FF      [19] 1688 	ld	-1 (ix),a
-   0956 DD 5E FE      [19] 1689 	ld	e,-2 (ix)
-   0959 DD 56 FF      [19] 1690 	ld	d,-1 (ix)
-   095C 13            [ 6] 1691 	inc	de
-   095D 13            [ 6] 1692 	inc	de
-   095E 1A            [ 7] 1693 	ld	a,(de)
-   095F 47            [ 4] 1694 	ld	b,a
-                           1695 ;src/Enemy.c:445: pos = &(e->position);
-   0960 DD 7E FE      [19] 1696 	ld	a,-2 (ix)
-   0963 C6 03         [ 7] 1697 	add	a, #0x03
-   0965 DD 77 FC      [19] 1698 	ld	-4 (ix),a
-   0968 DD 7E FF      [19] 1699 	ld	a,-1 (ix)
-   096B CE 00         [ 7] 1700 	adc	a, #0x00
-   096D DD 77 FD      [19] 1701 	ld	-3 (ix),a
-                           1702 ;src/Enemy.c:447: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
-   0970 C5            [11] 1703 	push	bc
-   0971 D5            [11] 1704 	push	de
-   0972 C5            [11] 1705 	push	bc
-   0973 33            [ 6] 1706 	inc	sp
-   0974 DD 6E FC      [19] 1707 	ld	l,-4 (ix)
-   0977 DD 66 FD      [19] 1708 	ld	h,-3 (ix)
-   097A E5            [11] 1709 	push	hl
-   097B CDr0Br04      [17] 1710 	call	_enemy_collision_at_dir
-   097E F1            [10] 1711 	pop	af
-   097F 33            [ 6] 1712 	inc	sp
-   0980 D1            [10] 1713 	pop	de
-   0981 C1            [10] 1714 	pop	bc
-   0982 7D            [ 4] 1715 	ld	a,l
-   0983 B7            [ 4] 1716 	or	a, a
-   0984 20 07         [12] 1717 	jr	NZ,00102$
-                           1718 ;src/Enemy.c:449: directions[nd]=d;
-   0986 21 00 00      [10] 1719 	ld	hl,#0x0000
-   0989 39            [11] 1720 	add	hl,sp
-   098A 70            [ 7] 1721 	ld	(hl),b
-                           1722 ;src/Enemy.c:450: ++nd;
-   098B 0E 01         [ 7] 1723 	ld	c,#0x01
-   098D                    1724 00102$:
-                           1725 ;src/Enemy.c:454: d=((e->direction+2)&7);
-   098D 1A            [ 7] 1726 	ld	a,(de)
-   098E C6 02         [ 7] 1727 	add	a, #0x02
-   0990 E6 07         [ 7] 1728 	and	a, #0x07
-   0992 47            [ 4] 1729 	ld	b,a
-                           1730 ;src/Enemy.c:456: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
-   0993 C5            [11] 1731 	push	bc
-   0994 D5            [11] 1732 	push	de
-   0995 C5            [11] 1733 	push	bc
-   0996 33            [ 6] 1734 	inc	sp
-   0997 DD 6E FC      [19] 1735 	ld	l,-4 (ix)
-   099A DD 66 FD      [19] 1736 	ld	h,-3 (ix)
-   099D E5            [11] 1737 	push	hl
-   099E CDr0Br04      [17] 1738 	call	_enemy_collision_at_dir
-   09A1 F1            [10] 1739 	pop	af
-   09A2 33            [ 6] 1740 	inc	sp
-   09A3 D1            [10] 1741 	pop	de
-   09A4 C1            [10] 1742 	pop	bc
-   09A5 7D            [ 4] 1743 	ld	a,l
-   09A6 B7            [ 4] 1744 	or	a, a
-   09A7 20 0D         [12] 1745 	jr	NZ,00104$
-                           1746 ;src/Enemy.c:458: directions[nd]=d;
-   09A9 21 00 00      [10] 1747 	ld	hl,#0x0000
-   09AC 39            [11] 1748 	add	hl,sp
-   09AD 7D            [ 4] 1749 	ld	a,l
-   09AE 81            [ 4] 1750 	add	a, c
-   09AF 6F            [ 4] 1751 	ld	l,a
-   09B0 7C            [ 4] 1752 	ld	a,h
-   09B1 CE 00         [ 7] 1753 	adc	a, #0x00
-   09B3 67            [ 4] 1754 	ld	h,a
-   09B4 70            [ 7] 1755 	ld	(hl),b
-                           1756 ;src/Enemy.c:459: ++nd;
-   09B5 0C            [ 4] 1757 	inc	c
-   09B6                    1758 00104$:
-                           1759 ;src/Enemy.c:463: d=((e->direction-2)&7);
-   09B6 1A            [ 7] 1760 	ld	a,(de)
-   09B7 C6 FE         [ 7] 1761 	add	a,#0xFE
-   09B9 E6 07         [ 7] 1762 	and	a, #0x07
-   09BB 47            [ 4] 1763 	ld	b,a
-                           1764 ;src/Enemy.c:465: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
-   09BC C5            [11] 1765 	push	bc
-   09BD D5            [11] 1766 	push	de
-   09BE C5            [11] 1767 	push	bc
-   09BF 33            [ 6] 1768 	inc	sp
-   09C0 DD 6E FC      [19] 1769 	ld	l,-4 (ix)
-   09C3 DD 66 FD      [19] 1770 	ld	h,-3 (ix)
-   09C6 E5            [11] 1771 	push	hl
-   09C7 CDr0Br04      [17] 1772 	call	_enemy_collision_at_dir
-   09CA F1            [10] 1773 	pop	af
-   09CB 33            [ 6] 1774 	inc	sp
-   09CC D1            [10] 1775 	pop	de
-   09CD C1            [10] 1776 	pop	bc
-   09CE 7D            [ 4] 1777 	ld	a,l
-   09CF B7            [ 4] 1778 	or	a, a
-   09D0 20 0D         [12] 1779 	jr	NZ,00106$
-                           1780 ;src/Enemy.c:467: directions[nd]=d;
-   09D2 21 00 00      [10] 1781 	ld	hl,#0x0000
-   09D5 39            [11] 1782 	add	hl,sp
-   09D6 7D            [ 4] 1783 	ld	a,l
-   09D7 81            [ 4] 1784 	add	a, c
-   09D8 6F            [ 4] 1785 	ld	l,a
-   09D9 7C            [ 4] 1786 	ld	a,h
-   09DA CE 00         [ 7] 1787 	adc	a, #0x00
-   09DC 67            [ 4] 1788 	ld	h,a
-   09DD 70            [ 7] 1789 	ld	(hl),b
-                           1790 ;src/Enemy.c:468: ++nd;
-   09DE 0C            [ 4] 1791 	inc	c
-   09DF                    1792 00106$:
-                           1793 ;src/Enemy.c:472: if(nd==0){//If cannot move any other direction than back
-   09DF 79            [ 4] 1794 	ld	a,c
-   09E0 B7            [ 4] 1795 	or	a, a
-   09E1 20 1D         [12] 1796 	jr	NZ,00110$
-                           1797 ;src/Enemy.c:474: d=((e->direction+4)&7);
-   09E3 1A            [ 7] 1798 	ld	a,(de)
-   09E4 C6 04         [ 7] 1799 	add	a, #0x04
-   09E6 E6 07         [ 7] 1800 	and	a, #0x07
-   09E8 47            [ 4] 1801 	ld	b,a
-                           1802 ;src/Enemy.c:476: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
-   09E9 C5            [11] 1803 	push	bc
-   09EA C5            [11] 1804 	push	bc
-   09EB 33            [ 6] 1805 	inc	sp
-   09EC DD 6E FC      [19] 1806 	ld	l,-4 (ix)
-   09EF DD 66 FD      [19] 1807 	ld	h,-3 (ix)
-   09F2 E5            [11] 1808 	push	hl
-   09F3 CDr0Br04      [17] 1809 	call	_enemy_collision_at_dir
-   09F6 F1            [10] 1810 	pop	af
-   09F7 33            [ 6] 1811 	inc	sp
-   09F8 C1            [10] 1812 	pop	bc
-   09F9 7D            [ 4] 1813 	ld	a,l
-   09FA B7            [ 4] 1814 	or	a, a
-   09FB 20 1F         [12] 1815 	jr	NZ,00111$
-                           1816 ;src/Enemy.c:478: ++nd;
-   09FD 0C            [ 4] 1817 	inc	c
-   09FE 18 1C         [12] 1818 	jr	00111$
-   0A00                    1819 00110$:
-                           1820 ;src/Enemy.c:483: d=directions[cpct_getRandom_mxor_u8()%(nd)];
-   0A00 21 00 00      [10] 1821 	ld	hl,#0x0000
-   0A03 39            [11] 1822 	add	hl,sp
-   0A04 E5            [11] 1823 	push	hl
-   0A05 C5            [11] 1824 	push	bc
-   0A06 CDr00r00      [17] 1825 	call	_cpct_getRandom_mxor_u8
-   0A09 55            [ 4] 1826 	ld	d,l
-   0A0A C1            [10] 1827 	pop	bc
-   0A0B C5            [11] 1828 	push	bc
-   0A0C 79            [ 4] 1829 	ld	a,c
-   0A0D F5            [11] 1830 	push	af
-   0A0E 33            [ 6] 1831 	inc	sp
-   0A0F D5            [11] 1832 	push	de
-   0A10 33            [ 6] 1833 	inc	sp
-   0A11 CDr00r00      [17] 1834 	call	__moduchar
-   0A14 F1            [10] 1835 	pop	af
-   0A15 5D            [ 4] 1836 	ld	e,l
-   0A16 C1            [10] 1837 	pop	bc
-   0A17 E1            [10] 1838 	pop	hl
-   0A18 16 00         [ 7] 1839 	ld	d,#0x00
-   0A1A 19            [11] 1840 	add	hl,de
-   0A1B 46            [ 7] 1841 	ld	b,(hl)
-   0A1C                    1842 00111$:
-                           1843 ;src/Enemy.c:486: if(nd){//If can move
-   0A1C 79            [ 4] 1844 	ld	a,c
-   0A1D B7            [ 4] 1845 	or	a, a
-   0A1E 28 0E         [12] 1846 	jr	Z,00114$
-                           1847 ;src/Enemy.c:487: enemy_move(e, d);
-   0A20 C5            [11] 1848 	push	bc
-   0A21 33            [ 6] 1849 	inc	sp
-   0A22 DD 6E FE      [19] 1850 	ld	l,-2 (ix)
-   0A25 DD 66 FF      [19] 1851 	ld	h,-1 (ix)
-   0A28 E5            [11] 1852 	push	hl
-   0A29 CDr58r05      [17] 1853 	call	_enemy_move
-   0A2C F1            [10] 1854 	pop	af
-   0A2D 33            [ 6] 1855 	inc	sp
-   0A2E                    1856 00114$:
-   0A2E DD F9         [10] 1857 	ld	sp, ix
-   0A30 DD E1         [14] 1858 	pop	ix
-   0A32 C9            [10] 1859 	ret
-                           1860 ;src/Enemy.c:491: void enemy_AI_passive(Enemy* e) {
-                           1861 ;	---------------------------------
-                           1862 ; Function enemy_AI_passive
-                           1863 ; ---------------------------------
-   0A33                    1864 _enemy_AI_passive::
-   0A33 DD E5         [15] 1865 	push	ix
-   0A35 DD 21 00 00   [14] 1866 	ld	ix,#0
-   0A39 DD 39         [15] 1867 	add	ix,sp
-   0A3B F5            [11] 1868 	push	af
-   0A3C 3B            [ 6] 1869 	dec	sp
-                           1870 ;src/Enemy.c:494: x = e->position.x;
-   0A3D DD 4E 04      [19] 1871 	ld	c,4 (ix)
-   0A40 DD 46 05      [19] 1872 	ld	b,5 (ix)
-   0A43 C5            [11] 1873 	push	bc
-   0A44 FD E1         [14] 1874 	pop	iy
-   0A46 FD 7E 03      [19] 1875 	ld	a,3 (iy)
-   0A49 DD 77 FE      [19] 1876 	ld	-2 (ix),a
-                           1877 ;src/Enemy.c:495: y = e->position.y;
-   0A4C 69            [ 4] 1878 	ld	l, c
-   0A4D 60            [ 4] 1879 	ld	h, b
-   0A4E 11 04 00      [10] 1880 	ld	de, #0x0004
-   0A51 19            [11] 1881 	add	hl, de
-   0A52 5E            [ 7] 1882 	ld	e,(hl)
-                           1883 ;src/Enemy.c:497: hp=e->hitPoints;
-   0A53 C5            [11] 1884 	push	bc
-   0A54 FD E1         [14] 1885 	pop	iy
-   0A56 FD 7E 05      [19] 1886 	ld	a,5 (iy)
-   0A59 DD 77 FD      [19] 1887 	ld	-3 (ix),a
-                           1888 ;src/Enemy.c:499: if(dist(player_position.x, player_position.y, x,y)<ENEMY_VIEW_DISTANCE){
-   0A5C 21r01r00      [10] 1889 	ld	hl, #_player_position + 1
-   0A5F 56            [ 7] 1890 	ld	d,(hl)
-   0A60 3Ar00r00      [13] 1891 	ld	a,(#_player_position + 0)
-   0A63 DD 77 FF      [19] 1892 	ld	-1 (ix),a
-   0A66 C5            [11] 1893 	push	bc
-   0A67 7B            [ 4] 1894 	ld	a,e
-   0A68 F5            [11] 1895 	push	af
-   0A69 33            [ 6] 1896 	inc	sp
-   0A6A DD 7E FE      [19] 1897 	ld	a,-2 (ix)
-   0A6D F5            [11] 1898 	push	af
-   0A6E 33            [ 6] 1899 	inc	sp
-   0A6F D5            [11] 1900 	push	de
-   0A70 33            [ 6] 1901 	inc	sp
-   0A71 DD 7E FF      [19] 1902 	ld	a,-1 (ix)
-   0A74 F5            [11] 1903 	push	af
-   0A75 33            [ 6] 1904 	inc	sp
-   0A76 CDr8Dr00      [17] 1905 	call	_dist
-   0A79 F1            [10] 1906 	pop	af
-   0A7A F1            [10] 1907 	pop	af
-   0A7B C1            [10] 1908 	pop	bc
-   0A7C 7D            [ 4] 1909 	ld	a,l
-   0A7D D6 06         [ 7] 1910 	sub	a, #0x06
-   0A7F 30 39         [12] 1911 	jr	NC,00112$
-                           1912 ;src/Enemy.c:500: if(enemy_can_view(e)){
-   0A81 C5            [11] 1913 	push	bc
-   0A82 C5            [11] 1914 	push	bc
-   0A83 CDrBCr00      [17] 1915 	call	_enemy_can_view
-   0A86 F1            [10] 1916 	pop	af
-   0A87 C1            [10] 1917 	pop	bc
-   0A88 7D            [ 4] 1918 	ld	a,l
-   0A89 B7            [ 4] 1919 	or	a, a
-   0A8A 28 2E         [12] 1920 	jr	Z,00112$
-                           1921 ;src/Enemy.c:501: if(hp < ENEMY_INITIAL_HP){//Aggresive
-   0A8C DD 7E FD      [19] 1922 	ld	a,-3 (ix)
-   0A8F D6 FF         [ 7] 1923 	sub	a, #0xFF
-   0A91 30 19         [12] 1924 	jr	NC,00107$
-                           1925 ;src/Enemy.c:502: if(enemy_is_adjacent_to_player(e)){//Attack
-   0A93 C5            [11] 1926 	push	bc
-   0A94 C5            [11] 1927 	push	bc
-   0A95 CDr6Ar02      [17] 1928 	call	_enemy_is_adjacent_to_player
-   0A98 F1            [10] 1929 	pop	af
-   0A99 C1            [10] 1930 	pop	bc
-   0A9A 7D            [ 4] 1931 	ld	a,l
-   0A9B B7            [ 4] 1932 	or	a, a
-   0A9C 28 07         [12] 1933 	jr	Z,00102$
-                           1934 ;src/Enemy.c:503: enemy_attack(e);
-   0A9E C5            [11] 1935 	push	bc
-   0A9F CDrB5r06      [17] 1936 	call	_enemy_attack
-   0AA2 F1            [10] 1937 	pop	af
-                           1938 ;src/Enemy.c:504: return;
-   0AA3 18 1A         [12] 1939 	jr	00113$
-   0AA5                    1940 00102$:
-                           1941 ;src/Enemy.c:507: enemy_go_to_player(e);
-   0AA5 C5            [11] 1942 	push	bc
-   0AA6 CDr3Ar07      [17] 1943 	call	_enemy_go_to_player
-   0AA9 F1            [10] 1944 	pop	af
-                           1945 ;src/Enemy.c:508: return;
-   0AAA 18 13         [12] 1946 	jr	00113$
-   0AAC                    1947 00107$:
-                           1948 ;src/Enemy.c:511: else if(hp < ENEMY_INITIAL_HP/4){ //Flee
-   0AAC DD 7E FD      [19] 1949 	ld	a,-3 (ix)
-   0AAF D6 3F         [ 7] 1950 	sub	a, #0x3F
-   0AB1 30 07         [12] 1951 	jr	NC,00112$
-                           1952 ;src/Enemy.c:512: enemy_flee(e);
-   0AB3 C5            [11] 1953 	push	bc
-   0AB4 CDr16r08      [17] 1954 	call	_enemy_flee
-   0AB7 F1            [10] 1955 	pop	af
-                           1956 ;src/Enemy.c:513: return;
-   0AB8 18 05         [12] 1957 	jr	00113$
-   0ABA                    1958 00112$:
-                           1959 ;src/Enemy.c:517: enemy_roam(e);   
-   0ABA C5            [11] 1960 	push	bc
-   0ABB CDr3Br09      [17] 1961 	call	_enemy_roam
-   0ABE F1            [10] 1962 	pop	af
-   0ABF                    1963 00113$:
-   0ABF DD F9         [10] 1964 	ld	sp, ix
-   0AC1 DD E1         [14] 1965 	pop	ix
-   0AC3 C9            [10] 1966 	ret
-                           1967 ;src/Enemy.c:520: void enemy_AI_aggressive(Enemy* e){
-                           1968 ;	---------------------------------
-                           1969 ; Function enemy_AI_aggressive
-                           1970 ; ---------------------------------
-   0AC4                    1971 _enemy_AI_aggressive::
-   0AC4 DD E5         [15] 1972 	push	ix
-   0AC6 DD 21 00 00   [14] 1973 	ld	ix,#0
-   0ACA DD 39         [15] 1974 	add	ix,sp
-   0ACC F5            [11] 1975 	push	af
-                           1976 ;src/Enemy.c:523: x = e->position.x;
-   0ACD DD 4E 04      [19] 1977 	ld	c,4 (ix)
-   0AD0 DD 46 05      [19] 1978 	ld	b,5 (ix)
-   0AD3 C5            [11] 1979 	push	bc
-   0AD4 FD E1         [14] 1980 	pop	iy
-   0AD6 FD 7E 03      [19] 1981 	ld	a,3 (iy)
-   0AD9 DD 77 FF      [19] 1982 	ld	-1 (ix),a
-                           1983 ;src/Enemy.c:524: y = e->position.y;
-   0ADC C5            [11] 1984 	push	bc
-   0ADD FD E1         [14] 1985 	pop	iy
-   0ADF FD 7E 04      [19] 1986 	ld	a,4 (iy)
-   0AE2 DD 77 FE      [19] 1987 	ld	-2 (ix),a
-                           1988 ;src/Enemy.c:526: if(dist(player_position.x, player_position.y, x,y)<ENEMY_VIEW_DISTANCE){
-   0AE5 21r01r00      [10] 1989 	ld	hl, #_player_position + 1
-   0AE8 56            [ 7] 1990 	ld	d,(hl)
-   0AE9 21r00r00      [10] 1991 	ld	hl, #_player_position + 0
-   0AEC 5E            [ 7] 1992 	ld	e,(hl)
-   0AED C5            [11] 1993 	push	bc
-   0AEE DD 66 FE      [19] 1994 	ld	h,-2 (ix)
-   0AF1 DD 6E FF      [19] 1995 	ld	l,-1 (ix)
-   0AF4 E5            [11] 1996 	push	hl
-   0AF5 D5            [11] 1997 	push	de
-   0AF6 CDr8Dr00      [17] 1998 	call	_dist
-   0AF9 F1            [10] 1999 	pop	af
-   0AFA F1            [10] 2000 	pop	af
-   0AFB C1            [10] 2001 	pop	bc
-   0AFC 7D            [ 4] 2002 	ld	a,l
-   0AFD D6 06         [ 7] 2003 	sub	a, #0x06
-   0AFF 30 24         [12] 2004 	jr	NC,00107$
-                           2005 ;src/Enemy.c:527: if(enemy_can_view(e)){
-   0B01 C5            [11] 2006 	push	bc
-   0B02 C5            [11] 2007 	push	bc
-   0B03 CDrBCr00      [17] 2008 	call	_enemy_can_view
-   0B06 F1            [10] 2009 	pop	af
-   0B07 C1            [10] 2010 	pop	bc
-   0B08 7D            [ 4] 2011 	ld	a,l
-   0B09 B7            [ 4] 2012 	or	a, a
-   0B0A 28 19         [12] 2013 	jr	Z,00107$
-                           2014 ;src/Enemy.c:528: if(enemy_is_adjacent_to_player(e)){//Attack
-   0B0C C5            [11] 2015 	push	bc
-   0B0D C5            [11] 2016 	push	bc
-   0B0E CDr6Ar02      [17] 2017 	call	_enemy_is_adjacent_to_player
-   0B11 F1            [10] 2018 	pop	af
-   0B12 C1            [10] 2019 	pop	bc
-   0B13 7D            [ 4] 2020 	ld	a,l
-   0B14 B7            [ 4] 2021 	or	a, a
-   0B15 28 07         [12] 2022 	jr	Z,00102$
-                           2023 ;src/Enemy.c:529: enemy_attack(e);
-   0B17 C5            [11] 2024 	push	bc
-   0B18 CDrB5r06      [17] 2025 	call	_enemy_attack
-   0B1B F1            [10] 2026 	pop	af
-                           2027 ;src/Enemy.c:530: return;
-   0B1C 18 0C         [12] 2028 	jr	00108$
-   0B1E                    2029 00102$:
-                           2030 ;src/Enemy.c:533: enemy_go_to_player(e);
-   0B1E C5            [11] 2031 	push	bc
-   0B1F CDr3Ar07      [17] 2032 	call	_enemy_go_to_player
-   0B22 F1            [10] 2033 	pop	af
-                           2034 ;src/Enemy.c:534: return;
-   0B23 18 05         [12] 2035 	jr	00108$
-   0B25                    2036 00107$:
-                           2037 ;src/Enemy.c:538: enemy_roam(e);     
-   0B25 C5            [11] 2038 	push	bc
-   0B26 CDr3Br09      [17] 2039 	call	_enemy_roam
-   0B29 F1            [10] 2040 	pop	af
-   0B2A                    2041 00108$:
-   0B2A DD F9         [10] 2042 	ld	sp, ix
-   0B2C DD E1         [14] 2043 	pop	ix
-   0B2E C9            [10] 2044 	ret
-                           2045 ;src/Enemy.c:585: void enemy_update(){
-                           2046 ;	---------------------------------
-                           2047 ; Function enemy_update
-                           2048 ; ---------------------------------
-   0B2F                    2049 _enemy_update::
-                           2050 ;src/Enemy.c:587: Enemy* enemy=enemyArray;
-   0B2F 01r01r00      [10] 2051 	ld	bc,#_enemyArray+0
-                           2052 ;src/Enemy.c:589: for(i;i;--i){
-   0B32 1E 0F         [ 7] 2053 	ld	e,#0x0F
-   0B34                    2054 00108$:
-   0B34 7B            [ 4] 2055 	ld	a,e
-   0B35 B7            [ 4] 2056 	or	a, a
-   0B36 C8            [11] 2057 	ret	Z
-                           2058 ;src/Enemy.c:590: if(enemy->hitPoints){
-   0B37 C5            [11] 2059 	push	bc
-   0B38 FD E1         [14] 2060 	pop	iy
-   0B3A FD 7E 05      [19] 2061 	ld	a,5 (iy)
-   0B3D B7            [ 4] 2062 	or	a, a
-   0B3E 28 21         [12] 2063 	jr	Z,00105$
-                           2064 ;src/Enemy.c:591: switch(enemy->type){
-   0B40 69            [ 4] 2065 	ld	l, c
-   0B41 60            [ 4] 2066 	ld	h, b
-   0B42 23            [ 6] 2067 	inc	hl
-   0B43 56            [ 7] 2068 	ld	d,(hl)
-   0B44 7A            [ 4] 2069 	ld	a,d
-   0B45 B7            [ 4] 2070 	or	a, a
-   0B46 28 05         [12] 2071 	jr	Z,00101$
-   0B48 15            [ 4] 2072 	dec	d
-   0B49 28 0D         [12] 2073 	jr	Z,00102$
-   0B4B 18 14         [12] 2074 	jr	00105$
-                           2075 ;src/Enemy.c:592: case 0:{
-   0B4D                    2076 00101$:
-                           2077 ;src/Enemy.c:593: enemy_AI_passive(enemy);
-   0B4D C5            [11] 2078 	push	bc
-   0B4E D5            [11] 2079 	push	de
-   0B4F C5            [11] 2080 	push	bc
-   0B50 CDr33r0A      [17] 2081 	call	_enemy_AI_passive
-   0B53 F1            [10] 2082 	pop	af
-   0B54 D1            [10] 2083 	pop	de
-   0B55 C1            [10] 2084 	pop	bc
-                           2085 ;src/Enemy.c:594: break;
-   0B56 18 09         [12] 2086 	jr	00105$
-                           2087 ;src/Enemy.c:596: case 1:{
-   0B58                    2088 00102$:
-                           2089 ;src/Enemy.c:597: enemy_AI_aggressive(enemy);
-   0B58 C5            [11] 2090 	push	bc
-   0B59 D5            [11] 2091 	push	de
-   0B5A C5            [11] 2092 	push	bc
-   0B5B CDrC4r0A      [17] 2093 	call	_enemy_AI_aggressive
-   0B5E F1            [10] 2094 	pop	af
-   0B5F D1            [10] 2095 	pop	de
-   0B60 C1            [10] 2096 	pop	bc
-                           2097 ;src/Enemy.c:608: }
-   0B61                    2098 00105$:
-                           2099 ;src/Enemy.c:610: ++enemy;
-   0B61 21 08 00      [10] 2100 	ld	hl,#0x0008
-   0B64 09            [11] 2101 	add	hl,bc
-   0B65 4D            [ 4] 2102 	ld	c,l
-   0B66 44            [ 4] 2103 	ld	b,h
-                           2104 ;src/Enemy.c:589: for(i;i;--i){
-   0B67 1D            [ 4] 2105 	dec	e
-   0B68 18 CA         [12] 2106 	jr	00108$
-                           2107 	.area _CODE
-                           2108 	.area _INITIALIZER
-                           2109 	.area _CABS (ABS)
+   0744 00                 1305 	.db 0x00
+                           1306 ;src/Enemy.c:356: void enemy_go_to_player(Enemy* e){//NOT WORKING
+                           1307 ;	---------------------------------
+                           1308 ; Function enemy_go_to_player
+                           1309 ; ---------------------------------
+   0745                    1310 _enemy_go_to_player::
+   0745 DD E5         [15] 1311 	push	ix
+   0747 DD 21 00 00   [14] 1312 	ld	ix,#0
+   074B DD 39         [15] 1313 	add	ix,sp
+   074D F5            [11] 1314 	push	af
+   074E F5            [11] 1315 	push	af
+                           1316 ;src/Enemy.c:361: dx=player_position.x-e->position.x;
+   074F 21r00r00      [10] 1317 	ld	hl,#_player_position+0
+   0752 5E            [ 7] 1318 	ld	e,(hl)
+   0753 DD 4E 04      [19] 1319 	ld	c,4 (ix)
+   0756 DD 46 05      [19] 1320 	ld	b,5 (ix)
+   0759 21 03 00      [10] 1321 	ld	hl,#0x0003
+   075C 09            [11] 1322 	add	hl,bc
+   075D DD 75 FD      [19] 1323 	ld	-3 (ix),l
+   0760 DD 74 FE      [19] 1324 	ld	-2 (ix),h
+   0763 DD 6E FD      [19] 1325 	ld	l,-3 (ix)
+   0766 DD 66 FE      [19] 1326 	ld	h,-2 (ix)
+   0769 56            [ 7] 1327 	ld	d,(hl)
+   076A 7B            [ 4] 1328 	ld	a,e
+   076B 92            [ 4] 1329 	sub	a, d
+   076C DD 77 FC      [19] 1330 	ld	-4 (ix),a
+                           1331 ;src/Enemy.c:362: dy=player_position.y-e->position.y;
+   076F 21r01r00      [10] 1332 	ld	hl,#_player_position+1
+   0772 5E            [ 7] 1333 	ld	e,(hl)
+   0773 C5            [11] 1334 	push	bc
+   0774 FD E1         [14] 1335 	pop	iy
+   0776 FD 56 04      [19] 1336 	ld	d,4 (iy)
+   0779 7B            [ 4] 1337 	ld	a,e
+   077A 92            [ 4] 1338 	sub	a, d
+   077B 6F            [ 4] 1339 	ld	l,a
+                           1340 ;src/Enemy.c:364: dirX = (dx>0)?MOVEMENT_EAST:MOVEMENT_WEST;
+   077C AF            [ 4] 1341 	xor	a, a
+   077D DD 96 FC      [19] 1342 	sub	a, -4 (ix)
+   0780 E2r85r07      [10] 1343 	jp	PO, 00136$
+   0783 EE 80         [ 7] 1344 	xor	a, #0x80
+   0785                    1345 00136$:
+   0785 F2r8Cr07      [10] 1346 	jp	P,00112$
+   0788 1E 00         [ 7] 1347 	ld	e,#0x00
+   078A 18 02         [12] 1348 	jr	00113$
+   078C                    1349 00112$:
+   078C 1E 04         [ 7] 1350 	ld	e,#0x04
+   078E                    1351 00113$:
+                           1352 ;src/Enemy.c:365: dirY = (dy>0)?MOVEMENT_SOUTH:MOVEMENT_NORTH;
+   078E AF            [ 4] 1353 	xor	a, a
+   078F 95            [ 4] 1354 	sub	a, l
+   0790 E2r95r07      [10] 1355 	jp	PO, 00137$
+   0793 EE 80         [ 7] 1356 	xor	a, #0x80
+   0795                    1357 00137$:
+   0795 F2r9Cr07      [10] 1358 	jp	P,00114$
+   0798 16 06         [ 7] 1359 	ld	d,#0x06
+   079A 18 02         [12] 1360 	jr	00115$
+   079C                    1361 00114$:
+   079C 16 02         [ 7] 1362 	ld	d,#0x02
+   079E                    1363 00115$:
+                           1364 ;src/Enemy.c:367: if(abs(dx)>abs(dy)){
+   079E E5            [11] 1365 	push	hl
+   079F C5            [11] 1366 	push	bc
+   07A0 D5            [11] 1367 	push	de
+   07A1 DD 7E FC      [19] 1368 	ld	a,-4 (ix)
+   07A4 F5            [11] 1369 	push	af
+   07A5 33            [ 6] 1370 	inc	sp
+   07A6 CDr70r00      [17] 1371 	call	_abs
+   07A9 33            [ 6] 1372 	inc	sp
+   07AA DD 75 FF      [19] 1373 	ld	-1 (ix),l
+   07AD D1            [10] 1374 	pop	de
+   07AE C1            [10] 1375 	pop	bc
+   07AF E1            [10] 1376 	pop	hl
+   07B0 C5            [11] 1377 	push	bc
+   07B1 D5            [11] 1378 	push	de
+   07B2 7D            [ 4] 1379 	ld	a,l
+   07B3 F5            [11] 1380 	push	af
+   07B4 33            [ 6] 1381 	inc	sp
+   07B5 CDr70r00      [17] 1382 	call	_abs
+   07B8 33            [ 6] 1383 	inc	sp
+   07B9 D1            [10] 1384 	pop	de
+   07BA C1            [10] 1385 	pop	bc
+   07BB 7D            [ 4] 1386 	ld	a,l
+   07BC DD 96 FF      [19] 1387 	sub	a, -1 (ix)
+   07BF E2rC4r07      [10] 1388 	jp	PO, 00138$
+   07C2 EE 80         [ 7] 1389 	xor	a, #0x80
+   07C4                    1390 00138$:
+   07C4 F2rF3r07      [10] 1391 	jp	P,00108$
+                           1392 ;src/Enemy.c:368: if(!enemy_collision_at_dir(&(e->position),dirX)){
+   07C7 C5            [11] 1393 	push	bc
+   07C8 D5            [11] 1394 	push	de
+   07C9 7B            [ 4] 1395 	ld	a,e
+   07CA F5            [11] 1396 	push	af
+   07CB 33            [ 6] 1397 	inc	sp
+   07CC DD 6E FD      [19] 1398 	ld	l,-3 (ix)
+   07CF DD 66 FE      [19] 1399 	ld	h,-2 (ix)
+   07D2 E5            [11] 1400 	push	hl
+   07D3 CDr16r04      [17] 1401 	call	_enemy_collision_at_dir
+   07D6 F1            [10] 1402 	pop	af
+   07D7 33            [ 6] 1403 	inc	sp
+   07D8 D1            [10] 1404 	pop	de
+   07D9 C1            [10] 1405 	pop	bc
+   07DA 7D            [ 4] 1406 	ld	a,l
+   07DB B7            [ 4] 1407 	or	a, a
+   07DC 20 0B         [12] 1408 	jr	NZ,00102$
+                           1409 ;src/Enemy.c:371: enemy_move(e, dirX);
+   07DE 7B            [ 4] 1410 	ld	a,e
+   07DF F5            [11] 1411 	push	af
+   07E0 33            [ 6] 1412 	inc	sp
+   07E1 C5            [11] 1413 	push	bc
+   07E2 CDr63r05      [17] 1414 	call	_enemy_move
+   07E5 F1            [10] 1415 	pop	af
+   07E6 33            [ 6] 1416 	inc	sp
+   07E7 18 33         [12] 1417 	jr	00110$
+   07E9                    1418 00102$:
+                           1419 ;src/Enemy.c:376: enemy_move(e, dirY);
+   07E9 D5            [11] 1420 	push	de
+   07EA 33            [ 6] 1421 	inc	sp
+   07EB C5            [11] 1422 	push	bc
+   07EC CDr63r05      [17] 1423 	call	_enemy_move
+   07EF F1            [10] 1424 	pop	af
+   07F0 33            [ 6] 1425 	inc	sp
+   07F1 18 29         [12] 1426 	jr	00110$
+   07F3                    1427 00108$:
+                           1428 ;src/Enemy.c:380: if(!enemy_collision_at_dir(&(e->position),dirY)){
+   07F3 C5            [11] 1429 	push	bc
+   07F4 D5            [11] 1430 	push	de
+   07F5 D5            [11] 1431 	push	de
+   07F6 33            [ 6] 1432 	inc	sp
+   07F7 DD 6E FD      [19] 1433 	ld	l,-3 (ix)
+   07FA DD 66 FE      [19] 1434 	ld	h,-2 (ix)
+   07FD E5            [11] 1435 	push	hl
+   07FE CDr16r04      [17] 1436 	call	_enemy_collision_at_dir
+   0801 F1            [10] 1437 	pop	af
+   0802 33            [ 6] 1438 	inc	sp
+   0803 D1            [10] 1439 	pop	de
+   0804 C1            [10] 1440 	pop	bc
+   0805 7D            [ 4] 1441 	ld	a,l
+   0806 B7            [ 4] 1442 	or	a, a
+   0807 20 0A         [12] 1443 	jr	NZ,00105$
+                           1444 ;src/Enemy.c:383: enemy_move(e, dirY);
+   0809 D5            [11] 1445 	push	de
+   080A 33            [ 6] 1446 	inc	sp
+   080B C5            [11] 1447 	push	bc
+   080C CDr63r05      [17] 1448 	call	_enemy_move
+   080F F1            [10] 1449 	pop	af
+   0810 33            [ 6] 1450 	inc	sp
+   0811 18 09         [12] 1451 	jr	00110$
+   0813                    1452 00105$:
+                           1453 ;src/Enemy.c:388: enemy_move(e, dirX);
+   0813 7B            [ 4] 1454 	ld	a,e
+   0814 F5            [11] 1455 	push	af
+   0815 33            [ 6] 1456 	inc	sp
+   0816 C5            [11] 1457 	push	bc
+   0817 CDr63r05      [17] 1458 	call	_enemy_move
+   081A F1            [10] 1459 	pop	af
+   081B 33            [ 6] 1460 	inc	sp
+   081C                    1461 00110$:
+   081C DD F9         [10] 1462 	ld	sp, ix
+   081E DD E1         [14] 1463 	pop	ix
+   0820 C9            [10] 1464 	ret
+                           1465 ;src/Enemy.c:394: void enemy_flee(Enemy* e) {
+                           1466 ;	---------------------------------
+                           1467 ; Function enemy_flee
+                           1468 ; ---------------------------------
+   0821                    1469 _enemy_flee::
+   0821 DD E5         [15] 1470 	push	ix
+   0823 DD 21 00 00   [14] 1471 	ld	ix,#0
+   0827 DD 39         [15] 1472 	add	ix,sp
+   0829 21 F9 FF      [10] 1473 	ld	hl,#-7
+   082C 39            [11] 1474 	add	hl,sp
+   082D F9            [ 6] 1475 	ld	sp,hl
+                           1476 ;src/Enemy.c:398: distFromPlayX = abs(player_position.x - e->position.x);
+   082E 3Ar00r00      [13] 1477 	ld	a,(#_player_position+0)
+   0831 DD 77 FF      [19] 1478 	ld	-1 (ix),a
+   0834 DD 4E 04      [19] 1479 	ld	c,4 (ix)
+   0837 DD 46 05      [19] 1480 	ld	b,5 (ix)
+   083A 59            [ 4] 1481 	ld	e, c
+   083B 50            [ 4] 1482 	ld	d, b
+   083C 13            [ 6] 1483 	inc	de
+   083D 13            [ 6] 1484 	inc	de
+   083E 13            [ 6] 1485 	inc	de
+   083F 1A            [ 7] 1486 	ld	a,(de)
+   0840 6F            [ 4] 1487 	ld	l,a
+   0841 DD 7E FF      [19] 1488 	ld	a,-1 (ix)
+   0844 95            [ 4] 1489 	sub	a, l
+   0845 67            [ 4] 1490 	ld	h,a
+   0846 C5            [11] 1491 	push	bc
+   0847 D5            [11] 1492 	push	de
+   0848 E5            [11] 1493 	push	hl
+   0849 33            [ 6] 1494 	inc	sp
+   084A CDr70r00      [17] 1495 	call	_abs
+   084D 33            [ 6] 1496 	inc	sp
+   084E D1            [10] 1497 	pop	de
+   084F C1            [10] 1498 	pop	bc
+   0850 DD 75 FA      [19] 1499 	ld	-6 (ix),l
+                           1500 ;src/Enemy.c:399: distFromPlayY = abs(player_position.y - e->position.y);
+   0853 3Ar01r00      [13] 1501 	ld	a,(#(_player_position + 0x0001) + 0)
+   0856 DD 77 FF      [19] 1502 	ld	-1 (ix),a
+   0859 21 04 00      [10] 1503 	ld	hl,#0x0004
+   085C 09            [11] 1504 	add	hl,bc
+   085D DD 75 FD      [19] 1505 	ld	-3 (ix),l
+   0860 DD 74 FE      [19] 1506 	ld	-2 (ix),h
+   0863 DD 6E FD      [19] 1507 	ld	l,-3 (ix)
+   0866 DD 66 FE      [19] 1508 	ld	h,-2 (ix)
+   0869 6E            [ 7] 1509 	ld	l,(hl)
+   086A DD 7E FF      [19] 1510 	ld	a,-1 (ix)
+   086D 95            [ 4] 1511 	sub	a, l
+   086E 67            [ 4] 1512 	ld	h,a
+   086F C5            [11] 1513 	push	bc
+   0870 D5            [11] 1514 	push	de
+   0871 E5            [11] 1515 	push	hl
+   0872 33            [ 6] 1516 	inc	sp
+   0873 CDr70r00      [17] 1517 	call	_abs
+   0876 33            [ 6] 1518 	inc	sp
+   0877 D1            [10] 1519 	pop	de
+   0878 C1            [10] 1520 	pop	bc
+                           1521 ;src/Enemy.c:401: if(distFromPlayX>distFromPlayY){//Flee X
+   0879 7D            [ 4] 1522 	ld	a,l
+   087A DD 96 FA      [19] 1523 	sub	a, -6 (ix)
+   087D 30 16         [12] 1524 	jr	NC,00102$
+                           1525 ;src/Enemy.c:402: fleeFromDir=(player_position.x<e->position.x)?MOVEMENT_EAST:MOVEMENT_WEST;
+   087F 3Ar00r00      [13] 1526 	ld	a,(#_player_position + 0)
+   0882 DD 77 FF      [19] 1527 	ld	-1 (ix),a
+   0885 1A            [ 7] 1528 	ld	a,(de)
+   0886 5F            [ 4] 1529 	ld	e,a
+   0887 DD 7E FF      [19] 1530 	ld	a,-1 (ix)
+   088A 93            [ 4] 1531 	sub	a, e
+   088B 30 04         [12] 1532 	jr	NC,00120$
+   088D 3E 00         [ 7] 1533 	ld	a,#0x00
+   088F 18 19         [12] 1534 	jr	00103$
+   0891                    1535 00120$:
+   0891 3E 04         [ 7] 1536 	ld	a,#0x04
+   0893 18 15         [12] 1537 	jr	00103$
+   0895                    1538 00102$:
+                           1539 ;src/Enemy.c:405: fleeFromDir=(player_position.y<e->position.y)?MOVEMENT_NORTH:MOVEMENT_SOUTH;
+   0895 21r01r00      [10] 1540 	ld	hl, #(_player_position + 0x0001) + 0
+   0898 5E            [ 7] 1541 	ld	e,(hl)
+   0899 DD 6E FD      [19] 1542 	ld	l,-3 (ix)
+   089C DD 66 FE      [19] 1543 	ld	h,-2 (ix)
+   089F 56            [ 7] 1544 	ld	d,(hl)
+   08A0 7B            [ 4] 1545 	ld	a,e
+   08A1 92            [ 4] 1546 	sub	a, d
+   08A2 30 04         [12] 1547 	jr	NC,00122$
+   08A4 3E 02         [ 7] 1548 	ld	a,#0x02
+   08A6 18 02         [12] 1549 	jr	00123$
+   08A8                    1550 00122$:
+   08A8 3E 06         [ 7] 1551 	ld	a,#0x06
+   08AA                    1552 00123$:
+   08AA                    1553 00103$:
+                           1554 ;src/Enemy.c:408: df = (fleeFromDir+4)&7;
+   08AA C6 04         [ 7] 1555 	add	a, #0x04
+   08AC E6 07         [ 7] 1556 	and	a, #0x07
+                           1557 ;src/Enemy.c:409: dl = (df+2)&7;
+   08AE DD 77 FB      [19] 1558 	ld	-5 (ix), a
+   08B1 C6 02         [ 7] 1559 	add	a, #0x02
+   08B3 E6 07         [ 7] 1560 	and	a, #0x07
+   08B5 DD 77 F9      [19] 1561 	ld	-7 (ix),a
+                           1562 ;src/Enemy.c:410: dr = (df-2)&7;
+   08B8 DD 7E FB      [19] 1563 	ld	a,-5 (ix)
+   08BB C6 FE         [ 7] 1564 	add	a,#0xFE
+   08BD E6 07         [ 7] 1565 	and	a, #0x07
+   08BF 5F            [ 4] 1566 	ld	e,a
+                           1567 ;src/Enemy.c:412: distf = enemy_get_distance_to_obstacle(e, df);
+   08C0 C5            [11] 1568 	push	bc
+   08C1 D5            [11] 1569 	push	de
+   08C2 DD 7E FB      [19] 1570 	ld	a,-5 (ix)
+   08C5 F5            [11] 1571 	push	af
+   08C6 33            [ 6] 1572 	inc	sp
+   08C7 C5            [11] 1573 	push	bc
+   08C8 CDr99r04      [17] 1574 	call	_enemy_get_distance_to_obstacle
+   08CB F1            [10] 1575 	pop	af
+   08CC 33            [ 6] 1576 	inc	sp
+   08CD D1            [10] 1577 	pop	de
+   08CE C1            [10] 1578 	pop	bc
+   08CF DD 75 FC      [19] 1579 	ld	-4 (ix),l
+                           1580 ;src/Enemy.c:413: distl = enemy_get_distance_to_obstacle(e, dl);
+   08D2 C5            [11] 1581 	push	bc
+   08D3 D5            [11] 1582 	push	de
+   08D4 DD 7E F9      [19] 1583 	ld	a,-7 (ix)
+   08D7 F5            [11] 1584 	push	af
+   08D8 33            [ 6] 1585 	inc	sp
+   08D9 DD 6E 04      [19] 1586 	ld	l,4 (ix)
+   08DC DD 66 05      [19] 1587 	ld	h,5 (ix)
+   08DF E5            [11] 1588 	push	hl
+   08E0 CDr99r04      [17] 1589 	call	_enemy_get_distance_to_obstacle
+   08E3 F1            [10] 1590 	pop	af
+   08E4 33            [ 6] 1591 	inc	sp
+   08E5 D1            [10] 1592 	pop	de
+   08E6 C1            [10] 1593 	pop	bc
+                           1594 ;src/Enemy.c:414: distr = enemy_get_distance_to_obstacle(e, dr);
+   08E7 E5            [11] 1595 	push	hl
+   08E8 C5            [11] 1596 	push	bc
+   08E9 D5            [11] 1597 	push	de
+   08EA 7B            [ 4] 1598 	ld	a,e
+   08EB F5            [11] 1599 	push	af
+   08EC 33            [ 6] 1600 	inc	sp
+   08ED DD 6E 04      [19] 1601 	ld	l,4 (ix)
+   08F0 DD 66 05      [19] 1602 	ld	h,5 (ix)
+   08F3 E5            [11] 1603 	push	hl
+   08F4 CDr99r04      [17] 1604 	call	_enemy_get_distance_to_obstacle
+   08F7 F1            [10] 1605 	pop	af
+   08F8 33            [ 6] 1606 	inc	sp
+   08F9 7D            [ 4] 1607 	ld	a,l
+   08FA D1            [10] 1608 	pop	de
+   08FB C1            [10] 1609 	pop	bc
+   08FC E1            [10] 1610 	pop	hl
+   08FD 57            [ 4] 1611 	ld	d,a
+                           1612 ;src/Enemy.c:416: if(distf>distl && distf>distr){
+   08FE 7D            [ 4] 1613 	ld	a,l
+   08FF DD 96 FC      [19] 1614 	sub	a, -4 (ix)
+   0902 30 0E         [12] 1615 	jr	NC,00113$
+   0904 7A            [ 4] 1616 	ld	a,d
+   0905 DD 96 FC      [19] 1617 	sub	a, -4 (ix)
+   0908 30 08         [12] 1618 	jr	NC,00113$
+                           1619 ;src/Enemy.c:417: d = df;
+   090A DD 5E FB      [19] 1620 	ld	e,-5 (ix)
+                           1621 ;src/Enemy.c:418: dist = distf;
+   090D DD 6E FC      [19] 1622 	ld	l,-4 (ix)
+   0910 18 22         [12] 1623 	jr	00114$
+   0912                    1624 00113$:
+                           1625 ;src/Enemy.c:420: else if(distl>distf && distl>distr){
+   0912 DD 7E FC      [19] 1626 	ld	a,-4 (ix)
+   0915 95            [ 4] 1627 	sub	a, l
+   0916 30 09         [12] 1628 	jr	NC,00109$
+   0918 7A            [ 4] 1629 	ld	a,d
+   0919 95            [ 4] 1630 	sub	a, l
+   091A 30 05         [12] 1631 	jr	NC,00109$
+                           1632 ;src/Enemy.c:421: d=dl;
+   091C DD 5E F9      [19] 1633 	ld	e,-7 (ix)
+                           1634 ;src/Enemy.c:422: dist=distl;
+   091F 18 13         [12] 1635 	jr	00114$
+   0921                    1636 00109$:
+                           1637 ;src/Enemy.c:424: else if(distr>distf && distr>distl){
+   0921 DD 7E FC      [19] 1638 	ld	a,-4 (ix)
+   0924 92            [ 4] 1639 	sub	a, d
+   0925 30 07         [12] 1640 	jr	NC,00105$
+   0927 7D            [ 4] 1641 	ld	a,l
+   0928 92            [ 4] 1642 	sub	a, d
+   0929 30 03         [12] 1643 	jr	NC,00105$
+                           1644 ;src/Enemy.c:425: d=dr;
+                           1645 ;src/Enemy.c:426: dist=distr;
+   092B 6A            [ 4] 1646 	ld	l,d
+   092C 18 06         [12] 1647 	jr	00114$
+   092E                    1648 00105$:
+                           1649 ;src/Enemy.c:429: d=df;
+   092E DD 5E FB      [19] 1650 	ld	e,-5 (ix)
+                           1651 ;src/Enemy.c:430: dist=distf;
+   0931 DD 6E FC      [19] 1652 	ld	l,-4 (ix)
+   0934                    1653 00114$:
+                           1654 ;src/Enemy.c:433: if(dist){
+   0934 7D            [ 4] 1655 	ld	a,l
+   0935 B7            [ 4] 1656 	or	a, a
+   0936 28 09         [12] 1657 	jr	Z,00118$
+                           1658 ;src/Enemy.c:434: enemy_move(e,d);
+   0938 7B            [ 4] 1659 	ld	a,e
+   0939 F5            [11] 1660 	push	af
+   093A 33            [ 6] 1661 	inc	sp
+   093B C5            [11] 1662 	push	bc
+   093C CDr63r05      [17] 1663 	call	_enemy_move
+   093F F1            [10] 1664 	pop	af
+   0940 33            [ 6] 1665 	inc	sp
+   0941                    1666 00118$:
+   0941 DD F9         [10] 1667 	ld	sp, ix
+   0943 DD E1         [14] 1668 	pop	ix
+   0945 C9            [10] 1669 	ret
+                           1670 ;src/Enemy.c:439: void enemy_roam(Enemy* e) {
+                           1671 ;	---------------------------------
+                           1672 ; Function enemy_roam
+                           1673 ; ---------------------------------
+   0946                    1674 _enemy_roam::
+   0946 DD E5         [15] 1675 	push	ix
+   0948 DD 21 00 00   [14] 1676 	ld	ix,#0
+   094C DD 39         [15] 1677 	add	ix,sp
+   094E 21 F8 FF      [10] 1678 	ld	hl,#-8
+   0951 39            [11] 1679 	add	hl,sp
+   0952 F9            [ 6] 1680 	ld	sp,hl
+                           1681 ;src/Enemy.c:440: u8 d, nd=0;
+   0953 0E 00         [ 7] 1682 	ld	c,#0x00
+                           1683 ;src/Enemy.c:444: d = e->direction;
+   0955 DD 7E 04      [19] 1684 	ld	a,4 (ix)
+   0958 DD 77 FE      [19] 1685 	ld	-2 (ix),a
+   095B DD 7E 05      [19] 1686 	ld	a,5 (ix)
+   095E DD 77 FF      [19] 1687 	ld	-1 (ix),a
+   0961 DD 5E FE      [19] 1688 	ld	e,-2 (ix)
+   0964 DD 56 FF      [19] 1689 	ld	d,-1 (ix)
+   0967 13            [ 6] 1690 	inc	de
+   0968 13            [ 6] 1691 	inc	de
+   0969 1A            [ 7] 1692 	ld	a,(de)
+   096A 47            [ 4] 1693 	ld	b,a
+                           1694 ;src/Enemy.c:445: pos = &(e->position);
+   096B DD 7E FE      [19] 1695 	ld	a,-2 (ix)
+   096E C6 03         [ 7] 1696 	add	a, #0x03
+   0970 DD 77 F8      [19] 1697 	ld	-8 (ix),a
+   0973 DD 7E FF      [19] 1698 	ld	a,-1 (ix)
+   0976 CE 00         [ 7] 1699 	adc	a, #0x00
+   0978 DD 77 F9      [19] 1700 	ld	-7 (ix),a
+                           1701 ;src/Enemy.c:447: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
+   097B C5            [11] 1702 	push	bc
+   097C D5            [11] 1703 	push	de
+   097D C5            [11] 1704 	push	bc
+   097E 33            [ 6] 1705 	inc	sp
+   097F DD 6E F8      [19] 1706 	ld	l,-8 (ix)
+   0982 DD 66 F9      [19] 1707 	ld	h,-7 (ix)
+   0985 E5            [11] 1708 	push	hl
+   0986 CDr16r04      [17] 1709 	call	_enemy_collision_at_dir
+   0989 F1            [10] 1710 	pop	af
+   098A 33            [ 6] 1711 	inc	sp
+   098B D1            [10] 1712 	pop	de
+   098C C1            [10] 1713 	pop	bc
+   098D 7D            [ 4] 1714 	ld	a,l
+   098E B7            [ 4] 1715 	or	a, a
+   098F 20 07         [12] 1716 	jr	NZ,00102$
+                           1717 ;src/Enemy.c:449: directions[nd]=d;
+   0991 21 02 00      [10] 1718 	ld	hl,#0x0002
+   0994 39            [11] 1719 	add	hl,sp
+   0995 70            [ 7] 1720 	ld	(hl),b
+                           1721 ;src/Enemy.c:450: ++nd;
+   0996 0E 01         [ 7] 1722 	ld	c,#0x01
+   0998                    1723 00102$:
+                           1724 ;src/Enemy.c:454: d=((e->direction+2)&7);
+   0998 1A            [ 7] 1725 	ld	a,(de)
+   0999 C6 02         [ 7] 1726 	add	a, #0x02
+   099B E6 07         [ 7] 1727 	and	a, #0x07
+   099D 47            [ 4] 1728 	ld	b,a
+                           1729 ;src/Enemy.c:456: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
+   099E C5            [11] 1730 	push	bc
+   099F D5            [11] 1731 	push	de
+   09A0 C5            [11] 1732 	push	bc
+   09A1 33            [ 6] 1733 	inc	sp
+   09A2 DD 6E F8      [19] 1734 	ld	l,-8 (ix)
+   09A5 DD 66 F9      [19] 1735 	ld	h,-7 (ix)
+   09A8 E5            [11] 1736 	push	hl
+   09A9 CDr16r04      [17] 1737 	call	_enemy_collision_at_dir
+   09AC F1            [10] 1738 	pop	af
+   09AD 33            [ 6] 1739 	inc	sp
+   09AE D1            [10] 1740 	pop	de
+   09AF C1            [10] 1741 	pop	bc
+   09B0 7D            [ 4] 1742 	ld	a,l
+   09B1 B7            [ 4] 1743 	or	a, a
+   09B2 20 0D         [12] 1744 	jr	NZ,00104$
+                           1745 ;src/Enemy.c:458: directions[nd]=d;
+   09B4 21 02 00      [10] 1746 	ld	hl,#0x0002
+   09B7 39            [11] 1747 	add	hl,sp
+   09B8 7D            [ 4] 1748 	ld	a,l
+   09B9 81            [ 4] 1749 	add	a, c
+   09BA 6F            [ 4] 1750 	ld	l,a
+   09BB 7C            [ 4] 1751 	ld	a,h
+   09BC CE 00         [ 7] 1752 	adc	a, #0x00
+   09BE 67            [ 4] 1753 	ld	h,a
+   09BF 70            [ 7] 1754 	ld	(hl),b
+                           1755 ;src/Enemy.c:459: ++nd;
+   09C0 0C            [ 4] 1756 	inc	c
+   09C1                    1757 00104$:
+                           1758 ;src/Enemy.c:463: d=((e->direction-2)&7);
+   09C1 1A            [ 7] 1759 	ld	a,(de)
+   09C2 C6 FE         [ 7] 1760 	add	a,#0xFE
+   09C4 E6 07         [ 7] 1761 	and	a, #0x07
+   09C6 47            [ 4] 1762 	ld	b,a
+                           1763 ;src/Enemy.c:465: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
+   09C7 C5            [11] 1764 	push	bc
+   09C8 D5            [11] 1765 	push	de
+   09C9 C5            [11] 1766 	push	bc
+   09CA 33            [ 6] 1767 	inc	sp
+   09CB DD 6E F8      [19] 1768 	ld	l,-8 (ix)
+   09CE DD 66 F9      [19] 1769 	ld	h,-7 (ix)
+   09D1 E5            [11] 1770 	push	hl
+   09D2 CDr16r04      [17] 1771 	call	_enemy_collision_at_dir
+   09D5 F1            [10] 1772 	pop	af
+   09D6 33            [ 6] 1773 	inc	sp
+   09D7 D1            [10] 1774 	pop	de
+   09D8 C1            [10] 1775 	pop	bc
+   09D9 7D            [ 4] 1776 	ld	a,l
+   09DA B7            [ 4] 1777 	or	a, a
+   09DB 20 0D         [12] 1778 	jr	NZ,00106$
+                           1779 ;src/Enemy.c:467: directions[nd]=d;
+   09DD 21 02 00      [10] 1780 	ld	hl,#0x0002
+   09E0 39            [11] 1781 	add	hl,sp
+   09E1 7D            [ 4] 1782 	ld	a,l
+   09E2 81            [ 4] 1783 	add	a, c
+   09E3 6F            [ 4] 1784 	ld	l,a
+   09E4 7C            [ 4] 1785 	ld	a,h
+   09E5 CE 00         [ 7] 1786 	adc	a, #0x00
+   09E7 67            [ 4] 1787 	ld	h,a
+   09E8 70            [ 7] 1788 	ld	(hl),b
+                           1789 ;src/Enemy.c:468: ++nd;
+   09E9 0C            [ 4] 1790 	inc	c
+   09EA                    1791 00106$:
+                           1792 ;src/Enemy.c:472: if(nd==0){//If cannot move any other direction than back
+   09EA 79            [ 4] 1793 	ld	a,c
+   09EB B7            [ 4] 1794 	or	a, a
+   09EC 20 1D         [12] 1795 	jr	NZ,00110$
+                           1796 ;src/Enemy.c:474: d=((e->direction+4)&7);
+   09EE 1A            [ 7] 1797 	ld	a,(de)
+   09EF C6 04         [ 7] 1798 	add	a, #0x04
+   09F1 E6 07         [ 7] 1799 	and	a, #0x07
+   09F3 47            [ 4] 1800 	ld	b,a
+                           1801 ;src/Enemy.c:476: if(!enemy_collision_at_dir(pos,d)){//If not wall nor enemy forward
+   09F4 C5            [11] 1802 	push	bc
+   09F5 C5            [11] 1803 	push	bc
+   09F6 33            [ 6] 1804 	inc	sp
+   09F7 DD 6E F8      [19] 1805 	ld	l,-8 (ix)
+   09FA DD 66 F9      [19] 1806 	ld	h,-7 (ix)
+   09FD E5            [11] 1807 	push	hl
+   09FE CDr16r04      [17] 1808 	call	_enemy_collision_at_dir
+   0A01 F1            [10] 1809 	pop	af
+   0A02 33            [ 6] 1810 	inc	sp
+   0A03 C1            [10] 1811 	pop	bc
+   0A04 7D            [ 4] 1812 	ld	a,l
+   0A05 B7            [ 4] 1813 	or	a, a
+   0A06 20 1F         [12] 1814 	jr	NZ,00111$
+                           1815 ;src/Enemy.c:478: ++nd;
+   0A08 0C            [ 4] 1816 	inc	c
+   0A09 18 1C         [12] 1817 	jr	00111$
+   0A0B                    1818 00110$:
+                           1819 ;src/Enemy.c:483: d=directions[cpct_getRandom_mxor_u8()%(nd)];
+   0A0B 21 02 00      [10] 1820 	ld	hl,#0x0002
+   0A0E 39            [11] 1821 	add	hl,sp
+   0A0F E5            [11] 1822 	push	hl
+   0A10 C5            [11] 1823 	push	bc
+   0A11 CDr00r00      [17] 1824 	call	_cpct_getRandom_mxor_u8
+   0A14 55            [ 4] 1825 	ld	d,l
+   0A15 C1            [10] 1826 	pop	bc
+   0A16 C5            [11] 1827 	push	bc
+   0A17 79            [ 4] 1828 	ld	a,c
+   0A18 F5            [11] 1829 	push	af
+   0A19 33            [ 6] 1830 	inc	sp
+   0A1A D5            [11] 1831 	push	de
+   0A1B 33            [ 6] 1832 	inc	sp
+   0A1C CDr00r00      [17] 1833 	call	__moduchar
+   0A1F F1            [10] 1834 	pop	af
+   0A20 5D            [ 4] 1835 	ld	e,l
+   0A21 C1            [10] 1836 	pop	bc
+   0A22 E1            [10] 1837 	pop	hl
+   0A23 16 00         [ 7] 1838 	ld	d,#0x00
+   0A25 19            [11] 1839 	add	hl,de
+   0A26 46            [ 7] 1840 	ld	b,(hl)
+   0A27                    1841 00111$:
+                           1842 ;src/Enemy.c:486: if(nd){//If can move
+   0A27 79            [ 4] 1843 	ld	a,c
+   0A28 B7            [ 4] 1844 	or	a, a
+   0A29 28 0E         [12] 1845 	jr	Z,00114$
+                           1846 ;src/Enemy.c:487: enemy_move(e, d);
+   0A2B C5            [11] 1847 	push	bc
+   0A2C 33            [ 6] 1848 	inc	sp
+   0A2D DD 6E FE      [19] 1849 	ld	l,-2 (ix)
+   0A30 DD 66 FF      [19] 1850 	ld	h,-1 (ix)
+   0A33 E5            [11] 1851 	push	hl
+   0A34 CDr63r05      [17] 1852 	call	_enemy_move
+   0A37 F1            [10] 1853 	pop	af
+   0A38 33            [ 6] 1854 	inc	sp
+   0A39                    1855 00114$:
+   0A39 DD F9         [10] 1856 	ld	sp, ix
+   0A3B DD E1         [14] 1857 	pop	ix
+   0A3D C9            [10] 1858 	ret
+                           1859 ;src/Enemy.c:491: void enemy_AI_passive(Enemy* e) {
+                           1860 ;	---------------------------------
+                           1861 ; Function enemy_AI_passive
+                           1862 ; ---------------------------------
+   0A3E                    1863 _enemy_AI_passive::
+   0A3E DD E5         [15] 1864 	push	ix
+   0A40 DD 21 00 00   [14] 1865 	ld	ix,#0
+   0A44 DD 39         [15] 1866 	add	ix,sp
+   0A46 F5            [11] 1867 	push	af
+   0A47 3B            [ 6] 1868 	dec	sp
+                           1869 ;src/Enemy.c:494: x = e->position.x;
+   0A48 DD 4E 04      [19] 1870 	ld	c,4 (ix)
+   0A4B DD 46 05      [19] 1871 	ld	b,5 (ix)
+   0A4E C5            [11] 1872 	push	bc
+   0A4F FD E1         [14] 1873 	pop	iy
+   0A51 FD 7E 03      [19] 1874 	ld	a,3 (iy)
+   0A54 DD 77 FE      [19] 1875 	ld	-2 (ix),a
+                           1876 ;src/Enemy.c:495: y = e->position.y;
+   0A57 69            [ 4] 1877 	ld	l, c
+   0A58 60            [ 4] 1878 	ld	h, b
+   0A59 11 04 00      [10] 1879 	ld	de, #0x0004
+   0A5C 19            [11] 1880 	add	hl, de
+   0A5D 5E            [ 7] 1881 	ld	e,(hl)
+                           1882 ;src/Enemy.c:497: hp=e->hitPoints;
+   0A5E C5            [11] 1883 	push	bc
+   0A5F FD E1         [14] 1884 	pop	iy
+   0A61 FD 7E 05      [19] 1885 	ld	a,5 (iy)
+   0A64 DD 77 FD      [19] 1886 	ld	-3 (ix),a
+                           1887 ;src/Enemy.c:499: if(dist(player_position.x, player_position.y, x,y)<ENEMY_VIEW_DISTANCE){
+   0A67 21r01r00      [10] 1888 	ld	hl, #_player_position + 1
+   0A6A 56            [ 7] 1889 	ld	d,(hl)
+   0A6B 3Ar00r00      [13] 1890 	ld	a,(#_player_position + 0)
+   0A6E DD 77 FF      [19] 1891 	ld	-1 (ix),a
+   0A71 C5            [11] 1892 	push	bc
+   0A72 7B            [ 4] 1893 	ld	a,e
+   0A73 F5            [11] 1894 	push	af
+   0A74 33            [ 6] 1895 	inc	sp
+   0A75 DD 7E FE      [19] 1896 	ld	a,-2 (ix)
+   0A78 F5            [11] 1897 	push	af
+   0A79 33            [ 6] 1898 	inc	sp
+   0A7A D5            [11] 1899 	push	de
+   0A7B 33            [ 6] 1900 	inc	sp
+   0A7C DD 7E FF      [19] 1901 	ld	a,-1 (ix)
+   0A7F F5            [11] 1902 	push	af
+   0A80 33            [ 6] 1903 	inc	sp
+   0A81 CDr8Dr00      [17] 1904 	call	_dist
+   0A84 F1            [10] 1905 	pop	af
+   0A85 F1            [10] 1906 	pop	af
+   0A86 C1            [10] 1907 	pop	bc
+   0A87 7D            [ 4] 1908 	ld	a,l
+   0A88 D6 06         [ 7] 1909 	sub	a, #0x06
+   0A8A 30 39         [12] 1910 	jr	NC,00112$
+                           1911 ;src/Enemy.c:500: if(enemy_can_view(e)){
+   0A8C C5            [11] 1912 	push	bc
+   0A8D C5            [11] 1913 	push	bc
+   0A8E CDrBCr00      [17] 1914 	call	_enemy_can_view
+   0A91 F1            [10] 1915 	pop	af
+   0A92 C1            [10] 1916 	pop	bc
+   0A93 7D            [ 4] 1917 	ld	a,l
+   0A94 B7            [ 4] 1918 	or	a, a
+   0A95 28 2E         [12] 1919 	jr	Z,00112$
+                           1920 ;src/Enemy.c:501: if(hp < ENEMY_INITIAL_HP){//Aggresive
+   0A97 DD 7E FD      [19] 1921 	ld	a,-3 (ix)
+   0A9A D6 FF         [ 7] 1922 	sub	a, #0xFF
+   0A9C 30 19         [12] 1923 	jr	NC,00107$
+                           1924 ;src/Enemy.c:502: if(enemy_is_adjacent_to_player(e)){//Attack
+   0A9E C5            [11] 1925 	push	bc
+   0A9F C5            [11] 1926 	push	bc
+   0AA0 CDr6Ar02      [17] 1927 	call	_enemy_is_adjacent_to_player
+   0AA3 F1            [10] 1928 	pop	af
+   0AA4 C1            [10] 1929 	pop	bc
+   0AA5 7D            [ 4] 1930 	ld	a,l
+   0AA6 B7            [ 4] 1931 	or	a, a
+   0AA7 28 07         [12] 1932 	jr	Z,00102$
+                           1933 ;src/Enemy.c:503: enemy_attack(e);
+   0AA9 C5            [11] 1934 	push	bc
+   0AAA CDrC0r06      [17] 1935 	call	_enemy_attack
+   0AAD F1            [10] 1936 	pop	af
+                           1937 ;src/Enemy.c:504: return;
+   0AAE 18 1A         [12] 1938 	jr	00113$
+   0AB0                    1939 00102$:
+                           1940 ;src/Enemy.c:507: enemy_go_to_player(e);
+   0AB0 C5            [11] 1941 	push	bc
+   0AB1 CDr45r07      [17] 1942 	call	_enemy_go_to_player
+   0AB4 F1            [10] 1943 	pop	af
+                           1944 ;src/Enemy.c:508: return;
+   0AB5 18 13         [12] 1945 	jr	00113$
+   0AB7                    1946 00107$:
+                           1947 ;src/Enemy.c:511: else if(hp < ENEMY_INITIAL_HP/4){ //Flee
+   0AB7 DD 7E FD      [19] 1948 	ld	a,-3 (ix)
+   0ABA D6 3F         [ 7] 1949 	sub	a, #0x3F
+   0ABC 30 07         [12] 1950 	jr	NC,00112$
+                           1951 ;src/Enemy.c:512: enemy_flee(e);
+   0ABE C5            [11] 1952 	push	bc
+   0ABF CDr21r08      [17] 1953 	call	_enemy_flee
+   0AC2 F1            [10] 1954 	pop	af
+                           1955 ;src/Enemy.c:513: return;
+   0AC3 18 05         [12] 1956 	jr	00113$
+   0AC5                    1957 00112$:
+                           1958 ;src/Enemy.c:517: enemy_roam(e);   
+   0AC5 C5            [11] 1959 	push	bc
+   0AC6 CDr46r09      [17] 1960 	call	_enemy_roam
+   0AC9 F1            [10] 1961 	pop	af
+   0ACA                    1962 00113$:
+   0ACA DD F9         [10] 1963 	ld	sp, ix
+   0ACC DD E1         [14] 1964 	pop	ix
+   0ACE C9            [10] 1965 	ret
+                           1966 ;src/Enemy.c:520: void enemy_AI_aggressive(Enemy* e){
+                           1967 ;	---------------------------------
+                           1968 ; Function enemy_AI_aggressive
+                           1969 ; ---------------------------------
+   0ACF                    1970 _enemy_AI_aggressive::
+   0ACF DD E5         [15] 1971 	push	ix
+   0AD1 DD 21 00 00   [14] 1972 	ld	ix,#0
+   0AD5 DD 39         [15] 1973 	add	ix,sp
+   0AD7 F5            [11] 1974 	push	af
+                           1975 ;src/Enemy.c:523: x = e->position.x;
+   0AD8 DD 4E 04      [19] 1976 	ld	c,4 (ix)
+   0ADB DD 46 05      [19] 1977 	ld	b,5 (ix)
+   0ADE C5            [11] 1978 	push	bc
+   0ADF FD E1         [14] 1979 	pop	iy
+   0AE1 FD 7E 03      [19] 1980 	ld	a,3 (iy)
+   0AE4 DD 77 FE      [19] 1981 	ld	-2 (ix),a
+                           1982 ;src/Enemy.c:524: y = e->position.y;
+   0AE7 C5            [11] 1983 	push	bc
+   0AE8 FD E1         [14] 1984 	pop	iy
+   0AEA FD 7E 04      [19] 1985 	ld	a,4 (iy)
+   0AED DD 77 FF      [19] 1986 	ld	-1 (ix),a
+                           1987 ;src/Enemy.c:526: if(dist(player_position.x, player_position.y, x,y)<ENEMY_VIEW_DISTANCE){
+   0AF0 21r01r00      [10] 1988 	ld	hl, #_player_position + 1
+   0AF3 56            [ 7] 1989 	ld	d,(hl)
+   0AF4 21r00r00      [10] 1990 	ld	hl, #_player_position + 0
+   0AF7 5E            [ 7] 1991 	ld	e,(hl)
+   0AF8 C5            [11] 1992 	push	bc
+   0AF9 DD 66 FF      [19] 1993 	ld	h,-1 (ix)
+   0AFC DD 6E FE      [19] 1994 	ld	l,-2 (ix)
+   0AFF E5            [11] 1995 	push	hl
+   0B00 D5            [11] 1996 	push	de
+   0B01 CDr8Dr00      [17] 1997 	call	_dist
+   0B04 F1            [10] 1998 	pop	af
+   0B05 F1            [10] 1999 	pop	af
+   0B06 C1            [10] 2000 	pop	bc
+   0B07 7D            [ 4] 2001 	ld	a,l
+   0B08 D6 06         [ 7] 2002 	sub	a, #0x06
+   0B0A 30 24         [12] 2003 	jr	NC,00107$
+                           2004 ;src/Enemy.c:527: if(enemy_can_view(e)){
+   0B0C C5            [11] 2005 	push	bc
+   0B0D C5            [11] 2006 	push	bc
+   0B0E CDrBCr00      [17] 2007 	call	_enemy_can_view
+   0B11 F1            [10] 2008 	pop	af
+   0B12 C1            [10] 2009 	pop	bc
+   0B13 7D            [ 4] 2010 	ld	a,l
+   0B14 B7            [ 4] 2011 	or	a, a
+   0B15 28 19         [12] 2012 	jr	Z,00107$
+                           2013 ;src/Enemy.c:528: if(enemy_is_adjacent_to_player(e)){//Attack
+   0B17 C5            [11] 2014 	push	bc
+   0B18 C5            [11] 2015 	push	bc
+   0B19 CDr6Ar02      [17] 2016 	call	_enemy_is_adjacent_to_player
+   0B1C F1            [10] 2017 	pop	af
+   0B1D C1            [10] 2018 	pop	bc
+   0B1E 7D            [ 4] 2019 	ld	a,l
+   0B1F B7            [ 4] 2020 	or	a, a
+   0B20 28 07         [12] 2021 	jr	Z,00102$
+                           2022 ;src/Enemy.c:529: enemy_attack(e);
+   0B22 C5            [11] 2023 	push	bc
+   0B23 CDrC0r06      [17] 2024 	call	_enemy_attack
+   0B26 F1            [10] 2025 	pop	af
+                           2026 ;src/Enemy.c:530: return;
+   0B27 18 0C         [12] 2027 	jr	00108$
+   0B29                    2028 00102$:
+                           2029 ;src/Enemy.c:533: enemy_go_to_player(e);
+   0B29 C5            [11] 2030 	push	bc
+   0B2A CDr45r07      [17] 2031 	call	_enemy_go_to_player
+   0B2D F1            [10] 2032 	pop	af
+                           2033 ;src/Enemy.c:534: return;
+   0B2E 18 05         [12] 2034 	jr	00108$
+   0B30                    2035 00107$:
+                           2036 ;src/Enemy.c:538: enemy_roam(e);     
+   0B30 C5            [11] 2037 	push	bc
+   0B31 CDr46r09      [17] 2038 	call	_enemy_roam
+   0B34 F1            [10] 2039 	pop	af
+   0B35                    2040 00108$:
+   0B35 DD F9         [10] 2041 	ld	sp, ix
+   0B37 DD E1         [14] 2042 	pop	ix
+   0B39 C9            [10] 2043 	ret
+                           2044 ;src/Enemy.c:585: void enemy_update(){
+                           2045 ;	---------------------------------
+                           2046 ; Function enemy_update
+                           2047 ; ---------------------------------
+   0B3A                    2048 _enemy_update::
+                           2049 ;src/Enemy.c:587: Enemy* enemy=enemyArray;
+   0B3A 01r01r00      [10] 2050 	ld	bc,#_enemyArray+0
+                           2051 ;src/Enemy.c:589: for(i;i;--i){
+   0B3D 1E 0F         [ 7] 2052 	ld	e,#0x0F
+   0B3F                    2053 00108$:
+   0B3F 7B            [ 4] 2054 	ld	a,e
+   0B40 B7            [ 4] 2055 	or	a, a
+   0B41 C8            [11] 2056 	ret	Z
+                           2057 ;src/Enemy.c:590: if(enemy->hitPoints){
+   0B42 C5            [11] 2058 	push	bc
+   0B43 FD E1         [14] 2059 	pop	iy
+   0B45 FD 7E 05      [19] 2060 	ld	a,5 (iy)
+   0B48 B7            [ 4] 2061 	or	a, a
+   0B49 28 21         [12] 2062 	jr	Z,00105$
+                           2063 ;src/Enemy.c:591: switch(enemy->type){
+   0B4B 69            [ 4] 2064 	ld	l, c
+   0B4C 60            [ 4] 2065 	ld	h, b
+   0B4D 23            [ 6] 2066 	inc	hl
+   0B4E 56            [ 7] 2067 	ld	d,(hl)
+   0B4F 7A            [ 4] 2068 	ld	a,d
+   0B50 B7            [ 4] 2069 	or	a, a
+   0B51 28 05         [12] 2070 	jr	Z,00101$
+   0B53 15            [ 4] 2071 	dec	d
+   0B54 28 0D         [12] 2072 	jr	Z,00102$
+   0B56 18 14         [12] 2073 	jr	00105$
+                           2074 ;src/Enemy.c:592: case 0:{
+   0B58                    2075 00101$:
+                           2076 ;src/Enemy.c:593: enemy_AI_passive(enemy);
+   0B58 C5            [11] 2077 	push	bc
+   0B59 D5            [11] 2078 	push	de
+   0B5A C5            [11] 2079 	push	bc
+   0B5B CDr3Er0A      [17] 2080 	call	_enemy_AI_passive
+   0B5E F1            [10] 2081 	pop	af
+   0B5F D1            [10] 2082 	pop	de
+   0B60 C1            [10] 2083 	pop	bc
+                           2084 ;src/Enemy.c:594: break;
+   0B61 18 09         [12] 2085 	jr	00105$
+                           2086 ;src/Enemy.c:596: case 1:{
+   0B63                    2087 00102$:
+                           2088 ;src/Enemy.c:597: enemy_AI_aggressive(enemy);
+   0B63 C5            [11] 2089 	push	bc
+   0B64 D5            [11] 2090 	push	de
+   0B65 C5            [11] 2091 	push	bc
+   0B66 CDrCFr0A      [17] 2092 	call	_enemy_AI_aggressive
+   0B69 F1            [10] 2093 	pop	af
+   0B6A D1            [10] 2094 	pop	de
+   0B6B C1            [10] 2095 	pop	bc
+                           2096 ;src/Enemy.c:608: }
+   0B6C                    2097 00105$:
+                           2098 ;src/Enemy.c:610: ++enemy;
+   0B6C 21 08 00      [10] 2099 	ld	hl,#0x0008
+   0B6F 09            [11] 2100 	add	hl,bc
+   0B70 4D            [ 4] 2101 	ld	c,l
+   0B71 44            [ 4] 2102 	ld	b,h
+                           2103 ;src/Enemy.c:589: for(i;i;--i){
+   0B72 1D            [ 4] 2104 	dec	e
+   0B73 18 CA         [12] 2105 	jr	00108$
+                           2106 	.area _CODE
+                           2107 	.area _INITIALIZER
+                           2108 	.area _CABS (ABS)

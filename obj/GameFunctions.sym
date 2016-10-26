@@ -7,20 +7,29 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  1 _camelot_warriors_mode                                         0004 GR
+  1 _camelot_warriors_mode                                         0007 GR
+    _cpct_akp_musicInit                                            **** GX
+    _cpct_akp_musicPlay                                            **** GX
+    _cpct_akp_songLoopTimes                                        **** GX
+    _cpct_akp_stop                                                 **** GX
     _cpct_disableFirmware                                          **** GX
     _cpct_fw2hw                                                    **** GX
     _cpct_setInterruptHandler                                      **** GX
     _cpct_setPALColour                                             **** GX
     _cpct_setPalette                                               **** GX
     _cpct_setVideoMode                                             **** GX
+  1 _currentMusic                                                  0005 GR
     _g_palette                                                     **** GX
-  0 _game_init                                                     000A GR
+  0 _game_init                                                     0065 GR
   0 _game_interrupt_handler                                        0000 GR
     _level_init_palettes                                           **** GX
-  0 _movement_directionArray                                       004E GR
+  0 _movement_directionArray                                       0050 GR
   1 _music_on                                                      0002 GR
   1 _r_counter                                                     0000 GR
+  0 _remove_music                                                  0058 GR
+  0 _set_music                                                     0037 GR
+  0 _stop_music                                                    0062 GR
+  1 _syncmusic_counter                                             0004 GR
   1 _textures_on                                                   0003 GR
 
 
@@ -29,8 +38,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   56   flags    0
-   1 _DATA                                      size    5   flags    0
+   0 _CODE                                      size   B4   flags    0
+   1 _DATA                                      size    8   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

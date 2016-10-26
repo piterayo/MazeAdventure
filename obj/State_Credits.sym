@@ -7,33 +7,32 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       00B9 R
-  0 ___str_1                                                       00C1 R
-  0 ___str_2                                                       00DA R
-  0 ___str_3                                                       00DF R
-  0 ___str_4                                                       00F1 R
-  0 ___str_5                                                       00F8 R
-  0 ___str_6                                                       0105 R
-  0 ___str_7                                                       010A R
+  0 ___str_0                                                       0095 R
+  0 ___str_1                                                       009D R
+  0 ___str_2                                                       00B6 R
+  0 ___str_3                                                       00BB R
+  0 ___str_4                                                       00CD R
+  0 ___str_5                                                       00D4 R
     _cpct_drawSolidBox                                             **** GX
     _cpct_isAnyKeyPressed_f                                        **** GX
     _g_colors                                                      **** GX
     _print_transparent_text                                        **** GX
   0 _state_credits_enter                                           0000 GR
-  0 _state_credits_exit                                            0131 GR
-  0 _state_credits_input                                           0124 GR
-  0 _state_credits_render                                          0130 GR
-  0 _state_credits_return                                          0123 GR
-  0 _state_credits_update                                          012D GR
+  0 _state_credits_exit                                            00EF GR
+  0 _state_credits_input                                           00E2 GR
+  0 _state_credits_render                                          00EE GR
+  0 _state_credits_return                                          00E1 GR
+  0 _state_credits_update                                          00EB GR
     _statemanager_close_state                                      **** GX
     _statemanager_input_accepted                                   **** GX
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  146   flags    0
+   0 _CODE                                      size  104   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

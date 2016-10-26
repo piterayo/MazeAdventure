@@ -9,8 +9,6 @@ Game developed for CPCRetroDev 2016 contest.
             Albert Sirvent Jerez        @piterayo
         Graphics: 
             Alejandro Padilla Lozoya    @Sylph_R
-        Sfx: 
-            Alberto Salieto Gómez       @Venisir
         Music:
             Carlos Blaya Cases
                         

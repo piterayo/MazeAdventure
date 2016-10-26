@@ -47,6 +47,7 @@ void state_options_update(){
             }
             case 1:{//Sound
                 music_on=!music_on;
+                if(!music_on) cpct_akp_stop ();
                 ui_options_set_strings();
                 break;
             }

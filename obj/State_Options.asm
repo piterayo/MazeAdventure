@@ -20,6 +20,7 @@
 	.globl _ui_options_init
 	.globl _statemanager_input_accepted
 	.globl _statemanager_close_state
+	.globl _cpct_akp_stop
 	.globl _cpct_drawSolidBox
 	.globl _cpct_isKeyPressed
 	.globl _state_options_enter
@@ -157,15 +158,15 @@ _state_options_update::
 	sub	a, e
 	jp	C,_ui_options_unselect_entry
 	ld	d,#0x00
-	ld	hl,#00117$
+	ld	hl,#00123$
 	add	hl,de
 	add	hl,de
 ;src/State_Options.c:43: case 0:{//Textures
 	jp	(hl)
-00117$:
+00123$:
 	jr	00101$
 	jr	00102$
-	jr	00103$
+	jr	00105$
 00101$:
 ;src/State_Options.c:44: textures_on=!textures_on;
 	ld	a,(#_textures_on + 0)
@@ -189,30 +190,36 @@ _state_options_update::
 	ld	c,a
 	ld	hl,#_music_on + 0
 	ld	(hl), c
-;src/State_Options.c:50: ui_options_set_strings();
+;src/State_Options.c:50: if(!music_on) cpct_akp_stop ();
+	ld	a,(#_music_on + 0)
+	or	a, a
+	jr	NZ,00104$
+	call	_cpct_akp_stop
+00104$:
+;src/State_Options.c:51: ui_options_set_strings();
 	call	_ui_options_set_strings
-;src/State_Options.c:51: break;
+;src/State_Options.c:52: break;
 	jp	_ui_options_unselect_entry
-;src/State_Options.c:53: case 2:{
-00103$:
-;src/State_Options.c:54: statemanager_close_state();
+;src/State_Options.c:54: case 2:{
+00105$:
+;src/State_Options.c:55: statemanager_close_state();
 	call	_statemanager_close_state
-;src/State_Options.c:57: }
-;src/State_Options.c:59: ui_options_unselect_entry();
+;src/State_Options.c:58: }
+;src/State_Options.c:60: ui_options_unselect_entry();
 	jp  _ui_options_unselect_entry
-;src/State_Options.c:62: void state_options_render(){
+;src/State_Options.c:63: void state_options_render(){
 ;	---------------------------------
 ; Function state_options_render
 ; ---------------------------------
 _state_options_render::
-;src/State_Options.c:63: ui_options_render_refresh();
+;src/State_Options.c:64: ui_options_render_refresh();
 	jp  _ui_options_render_refresh
-;src/State_Options.c:66: void state_options_exit(){
+;src/State_Options.c:67: void state_options_exit(){
 ;	---------------------------------
 ; Function state_options_exit
 ; ---------------------------------
 _state_options_exit::
-;src/State_Options.c:67: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 64), g_colors[1], 34, 80);
+;src/State_Options.c:68: cpct_drawSolidBox (cpctm_screenPtr(CPCT_VMEM_START, 23, 64), g_colors[1], 34, 80);
 	ld	hl, #(_g_colors + 0x0001) + 0
 	ld	b,(hl)
 	ld	hl,#0x5022

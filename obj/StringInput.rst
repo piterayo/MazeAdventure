@@ -22,10 +22,10 @@
                              22 ; ram data
                              23 ;--------------------------------------------------------
                              24 	.area _DATA
-   7DB4                      25 _inputString::
-   7DB4                      26 	.ds 19
-   7DC7                      27 _currentPos::
-   7DC7                      28 	.ds 1
+   872E                      25 _inputString::
+   872E                      26 	.ds 19
+   8741                      27 _currentPos::
+   8741                      28 	.ds 1
                              29 ;--------------------------------------------------------
                              30 ; ram data
                              31 ;--------------------------------------------------------
@@ -54,69 +54,69 @@
                              54 ;	---------------------------------
                              55 ; Function ui_stringinput_init
                              56 ; ---------------------------------
-   3C39                      57 _ui_stringinput_init::
+   3D87                      57 _ui_stringinput_init::
                              58 ;src/StringInput.c:11: currentPos=0;
-   3C39 21 C7 7D      [10]   59 	ld	hl,#_currentPos + 0
-   3C3C 36 00         [10]   60 	ld	(hl), #0x00
+   3D87 21 41 87      [10]   59 	ld	hl,#_currentPos + 0
+   3D8A 36 00         [10]   60 	ld	(hl), #0x00
                              61 ;src/StringInput.c:12: cpct_memset(inputString, 0, MAX_INPUT_STRING+1);
-   3C3E 21 13 00      [10]   62 	ld	hl,#0x0013
-   3C41 E5            [11]   63 	push	hl
-   3C42 AF            [ 4]   64 	xor	a, a
-   3C43 F5            [11]   65 	push	af
-   3C44 33            [ 6]   66 	inc	sp
-   3C45 21 B4 7D      [10]   67 	ld	hl,#_inputString
-   3C48 E5            [11]   68 	push	hl
-   3C49 CD 9A 7B      [17]   69 	call	_cpct_memset
-   3C4C C9            [10]   70 	ret
+   3D8C 21 13 00      [10]   62 	ld	hl,#0x0013
+   3D8F E5            [11]   63 	push	hl
+   3D90 AF            [ 4]   64 	xor	a, a
+   3D91 F5            [11]   65 	push	af
+   3D92 33            [ 6]   66 	inc	sp
+   3D93 21 2E 87      [10]   67 	ld	hl,#_inputString
+   3D96 E5            [11]   68 	push	hl
+   3D97 CD 11 85      [17]   69 	call	_cpct_memset
+   3D9A C9            [10]   70 	ret
                              71 ;src/StringInput.c:15: void ui_stringinput_add_char(u8 c){
                              72 ;	---------------------------------
                              73 ; Function ui_stringinput_add_char
                              74 ; ---------------------------------
-   3C4D                      75 _ui_stringinput_add_char::
+   3D9B                      75 _ui_stringinput_add_char::
                              76 ;src/StringInput.c:16: if(currentPos<MAX_INPUT_STRING){
-   3C4D 3A C7 7D      [13]   77 	ld	a,(#_currentPos + 0)
-   3C50 D6 12         [ 7]   78 	sub	a, #0x12
-   3C52 D0            [11]   79 	ret	NC
+   3D9B 3A 41 87      [13]   77 	ld	a,(#_currentPos + 0)
+   3D9E D6 12         [ 7]   78 	sub	a, #0x12
+   3DA0 D0            [11]   79 	ret	NC
                              80 ;src/StringInput.c:17: inputString[currentPos] = c;
-   3C53 01 B4 7D      [10]   81 	ld	bc,#_inputString+0
-   3C56 2A C7 7D      [16]   82 	ld	hl,(_currentPos)
-   3C59 26 00         [ 7]   83 	ld	h,#0x00
-   3C5B 09            [11]   84 	add	hl,bc
-   3C5C FD 21 02 00   [14]   85 	ld	iy,#2
-   3C60 FD 39         [15]   86 	add	iy,sp
-   3C62 FD 7E 00      [19]   87 	ld	a,0 (iy)
-   3C65 77            [ 7]   88 	ld	(hl),a
+   3DA1 01 2E 87      [10]   81 	ld	bc,#_inputString+0
+   3DA4 2A 41 87      [16]   82 	ld	hl,(_currentPos)
+   3DA7 26 00         [ 7]   83 	ld	h,#0x00
+   3DA9 09            [11]   84 	add	hl,bc
+   3DAA FD 21 02 00   [14]   85 	ld	iy,#2
+   3DAE FD 39         [15]   86 	add	iy,sp
+   3DB0 FD 7E 00      [19]   87 	ld	a,0 (iy)
+   3DB3 77            [ 7]   88 	ld	(hl),a
                              89 ;src/StringInput.c:18: ++currentPos;
-   3C66 21 C7 7D      [10]   90 	ld	hl, #_currentPos+0
-   3C69 34            [11]   91 	inc	(hl)
-   3C6A C9            [10]   92 	ret
+   3DB4 21 41 87      [10]   90 	ld	hl, #_currentPos+0
+   3DB7 34            [11]   91 	inc	(hl)
+   3DB8 C9            [10]   92 	ret
                              93 ;src/StringInput.c:22: char* const ui_stringinput_get_string(){
                              94 ;	---------------------------------
                              95 ; Function ui_stringinput_get_string
                              96 ; ---------------------------------
-   3C6B                      97 _ui_stringinput_get_string::
+   3DB9                      97 _ui_stringinput_get_string::
                              98 ;src/StringInput.c:23: return inputString;
-   3C6B 21 B4 7D      [10]   99 	ld	hl,#_inputString
-   3C6E C9            [10]  100 	ret
+   3DB9 21 2E 87      [10]   99 	ld	hl,#_inputString
+   3DBC C9            [10]  100 	ret
                             101 ;src/StringInput.c:26: void ui_stringinput_remove_char(){
                             102 ;	---------------------------------
                             103 ; Function ui_stringinput_remove_char
                             104 ; ---------------------------------
-   3C6F                     105 _ui_stringinput_remove_char::
+   3DBD                     105 _ui_stringinput_remove_char::
                             106 ;src/StringInput.c:27: if(currentPos>0){
-   3C6F 3A C7 7D      [13]  107 	ld	a,(#_currentPos + 0)
-   3C72 B7            [ 4]  108 	or	a, a
-   3C73 C8            [11]  109 	ret	Z
+   3DBD 3A 41 87      [13]  107 	ld	a,(#_currentPos + 0)
+   3DC0 B7            [ 4]  108 	or	a, a
+   3DC1 C8            [11]  109 	ret	Z
                             110 ;src/StringInput.c:28: --currentPos;
-   3C74 21 C7 7D      [10]  111 	ld	hl, #_currentPos+0
-   3C77 35            [11]  112 	dec	(hl)
+   3DC2 21 41 87      [10]  111 	ld	hl, #_currentPos+0
+   3DC5 35            [11]  112 	dec	(hl)
                             113 ;src/StringInput.c:29: inputString[currentPos] = 0;
-   3C78 01 B4 7D      [10]  114 	ld	bc,#_inputString+0
-   3C7B 2A C7 7D      [16]  115 	ld	hl,(_currentPos)
-   3C7E 26 00         [ 7]  116 	ld	h,#0x00
-   3C80 09            [11]  117 	add	hl,bc
-   3C81 36 00         [10]  118 	ld	(hl),#0x00
-   3C83 C9            [10]  119 	ret
+   3DC6 01 2E 87      [10]  114 	ld	bc,#_inputString+0
+   3DC9 2A 41 87      [16]  115 	ld	hl,(_currentPos)
+   3DCC 26 00         [ 7]  116 	ld	h,#0x00
+   3DCE 09            [11]  117 	add	hl,bc
+   3DCF 36 00         [10]  118 	ld	(hl),#0x00
+   3DD1 C9            [10]  119 	ret
                             120 	.area _CODE
                             121 	.area _INITIALIZER
                             122 	.area _CABS (ABS)

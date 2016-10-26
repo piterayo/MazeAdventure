@@ -7,14 +7,15 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
+    _cpct_akp_stop                                                 **** GX
     _cpct_drawSolidBox                                             **** GX
     _cpct_isKeyPressed                                             **** GX
     _g_colors                                                      **** GX
     _music_on                                                      **** GX
   0 _state_options_enter                                           0000 GR
-  0 _state_options_exit                                            00B0 GR
+  0 _state_options_exit                                            00B9 GR
   0 _state_options_input                                           002F GR
-  0 _state_options_render                                          00AD GR
+  0 _state_options_render                                          00B6 GR
   0 _state_options_return                                          002E GR
   0 _state_options_update                                          005E GR
     _statemanager_close_state                                      **** GX
@@ -31,12 +32,13 @@ Symbol Table
     _ui_options_set_strings                                        **** GX
     _ui_options_unselect_entry                                     **** GX
 
+
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   C5   flags    0
+   0 _CODE                                      size   CE   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

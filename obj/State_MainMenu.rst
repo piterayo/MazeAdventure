@@ -12,391 +12,394 @@
                              12 	.globl _dec_main_bg
                              13 	.globl _level_set_level
                              14 	.globl _player_init
-                             15 	.globl _statemanager_exit_game
-                             16 	.globl _statemanager_input_accepted
-                             17 	.globl _statemanager_set_state
-                             18 	.globl _ui_mainmenu_render_refresh
-                             19 	.globl _ui_mainmenu_render_all
-                             20 	.globl _ui_mainmenu_unselect_entry
-                             21 	.globl _ui_mainmenu_select_entry
-                             22 	.globl _ui_mainmenu_previous_entry
-                             23 	.globl _ui_mainmenu_next_entry
-                             24 	.globl _ui_mainmenu_is_selected
-                             25 	.globl _ui_mainmenu_get_entry
-                             26 	.globl _ui_mainmenu_init
-                             27 	.globl _cpct_hflipSpriteM0
-                             28 	.globl _cpct_drawSprite
-                             29 	.globl _cpct_isKeyPressed
-                             30 	.globl _cpct_memcpy
-                             31 	.globl _cpct_memset
-                             32 	.globl _state_mainmenu_enter
-                             33 	.globl _state_mainmenu_return
-                             34 	.globl _state_mainmenu_input
-                             35 	.globl _state_mainmenu_update
-                             36 	.globl _state_mainmenu_render
-                             37 	.globl _state_mainmenu_exit
-                             38 ;--------------------------------------------------------
-                             39 ; special function registers
-                             40 ;--------------------------------------------------------
+                             15 	.globl _remove_music
+                             16 	.globl _statemanager_exit_game
+                             17 	.globl _statemanager_input_accepted
+                             18 	.globl _statemanager_set_state
+                             19 	.globl _ui_mainmenu_render_refresh
+                             20 	.globl _ui_mainmenu_render_all
+                             21 	.globl _ui_mainmenu_unselect_entry
+                             22 	.globl _ui_mainmenu_select_entry
+                             23 	.globl _ui_mainmenu_previous_entry
+                             24 	.globl _ui_mainmenu_next_entry
+                             25 	.globl _ui_mainmenu_is_selected
+                             26 	.globl _ui_mainmenu_get_entry
+                             27 	.globl _ui_mainmenu_init
+                             28 	.globl _cpct_hflipSpriteM0
+                             29 	.globl _cpct_drawSprite
+                             30 	.globl _cpct_isKeyPressed
+                             31 	.globl _cpct_memcpy
+                             32 	.globl _cpct_memset
+                             33 	.globl _state_mainmenu_enter
+                             34 	.globl _state_mainmenu_return
+                             35 	.globl _state_mainmenu_input
+                             36 	.globl _state_mainmenu_update
+                             37 	.globl _state_mainmenu_render
+                             38 	.globl _state_mainmenu_exit
+                             39 ;--------------------------------------------------------
+                             40 ; special function registers
                              41 ;--------------------------------------------------------
-                             42 ; ram data
-                             43 ;--------------------------------------------------------
-                             44 	.area _DATA
-                             45 ;--------------------------------------------------------
-                             46 ; ram data
-                             47 ;--------------------------------------------------------
-                             48 	.area _INITIALIZED
-                             49 ;--------------------------------------------------------
-                             50 ; absolute external ram data
-                             51 ;--------------------------------------------------------
-                             52 	.area _DABS (ABS)
-                             53 ;--------------------------------------------------------
-                             54 ; global & static initialisations
-                             55 ;--------------------------------------------------------
-                             56 	.area _HOME
-                             57 	.area _GSINIT
-                             58 	.area _GSFINAL
-                             59 	.area _GSINIT
-                             60 ;--------------------------------------------------------
-                             61 ; Home
-                             62 ;--------------------------------------------------------
-                             63 	.area _HOME
+                             42 ;--------------------------------------------------------
+                             43 ; ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area _DATA
+                             46 ;--------------------------------------------------------
+                             47 ; ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area _INITIALIZED
+                             50 ;--------------------------------------------------------
+                             51 ; absolute external ram data
+                             52 ;--------------------------------------------------------
+                             53 	.area _DABS (ABS)
+                             54 ;--------------------------------------------------------
+                             55 ; global & static initialisations
+                             56 ;--------------------------------------------------------
+                             57 	.area _HOME
+                             58 	.area _GSINIT
+                             59 	.area _GSFINAL
+                             60 	.area _GSINIT
+                             61 ;--------------------------------------------------------
+                             62 ; Home
+                             63 ;--------------------------------------------------------
                              64 	.area _HOME
-                             65 ;--------------------------------------------------------
-                             66 ; code
-                             67 ;--------------------------------------------------------
-                             68 	.area _CODE
-                             69 ;src/State_MainMenu.c:24: void dec_main_bg(){
-                             70 ;	---------------------------------
-                             71 ; Function dec_main_bg
-                             72 ; ---------------------------------
-   35B4                      73 _dec_main_bg::
-   35B4 DD E5         [15]   74 	push	ix
-   35B6 DD 21 00 00   [14]   75 	ld	ix,#0
-   35BA DD 39         [15]   76 	add	ix,sp
-   35BC 21 F7 FF      [10]   77 	ld	hl,#-9
-   35BF 39            [11]   78 	add	hl,sp
-   35C0 F9            [ 6]   79 	ld	sp,hl
-                             80 ;src/State_MainMenu.c:29: newPos=0;
-   35C1 DD 36 F7 00   [19]   81 	ld	-9 (ix),#0x00
-                             82 ;src/State_MainMenu.c:30: texture_set = menu_bg;
-   35C5 DD 36 FE FC   [19]   83 	ld	-2 (ix),#<(_menu_bg)
-   35C9 DD 36 FF 50   [19]   84 	ld	-1 (ix),#>(_menu_bg)
-                             85 ;src/State_MainMenu.c:32: position=MANUALLY_ALLOCATED_MEMORY_START;
-   35CD 01 D0 88      [10]   86 	ld	bc,#0x88D0
-                             87 ;src/State_MainMenu.c:33: *position=0;
-   35D0 21 D0 88      [10]   88 	ld	hl,#0x88D0
-   35D3 36 00         [10]   89 	ld	(hl),#0x00
-                             90 ;src/State_MainMenu.c:36: while(length){
-   35D5 11 F1 05      [10]   91 	ld	de,#0x05F1
-   35D8                      92 00106$:
-   35D8 7A            [ 4]   93 	ld	a,d
-   35D9 B3            [ 4]   94 	or	a,e
-   35DA CA 5A 36      [10]   95 	jp	Z,00108$
-                             96 ;src/State_MainMenu.c:37: value = g_colors[(*texture_set)&0x0F];
-   35DD DD 6E FE      [19]   97 	ld	l,-2 (ix)
-   35E0 DD 66 FF      [19]   98 	ld	h,-1 (ix)
-   35E3 7E            [ 7]   99 	ld	a,(hl)
-   35E4 DD 77 FB      [19]  100 	ld	-5 (ix), a
-   35E7 E6 0F         [ 7]  101 	and	a, #0x0F
-   35E9 C6 AF         [ 7]  102 	add	a,#<(_g_colors)
-   35EB 6F            [ 4]  103 	ld	l,a
-   35EC 3E 1A         [ 7]  104 	ld	a,#>(_g_colors)
-   35EE CE 00         [ 7]  105 	adc	a, #0x00
-   35F0 67            [ 4]  106 	ld	h,a
-   35F1 6E            [ 7]  107 	ld	l,(hl)
-                            108 ;src/State_MainMenu.c:38: counter = ((*texture_set)>>4)+1;
-   35F2 DD 7E FB      [19]  109 	ld	a,-5 (ix)
-   35F5 07            [ 4]  110 	rlca
-   35F6 07            [ 4]  111 	rlca
-   35F7 07            [ 4]  112 	rlca
-   35F8 07            [ 4]  113 	rlca
-   35F9 E6 0F         [ 7]  114 	and	a,#0x0F
-   35FB 3C            [ 4]  115 	inc	a
-   35FC DD 77 FB      [19]  116 	ld	-5 (ix),a
-                            117 ;src/State_MainMenu.c:39: while(counter){
-   35FF 7D            [ 4]  118 	ld	a,l
-   3600 E6 AA         [ 7]  119 	and	a, #0xAA
-   3602 DD 77 FC      [19]  120 	ld	-4 (ix),a
-   3605 7D            [ 4]  121 	ld	a,l
-   3606 E6 55         [ 7]  122 	and	a, #0x55
-   3608 DD 77 FD      [19]  123 	ld	-3 (ix),a
-   360B DD 7E F7      [19]  124 	ld	a,-9 (ix)
-   360E DD 77 FA      [19]  125 	ld	-6 (ix),a
-   3611                     126 00103$:
-   3611 DD 7E FB      [19]  127 	ld	a,-5 (ix)
-   3614 B7            [ 4]  128 	or	a, a
-   3615 28 31         [12]  129 	jr	Z,00119$
-                            130 ;src/State_MainMenu.c:40: *position=(*position)|((newPos&1)?(value&0b01010101):(value&0b10101010));
-   3617 C5            [11]  131 	push	bc
-   3618 FD E1         [14]  132 	pop	iy
-   361A 0A            [ 7]  133 	ld	a,(bc)
-   361B DD 77 F8      [19]  134 	ld	-8 (ix),a
-   361E DD 7E FA      [19]  135 	ld	a,-6 (ix)
-   3621 E6 01         [ 7]  136 	and	a, #0x01
-   3623 DD 77 F9      [19]  137 	ld	-7 (ix), a
-   3626 B7            [ 4]  138 	or	a, a
-   3627 28 05         [12]  139 	jr	Z,00111$
-   3629 DD 7E FD      [19]  140 	ld	a,-3 (ix)
-   362C 18 03         [12]  141 	jr	00112$
-   362E                     142 00111$:
-   362E DD 7E FC      [19]  143 	ld	a,-4 (ix)
-   3631                     144 00112$:
-   3631 DD B6 F8      [19]  145 	or	a, -8 (ix)
-   3634 FD 77 00      [19]  146 	ld	0 (iy), a
-                            147 ;src/State_MainMenu.c:41: if(newPos&1){
-   3637 DD 7E F9      [19]  148 	ld	a,-7 (ix)
-   363A B7            [ 4]  149 	or	a, a
-   363B 28 03         [12]  150 	jr	Z,00102$
-                            151 ;src/State_MainMenu.c:42: ++position;
-   363D 03            [ 6]  152 	inc	bc
-                            153 ;src/State_MainMenu.c:43: *position=0;
-   363E AF            [ 4]  154 	xor	a, a
-   363F 02            [ 7]  155 	ld	(bc),a
-   3640                     156 00102$:
-                            157 ;src/State_MainMenu.c:45: ++newPos;
-   3640 DD 34 FA      [23]  158 	inc	-6 (ix)
-                            159 ;src/State_MainMenu.c:46: --counter;
-   3643 DD 35 FB      [23]  160 	dec	-5 (ix)
-   3646 18 C9         [12]  161 	jr	00103$
-   3648                     162 00119$:
-   3648 DD 7E FA      [19]  163 	ld	a,-6 (ix)
-   364B DD 77 F7      [19]  164 	ld	-9 (ix),a
-                            165 ;src/State_MainMenu.c:48: ++texture_set;
-   364E DD 34 FE      [23]  166 	inc	-2 (ix)
-   3651 20 03         [12]  167 	jr	NZ,00139$
-   3653 DD 34 FF      [23]  168 	inc	-1 (ix)
-   3656                     169 00139$:
-                            170 ;src/State_MainMenu.c:49: --length;
-   3656 1B            [ 6]  171 	dec	de
-   3657 C3 D8 35      [10]  172 	jp	00106$
-   365A                     173 00108$:
-                            174 ;src/State_MainMenu.c:52: cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+(40*83)),MANUALLY_ALLOCATED_MEMORY_START,(40*83));
-   365A 21 F8 0C      [10]  175 	ld	hl,#0x0CF8
-   365D E5            [11]  176 	push	hl
-   365E 21 D0 88      [10]  177 	ld	hl,#0x88D0
-   3661 E5            [11]  178 	push	hl
-   3662 21 C8 95      [10]  179 	ld	hl,#0x95C8
-   3665 E5            [11]  180 	push	hl
-   3666 CD 92 7B      [17]  181 	call	_cpct_memcpy
-                            182 ;src/State_MainMenu.c:53: cpct_hflipSpriteM0 (40, 83, (MANUALLY_ALLOCATED_MEMORY_START+(40*83)));
-   3669 21 C8 95      [10]  183 	ld	hl,#0x95C8
-   366C E5            [11]  184 	push	hl
-   366D 21 28 53      [10]  185 	ld	hl,#0x5328
-   3670 E5            [11]  186 	push	hl
-   3671 CD 1D 7B      [17]  187 	call	_cpct_hflipSpriteM0
-   3674 DD F9         [10]  188 	ld	sp, ix
-   3676 DD E1         [14]  189 	pop	ix
-   3678 C9            [10]  190 	ret
-                            191 ;src/State_MainMenu.c:56: void draw_main_bg(){
-                            192 ;	---------------------------------
-                            193 ; Function draw_main_bg
-                            194 ; ---------------------------------
-   3679                     195 _draw_main_bg::
-                            196 ;src/State_MainMenu.c:57: cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 200-83),40,83);
-   3679 21 28 53      [10]  197 	ld	hl,#0x5328
-   367C E5            [11]  198 	push	hl
-   367D 21 60 EC      [10]  199 	ld	hl,#0xEC60
-   3680 E5            [11]  200 	push	hl
-   3681 21 D0 88      [10]  201 	ld	hl,#0x88D0
-   3684 E5            [11]  202 	push	hl
-   3685 CD 94 79      [17]  203 	call	_cpct_drawSprite
-                            204 ;src/State_MainMenu.c:58: cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+(40*83)), cpctm_screenPtr(CPCT_VMEM_START, 40, 200-83), 40, 83);
-   3688 21 28 53      [10]  205 	ld	hl,#0x5328
-   368B E5            [11]  206 	push	hl
-   368C 21 88 EC      [10]  207 	ld	hl,#0xEC88
-   368F E5            [11]  208 	push	hl
-   3690 21 C8 95      [10]  209 	ld	hl,#0x95C8
-   3693 E5            [11]  210 	push	hl
-   3694 CD 94 79      [17]  211 	call	_cpct_drawSprite
-   3697 C9            [10]  212 	ret
-                            213 ;src/State_MainMenu.c:61: void state_mainmenu_enter(){
-                            214 ;	---------------------------------
-                            215 ; Function state_mainmenu_enter
-                            216 ; ---------------------------------
-   3698                     217 _state_mainmenu_enter::
-                            218 ;src/State_MainMenu.c:63: cpct_memset(CPCT_VMEM_START, g_colors[7], 0x4000);
-   3698 21 B6 1A      [10]  219 	ld	hl, #(_g_colors + 0x0007) + 0
-   369B 46            [ 7]  220 	ld	b,(hl)
-   369C 21 00 40      [10]  221 	ld	hl,#0x4000
-   369F E5            [11]  222 	push	hl
-   36A0 C5            [11]  223 	push	bc
-   36A1 33            [ 6]  224 	inc	sp
-   36A2 26 C0         [ 7]  225 	ld	h, #0xC0
-   36A4 E5            [11]  226 	push	hl
-   36A5 CD 9A 7B      [17]  227 	call	_cpct_memset
-                            228 ;src/State_MainMenu.c:64: setMenuPalette();
-   36A8 CD 66 10      [17]  229 	call	_setMenuPalette
-                            230 ;src/State_MainMenu.c:65: dec_main_bg();
-   36AB CD B4 35      [17]  231 	call	_dec_main_bg
-                            232 ;src/State_MainMenu.c:66: draw_main_bg();
-   36AE CD 79 36      [17]  233 	call	_draw_main_bg
-                            234 ;src/State_MainMenu.c:67: camelot_warriors_mode=0;
-   36B1 21 62 7D      [10]  235 	ld	hl,#_camelot_warriors_mode + 0
-   36B4 36 00         [10]  236 	ld	(hl), #0x00
-                            237 ;src/State_MainMenu.c:68: ui_mainmenu_init();
-   36B6 CD 3F 48      [17]  238 	call	_ui_mainmenu_init
-                            239 ;src/State_MainMenu.c:69: ui_mainmenu_render_all();
-   36B9 CD 37 49      [17]  240 	call	_ui_mainmenu_render_all
-   36BC C9            [10]  241 	ret
-                            242 ;src/State_MainMenu.c:73: void state_mainmenu_return() {
-                            243 ;	---------------------------------
-                            244 ; Function state_mainmenu_return
-                            245 ; ---------------------------------
-   36BD                     246 _state_mainmenu_return::
-                            247 ;src/State_MainMenu.c:74: cpct_memset(CPCT_VMEM_START, g_colors[7], 0x4000);
-   36BD 21 B6 1A      [10]  248 	ld	hl, #(_g_colors + 0x0007) + 0
-   36C0 46            [ 7]  249 	ld	b,(hl)
-   36C1 21 00 40      [10]  250 	ld	hl,#0x4000
-   36C4 E5            [11]  251 	push	hl
-   36C5 C5            [11]  252 	push	bc
-   36C6 33            [ 6]  253 	inc	sp
-   36C7 26 C0         [ 7]  254 	ld	h, #0xC0
-   36C9 E5            [11]  255 	push	hl
-   36CA CD 9A 7B      [17]  256 	call	_cpct_memset
-                            257 ;src/State_MainMenu.c:75: draw_main_bg();
-   36CD CD 79 36      [17]  258 	call	_draw_main_bg
-                            259 ;src/State_MainMenu.c:76: ui_mainmenu_render_all();
-   36D0 CD 37 49      [17]  260 	call	_ui_mainmenu_render_all
-   36D3 C9            [10]  261 	ret
-                            262 ;src/State_MainMenu.c:79: void state_mainmenu_input(){
-                            263 ;	---------------------------------
-                            264 ; Function state_mainmenu_input
-                            265 ; ---------------------------------
-   36D4                     266 _state_mainmenu_input::
-                            267 ;src/State_MainMenu.c:80: if(cpct_isKeyPressed(Key_CursorUp)){
-   36D4 21 00 01      [10]  268 	ld	hl,#0x0100
-   36D7 CD 65 79      [17]  269 	call	_cpct_isKeyPressed
-   36DA 7D            [ 4]  270 	ld	a,l
-   36DB B7            [ 4]  271 	or	a, a
-   36DC 28 06         [12]  272 	jr	Z,00107$
-                            273 ;src/State_MainMenu.c:81: ui_mainmenu_previous_entry();
-   36DE CD 98 48      [17]  274 	call	_ui_mainmenu_previous_entry
-                            275 ;src/State_MainMenu.c:82: statemanager_input_accepted();
-   36E1 C3 B6 38      [10]  276 	jp  _statemanager_input_accepted
-   36E4                     277 00107$:
-                            278 ;src/State_MainMenu.c:84: else if(cpct_isKeyPressed(Key_CursorDown)){
-   36E4 21 00 04      [10]  279 	ld	hl,#0x0400
-   36E7 CD 65 79      [17]  280 	call	_cpct_isKeyPressed
-   36EA 7D            [ 4]  281 	ld	a,l
-   36EB B7            [ 4]  282 	or	a, a
-   36EC 28 06         [12]  283 	jr	Z,00104$
-                            284 ;src/State_MainMenu.c:85: ui_mainmenu_next_entry();
-   36EE CD 8A 48      [17]  285 	call	_ui_mainmenu_next_entry
-                            286 ;src/State_MainMenu.c:86: statemanager_input_accepted();
-   36F1 C3 B6 38      [10]  287 	jp  _statemanager_input_accepted
-   36F4                     288 00104$:
-                            289 ;src/State_MainMenu.c:88: else if(cpct_isKeyPressed(Key_Return)){
-   36F4 21 02 04      [10]  290 	ld	hl,#0x0402
-   36F7 CD 65 79      [17]  291 	call	_cpct_isKeyPressed
-   36FA 7D            [ 4]  292 	ld	a,l
-   36FB B7            [ 4]  293 	or	a, a
-   36FC C8            [11]  294 	ret	Z
-                            295 ;src/State_MainMenu.c:89: ui_mainmenu_select_entry();
-   36FD CD AE 48      [17]  296 	call	_ui_mainmenu_select_entry
-                            297 ;src/State_MainMenu.c:90: statemanager_input_accepted();
-   3700 C3 B6 38      [10]  298 	jp  _statemanager_input_accepted
-                            299 ;src/State_MainMenu.c:94: void state_mainmenu_update(){
-                            300 ;	---------------------------------
-                            301 ; Function state_mainmenu_update
-                            302 ; ---------------------------------
-   3703                     303 _state_mainmenu_update::
-                            304 ;src/State_MainMenu.c:95: if(ui_mainmenu_is_selected()){
-   3703 CD 57 49      [17]  305 	call	_ui_mainmenu_is_selected
-   3706 7D            [ 4]  306 	ld	a,l
-   3707 B7            [ 4]  307 	or	a, a
-   3708 C8            [11]  308 	ret	Z
-                            309 ;src/State_MainMenu.c:96: ui_mainmenu_render_refresh();
-   3709 CD 1E 49      [17]  310 	call	_ui_mainmenu_render_refresh
-                            311 ;src/State_MainMenu.c:97: switch(ui_mainmenu_get_entry()){
-   370C CD 4F 49      [17]  312 	call	_ui_mainmenu_get_entry
-   370F 5D            [ 4]  313 	ld	e,l
-   3710 3E 04         [ 7]  314 	ld	a,#0x04
-   3712 93            [ 4]  315 	sub	a, e
-   3713 DA A8 48      [10]  316 	jp	C,_ui_mainmenu_unselect_entry
-   3716 16 00         [ 7]  317 	ld	d,#0x00
-   3718 21 1E 37      [10]  318 	ld	hl,#00119$
-   371B 19            [11]  319 	add	hl,de
-   371C 19            [11]  320 	add	hl,de
-                            321 ;src/State_MainMenu.c:98: case 0:{
-   371D E9            [ 4]  322 	jp	(hl)
-   371E                     323 00119$:
-   371E 18 08         [12]  324 	jr	00101$
-   3720 18 21         [12]  325 	jr	00102$
-   3722 18 2A         [12]  326 	jr	00103$
-   3724 18 33         [12]  327 	jr	00104$
-   3726 18 3C         [12]  328 	jr	00105$
-   3728                     329 00101$:
-                            330 ;src/State_MainMenu.c:99: level_set_level(0);
-   3728 AF            [ 4]  331 	xor	a, a
-   3729 F5            [11]  332 	push	af
-   372A 33            [ 6]  333 	inc	sp
-   372B CD 25 10      [17]  334 	call	_level_set_level
-   372E 33            [ 6]  335 	inc	sp
-                            336 ;src/State_MainMenu.c:100: level_seed=0;
-   372F 21 00 00      [10]  337 	ld	hl,#0x0000
-   3732 22 B2 7D      [16]  338 	ld	(_level_seed),hl
-                            339 ;src/State_MainMenu.c:101: player_init();
-   3735 CD 51 18      [17]  340 	call	_player_init
-                            341 ;src/State_MainMenu.c:102: statemanager_set_state(STATE_LOADLEVEL);
-   3738 3E 03         [ 7]  342 	ld	a,#0x03
-   373A F5            [11]  343 	push	af
-   373B 33            [ 6]  344 	inc	sp
-   373C CD BC 38      [17]  345 	call	_statemanager_set_state
-   373F 33            [ 6]  346 	inc	sp
-                            347 ;src/State_MainMenu.c:103: break;
-   3740 C3 A8 48      [10]  348 	jp	_ui_mainmenu_unselect_entry
-                            349 ;src/State_MainMenu.c:105: case 1:{
-   3743                     350 00102$:
-                            351 ;src/State_MainMenu.c:106: statemanager_set_state(STATE_LOADGAME);
-   3743 3E 0A         [ 7]  352 	ld	a,#0x0A
-   3745 F5            [11]  353 	push	af
-   3746 33            [ 6]  354 	inc	sp
-   3747 CD BC 38      [17]  355 	call	_statemanager_set_state
-   374A 33            [ 6]  356 	inc	sp
-                            357 ;src/State_MainMenu.c:107: break;
-   374B C3 A8 48      [10]  358 	jp	_ui_mainmenu_unselect_entry
-                            359 ;src/State_MainMenu.c:109: case 2:{
-   374E                     360 00103$:
-                            361 ;src/State_MainMenu.c:110: statemanager_set_state(STATE_OPTIONS);
-   374E 3E 04         [ 7]  362 	ld	a,#0x04
-   3750 F5            [11]  363 	push	af
-   3751 33            [ 6]  364 	inc	sp
-   3752 CD BC 38      [17]  365 	call	_statemanager_set_state
-   3755 33            [ 6]  366 	inc	sp
-                            367 ;src/State_MainMenu.c:111: break;
-   3756 C3 A8 48      [10]  368 	jp	_ui_mainmenu_unselect_entry
-                            369 ;src/State_MainMenu.c:113: case 3:{
-   3759                     370 00104$:
-                            371 ;src/State_MainMenu.c:114: statemanager_set_state(STATE_CREDITS);
-   3759 3E 06         [ 7]  372 	ld	a,#0x06
-   375B F5            [11]  373 	push	af
-   375C 33            [ 6]  374 	inc	sp
-   375D CD BC 38      [17]  375 	call	_statemanager_set_state
-   3760 33            [ 6]  376 	inc	sp
-                            377 ;src/State_MainMenu.c:115: break;
-   3761 C3 A8 48      [10]  378 	jp	_ui_mainmenu_unselect_entry
-                            379 ;src/State_MainMenu.c:117: case 4:{
-   3764                     380 00105$:
-                            381 ;src/State_MainMenu.c:118: statemanager_exit_game();
-   3764 CD 81 39      [17]  382 	call	_statemanager_exit_game
-                            383 ;src/State_MainMenu.c:121: }
-                            384 ;src/State_MainMenu.c:122: ui_mainmenu_unselect_entry();
-   3767 C3 A8 48      [10]  385 	jp  _ui_mainmenu_unselect_entry
-                            386 ;src/State_MainMenu.c:126: void state_mainmenu_render() {
-                            387 ;	---------------------------------
-                            388 ; Function state_mainmenu_render
-                            389 ; ---------------------------------
-   376A                     390 _state_mainmenu_render::
-                            391 ;src/State_MainMenu.c:127: ui_mainmenu_render_refresh();
-   376A C3 1E 49      [10]  392 	jp  _ui_mainmenu_render_refresh
-                            393 ;src/State_MainMenu.c:130: void state_mainmenu_exit(){
-                            394 ;	---------------------------------
-                            395 ; Function state_mainmenu_exit
-                            396 ; ---------------------------------
-   376D                     397 _state_mainmenu_exit::
-                            398 ;src/State_MainMenu.c:132: }
-   376D C9            [10]  399 	ret
-                            400 	.area _CODE
-                            401 	.area _INITIALIZER
-                            402 	.area _CABS (ABS)
+                             65 	.area _HOME
+                             66 ;--------------------------------------------------------
+                             67 ; code
+                             68 ;--------------------------------------------------------
+                             69 	.area _CODE
+                             70 ;src/State_MainMenu.c:24: void dec_main_bg(){
+                             71 ;	---------------------------------
+                             72 ; Function dec_main_bg
+                             73 ; ---------------------------------
+   36F6                      74 _dec_main_bg::
+   36F6 DD E5         [15]   75 	push	ix
+   36F8 DD 21 00 00   [14]   76 	ld	ix,#0
+   36FC DD 39         [15]   77 	add	ix,sp
+   36FE 21 F7 FF      [10]   78 	ld	hl,#-9
+   3701 39            [11]   79 	add	hl,sp
+   3702 F9            [ 6]   80 	ld	sp,hl
+                             81 ;src/State_MainMenu.c:29: newPos=0;
+   3703 DD 36 F7 00   [19]   82 	ld	-9 (ix),#0x00
+                             83 ;src/State_MainMenu.c:30: texture_set = menu_bg;
+   3707 DD 36 FA 4A   [19]   84 	ld	-6 (ix),#<(_menu_bg)
+   370B DD 36 FB 52   [19]   85 	ld	-5 (ix),#>(_menu_bg)
+                             86 ;src/State_MainMenu.c:32: position=MANUALLY_ALLOCATED_MEMORY_START;
+   370F 01 D0 88      [10]   87 	ld	bc,#0x88D0
+                             88 ;src/State_MainMenu.c:33: *position=0;
+   3712 21 D0 88      [10]   89 	ld	hl,#0x88D0
+   3715 36 00         [10]   90 	ld	(hl),#0x00
+                             91 ;src/State_MainMenu.c:36: while(length){
+   3717 11 F1 05      [10]   92 	ld	de,#0x05F1
+   371A                      93 00106$:
+   371A 7A            [ 4]   94 	ld	a,d
+   371B B3            [ 4]   95 	or	a,e
+   371C CA 9C 37      [10]   96 	jp	Z,00108$
+                             97 ;src/State_MainMenu.c:37: value = g_colors[(*texture_set)&0x0F];
+   371F DD 6E FA      [19]   98 	ld	l,-6 (ix)
+   3722 DD 66 FB      [19]   99 	ld	h,-5 (ix)
+   3725 7E            [ 7]  100 	ld	a,(hl)
+   3726 DD 77 FF      [19]  101 	ld	-1 (ix), a
+   3729 E6 0F         [ 7]  102 	and	a, #0x0F
+   372B C6 28         [ 7]  103 	add	a,#<(_g_colors)
+   372D 6F            [ 4]  104 	ld	l,a
+   372E 3E 1C         [ 7]  105 	ld	a,#>(_g_colors)
+   3730 CE 00         [ 7]  106 	adc	a, #0x00
+   3732 67            [ 4]  107 	ld	h,a
+   3733 6E            [ 7]  108 	ld	l,(hl)
+                            109 ;src/State_MainMenu.c:38: counter = ((*texture_set)>>4)+1;
+   3734 DD 7E FF      [19]  110 	ld	a,-1 (ix)
+   3737 07            [ 4]  111 	rlca
+   3738 07            [ 4]  112 	rlca
+   3739 07            [ 4]  113 	rlca
+   373A 07            [ 4]  114 	rlca
+   373B E6 0F         [ 7]  115 	and	a,#0x0F
+   373D 3C            [ 4]  116 	inc	a
+   373E DD 77 FF      [19]  117 	ld	-1 (ix),a
+                            118 ;src/State_MainMenu.c:39: while(counter){
+   3741 7D            [ 4]  119 	ld	a,l
+   3742 E6 AA         [ 7]  120 	and	a, #0xAA
+   3744 DD 77 F8      [19]  121 	ld	-8 (ix),a
+   3747 7D            [ 4]  122 	ld	a,l
+   3748 E6 55         [ 7]  123 	and	a, #0x55
+   374A DD 77 FE      [19]  124 	ld	-2 (ix),a
+   374D DD 7E F7      [19]  125 	ld	a,-9 (ix)
+   3750 DD 77 FC      [19]  126 	ld	-4 (ix),a
+   3753                     127 00103$:
+   3753 DD 7E FF      [19]  128 	ld	a,-1 (ix)
+   3756 B7            [ 4]  129 	or	a, a
+   3757 28 31         [12]  130 	jr	Z,00119$
+                            131 ;src/State_MainMenu.c:40: *position=(*position)|((newPos&1)?(value&0b01010101):(value&0b10101010));
+   3759 C5            [11]  132 	push	bc
+   375A FD E1         [14]  133 	pop	iy
+   375C 0A            [ 7]  134 	ld	a,(bc)
+   375D DD 77 FD      [19]  135 	ld	-3 (ix),a
+   3760 DD 7E FC      [19]  136 	ld	a,-4 (ix)
+   3763 E6 01         [ 7]  137 	and	a, #0x01
+   3765 DD 77 F9      [19]  138 	ld	-7 (ix), a
+   3768 B7            [ 4]  139 	or	a, a
+   3769 28 05         [12]  140 	jr	Z,00111$
+   376B DD 7E FE      [19]  141 	ld	a,-2 (ix)
+   376E 18 03         [12]  142 	jr	00112$
+   3770                     143 00111$:
+   3770 DD 7E F8      [19]  144 	ld	a,-8 (ix)
+   3773                     145 00112$:
+   3773 DD B6 FD      [19]  146 	or	a, -3 (ix)
+   3776 FD 77 00      [19]  147 	ld	0 (iy), a
+                            148 ;src/State_MainMenu.c:41: if(newPos&1){
+   3779 DD 7E F9      [19]  149 	ld	a,-7 (ix)
+   377C B7            [ 4]  150 	or	a, a
+   377D 28 03         [12]  151 	jr	Z,00102$
+                            152 ;src/State_MainMenu.c:42: ++position;
+   377F 03            [ 6]  153 	inc	bc
+                            154 ;src/State_MainMenu.c:43: *position=0;
+   3780 AF            [ 4]  155 	xor	a, a
+   3781 02            [ 7]  156 	ld	(bc),a
+   3782                     157 00102$:
+                            158 ;src/State_MainMenu.c:45: ++newPos;
+   3782 DD 34 FC      [23]  159 	inc	-4 (ix)
+                            160 ;src/State_MainMenu.c:46: --counter;
+   3785 DD 35 FF      [23]  161 	dec	-1 (ix)
+   3788 18 C9         [12]  162 	jr	00103$
+   378A                     163 00119$:
+   378A DD 7E FC      [19]  164 	ld	a,-4 (ix)
+   378D DD 77 F7      [19]  165 	ld	-9 (ix),a
+                            166 ;src/State_MainMenu.c:48: ++texture_set;
+   3790 DD 34 FA      [23]  167 	inc	-6 (ix)
+   3793 20 03         [12]  168 	jr	NZ,00139$
+   3795 DD 34 FB      [23]  169 	inc	-5 (ix)
+   3798                     170 00139$:
+                            171 ;src/State_MainMenu.c:49: --length;
+   3798 1B            [ 6]  172 	dec	de
+   3799 C3 1A 37      [10]  173 	jp	00106$
+   379C                     174 00108$:
+                            175 ;src/State_MainMenu.c:52: cpct_memcpy((MANUALLY_ALLOCATED_MEMORY_START+(40*83)),MANUALLY_ALLOCATED_MEMORY_START,(40*83));
+   379C 21 F8 0C      [10]  176 	ld	hl,#0x0CF8
+   379F E5            [11]  177 	push	hl
+   37A0 21 D0 88      [10]  178 	ld	hl,#0x88D0
+   37A3 E5            [11]  179 	push	hl
+   37A4 21 C8 95      [10]  180 	ld	hl,#0x95C8
+   37A7 E5            [11]  181 	push	hl
+   37A8 CD 09 85      [17]  182 	call	_cpct_memcpy
+                            183 ;src/State_MainMenu.c:53: cpct_hflipSpriteM0 (40, 83, (MANUALLY_ALLOCATED_MEMORY_START+(40*83)));
+   37AB 21 C8 95      [10]  184 	ld	hl,#0x95C8
+   37AE E5            [11]  185 	push	hl
+   37AF 21 28 53      [10]  186 	ld	hl,#0x5328
+   37B2 E5            [11]  187 	push	hl
+   37B3 CD 94 84      [17]  188 	call	_cpct_hflipSpriteM0
+   37B6 DD F9         [10]  189 	ld	sp, ix
+   37B8 DD E1         [14]  190 	pop	ix
+   37BA C9            [10]  191 	ret
+                            192 ;src/State_MainMenu.c:56: void draw_main_bg(){
+                            193 ;	---------------------------------
+                            194 ; Function draw_main_bg
+                            195 ; ---------------------------------
+   37BB                     196 _draw_main_bg::
+                            197 ;src/State_MainMenu.c:57: cpct_drawSprite (MANUALLY_ALLOCATED_MEMORY_START, cpctm_screenPtr(CPCT_VMEM_START, 0, 200-83),40,83);
+   37BB 21 28 53      [10]  198 	ld	hl,#0x5328
+   37BE E5            [11]  199 	push	hl
+   37BF 21 60 EC      [10]  200 	ld	hl,#0xEC60
+   37C2 E5            [11]  201 	push	hl
+   37C3 21 D0 88      [10]  202 	ld	hl,#0x88D0
+   37C6 E5            [11]  203 	push	hl
+   37C7 CD 0B 83      [17]  204 	call	_cpct_drawSprite
+                            205 ;src/State_MainMenu.c:58: cpct_drawSprite ((MANUALLY_ALLOCATED_MEMORY_START+(40*83)), cpctm_screenPtr(CPCT_VMEM_START, 40, 200-83), 40, 83);
+   37CA 21 28 53      [10]  206 	ld	hl,#0x5328
+   37CD E5            [11]  207 	push	hl
+   37CE 21 88 EC      [10]  208 	ld	hl,#0xEC88
+   37D1 E5            [11]  209 	push	hl
+   37D2 21 C8 95      [10]  210 	ld	hl,#0x95C8
+   37D5 E5            [11]  211 	push	hl
+   37D6 CD 0B 83      [17]  212 	call	_cpct_drawSprite
+   37D9 C9            [10]  213 	ret
+                            214 ;src/State_MainMenu.c:61: void state_mainmenu_enter(){
+                            215 ;	---------------------------------
+                            216 ; Function state_mainmenu_enter
+                            217 ; ---------------------------------
+   37DA                     218 _state_mainmenu_enter::
+                            219 ;src/State_MainMenu.c:63: remove_music();
+   37DA CD 0D 0D      [17]  220 	call	_remove_music
+                            221 ;src/State_MainMenu.c:64: cpct_memset(CPCT_VMEM_START, g_colors[7], 0x4000);
+   37DD 21 2F 1C      [10]  222 	ld	hl, #(_g_colors + 0x0007) + 0
+   37E0 46            [ 7]  223 	ld	b,(hl)
+   37E1 21 00 40      [10]  224 	ld	hl,#0x4000
+   37E4 E5            [11]  225 	push	hl
+   37E5 C5            [11]  226 	push	bc
+   37E6 33            [ 6]  227 	inc	sp
+   37E7 26 C0         [ 7]  228 	ld	h, #0xC0
+   37E9 E5            [11]  229 	push	hl
+   37EA CD 11 85      [17]  230 	call	_cpct_memset
+                            231 ;src/State_MainMenu.c:65: setMenuPalette();
+   37ED CD CF 11      [17]  232 	call	_setMenuPalette
+                            233 ;src/State_MainMenu.c:66: dec_main_bg();
+   37F0 CD F6 36      [17]  234 	call	_dec_main_bg
+                            235 ;src/State_MainMenu.c:67: draw_main_bg();
+   37F3 CD BB 37      [17]  236 	call	_draw_main_bg
+                            237 ;src/State_MainMenu.c:68: camelot_warriors_mode=0;
+   37F6 21 DC 86      [10]  238 	ld	hl,#_camelot_warriors_mode + 0
+   37F9 36 00         [10]  239 	ld	(hl), #0x00
+                            240 ;src/State_MainMenu.c:69: ui_mainmenu_init();
+   37FB CD 8D 49      [17]  241 	call	_ui_mainmenu_init
+                            242 ;src/State_MainMenu.c:70: ui_mainmenu_render_all();
+   37FE CD 85 4A      [17]  243 	call	_ui_mainmenu_render_all
+   3801 C9            [10]  244 	ret
+                            245 ;src/State_MainMenu.c:74: void state_mainmenu_return() {
+                            246 ;	---------------------------------
+                            247 ; Function state_mainmenu_return
+                            248 ; ---------------------------------
+   3802                     249 _state_mainmenu_return::
+                            250 ;src/State_MainMenu.c:75: cpct_memset(CPCT_VMEM_START, g_colors[7], 0x4000);
+   3802 21 2F 1C      [10]  251 	ld	hl, #(_g_colors + 0x0007) + 0
+   3805 46            [ 7]  252 	ld	b,(hl)
+   3806 21 00 40      [10]  253 	ld	hl,#0x4000
+   3809 E5            [11]  254 	push	hl
+   380A C5            [11]  255 	push	bc
+   380B 33            [ 6]  256 	inc	sp
+   380C 26 C0         [ 7]  257 	ld	h, #0xC0
+   380E E5            [11]  258 	push	hl
+   380F CD 11 85      [17]  259 	call	_cpct_memset
+                            260 ;src/State_MainMenu.c:76: draw_main_bg();
+   3812 CD BB 37      [17]  261 	call	_draw_main_bg
+                            262 ;src/State_MainMenu.c:77: ui_mainmenu_render_all();
+   3815 CD 85 4A      [17]  263 	call	_ui_mainmenu_render_all
+   3818 C9            [10]  264 	ret
+                            265 ;src/State_MainMenu.c:80: void state_mainmenu_input(){
+                            266 ;	---------------------------------
+                            267 ; Function state_mainmenu_input
+                            268 ; ---------------------------------
+   3819                     269 _state_mainmenu_input::
+                            270 ;src/State_MainMenu.c:81: if(cpct_isKeyPressed(Key_CursorUp)){
+   3819 21 00 01      [10]  271 	ld	hl,#0x0100
+   381C CD B3 7A      [17]  272 	call	_cpct_isKeyPressed
+   381F 7D            [ 4]  273 	ld	a,l
+   3820 B7            [ 4]  274 	or	a, a
+   3821 28 06         [12]  275 	jr	Z,00107$
+                            276 ;src/State_MainMenu.c:82: ui_mainmenu_previous_entry();
+   3823 CD E6 49      [17]  277 	call	_ui_mainmenu_previous_entry
+                            278 ;src/State_MainMenu.c:83: statemanager_input_accepted();
+   3826 C3 FB 39      [10]  279 	jp  _statemanager_input_accepted
+   3829                     280 00107$:
+                            281 ;src/State_MainMenu.c:85: else if(cpct_isKeyPressed(Key_CursorDown)){
+   3829 21 00 04      [10]  282 	ld	hl,#0x0400
+   382C CD B3 7A      [17]  283 	call	_cpct_isKeyPressed
+   382F 7D            [ 4]  284 	ld	a,l
+   3830 B7            [ 4]  285 	or	a, a
+   3831 28 06         [12]  286 	jr	Z,00104$
+                            287 ;src/State_MainMenu.c:86: ui_mainmenu_next_entry();
+   3833 CD D8 49      [17]  288 	call	_ui_mainmenu_next_entry
+                            289 ;src/State_MainMenu.c:87: statemanager_input_accepted();
+   3836 C3 FB 39      [10]  290 	jp  _statemanager_input_accepted
+   3839                     291 00104$:
+                            292 ;src/State_MainMenu.c:89: else if(cpct_isKeyPressed(Key_Return)){
+   3839 21 02 04      [10]  293 	ld	hl,#0x0402
+   383C CD B3 7A      [17]  294 	call	_cpct_isKeyPressed
+   383F 7D            [ 4]  295 	ld	a,l
+   3840 B7            [ 4]  296 	or	a, a
+   3841 C8            [11]  297 	ret	Z
+                            298 ;src/State_MainMenu.c:90: ui_mainmenu_select_entry();
+   3842 CD FC 49      [17]  299 	call	_ui_mainmenu_select_entry
+                            300 ;src/State_MainMenu.c:91: statemanager_input_accepted();
+   3845 C3 FB 39      [10]  301 	jp  _statemanager_input_accepted
+                            302 ;src/State_MainMenu.c:95: void state_mainmenu_update(){
+                            303 ;	---------------------------------
+                            304 ; Function state_mainmenu_update
+                            305 ; ---------------------------------
+   3848                     306 _state_mainmenu_update::
+                            307 ;src/State_MainMenu.c:96: if(ui_mainmenu_is_selected()){
+   3848 CD A5 4A      [17]  308 	call	_ui_mainmenu_is_selected
+   384B 7D            [ 4]  309 	ld	a,l
+   384C B7            [ 4]  310 	or	a, a
+   384D C8            [11]  311 	ret	Z
+                            312 ;src/State_MainMenu.c:97: ui_mainmenu_render_refresh();
+   384E CD 6C 4A      [17]  313 	call	_ui_mainmenu_render_refresh
+                            314 ;src/State_MainMenu.c:98: switch(ui_mainmenu_get_entry()){
+   3851 CD 9D 4A      [17]  315 	call	_ui_mainmenu_get_entry
+   3854 5D            [ 4]  316 	ld	e,l
+   3855 3E 04         [ 7]  317 	ld	a,#0x04
+   3857 93            [ 4]  318 	sub	a, e
+   3858 DA F6 49      [10]  319 	jp	C,_ui_mainmenu_unselect_entry
+   385B 16 00         [ 7]  320 	ld	d,#0x00
+   385D 21 63 38      [10]  321 	ld	hl,#00119$
+   3860 19            [11]  322 	add	hl,de
+   3861 19            [11]  323 	add	hl,de
+                            324 ;src/State_MainMenu.c:99: case 0:{
+   3862 E9            [ 4]  325 	jp	(hl)
+   3863                     326 00119$:
+   3863 18 08         [12]  327 	jr	00101$
+   3865 18 21         [12]  328 	jr	00102$
+   3867 18 2A         [12]  329 	jr	00103$
+   3869 18 33         [12]  330 	jr	00104$
+   386B 18 3C         [12]  331 	jr	00105$
+   386D                     332 00101$:
+                            333 ;src/State_MainMenu.c:100: level_set_level(0);
+   386D AF            [ 4]  334 	xor	a, a
+   386E F5            [11]  335 	push	af
+   386F 33            [ 6]  336 	inc	sp
+   3870 CD 8E 11      [17]  337 	call	_level_set_level
+   3873 33            [ 6]  338 	inc	sp
+                            339 ;src/State_MainMenu.c:101: level_seed=0;
+   3874 21 00 00      [10]  340 	ld	hl,#0x0000
+   3877 22 2C 87      [16]  341 	ld	(_level_seed),hl
+                            342 ;src/State_MainMenu.c:102: player_init();
+   387A CD CA 19      [17]  343 	call	_player_init
+                            344 ;src/State_MainMenu.c:103: statemanager_set_state(STATE_LOADLEVEL);
+   387D 3E 03         [ 7]  345 	ld	a,#0x03
+   387F F5            [11]  346 	push	af
+   3880 33            [ 6]  347 	inc	sp
+   3881 CD 01 3A      [17]  348 	call	_statemanager_set_state
+   3884 33            [ 6]  349 	inc	sp
+                            350 ;src/State_MainMenu.c:104: break;
+   3885 C3 F6 49      [10]  351 	jp	_ui_mainmenu_unselect_entry
+                            352 ;src/State_MainMenu.c:106: case 1:{
+   3888                     353 00102$:
+                            354 ;src/State_MainMenu.c:107: statemanager_set_state(STATE_LOADGAME);
+   3888 3E 0A         [ 7]  355 	ld	a,#0x0A
+   388A F5            [11]  356 	push	af
+   388B 33            [ 6]  357 	inc	sp
+   388C CD 01 3A      [17]  358 	call	_statemanager_set_state
+   388F 33            [ 6]  359 	inc	sp
+                            360 ;src/State_MainMenu.c:108: break;
+   3890 C3 F6 49      [10]  361 	jp	_ui_mainmenu_unselect_entry
+                            362 ;src/State_MainMenu.c:110: case 2:{
+   3893                     363 00103$:
+                            364 ;src/State_MainMenu.c:111: statemanager_set_state(STATE_OPTIONS);
+   3893 3E 04         [ 7]  365 	ld	a,#0x04
+   3895 F5            [11]  366 	push	af
+   3896 33            [ 6]  367 	inc	sp
+   3897 CD 01 3A      [17]  368 	call	_statemanager_set_state
+   389A 33            [ 6]  369 	inc	sp
+                            370 ;src/State_MainMenu.c:112: break;
+   389B C3 F6 49      [10]  371 	jp	_ui_mainmenu_unselect_entry
+                            372 ;src/State_MainMenu.c:114: case 3:{
+   389E                     373 00104$:
+                            374 ;src/State_MainMenu.c:115: statemanager_set_state(STATE_CREDITS);
+   389E 3E 06         [ 7]  375 	ld	a,#0x06
+   38A0 F5            [11]  376 	push	af
+   38A1 33            [ 6]  377 	inc	sp
+   38A2 CD 01 3A      [17]  378 	call	_statemanager_set_state
+   38A5 33            [ 6]  379 	inc	sp
+                            380 ;src/State_MainMenu.c:116: break;
+   38A6 C3 F6 49      [10]  381 	jp	_ui_mainmenu_unselect_entry
+                            382 ;src/State_MainMenu.c:118: case 4:{
+   38A9                     383 00105$:
+                            384 ;src/State_MainMenu.c:119: statemanager_exit_game();
+   38A9 CD C6 3A      [17]  385 	call	_statemanager_exit_game
+                            386 ;src/State_MainMenu.c:122: }
+                            387 ;src/State_MainMenu.c:123: ui_mainmenu_unselect_entry();
+   38AC C3 F6 49      [10]  388 	jp  _ui_mainmenu_unselect_entry
+                            389 ;src/State_MainMenu.c:127: void state_mainmenu_render() {
+                            390 ;	---------------------------------
+                            391 ; Function state_mainmenu_render
+                            392 ; ---------------------------------
+   38AF                     393 _state_mainmenu_render::
+                            394 ;src/State_MainMenu.c:128: ui_mainmenu_render_refresh();
+   38AF C3 6C 4A      [10]  395 	jp  _ui_mainmenu_render_refresh
+                            396 ;src/State_MainMenu.c:131: void state_mainmenu_exit(){
+                            397 ;	---------------------------------
+                            398 ; Function state_mainmenu_exit
+                            399 ; ---------------------------------
+   38B2                     400 _state_mainmenu_exit::
+                            401 ;src/State_MainMenu.c:133: }
+   38B2 C9            [10]  402 	ret
+                            403 	.area _CODE
+                            404 	.area _INITIALIZER
+                            405 	.area _CABS (ABS)

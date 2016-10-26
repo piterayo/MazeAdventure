@@ -15,8 +15,8 @@
 
 void state_credits_enter(){
     
-    cpct_drawSolidBox(cpctm_screenPtr((u16)CPCT_VMEM_START,14,46),g_colors[4],52,108);
-    cpct_drawSolidBox(cpctm_screenPtr((u16)CPCT_VMEM_START,15,50),g_colors[1],50,100);
+    cpct_drawSolidBox(cpctm_screenPtr((u16)CPCT_VMEM_START,14,46),g_colors[4],52,92);
+    cpct_drawSolidBox(cpctm_screenPtr((u16)CPCT_VMEM_START,15,50),g_colors[1],50,84);
     
     print_transparent_text("CODING:", cpctm_screenPtr((u16)CPCT_VMEM_START,16,54),3);
     print_transparent_text("Albert Sirvent @piterayo",cpctm_screenPtr((u16)CPCT_VMEM_START,16,62),3);
@@ -26,9 +26,6 @@ void state_credits_enter(){
     
     print_transparent_text("MUSIC:",cpctm_screenPtr((u16)CPCT_VMEM_START,16,102),3);
     print_transparent_text("Carlos Blaya",cpctm_screenPtr((u16)CPCT_VMEM_START,16,110),3);
-    
-    print_transparent_text("SFX:",cpctm_screenPtr((u16)CPCT_VMEM_START,16,126),3);
-    print_transparent_text("Alberto Salieto @Venisir",cpctm_screenPtr((u16)CPCT_VMEM_START,16,134),3);
     
 }
 
@@ -51,5 +48,5 @@ void state_credits_render(){
 }
 
 void state_credits_exit(){
-    cpct_drawSolidBox(cpctm_screenPtr((u16)CPCT_VMEM_START,14,46),g_colors[1],52,108);
+    cpct_drawSolidBox(cpctm_screenPtr((u16)CPCT_VMEM_START,14,46),g_colors[1],52,92);
 }

@@ -12,10 +12,10 @@ Symbol Table
     _cpct_memset                                                   **** GX
     _cpct_restoreState_mxor_u8                                     **** GX
     _cpct_setSeed_mxor                                             **** GX
-  0 _generate_exit_door                                            056B GR
+  0 _generate_exit_door                                            0585 GR
   0 _generate_final_map                                            0021 GR
-  0 _generate_level                                                071E GR
-  0 _generate_level_with_seed                                      0727 GR
+  0 _generate_level                                                072E GR
+  0 _generate_level_with_seed                                      0737 GR
   0 _generate_map                                                  00B3 GR
   0 _get_random_wall                                               0004 GR
     _level_get_level                                               **** GX
@@ -32,7 +32,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  763   flags    0
+   0 _CODE                                      size  773   flags    0
    1 _DATA                                      size    2   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

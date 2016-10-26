@@ -46,24 +46,24 @@
                              46 ;	---------------------------------
                              47 ; Function renderCompass
                              48 ; ---------------------------------
-   425C                      49 _renderCompass::
+   43AA                      49 _renderCompass::
                              50 ;src/UI_Compass.c:7: cpct_drawSprite(compass_tileset[player_get_direction_index()/2],COMPASS_POSITION,8,16);
-   425C CD E6 18      [17]   51 	call	_player_get_direction_index
-   425F CB 3D         [ 8]   52 	srl	l
-   4261 26 00         [ 7]   53 	ld	h,#0x00
-   4263 29            [11]   54 	add	hl, hl
-   4264 11 AA 4D      [10]   55 	ld	de,#_compass_tileset
-   4267 19            [11]   56 	add	hl,de
-   4268 4E            [ 7]   57 	ld	c,(hl)
-   4269 23            [ 6]   58 	inc	hl
-   426A 46            [ 7]   59 	ld	b,(hl)
-   426B 21 08 10      [10]   60 	ld	hl,#0x1008
-   426E E5            [11]   61 	push	hl
-   426F 21 24 C0      [10]   62 	ld	hl,#0xC024
-   4272 E5            [11]   63 	push	hl
-   4273 C5            [11]   64 	push	bc
-   4274 CD 94 79      [17]   65 	call	_cpct_drawSprite
-   4277 C9            [10]   66 	ret
+   43AA CD 5F 1A      [17]   51 	call	_player_get_direction_index
+   43AD CB 3D         [ 8]   52 	srl	l
+   43AF 26 00         [ 7]   53 	ld	h,#0x00
+   43B1 29            [11]   54 	add	hl, hl
+   43B2 11 F8 4E      [10]   55 	ld	de,#_compass_tileset
+   43B5 19            [11]   56 	add	hl,de
+   43B6 4E            [ 7]   57 	ld	c,(hl)
+   43B7 23            [ 6]   58 	inc	hl
+   43B8 46            [ 7]   59 	ld	b,(hl)
+   43B9 21 08 10      [10]   60 	ld	hl,#0x1008
+   43BC E5            [11]   61 	push	hl
+   43BD 21 24 C0      [10]   62 	ld	hl,#0xC024
+   43C0 E5            [11]   63 	push	hl
+   43C1 C5            [11]   64 	push	bc
+   43C2 CD 0B 83      [17]   65 	call	_cpct_drawSprite
+   43C5 C9            [10]   66 	ret
                              67 	.area _CODE
                              68 	.area _INITIALIZER
                              69 	.area _CABS (ABS)

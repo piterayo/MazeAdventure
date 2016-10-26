@@ -9,176 +9,186 @@
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
                              11 	.globl _savegame_Save
-                             12 	.globl _enemy_init_enemies
-                             13 	.globl _level_load_level
-                             14 	.globl _level_get_level
-                             15 	.globl _generate_level
-                             16 	.globl _generate_level_with_seed
-                             17 	.globl _print_transparent_text
-                             18 	.globl _draw_minimap_to_buffer
-                             19 	.globl _render_draw_to_buffer
-                             20 	.globl _statemanager_input_accepted
-                             21 	.globl _statemanager_set_state
-                             22 	.globl _cpct_memset
-                             23 	.globl _level_seed
-                             24 	.globl _state_loadlevel_enter
-                             25 	.globl _state_loadlevel_return
-                             26 	.globl _state_loadlevel_input
-                             27 	.globl _state_loadlevel_update
-                             28 	.globl _state_loadlevel_render
-                             29 	.globl _state_loadlevel_exit
-                             30 ;--------------------------------------------------------
-                             31 ; special function registers
-                             32 ;--------------------------------------------------------
+                             12 	.globl _item_init_items
+                             13 	.globl _enemy_init_enemies
+                             14 	.globl _level_load_level
+                             15 	.globl _level_get_level
+                             16 	.globl _generate_level
+                             17 	.globl _generate_level_with_seed
+                             18 	.globl _print_transparent_text
+                             19 	.globl _set_music
+                             20 	.globl _remove_music
+                             21 	.globl _draw_minimap_to_buffer
+                             22 	.globl _render_draw_to_buffer
+                             23 	.globl _statemanager_input_accepted
+                             24 	.globl _statemanager_set_state
+                             25 	.globl _cpct_memset
+                             26 	.globl _level_seed
+                             27 	.globl _state_loadlevel_enter
+                             28 	.globl _state_loadlevel_return
+                             29 	.globl _state_loadlevel_input
+                             30 	.globl _state_loadlevel_update
+                             31 	.globl _state_loadlevel_render
+                             32 	.globl _state_loadlevel_exit
                              33 ;--------------------------------------------------------
-                             34 ; ram data
+                             34 ; special function registers
                              35 ;--------------------------------------------------------
-                             36 	.area _DATA
-   0000                      37 _level_seed::
-   0000                      38 	.ds 2
-                             39 ;--------------------------------------------------------
-                             40 ; ram data
-                             41 ;--------------------------------------------------------
-                             42 	.area _INITIALIZED
-                             43 ;--------------------------------------------------------
-                             44 ; absolute external ram data
-                             45 ;--------------------------------------------------------
-                             46 	.area _DABS (ABS)
-                             47 ;--------------------------------------------------------
-                             48 ; global & static initialisations
-                             49 ;--------------------------------------------------------
-                             50 	.area _HOME
-                             51 	.area _GSINIT
-                             52 	.area _GSFINAL
-                             53 	.area _GSINIT
-                             54 ;--------------------------------------------------------
-                             55 ; Home
-                             56 ;--------------------------------------------------------
-                             57 	.area _HOME
-                             58 	.area _HOME
+                             36 ;--------------------------------------------------------
+                             37 ; ram data
+                             38 ;--------------------------------------------------------
+                             39 	.area _DATA
+   0000                      40 _level_seed::
+   0000                      41 	.ds 2
+                             42 ;--------------------------------------------------------
+                             43 ; ram data
+                             44 ;--------------------------------------------------------
+                             45 	.area _INITIALIZED
+                             46 ;--------------------------------------------------------
+                             47 ; absolute external ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area _DABS (ABS)
+                             50 ;--------------------------------------------------------
+                             51 ; global & static initialisations
+                             52 ;--------------------------------------------------------
+                             53 	.area _HOME
+                             54 	.area _GSINIT
+                             55 	.area _GSFINAL
+                             56 	.area _GSINIT
+                             57 ;--------------------------------------------------------
+                             58 ; Home
                              59 ;--------------------------------------------------------
-                             60 ; code
-                             61 ;--------------------------------------------------------
-                             62 	.area _CODE
-                             63 ;src/State_LoadLevel.c:16: void state_loadlevel_enter(){
-                             64 ;	---------------------------------
-                             65 ; Function state_loadlevel_enter
-                             66 ; ---------------------------------
-   0000                      67 _state_loadlevel_enter::
-                             68 ;src/State_LoadLevel.c:18: if(level_get_level()<=(KING_LEVEL)){
-   0000 CDr00r00      [17]   69 	call	_level_get_level
-   0003 3E 20         [ 7]   70 	ld	a,#0x20
-   0005 95            [ 4]   71 	sub	a, l
-   0006 D8            [11]   72 	ret	C
-                             73 ;src/State_LoadLevel.c:19: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
-   0007 21r01r00      [10]   74 	ld	hl,#_g_colors+1
-   000A 46            [ 7]   75 	ld	b,(hl)
-   000B 21 00 40      [10]   76 	ld	hl,#0x4000
-   000E E5            [11]   77 	push	hl
-   000F C5            [11]   78 	push	bc
-   0010 33            [ 6]   79 	inc	sp
-   0011 26 C0         [ 7]   80 	ld	h, #0xC0
-   0013 E5            [11]   81 	push	hl
-   0014 CDr00r00      [17]   82 	call	_cpct_memset
-                             83 ;src/State_LoadLevel.c:21: print_transparent_text("LOADING", 0xe391, 3);
-   0017 3E 03         [ 7]   84 	ld	a,#0x03
-   0019 F5            [11]   85 	push	af
-   001A 33            [ 6]   86 	inc	sp
-   001B 21 91 E3      [10]   87 	ld	hl,#0xE391
-   001E E5            [11]   88 	push	hl
-   001F 21r58r00      [10]   89 	ld	hl,#___str_0
-   0022 E5            [11]   90 	push	hl
-   0023 CDr00r00      [17]   91 	call	_print_transparent_text
-   0026 F1            [10]   92 	pop	af
-   0027 F1            [10]   93 	pop	af
-   0028 33            [ 6]   94 	inc	sp
-                             95 ;src/State_LoadLevel.c:23: if(level_seed) generate_level_with_seed(level_seed);
-   0029 3Ar01r00      [13]   96 	ld	a,(#_level_seed + 1)
-   002C 21r00r00      [10]   97 	ld	hl,#_level_seed + 0
-   002F B6            [ 7]   98 	or	a,(hl)
-   0030 28 0A         [12]   99 	jr	Z,00102$
-   0032 2Ar00r00      [16]  100 	ld	hl,(_level_seed)
-   0035 E5            [11]  101 	push	hl
-   0036 CDr00r00      [17]  102 	call	_generate_level_with_seed
-   0039 F1            [10]  103 	pop	af
-   003A 18 03         [12]  104 	jr	00103$
-   003C                     105 00102$:
-                            106 ;src/State_LoadLevel.c:24: else generate_level();
-   003C CDr00r00      [17]  107 	call	_generate_level
-   003F                     108 00103$:
-                            109 ;src/State_LoadLevel.c:25: level_load_level();
-   003F CDr00r00      [17]  110 	call	_level_load_level
-                            111 ;src/State_LoadLevel.c:27: enemy_init_enemies();
-   0042 CDr00r00      [17]  112 	call	_enemy_init_enemies
-                            113 ;src/State_LoadLevel.c:28: item_init_items();
-   0045 CDr00r00      [17]  114 	call	_item_init_items
-                            115 ;src/State_LoadLevel.c:30: savegame_Save();
-   0048 CDr00r00      [17]  116 	call	_savegame_Save
-                            117 ;src/State_LoadLevel.c:32: render_draw_to_buffer();
-   004B CDr00r00      [17]  118 	call	_render_draw_to_buffer
-                            119 ;src/State_LoadLevel.c:33: draw_minimap_to_buffer();
-   004E CDr00r00      [17]  120 	call	_draw_minimap_to_buffer
-                            121 ;src/State_LoadLevel.c:34: level_seed=0;
-   0051 21 00 00      [10]  122 	ld	hl,#0x0000
-   0054 22r00r00      [16]  123 	ld	(_level_seed),hl
-   0057 C9            [10]  124 	ret
-   0058                     125 ___str_0:
-   0058 4C 4F 41 44 49 4E   126 	.ascii "LOADING"
+                             60 	.area _HOME
+                             61 	.area _HOME
+                             62 ;--------------------------------------------------------
+                             63 ; code
+                             64 ;--------------------------------------------------------
+                             65 	.area _CODE
+                             66 ;src/State_LoadLevel.c:20: void state_loadlevel_enter(){
+                             67 ;	---------------------------------
+                             68 ; Function state_loadlevel_enter
+                             69 ; ---------------------------------
+   0000                      70 _state_loadlevel_enter::
+                             71 ;src/State_LoadLevel.c:22: if(level_get_level()<=(KING_LEVEL)){
+   0000 CDr00r00      [17]   72 	call	_level_get_level
+   0003 3E 20         [ 7]   73 	ld	a,#0x20
+   0005 95            [ 4]   74 	sub	a, l
+   0006 D8            [11]   75 	ret	C
+                             76 ;src/State_LoadLevel.c:23: cpct_memset(CPCT_VMEM_START, g_colors[1], 0x4000);
+   0007 21r01r00      [10]   77 	ld	hl,#_g_colors+1
+   000A 46            [ 7]   78 	ld	b,(hl)
+   000B 21 00 40      [10]   79 	ld	hl,#0x4000
+   000E E5            [11]   80 	push	hl
+   000F C5            [11]   81 	push	bc
+   0010 33            [ 6]   82 	inc	sp
+   0011 26 C0         [ 7]   83 	ld	h, #0xC0
+   0013 E5            [11]   84 	push	hl
+   0014 CDr00r00      [17]   85 	call	_cpct_memset
+                             86 ;src/State_LoadLevel.c:25: print_transparent_text("LOADING", 0xe391, 3);
+   0017 3E 03         [ 7]   87 	ld	a,#0x03
+   0019 F5            [11]   88 	push	af
+   001A 33            [ 6]   89 	inc	sp
+   001B 21 91 E3      [10]   90 	ld	hl,#0xE391
+   001E E5            [11]   91 	push	hl
+   001F 21r60r00      [10]   92 	ld	hl,#___str_0
+   0022 E5            [11]   93 	push	hl
+   0023 CDr00r00      [17]   94 	call	_print_transparent_text
+   0026 F1            [10]   95 	pop	af
+   0027 F1            [10]   96 	pop	af
+   0028 33            [ 6]   97 	inc	sp
+                             98 ;src/State_LoadLevel.c:27: if(level_seed) generate_level_with_seed(level_seed);
+   0029 3Ar01r00      [13]   99 	ld	a,(#_level_seed + 1)
+   002C 21r00r00      [10]  100 	ld	hl,#_level_seed + 0
+   002F B6            [ 7]  101 	or	a,(hl)
+   0030 28 0A         [12]  102 	jr	Z,00102$
+   0032 2Ar00r00      [16]  103 	ld	hl,(_level_seed)
+   0035 E5            [11]  104 	push	hl
+   0036 CDr00r00      [17]  105 	call	_generate_level_with_seed
+   0039 F1            [10]  106 	pop	af
+   003A 18 03         [12]  107 	jr	00103$
+   003C                     108 00102$:
+                            109 ;src/State_LoadLevel.c:28: else generate_level();
+   003C CDr00r00      [17]  110 	call	_generate_level
+   003F                     111 00103$:
+                            112 ;src/State_LoadLevel.c:29: level_load_level();
+   003F CDr00r00      [17]  113 	call	_level_load_level
+                            114 ;src/State_LoadLevel.c:31: enemy_init_enemies();
+   0042 CDr00r00      [17]  115 	call	_enemy_init_enemies
+                            116 ;src/State_LoadLevel.c:32: item_init_items();
+   0045 CDr00r00      [17]  117 	call	_item_init_items
+                            118 ;src/State_LoadLevel.c:34: savegame_Save();
+   0048 CDr00r00      [17]  119 	call	_savegame_Save
+                            120 ;src/State_LoadLevel.c:36: render_draw_to_buffer();
+   004B CDr00r00      [17]  121 	call	_render_draw_to_buffer
+                            122 ;src/State_LoadLevel.c:37: draw_minimap_to_buffer();
+   004E CDr00r00      [17]  123 	call	_draw_minimap_to_buffer
+                            124 ;src/State_LoadLevel.c:39: set_music(GameMusic);
+   0051 21r00r00      [10]  125 	ld	hl,#_GameMusic
+   0054 E5            [11]  126 	push	hl
+   0055 CDr00r00      [17]  127 	call	_set_music
+   0058 F1            [10]  128 	pop	af
+                            129 ;src/State_LoadLevel.c:41: level_seed=0;
+   0059 21 00 00      [10]  130 	ld	hl,#0x0000
+   005C 22r00r00      [16]  131 	ld	(_level_seed),hl
+   005F C9            [10]  132 	ret
+   0060                     133 ___str_0:
+   0060 4C 4F 41 44 49 4E   134 	.ascii "LOADING"
         47
-   005F 00                  127 	.db 0x00
-                            128 ;src/State_LoadLevel.c:39: void state_loadlevel_return(){
-                            129 ;	---------------------------------
-                            130 ; Function state_loadlevel_return
-                            131 ; ---------------------------------
-   0060                     132 _state_loadlevel_return::
-                            133 ;src/State_LoadLevel.c:41: }
-   0060 C9            [10]  134 	ret
-                            135 ;src/State_LoadLevel.c:44: void state_loadlevel_input() {
-                            136 ;	---------------------------------
-                            137 ; Function state_loadlevel_input
-                            138 ; ---------------------------------
-   0061                     139 _state_loadlevel_input::
-                            140 ;src/State_LoadLevel.c:45: statemanager_input_accepted();
-   0061 C3r00r00      [10]  141 	jp  _statemanager_input_accepted
-                            142 ;src/State_LoadLevel.c:48: void state_loadlevel_update(){
-                            143 ;	---------------------------------
-                            144 ; Function state_loadlevel_update
-                            145 ; ---------------------------------
-   0064                     146 _state_loadlevel_update::
-                            147 ;src/State_LoadLevel.c:49: if(level_get_level()<=(KING_LEVEL)){
-   0064 CDr00r00      [17]  148 	call	_level_get_level
-   0067 3E 20         [ 7]  149 	ld	a,#0x20
-   0069 95            [ 4]  150 	sub	a, l
-   006A 38 09         [12]  151 	jr	C,00102$
-                            152 ;src/State_LoadLevel.c:50: statemanager_set_state(STATE_INGAME);
-   006C 3E 01         [ 7]  153 	ld	a,#0x01
-   006E F5            [11]  154 	push	af
-   006F 33            [ 6]  155 	inc	sp
-   0070 CDr00r00      [17]  156 	call	_statemanager_set_state
-   0073 33            [ 6]  157 	inc	sp
-   0074 C9            [10]  158 	ret
-   0075                     159 00102$:
-                            160 ;src/State_LoadLevel.c:53: statemanager_set_state(STATE_VICTORY);
-   0075 3E 07         [ 7]  161 	ld	a,#0x07
-   0077 F5            [11]  162 	push	af
-   0078 33            [ 6]  163 	inc	sp
-   0079 CDr00r00      [17]  164 	call	_statemanager_set_state
-   007C 33            [ 6]  165 	inc	sp
-   007D C9            [10]  166 	ret
-                            167 ;src/State_LoadLevel.c:57: void state_loadlevel_render(){
-                            168 ;	---------------------------------
-                            169 ; Function state_loadlevel_render
-                            170 ; ---------------------------------
-   007E                     171 _state_loadlevel_render::
-                            172 ;src/State_LoadLevel.c:59: }
-   007E C9            [10]  173 	ret
-                            174 ;src/State_LoadLevel.c:61: void state_loadlevel_exit(){
-                            175 ;	---------------------------------
-                            176 ; Function state_loadlevel_exit
-                            177 ; ---------------------------------
-   007F                     178 _state_loadlevel_exit::
-                            179 ;src/State_LoadLevel.c:63: }
-   007F C9            [10]  180 	ret
-                            181 	.area _CODE
-                            182 	.area _INITIALIZER
-                            183 	.area _CABS (ABS)
+   0067 00                  135 	.db 0x00
+                            136 ;src/State_LoadLevel.c:46: void state_loadlevel_return(){
+                            137 ;	---------------------------------
+                            138 ; Function state_loadlevel_return
+                            139 ; ---------------------------------
+   0068                     140 _state_loadlevel_return::
+                            141 ;src/State_LoadLevel.c:48: }
+   0068 C9            [10]  142 	ret
+                            143 ;src/State_LoadLevel.c:51: void state_loadlevel_input() {
+                            144 ;	---------------------------------
+                            145 ; Function state_loadlevel_input
+                            146 ; ---------------------------------
+   0069                     147 _state_loadlevel_input::
+                            148 ;src/State_LoadLevel.c:52: statemanager_input_accepted();
+   0069 C3r00r00      [10]  149 	jp  _statemanager_input_accepted
+                            150 ;src/State_LoadLevel.c:55: void state_loadlevel_update(){
+                            151 ;	---------------------------------
+                            152 ; Function state_loadlevel_update
+                            153 ; ---------------------------------
+   006C                     154 _state_loadlevel_update::
+                            155 ;src/State_LoadLevel.c:56: if(level_get_level()<=(KING_LEVEL)){
+   006C CDr00r00      [17]  156 	call	_level_get_level
+   006F 3E 20         [ 7]  157 	ld	a,#0x20
+   0071 95            [ 4]  158 	sub	a, l
+   0072 38 09         [12]  159 	jr	C,00102$
+                            160 ;src/State_LoadLevel.c:57: statemanager_set_state(STATE_INGAME);
+   0074 3E 01         [ 7]  161 	ld	a,#0x01
+   0076 F5            [11]  162 	push	af
+   0077 33            [ 6]  163 	inc	sp
+   0078 CDr00r00      [17]  164 	call	_statemanager_set_state
+   007B 33            [ 6]  165 	inc	sp
+   007C C9            [10]  166 	ret
+   007D                     167 00102$:
+                            168 ;src/State_LoadLevel.c:60: remove_music();
+   007D CDr00r00      [17]  169 	call	_remove_music
+                            170 ;src/State_LoadLevel.c:61: statemanager_set_state(STATE_VICTORY);
+   0080 3E 07         [ 7]  171 	ld	a,#0x07
+   0082 F5            [11]  172 	push	af
+   0083 33            [ 6]  173 	inc	sp
+   0084 CDr00r00      [17]  174 	call	_statemanager_set_state
+   0087 33            [ 6]  175 	inc	sp
+   0088 C9            [10]  176 	ret
+                            177 ;src/State_LoadLevel.c:65: void state_loadlevel_render(){
+                            178 ;	---------------------------------
+                            179 ; Function state_loadlevel_render
+                            180 ; ---------------------------------
+   0089                     181 _state_loadlevel_render::
+                            182 ;src/State_LoadLevel.c:67: }
+   0089 C9            [10]  183 	ret
+                            184 ;src/State_LoadLevel.c:69: void state_loadlevel_exit(){
+                            185 ;	---------------------------------
+                            186 ; Function state_loadlevel_exit
+                            187 ; ---------------------------------
+   008A                     188 _state_loadlevel_exit::
+                            189 ;src/State_LoadLevel.c:71: }
+   008A C9            [10]  190 	ret
+                            191 	.area _CODE
+                            192 	.area _INITIALIZER
+                            193 	.area _CABS (ABS)

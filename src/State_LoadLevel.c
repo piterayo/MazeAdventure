@@ -2,12 +2,16 @@
 #include "State_LoadLevel.h"
 #include "StateManager.h"
 #include "Renderer.h"
+#include "GameFunctions.h"
 #include "StringUtils.h"
 #include "Map.h"
 #include "Level.h"
 #include "Enemy.h"
+#include "Item.h"
 
 #include "SaveGame.h"
+
+#include "music/music.h"
 
 #include <cpctelera.h>
 
@@ -31,6 +35,9 @@ void state_loadlevel_enter(){
         
         render_draw_to_buffer();
         draw_minimap_to_buffer();
+        
+        set_music(GameMusic);
+                
         level_seed=0;
     }
     
@@ -50,6 +57,7 @@ void state_loadlevel_update(){
         statemanager_set_state(STATE_INGAME);
     }
     else{//Victory state
+        remove_music();
         statemanager_set_state(STATE_VICTORY);
     }
 }

@@ -11,16 +11,43 @@ u16 r_counter;
 u8 music_on;
 u8 textures_on;
 
+u8 syncmusic_counter;
+void* currentMusic;
+
 u8 camelot_warriors_mode;
 
 void game_interrupt_handler(){
     ++r_counter;
+    ++syncmusic_counter;
+    if(syncmusic_counter==6){
+        syncmusic_counter=0;
+        if(currentMusic && music_on){
+            cpct_akp_musicPlay();
+            if (cpct_akp_songLoopTimes > 0){
+                cpct_akp_musicInit(currentMusic);
+            }
+        }
+    }
 }
 
 
 const i8 movement_directionArray[8]={
     1,0,0,-1,-1,0,0,1
 };
+
+void set_music(void* m){
+    currentMusic=m;
+    cpct_akp_musicInit(currentMusic);
+}
+
+void remove_music(){
+    cpct_akp_stop();
+    currentMusic=0;
+}
+
+void stop_music(){
+    cpct_akp_stop();
+}
 
 void game_init(){
     cpct_disableFirmware();
@@ -35,6 +62,10 @@ void game_init(){
     
     music_on = 1;
     textures_on = 1;
+    
+    syncmusic_counter=0;
+    currentMusic = 0;
+    
     
     
     camelot_warriors_mode=0;

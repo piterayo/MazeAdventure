@@ -71,17 +71,17 @@ _calculate_cells_in_view::
 ;src/Renderer.c:56: if(player_direction.y!=0){
 	ld	hl, #_player_direction + 1
 	ld	a,(hl)
-	ld	-3 (ix), a
+	ld	-4 (ix), a
 	or	a, a
 	jr	Z,00102$
 ;src/Renderer.c:57: vert=1;
 	ld	-14 (ix),#0x01
 ;src/Renderer.c:58: dy=player_direction.y;
-	ld	c,-3 (ix)
+	ld	c,-4 (ix)
 	ld	-12 (ix),c
 ;src/Renderer.c:59: dx=-player_direction.y;
 	xor	a, a
-	sub	a, -3 (ix)
+	sub	a, -4 (ix)
 	ld	-11 (ix), a
 ;src/Renderer.c:61: x0 = player_position.x-(17*dx);
 	ld	hl,#_player_position+0
@@ -113,10 +113,10 @@ _calculate_cells_in_view::
 ;src/Renderer.c:66: dy=player_direction.x;
 	ld	hl, #_player_direction + 0
 	ld	a,(hl)
-	ld	-3 (ix), a
+	ld	-4 (ix), a
 	ld	-12 (ix),a
 ;src/Renderer.c:67: dx=player_direction.x;
-	ld	a,-3 (ix)
+	ld	a,-4 (ix)
 	ld	-11 (ix),a
 ;src/Renderer.c:69: y0 = player_position.y-(17*dy);
 	ld	hl, #_player_position + 1
@@ -134,7 +134,7 @@ _calculate_cells_in_view::
 ;src/Renderer.c:70: x0 = player_position.x+(6*dx);
 	ld	hl, #_player_position + 0
 	ld	b,(hl)
-	ld	a,-3 (ix)
+	ld	a,-4 (ix)
 	ld	e,a
 	add	a, a
 	add	a, e
@@ -152,7 +152,7 @@ _calculate_cells_in_view::
 	ld	a,-11 (ix)
 	rlca
 	and	a,#0x01
-	ld	-3 (ix),a
+	ld	-4 (ix),a
 	ld	a,-12 (ix)
 	rlca
 	and	a,#0x01
@@ -161,7 +161,7 @@ _calculate_cells_in_view::
 ;src/Renderer.c:79: for(i=offset;i<35-offset;++i){
 00138$:
 	ld	a,-7 (ix)
-	ld	-2 (ix),a
+	ld	-5 (ix),a
 	ld	a,-6 (ix)
 	ld	-9 (ix),a
 00125$:
@@ -185,11 +185,11 @@ _calculate_cells_in_view::
 ;src/Renderer.c:82: cells_in_view_array[n]=*(u8*)(MAP_MEM+x+y*MAP_WIDTH);
 	ld	hl,(_cells_in_view_array)
 	ld	a,l
-	add	a, -2 (ix)
-	ld	-5 (ix),a
+	add	a, -5 (ix)
+	ld	-3 (ix),a
 	ld	a,h
 	adc	a, #0x00
-	ld	-4 (ix),a
+	ld	-2 (ix),a
 ;src/Renderer.c:81: if((x>=0 && x<MAP_WIDTH) && (y>=0 && y<MAP_HEIGHT)){
 	bit	7, e
 	jr	NZ,00105$
@@ -232,14 +232,14 @@ _calculate_cells_in_view::
 	adc	a, d
 	ld	h,a
 	ld	b,(hl)
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
+	ld	l,-3 (ix)
+	ld	h,-2 (ix)
 	ld	(hl),b
 	jr	00106$
 00105$:
 ;src/Renderer.c:85: cells_in_view_array[n]=CELLTYPE_WALL1;
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
+	ld	l,-3 (ix)
+	ld	h,-2 (ix)
 	ld	(hl),#0x81
 00106$:
 ;src/Renderer.c:89: if(vert){
@@ -258,12 +258,12 @@ _calculate_cells_in_view::
 	ld	-13 (ix),a
 00112$:
 ;src/Renderer.c:95: ++n;
-	inc	-2 (ix)
+	inc	-5 (ix)
 ;src/Renderer.c:79: for(i=offset;i<35-offset;++i){
 	inc	-9 (ix)
 	jp	00125$
 00143$:
-	ld	a,-2 (ix)
+	ld	a,-5 (ix)
 	ld	-7 (ix),a
 ;src/Renderer.c:97: offset=offsets_cells_in_view[j];
 	ld	a,#<(_offsets_cells_in_view)
@@ -275,7 +275,7 @@ _calculate_cells_in_view::
 	ld	a,(hl)
 ;src/Renderer.c:101: if(dx<0) x=x0-offset;
 	ld	-6 (ix), a
-	ld	-5 (ix),a
+	ld	-3 (ix),a
 ;src/Renderer.c:99: if(vert){
 	ld	a,-14 (ix)
 	or	a, a
@@ -285,17 +285,17 @@ _calculate_cells_in_view::
 	sub	a, -12 (ix)
 	ld	-13 (ix),a
 ;src/Renderer.c:101: if(dx<0) x=x0-offset;
-	ld	a,-3 (ix)
+	ld	a,-4 (ix)
 	or	a, a
 	jr	Z,00115$
 	ld	a,-10 (ix)
-	sub	a, -5 (ix)
+	sub	a, -3 (ix)
 	ld	e,a
 	jr	00128$
 00115$:
 ;src/Renderer.c:102: else x=x0+offset;
 	ld	a,-10 (ix)
-	add	a, -5 (ix)
+	add	a, -3 (ix)
 	ld	e,a
 	jr	00128$
 00121$:
@@ -308,13 +308,13 @@ _calculate_cells_in_view::
 	or	a, a
 	jr	Z,00118$
 	ld	a,c
-	sub	a, -5 (ix)
+	sub	a, -3 (ix)
 	ld	-13 (ix),a
 	jr	00128$
 00118$:
 ;src/Renderer.c:108: else y=y0+offset;
 	ld	a,c
-	add	a, -5 (ix)
+	add	a, -3 (ix)
 	ld	-13 (ix),a
 00128$:
 ;src/Renderer.c:77: for(j=0;j<6;++j){
@@ -517,8 +517,8 @@ _draw_column_to_buffer_object::
 	add	hl, hl
 	add	hl, hl
 	add	hl,bc
-	ld	-5 (ix),l
-	ld	-4 (ix),h
+	ld	-4 (ix),l
+	ld	-3 (ix),h
 ;src/Renderer.c:174: pvmem = (u8*)(SCREEN_TEXTURE_BUFFER) + (column>>1) ;
 	ld	a, 4 (ix)
 	srl	a
@@ -535,7 +535,7 @@ _draw_column_to_buffer_object::
 	ld	h,#0x00
 	add	hl,de
 	ld	a,(hl)
-	ld	-3 (ix),a
+	ld	-5 (ix),a
 ;src/Renderer.c:178: lineHeight = (lineHeight)/2;
 	srl	5 (ix)
 ;src/Renderer.c:179: ground_height  = (SCREEN_TEXTURE_HEIGHT>>1) + (lineHeight/2);
@@ -577,7 +577,7 @@ _draw_column_to_buffer_object::
 	ld	c,l
 	ld	b,h
 ;src/Renderer.c:191: for(j;j;--j){
-	ld	a,-3 (ix)
+	ld	a,-5 (ix)
 	cpl
 	ld	-1 (ix),a
 00108$:
@@ -587,8 +587,8 @@ _draw_column_to_buffer_object::
 ;src/Renderer.c:193: color= *(texture+(texture_line/256));
 	ld	e,-8 (ix)
 	ld	d,#0x00
-	ld	l,-5 (ix)
-	ld	h,-4 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	add	hl,de
 	ld	e,(hl)
 ;src/Renderer.c:195: if(color){
@@ -601,7 +601,7 @@ _draw_column_to_buffer_object::
 	ld	l,a
 ;src/Renderer.c:198: color = (color&pixMask);
 	ld	a,e
-	and	a, -3 (ix)
+	and	a, -5 (ix)
 ;src/Renderer.c:200: *pvmem = val|color;
 	or	a, l
 	ld	(bc),a
@@ -2690,13 +2690,13 @@ _draw_minimap_to_buffer::
 	sub	a, #0xA0
 	ld	a,#0x00
 	rla
-	ld	-1 (ix),a
+	ld	-9 (ix),a
 	ld	-10 (ix),#0x00
 00125$:
 ;src/Renderer.c:994: x=(player_position.x-MINIMAP_WIDTH_HALF);
 	ld	a, (#_player_position + 0)
 	add	a,#0xF8
-	ld	-9 (ix),a
+	ld	-1 (ix),a
 ;src/Renderer.c:995: for(i=0;i<MINIMAP_WIDTH;++i){
 	ld	-11 (ix),#0x00
 00123$:
@@ -2704,16 +2704,16 @@ _draw_minimap_to_buffer::
 	ld	iy,#0x0010
 	add	iy, bc
 ;src/Renderer.c:996: if((x<0)||(x>=MAP_WIDTH)||(y<0)||(y>=MAP_HEIGHT)){
-	bit	7, -9 (ix)
+	bit	7, -1 (ix)
 	jr	NZ,00114$
-	ld	a,-9 (ix)
+	ld	a,-1 (ix)
 	xor	a, #0x80
 	sub	a, #0xA0
 	jr	NC,00114$
 	ld	a,-8 (ix)
 	or	a, a
 	jr	NZ,00114$
-	bit	0,-1 (ix)
+	bit	0,-9 (ix)
 	jr	NZ,00115$
 00114$:
 ;src/Renderer.c:997: *ptr=g_colors[MINIMAP_WALL_COLOR];
@@ -2725,9 +2725,9 @@ _draw_minimap_to_buffer::
 	jp	00116$
 00115$:
 ;src/Renderer.c:1000: else if((x==player_position.x)&&(y==player_position.y)){
-	ld	a,-9 (ix)
+	ld	a,-1 (ix)
 	ld	-3 (ix),a
-	ld	a,-9 (ix)
+	ld	a,-1 (ix)
 	rla
 	sbc	a, a
 	ld	-2 (ix),a
@@ -2827,7 +2827,7 @@ _draw_minimap_to_buffer::
 	ld	0 (iy), a
 00116$:
 ;src/Renderer.c:1028: ++x;
-	inc	-9 (ix)
+	inc	-1 (ix)
 ;src/Renderer.c:1029: ++ptr;
 	inc	bc
 ;src/Renderer.c:995: for(i=0;i<MINIMAP_WIDTH;++i){

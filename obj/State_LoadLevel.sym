@@ -7,7 +7,8 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       0058 R
+    _GameMusic                                                     **** GX
+  0 ___str_0                                                       0060 R
     _cpct_memset                                                   **** GX
     _draw_minimap_to_buffer                                        **** GX
     _enemy_init_enemies                                            **** GX
@@ -19,14 +20,16 @@ Symbol Table
     _level_load_level                                              **** GX
   1 _level_seed                                                    0000 GR
     _print_transparent_text                                        **** GX
+    _remove_music                                                  **** GX
     _render_draw_to_buffer                                         **** GX
     _savegame_Save                                                 **** GX
+    _set_music                                                     **** GX
   0 _state_loadlevel_enter                                         0000 GR
-  0 _state_loadlevel_exit                                          007F GR
-  0 _state_loadlevel_input                                         0061 GR
-  0 _state_loadlevel_render                                        007E GR
-  0 _state_loadlevel_return                                        0060 GR
-  0 _state_loadlevel_update                                        0064 GR
+  0 _state_loadlevel_exit                                          008A GR
+  0 _state_loadlevel_input                                         0069 GR
+  0 _state_loadlevel_render                                        0089 GR
+  0 _state_loadlevel_return                                        0068 GR
+  0 _state_loadlevel_update                                        006C GR
     _statemanager_input_accepted                                   **** GX
     _statemanager_set_state                                        **** GX
 
@@ -36,7 +39,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   80   flags    0
+   0 _CODE                                      size   8B   flags    0
    1 _DATA                                      size    2   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
