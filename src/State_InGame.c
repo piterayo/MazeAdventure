@@ -98,12 +98,12 @@ void state_ingame_input(){
             ui_gamemenu_select_entry();
             statemanager_input_accepted();
         }
-        else if(cpct_isKeyPressed(Key_Tab)){
-            level_set_level(level_get_level()+1);
-            statemanager_close_state();
-            statemanager_set_state(STATE_LOADLEVEL);
-            statemanager_input_accepted();
-        }
+        // else if(cpct_isKeyPressed(Key_Tab)){//DEBUG
+            // level_set_level(level_get_level()+1);
+            // statemanager_close_state();
+            // statemanager_set_state(STATE_LOADLEVEL);
+            // statemanager_input_accepted();
+        // }
 }
 
 void state_ingame_update(){

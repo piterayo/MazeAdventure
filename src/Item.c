@@ -9,6 +9,8 @@
 
 #include "Level.h"
 
+#include "Renderer.h"
+
 #include "UI_Log.h"
 
 #define ITEM_MAX_ITEMS 7
@@ -94,12 +96,12 @@ void item_new_item(Vec2u* pos){
 
 u8 item_try_new_spawn_at(Vec2u* pos){
     u8 x,y;
+    u8* map = ((u8*)MAP_MEM);
     x=pos->x;
     y=pos->y;
     
     if(activeItems<ITEM_MAX_ITEMS){
-        
-        if(((((u8*)MAP_MEM)[x+(y*MAP_WIDTH)])&(CELL_WALL_MASK|CELL_ITEM_MASK))==0){
+        if(((map[x+(y*MAP_WIDTH)])&(CELL_WALL_MASK|CELL_ITEM_MASK))==0){
             item_new_item(pos);
             return 1;
         }

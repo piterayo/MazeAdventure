@@ -30,11 +30,11 @@ Symbol Table
     _renderCompass                                                 **** GX
     _render_draw_to_buffer                                         **** GX
   0 _state_ingame_enter                                            0000 GR
-  0 _state_ingame_exit                                             024F GR
+  0 _state_ingame_exit                                             022C GR
   0 _state_ingame_input                                            006F GR
-  0 _state_ingame_render                                           022A GR
+  0 _state_ingame_render                                           0207 GR
   0 _state_ingame_return                                           0053 GR
-  0 _state_ingame_update                                           00E1 GR
+  0 _state_ingame_update                                           00BE GR
   0 _state_ingame_update_buffers                                   004D GR
   0 _state_ingame_update_turn                                      0028 GR
     _state_inventory_object_used                                   **** GX
@@ -71,7 +71,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  250   flags    0
+   0 _CODE                                      size  22D   flags    0
    1 _DATA                                      size    2   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

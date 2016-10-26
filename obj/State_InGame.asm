@@ -197,79 +197,54 @@ _state_ingame_input::
 	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
-	jr	Z,00116$
+	jr	Z,00113$
 ;src/State_InGame.c:82: ui_gamemenu_previous_entry();
 	call	_ui_gamemenu_previous_entry
 ;src/State_InGame.c:83: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
-00116$:
+00113$:
 ;src/State_InGame.c:85: else if(cpct_isKeyPressed(Key_CursorRight)){
 	ld	hl,#0x0200
 	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
-	jr	Z,00113$
+	jr	Z,00110$
 ;src/State_InGame.c:86: ui_gamemenu_next_entry();
 	call	_ui_gamemenu_next_entry
 ;src/State_InGame.c:87: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
-00113$:
+00110$:
 ;src/State_InGame.c:89: else if(cpct_isKeyPressed(Key_CursorUp)){
 	ld	hl,#0x0100
 	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
-	jr	Z,00110$
+	jr	Z,00107$
 ;src/State_InGame.c:90: ui_gamemenu_above_entry();
 	call	_ui_gamemenu_above_entry
 ;src/State_InGame.c:91: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
-00110$:
+00107$:
 ;src/State_InGame.c:93: else if(cpct_isKeyPressed(Key_CursorDown)){
 	ld	hl,#0x0400
 	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
-	jr	Z,00107$
+	jr	Z,00104$
 ;src/State_InGame.c:94: ui_gamemenu_below_entry();
 	call	_ui_gamemenu_below_entry
 ;src/State_InGame.c:95: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
-00107$:
+00104$:
 ;src/State_InGame.c:97: else if(cpct_isKeyPressed(Key_Return)){
 	ld	hl,#0x0402
 	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
-	jr	Z,00104$
+	ret	Z
 ;src/State_InGame.c:98: ui_gamemenu_select_entry();
 	call	_ui_gamemenu_select_entry
 ;src/State_InGame.c:99: statemanager_input_accepted();
-	jp  _statemanager_input_accepted
-00104$:
-;src/State_InGame.c:101: else if(cpct_isKeyPressed(Key_Tab)){
-	ld	hl,#0x1008
-	call	_cpct_isKeyPressed
-	ld	a,l
-	or	a, a
-	ret	Z
-;src/State_InGame.c:102: level_set_level(level_get_level()+1);
-	call	_level_get_level
-	ld	b,l
-	inc	b
-	push	bc
-	inc	sp
-	call	_level_set_level
-	inc	sp
-;src/State_InGame.c:103: statemanager_close_state();
-	call	_statemanager_close_state
-;src/State_InGame.c:104: statemanager_set_state(STATE_LOADLEVEL);
-	ld	a,#0x03
-	push	af
-	inc	sp
-	call	_statemanager_set_state
-	inc	sp
-;src/State_InGame.c:105: statemanager_input_accepted();
 	jp  _statemanager_input_accepted
 ;src/State_InGame.c:109: void state_ingame_update(){
 ;	---------------------------------
