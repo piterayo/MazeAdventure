@@ -28,3 +28,4 @@ Game developed for CPCRetroDev 2016 contest.
         
     Camelot Warriors reference:
         Sprite of Camelot Warriors easter egg based on Camelot Warriors main character.
+        Type CAMELOT WARRIORS as save code to activate the easter egg.
