@@ -1,6 +1,9 @@
 # Maze Adventure
 Game developed for CPCRetroDev 2016 contest.
-
+    
+    Gameplay:
+        https://www.youtube.com/watch?v=rDEM1u3_3jo
+    
     Compilation instructions:
         -Write make while in project directory (You need CPCtelera to compile)
         
